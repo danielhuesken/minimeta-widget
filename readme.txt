@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: danielhuesken
-Donate link: http://example.com/
+Donate link: http://danielhuesken.de/
 Tags: widget, meta
 Requires at least: 2.2
 Tested up to: 2.2.2
