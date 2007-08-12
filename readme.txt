@@ -1,10 +1,9 @@
-=== Plugin Name ===
+=== MiniMeta Widget ===
 Contributors: danielhuesken
 Donate link: http://danielhuesken.de/
 Tags: widget, meta
 Requires at least: 2.2
 Tested up to: 2.2.2
-Stable tag: 
 
 Mini Verson of the WP Meta Widget with differnt logon types
 
