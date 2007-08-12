@@ -8,6 +8,7 @@ Tested up to: 2.2.2
 Mini Verson of the WP Meta Widget with differnt logon types
 
 == Description ==
+
 Mini Verson of the WP Meta Widget
 
 * Diffrent logon types (form,link,none)
