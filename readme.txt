@@ -1,7 +1,7 @@
 === MiniMeta Widget ===
 Contributors: danielhuesken
 Donate link: http://danielhuesken.de/
-Tags: widget, meta
+Tags: widget, meta, admin
 Requires at least: 2.2
 Tested up to: 2.2.2
 
