@@ -5,7 +5,7 @@ Tags: widget, meta
 Requires at least: 2.2
 Tested up to: 2.2.2
 
-Mini Verson of the WP Meta Widget with differnt logon types
+Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
 
 == Description ==
 
@@ -15,6 +15,7 @@ Mini Verson of the WP Meta Widget
 * Uses redirection with logon form
 * All standart WP Links can enabled/disabled
 * Uses standart WP text for translation
+* Additional admin links
 
 == Installation ==
 

@@ -2,9 +2,9 @@
 /*
 Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
-Description: Mini Verson of the WP Meta Widget with differnt logon types
+Description: Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
 Author: Daniel H&uuml;sken
-Version: 2.0.0
+Version: 2.5.0
 Author URI: http://danielhuesken.de
 */
 
@@ -32,12 +32,18 @@ Change log:
   Version 2.0.0:	enable/disable links
 			Different Login Types
 			Login/Logoff with redirect
+ Version 2.5.0:	Added links for New Page/Post
+			Added Translation functionality
+			Added deleting options on deactivateing plugin
  */
+
 
 // Put functions into one big function we'll call at the plugins_loaded
 // action. This ensures that all required plugin functions are defined.
 function widget_minnimeta_init() {
-
+	//Loads languga files
+	load_plugin_textdomain('minimeta', 'wp-content/plugins/'.dirname(plugin_basename(__FILE__)));
+	
 	// Check for the required plugin functions. This will prevent fatal
 	// errors occurring when you deactivate the dynamic-sidebar plugin.
 	if ( !function_exists('register_sidebar_widget') )
@@ -54,6 +60,9 @@ function widget_minnimeta_init() {
 		$rsscommentlink ='1';
 		$wordpresslink ='1';
 		$lostpwlink ='';
+		$nespostsink ='';
+		$newpageslink ='';
+		$showadminhierarchy ='1';
 		if (isset($options['loginlogout'])) $loginlogout =$options['loginlogout'];
 		if (isset($options['registerlink'])) $registerlink =$options['registerlink'];
 		if (isset($options['rememberme'])) $rememberme =$options['rememberme'];
@@ -61,13 +70,23 @@ function widget_minnimeta_init() {
 		if (isset($options['rsscommentlink'])) $rsscommentlink =$options['rsscommentlink'];
 		if (isset($options['wordpresslink'])) $wordpresslink =$options['wordpresslink'];
 		if (isset($options['lostpwlink'])) $lostpwlink =$options['lostpwlink'];
+		if (isset($options['nespostsink'])) $nespostsink =$options['nespostsink'];
+		if (isset($options['newpageslink'])) $newpageslink =$options['newpageslink'];
+		if (isset($options['profilelink'])) $profilelink =$options['profilelink'];
+		if (isset($options['showadminhierarchy'])) $showadminhierarchy =$options['showadminhierarchy'];
 		?>
 		<?php echo $before_widget; ?>
 		<?php echo $before_title . $title . $after_title; ?>
 		
 		<?php if($loginlogout!='form' or is_user_logged_in()) {?><ul><?php }?>
 		<?php if(is_user_logged_in()) { ?>
+			<?php if($registerlink) {wp_register();} ?>
+			<?php if($showadminhierarchy) {?><ul class="children"><?php }?>
 			<?php if($loginlogout!='off') {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=logout&amp;redirect_to=<?php echo $_SERVER['REQUEST_URI']; ?>" title="<?php _e('Logout') ?>"><?php _e('Logout') ?></a></li><?php }?>
+			<?php if($profilelink and current_user_can('read')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/profile.php" title="<?php _e('Your Profile') ?>"><?php _e('Your Profile') ?></a></li><?php }?>
+			<?php if($newpageslink and current_user_can('edit_posts')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/post-new.php" title="<?php _e('Write Post') ?>"><?php _e('Write Post') ?></a></li><?php }?>
+			<?php if($newpageslink and current_user_can('edit_pages')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/page-new.php" title="<?php _e('Write Page') ?>"><?php _e('Write Page') ?></a></li><?php }?>
+			<?php if($showadminhierarchy) {?></ul><?php }?>
 		<?php } else { ?>
 			<?php if($loginlogout=='form') {?>
 				<?php 
@@ -89,8 +108,9 @@ function widget_minnimeta_init() {
 			<?php }?>
 			<?php if($loginlogout=='link') {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=login&amp;redirect_to=<?php echo $_SERVER['REQUEST_URI']; ?>" title="<?php _e('Login') ?>"><?php _e('Login') ?></a></li><?php }?>
 			<?php if($lostpwlink) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li><?php }?>
+			<?php if($registerlink) {wp_register();} ?>
 		<?php } ?>
-		<?php if($registerlink) {wp_register();} ?>
+		
 		<?php if($rsslink) {?><li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo attribute_escape(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li><?php }?>
 		<?php if($rsscommentlink) {?><li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo attribute_escape(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li><?php }?>
 		<?php if($wordpresslink) {?><li><a href="http://wordpress.org/" title="<?php echo attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.')); ?>">WordPress.org</a></li><?php }?>
@@ -111,6 +131,10 @@ function widget_minnimeta_init() {
 			$newoptions['rsscommentlink'] = isset($_POST['minimeta-rsscommentlink']);
 			$newoptions['wordpresslink'] = isset($_POST['minimeta-wordpresslink']);
 			$newoptions['lostpwlink'] = isset($_POST['minimeta-lostpwlink']);
+			$newoptions['nespostsink'] = isset($_POST['minimeta-nespostsink']);
+			$newoptions['newpageslink'] = isset($_POST['minimeta-newpageslink']);
+			$newoptions['profilelink'] = isset($_POST['minimeta-profilelink']);
+			$newoptions['showadminhierarchy'] = isset($_POST['minimeta-showadminhierarchy']);
 		}
 			if ( $options != $newoptions ) {
 			$options = $newoptions;
@@ -126,6 +150,10 @@ function widget_minnimeta_init() {
 		$rsscommentlink ='checked="checked"';
 		$wordpresslink ='checked="checked"';
 		$lostpwlink ='';
+		$nespostsink ='';
+		$newpageslink ='';
+		$profilelink ='';
+		$showadminhierarchy ='';
 		
 		$title = attribute_escape($options['title']);
 		if (isset($options['loginlogout'])) { 
@@ -140,6 +168,10 @@ function widget_minnimeta_init() {
 		if (isset($options['rsscommentlink'])) $rsscommentlink = $options['rsscommentlink'] ? 'checked="checked"' : '';
 		if (isset($options['wordpresslink'])) $wordpresslink = $options['wordpresslink'] ? 'checked="checked"' : '';
 		if (isset($options['lostpwlink'])) $lostpwlink = $options['lostpwlink'] ? 'checked="checked"' : '';
+		if (isset($options['nespostsink'])) $nespostsink = $options['nespostsink'] ? 'checked="checked"' : '';
+		if (isset($options['newpageslink'])) $newpageslink = $options['newpageslink'] ? 'checked="checked"' : '';
+		if (isset($options['profilelink'])) $profilelink = $options['profilelink'] ? 'checked="checked"' : '';
+		if (isset($options['showadminhierarchy'])) $showadminhierarchy = $options['showadminhierarchy'] ? 'checked="checked"' : '';
 		
 		?>
 		<p><label for="minimeta-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title" name="minimeta-title" type="text" value="<?php echo $title; ?>" /></label></p>
@@ -147,6 +179,10 @@ function widget_minnimeta_init() {
 		<p style="text-align:right;margin-right:40px;"><label for="minimeta-rememberme" style="text-align:right;"><?php _e('Show remember me:');?><input class="checkbox" type="checkbox" <?php echo $rememberme; ?> id="minimeta-rememberme" name="minimeta-rememberme" /></label></p>
 		<p style="text-align:right;margin-right:40px;"><label for="minimeta-lostpwlink" style="text-align:right;"><?php _e('Show lost password:');?><input class="checkbox" type="checkbox" <?php echo $lostpwlink; ?> id="minimeta-lostpwlink" name="minimeta-lostpwlink" /></label></p>
 		<p style="text-align:right;margin-right:40px;"><label for="minimeta-registerlink" style="text-align:right;"><?php _e('Show Register/Seite Admin:');?><input class="checkbox" type="checkbox" <?php echo $registerlink; ?> id="minimeta-registerlink" name="minimeta-registerlink" /></label></p>
+		<p style="text-align:right;margin-right:40px;"><label for="minimeta-nespostsink" style="text-align:right;"><?php _e('Show link to make new Posts:');?><input class="checkbox" type="checkbox" <?php echo $nespostsink; ?> id="minimeta-nespostsink" name="minimeta-nespostsink" /></label></p>
+		<p style="text-align:right;margin-right:40px;"><label for="minimeta-newpageslink" style="text-align:right;"><?php _e('Show link to make new Pages:');?><input class="checkbox" type="checkbox" <?php echo $newpageslink; ?> id="minimeta-newpageslink" name="minimeta-newpageslink" /></label></p>
+		<p style="text-align:right;margin-right:40px;"><label for="minimeta-profilelink" style="text-align:right;"><?php _e('Show link to edit your Profile:');?><input class="checkbox" type="checkbox" <?php echo $profilelink; ?> id="minimeta-profilelink" name="minimeta-profilelink" /></label></p>
+		<p style="text-align:right;margin-right:40px;"><label for="minimeta-showadminhierarchy" style="text-align:right;"><?php _e('Show admin links hierarchy:');?><input class="checkbox" type="checkbox" <?php echo $showadminhierarchy; ?> id="minimeta-showadminhierarchy" name="minimeta-showadminhierarchy" /></label></p>
 		<p style="text-align:right;margin-right:40px;"><label for="minimeta-rsslink" style="text-align:right;"><?php _e('Show RSS2 Feed:');?><input class="checkbox" type="checkbox" <?php echo $rsslink; ?> id="minimeta-rsslink" name="minimeta-rsslink" /></label></p>
 		<p style="text-align:right;margin-right:40px;"><label for="minimeta-rsscommentlink" style="text-align:right;"><?php _e('Show RSS2 Comments Feed:');?><input class="checkbox" type="checkbox" <?php echo $rsscommentlink; ?> id="minimeta-rsscommentlink" name="minimeta-rsscommentlink" /></label></p>
 		<p style="text-align:right;margin-right:40px;"><label for="minimeta-wordpresslink" style="text-align:right;"><?php _e('Show link to Wordpress:');?><input class="checkbox" type="checkbox" <?php echo $wordpresslink; ?> id="minimeta-wordpresslink" name="minimeta-wordpresslink" /></label></p>
@@ -159,11 +195,22 @@ function widget_minnimeta_init() {
 	register_sidebar_widget(array('Mini Meta', 'widgets'), 'widget_minimeta');
 
 	// This registers our optional widget control form. Because of this
-	// our widget will have a button that reveals a 300x100 pixel form.
-	register_widget_control(array('Mini Meta', 'widgets'), 'widget_minimeta_control', 300, 260);
+	// our widget will have a button that reveals a 300x380 pixel form.
+	register_widget_control(array('Mini Meta', 'widgets'), 'widget_minimeta_control', 300, 380);
+}
+// Run our code later in case this loads prior to any required plugins.
+add_action('init', 'widget_minnimeta_init');
+
+
+/**
+* Deactivate plugin
+*
+* Function used when this plugin is deactivated in Wordpress.
+* Delete all Options
+*/
+function widget_minnimeta_deactivate() {
+	delete_option('widget_minimeta');
 }
 
-// Run our code later in case this loads prior to any required plugins.
-add_action('widgets_init', 'widget_minnimeta_init');
-
+add_action('deactivate_'.dirname(plugin_basename(__FILE__)).'/MiniMeta.php','widget_minnimeta_deactivate');
 ?>
