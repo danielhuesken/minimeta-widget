@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
 Author: Daniel H&uuml;sken
-Version: 2.5.0
+Version: 2.5.1
 Author URI: http://danielhuesken.de
 */
 
@@ -35,6 +35,7 @@ Change log:
  Version 2.5.0:	Added links for New Page/Post
 			Added Translation functionality
 			Added deleting options on deactivateing plugin
+  Version 2.5.1       Small Bug fix in new post entry
  */
 
 
@@ -84,7 +85,7 @@ function widget_minnimeta_init() {
 			<?php if($showadminhierarchy) {?><ul class="children"><?php }?>
 			<?php if($loginlogout!='off') {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=logout&amp;redirect_to=<?php echo $_SERVER['REQUEST_URI']; ?>" title="<?php _e('Logout') ?>"><?php _e('Logout') ?></a></li><?php }?>
 			<?php if($profilelink and current_user_can('read')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/profile.php" title="<?php _e('Your Profile') ?>"><?php _e('Your Profile') ?></a></li><?php }?>
-			<?php if($newpageslink and current_user_can('edit_posts')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/post-new.php" title="<?php _e('Write Post') ?>"><?php _e('Write Post') ?></a></li><?php }?>
+			<?php if($nespostsink and current_user_can('edit_posts')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/post-new.php" title="<?php _e('Write Post') ?>"><?php _e('Write Post') ?></a></li><?php }?>
 			<?php if($newpageslink and current_user_can('edit_pages')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/page-new.php" title="<?php _e('Write Page') ?>"><?php _e('Write Page') ?></a></li><?php }?>
 			<?php if($showadminhierarchy) {?></ul><?php }?>
 		<?php } else { ?>
