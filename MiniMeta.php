@@ -37,7 +37,7 @@ Change log:
 			Added deleting options on deactivateing plugin
   Version 2.5.1       Small Bug fix in new post entry
   Version 2.6.0      More Admin Links Plugin/comments/User
-                              All links can now e enabled/disabeld for login/logoff
+                              All links can now enabled/disabeld for login/logoff
                               Cleand up Options page
  */
 
