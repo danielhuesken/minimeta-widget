@@ -1,11 +1,11 @@
 === MiniMeta Widget ===
 Contributors: danielhuesken
 Donate link: http://danielhuesken.de/
-Tags: widget, meta, admin
+Tags: widget, meta
 Requires at least: 2.2
 Tested up to: 2.2.2
 
-Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
+Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links.  The Links can alle enabeld or disabeld.
 
 == Description ==
 
