@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
 Author: Daniel H&uuml;sken
-Version: 2.6.0
+Version: 2.6.1
 Author URI: http://danielhuesken.de
 */
 
@@ -39,6 +39,7 @@ Change log:
   Version 2.6.0      More Admin Links Plugin/comments/User
                               All links can now enabled/disabeld for login/logoff
                               Cleand up Options page
+   Version 2.6.1     Added Update check
  */
 
 
@@ -264,6 +265,38 @@ function widget_minnimeta_init() {
 }
 add_action('init', 'widget_minnimeta_init');
 
+//Update Check
+function MiniMeta_update_dashboard() {  
+   	// use wordpress snoopy class
+    $name = 'MiniMeta';
+    $URL = 'http://danielhuesken.de/wp-content/plugins-versions.php';
+    $version = '2.6.1';
+    $period = 86400;
+    $Updatetext = __('A new version of MiniMeta Widget Plugin is available <a href="http://danielhuesken.de/protfolio/minimeta/" target="_new">here</a>');
+	require_once(ABSPATH . WPINC . '/class-snoopy.php');
+	$check_intervall = get_option( $name."_next_update" );
+	if ( ($check_intervall < time() ) or (empty($check_intervall)) ) {
+		if (class_exists(snoopy)) {
+			$client = new Snoopy();
+			$client->_fp_timeout = 10;
+			if (@$client->fetch($URL) === true) {
+                $remote = $client->results;
+                $server_version = unserialize($remote);
+                if (is_array($server_version)) {
+                    if ( version_compare($server_version[$name], $version, '>') ) {
+                        echo '<h3>'.__('Update Information').'</h3>';  
+                        echo '<p>'.$Updatetext.'</p>';
+                    } else {
+                        $check_intervall = time() + $period;
+                        update_option( $name."_next_update", $check_intervall );    
+                    }
+    			} 	
+            }
+		}        
+	}   
+}    
+add_action('activity_box_end', 'MiniMeta_update_dashboard', '0');
+
 /**
 * Deactivate plugin
 *
@@ -272,6 +305,7 @@ add_action('init', 'widget_minnimeta_init');
 */
 function widget_minnimeta_deactivate() {
 	delete_option('widget_minimeta');
+    delete_option('MiniMeta_next_update');
 }
 
 add_action('deactivate_'.dirname(plugin_basename(__FILE__)).'/MiniMeta.php','widget_minnimeta_deactivate');
