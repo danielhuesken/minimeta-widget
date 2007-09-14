@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
 Author: Daniel H&uuml;sken
-Version: 2.6.1
+Version: 2.6.2
 Author URI: http://danielhuesken.de
 */
 
@@ -40,6 +40,8 @@ Change log:
                               All links can now enabled/disabeld for login/logoff
                               Cleand up Options page
    Version 2.6.1     Added Update check
+   Version 2.6.2     Added User Identity function to Title
+                               Removed Your Profile form Links and add the link to Title
  */
 
 
@@ -55,6 +57,7 @@ function widget_minnimeta_init() {
 		return;
 
 	function widget_minimeta($args) {
+        global $user_identity,$user_login;
 		extract($args);
 		$options = get_option('widget_minimeta');
 		$title = empty($options['title']) ? __('Meta') : $options['title'];
@@ -75,6 +78,7 @@ function widget_minnimeta_init() {
         $usersadminlink ='';
 		$showadminhierarchy ='';
         $showwpmeta ='1';
+        $displayidentity='';
         
 		if (isset($options['login'])) $login =$options['login'];
         if (isset($options['loginlogout']) and !isset($options['login'])) $login =$options['loginlogout']; //four old options
@@ -94,18 +98,25 @@ function widget_minnimeta_init() {
 		if (isset($options['profilelink'])) $profilelink =$options['profilelink'];
 		if (isset($options['showadminhierarchy'])) $showadminhierarchy =$options['showadminhierarchy'];
         if (isset($options['showwpmeta'])) $showwpmeta =$options['showwpmeta'];
+        if (isset($options['displayidentity'])) $displayidentity =$options['displayidentity'];
 		?>
 		
         
         <?php echo $before_widget; ?>
-		<?php echo $before_title . $title . $after_title; ?>
-		
+
 		<?php if(is_user_logged_in()) { ?>
+            <?php 
+            if ($displayidentity and !empty($user_identity)) $title=$user_identity;
+            if($profilelink and current_user_can('read')) {
+                echo $before_title ."<a href=\"".get_bloginfo('wpurl')."/wp-admin/profile.php\" title=\"".__('Your Profile')."\">". $title ."</a>". $after_title; 
+            } else {
+            echo $before_title . $title . $after_title; 
+            }
+            ?>
             <ul>
 			<?php if($seiteadmin) {wp_register();} ?>
                 <?php if($showadminhierarchy and ($newpageslink or $nespostsink or $profilelink or $logout)) {?><ul class="children"><?php }?>
                 <?php if($logout) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=logout&amp;redirect_to=<?php echo $_SERVER['REQUEST_URI']; ?>" title="<?php _e('Logout') ?>"><?php _e('Logout') ?></a></li><?php }?>
-                <?php if($profilelink and current_user_can('read')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/profile.php" title="<?php _e('Your Profile') ?>"><?php _e('Your Profile') ?></a></li><?php }?>
                 <?php if($nespostsink and current_user_can('edit_posts')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/post-new.php" title="<?php _e('Write Post') ?>"><?php _e('Write Post') ?></a></li><?php }?>
                 <?php if($newpageslink and current_user_can('edit_pages')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/page-new.php" title="<?php _e('Write Page') ?>"><?php _e('Write Page') ?></a></li><?php }?>			
                     <?php if($showadminhierarchy and ($usersadminlink or $commentsadminlink or $pluginsadminlink)) {?><ul class="children"><?php }?>
@@ -115,7 +126,8 @@ function widget_minnimeta_init() {
                     <?php if($showadminhierarchy and ($usersadminlink or $commentsadminlink or $pluginsadminlink)) {?></ul><?php }?>
                 <?php if($showadminhierarchy and ($newpageslink or $nespostsink or $profilelink or $logout)) {?></ul><?php }?>
 		<?php } else { ?>
-			<?php if($login=='form') {?>
+			<?php echo $before_title . $title . $after_title; ?>
+            <?php if($login=='form') {?>
 				<?php 
 				$cookie_login = wp_get_cookie_login();
 				if ( ! empty($cookie_login) ) {
@@ -168,6 +180,7 @@ function widget_minnimeta_init() {
 			$newoptions['profilelink'] = isset($_POST['minimeta-profilelink']);
 			$newoptions['showadminhierarchy'] = isset($_POST['minimeta-showadminhierarchy']);
             $newoptions['showwpmeta'] = isset($_POST['minimeta-showwpmeta']);
+            $newoptions['displayidentity'] = isset($_POST['minimeta-displayidentity']);
 		}
 			if ( $options != $newoptions ) {
 			$options = $newoptions;
@@ -193,6 +206,7 @@ function widget_minnimeta_init() {
 		$profilelink ='';
 		$showadminhierarchy ='';
         $showwpmeta='checked="checked"';
+        $displayidentity ='';
 		
 		$title = attribute_escape($options['title']);
 		if (isset($options['login'])) { 
@@ -222,6 +236,7 @@ function widget_minnimeta_init() {
 		if (isset($options['profilelink'])) $profilelink = $options['profilelink'] ? 'checked="checked"' : '';
 		if (isset($options['showadminhierarchy'])) $showadminhierarchy = $options['showadminhierarchy'] ? 'checked="checked"' : '';
         if (isset($options['showwpmeta'])) $showwpmeta = $options['showwpmeta'] ? 'checked="checked"' : '';
+        if (isset($options['displayidentity'])) $displayidentity = $options['displayidentity'] ? 'checked="checked"' : '';
 		
 		?>
 		<p><label for="minimeta-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title" name="minimeta-title" type="text" value="<?php echo $title; ?>" /></label></p>
@@ -235,7 +250,8 @@ function widget_minnimeta_init() {
         <p style="font-weight:bold;"><?php _e('Show when logget in:');?></p>
          <label for="minimeta-logout"><?php _e('Logout');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $logout; ?> id="minimeta-logout" name="minimeta-logout" /></label><br />
          <label for="minimeta-seiteadmin"><?php _e('Seite Admin');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $seiteadmin; ?> id="minimeta-seiteadmin" name="minimeta-seiteadmin" /></label><br />
-		 <label for="minimeta-profilelink"><?php _e('Your Profile');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $profilelink; ?> id="minimeta-profilelink" name="minimeta-profilelink" /></label><br />
+		 <label for="minimeta-displayidentity"><?php _e('Disply user Identity as title');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $displayidentity; ?> id="minimeta-displayidentity" name="minimeta-displayidentity" /></label><br />
+         <label for="minimeta-profilelink"><?php _e('Your Profile link in title');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $profilelink; ?> id="minimeta-profilelink" name="minimeta-profilelink" /></label><br />
          <span style="font-weight:bold;"><?php _e('Admin Tools:');?>&nbsp;&nbsp;</span><br />
          <label for="minimeta-showadminhierarchy"><?php _e('Make admin tools hierarchy');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $showadminhierarchy; ?> id="minimeta-showadminhierarchy" name="minimeta-showadminhierarchy" /></label><br />
          <label for="minimeta-nespostsink"><?php _e('Write Post');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $nespostsink; ?> id="minimeta-nespostsink" name="minimeta-nespostsink" /></label><br />
@@ -260,8 +276,8 @@ function widget_minnimeta_init() {
 	register_sidebar_widget(array('Mini Meta', 'widgets'), 'widget_minimeta');
 
 	// This registers our optional widget control form. Because of this
-	// our widget will have a button that reveals a 300x380 pixel form.
-	register_widget_control(array('Mini Meta', 'widgets'), 'widget_minimeta_control', 400, 390);
+	// our widget will have a button that reveals a 400x390 pixel form.
+	register_widget_control(array('Mini Meta', 'widgets'), 'widget_minimeta_control', 400, 410);
 }
 add_action('init', 'widget_minnimeta_init');
 
