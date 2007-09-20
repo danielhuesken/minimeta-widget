@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
 Author: Daniel H&uuml;sken
-Version: 2.6.3
+Version: 2.6.4
 Author URI: http://danielhuesken.de
 */
 
@@ -44,6 +44,8 @@ Change log:
                                Removed Your Profile form Links and add the link to Title
    Version 2.6.3     Code Cleanup
                                Fixed some bugs
+   Version 2.6.4    Comatibility for Sidebar Modules and K2 SBM
+                              Added German Translation (Only not in WordPress strings)
  */
 
 
@@ -51,7 +53,7 @@ Change log:
 // action. This ensures that all required plugin functions are defined.
 function widget_minnimeta_init() {
 	//Loads language files
-	load_plugin_textdomain('minimeta', 'wp-content/plugins/'.dirname(plugin_basename(__FILE__)));
+	load_plugin_textdomain('MiniMetaWidget', 'wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/lang');
 	
 	// Check for the required plugin functions. This will prevent fatal
 	// errors occurring when you deactivate the dynamic-sidebar plugin.
@@ -186,45 +188,45 @@ function widget_minnimeta_init() {
         if (isset($options['displayidentity'])) $checkoptions['displayidentity'] = $options['displayidentity'] ? 'checked="checked"' : '';
 		//displaying options
 		?>
-		<p><label for="minimeta-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title" name="minimeta-title" type="text" value="<?php echo $checkoptions['title']; ?>" /></label></p>
-		<table border="0" width="100%"><tr><td valign="top" style="text-align:left;margin-left:10px;">
-        <p style="font-weight:bold;"><?php _e('Show when logget out:');?></p>
-         <label for="minimeta-login"><?php _e('Login Type:');?><br /><input type="radio" name="minimeta-login" id="minimeta-login-link" value="link" <?php echo $checkoptions['loginLink']; ?> />&nbsp;<?php _e('Link');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login" id="minimeta-login-form" value="form" <?php echo $checkoptions['loginForm']; ?> />&nbsp;<?php _e('Form');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login" id="minimeta-login-off" value="off" <?php echo $checkoptions['loginOff']; ?> />&nbsp;<?php _e('Off');?>&nbsp</label><br />
+		<?php if (!class_exists('K2SBM') and !class_exists('SBM')) {?><p><label for="minimeta-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title" name="minimeta-title" type="text" value="<?php echo $checkoptions['title']; ?>" /></label></p><?php } ?>
+		<table style="width:100%;border:none"><tr><td valign="top" style="text-align:left;">
+        <span style="font-weight:bold;"><?php _e('Show when logget out:','MiniMetaWidget');?></span><br />
+         <label for="minimeta-login"><?php _e('Login Type:','MiniMetaWidget');?><br /><input type="radio" name="minimeta-login" id="minimeta-login-link" value="link" <?php echo $checkoptions['loginLink']; ?> />&nbsp;<?php _e('Link','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login" id="minimeta-login-form" value="form" <?php echo $checkoptions['loginForm']; ?> />&nbsp;<?php _e('Form','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login" id="minimeta-login-off" value="off" <?php echo $checkoptions['loginOff']; ?> />&nbsp;<?php _e('Off','MiniMetaWidget');?>&nbsp</label><br />
          <label for="minimeta-rememberme"><input class="checkbox" type="checkbox" <?php echo $checkoptions['rememberme']; ?> id="minimeta-rememberme" name="minimeta-rememberme" />&nbsp;<?php _e('Remember me');?></label><br />
 		 <label for="minimeta-lostpwlink"><input class="checkbox" type="checkbox" <?php echo $checkoptions['lostpwlink']; ?> id="minimeta-lostpwlink" name="minimeta-lostpwlink" />&nbsp;<?php _e('Lost your password?');?></label><br />
 		 <label for="minimeta-registerlink"><input class="checkbox" type="checkbox" <?php echo $checkoptions['registerlink']; ?> id="minimeta-registerlink" name="minimeta-registerlink" />&nbsp;<?php _e('Register');?></label><br />
-        </td><td style="text-align:right;margin-right:10px;">
-        <p style="font-weight:bold;"><?php _e('Show when logget in:');?></p>
+        <br />
+        <span style="font-weight:bold;"><?php _e('Show allways:','MiniMetaWidget');?></span><br />
+		 <label for="minimeta-rsslink"><input class="checkbox" type="checkbox" <?php echo $checkoptions['rsslink']; ?> id="minimeta-rsslink" name="minimeta-rsslink" />&nbsp;<?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>');?></label><br />
+		 <label for="minimeta-rsscommentlink"><input class="checkbox" type="checkbox" <?php echo $checkoptions['rsscommentlink']; ?> id="minimeta-rsscommentlink" name="minimeta-rsscommentlink" />&nbsp;<?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>');?></label><br />
+		 <label for="minimeta-wordpresslink"><input class="checkbox" type="checkbox" <?php echo $checkoptions['wordpresslink']; ?> id="minimeta-wordpresslink" name="minimeta-wordpresslink" />&nbsp;<?php _e('Link to WordPress.org','MiniMetaWidget');?></label><br />
+		 <label for="minimeta-showwpmeta"><input class="checkbox" type="checkbox" <?php echo $checkoptions['showwpmeta']; ?> id="minimeta-showwpmeta" name="minimeta-showwpmeta" />&nbsp;<?php _e('wp_meta Plugin hooks','MiniMetaWidget');?></label><br />
+        </td><td style="text-align:right;">
+        <span style="font-weight:bold;"><?php _e('Show when logget in:','MiniMetaWidget');?></span><br />
          <label for="minimeta-logout"><?php _e('Logout');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['logout']; ?> id="minimeta-logout" name="minimeta-logout" /></label><br />
          <label for="minimeta-seiteadmin"><?php _e('Seite Admin');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['seiteadmin']; ?> id="minimeta-seiteadmin" name="minimeta-seiteadmin" /></label><br />
-		 <label for="minimeta-displayidentity"><?php _e('Disply user Identity as title');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['displayidentity']; ?> id="minimeta-displayidentity" name="minimeta-displayidentity" /></label><br />
-         <label for="minimeta-profilelink"><?php _e('Your Profile link in title');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['profilelink']; ?> id="minimeta-profilelink" name="minimeta-profilelink" /></label><br />
-         <span style="font-weight:bold;"><?php _e('Admin Tools:');?>&nbsp;&nbsp;</span><br />
-         <label for="minimeta-showadminhierarchy"><?php _e('Make admin tools hierarchy');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['showadminhierarchy']; ?> id="minimeta-showadminhierarchy" name="minimeta-showadminhierarchy" /></label><br />
+		 <label for="minimeta-displayidentity"><?php _e('Disply user Identity as title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['displayidentity']; ?> id="minimeta-displayidentity" name="minimeta-displayidentity" /></label><br />
+         <label for="minimeta-profilelink"><?php _e('Link to Your Profile in title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['profilelink']; ?> id="minimeta-profilelink" name="minimeta-profilelink" /></label><br />
+         <span style="font-style:italic;"><?php _e('Admin Tools:','MiniMetaWidget');?></span><br />
+         <label for="minimeta-showadminhierarchy"><?php _e('Make admin tools hierarchy','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['showadminhierarchy']; ?> id="minimeta-showadminhierarchy" name="minimeta-showadminhierarchy" /></label><br />
          <label for="minimeta-newpostslink"><?php _e('Write Post');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['newpostslink']; ?> id="minimeta-newpostslink" name="minimeta-newpostslink" /></label><br />
 		 <label for="minimeta-newpageslink"><?php _e('Write Page');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['newpageslink']; ?> id="minimeta-newpageslink" name="minimeta-newpageslink" /></label><br />
          <label for="minimeta-pluginsadminlink"><?php _e('Plugins');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['pluginsadminlink']; ?> id="minimeta-pluginsadminlink" name="minimeta-pluginsadminlink" /></label><br />
          <label for="minimeta-commentsadminlink"><?php _e('Comments');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['commentsadminlink']; ?> id="minimeta-commentsadminlink" name="minimeta-commentsadminlink" /></label><br />
          <label for="minimeta-usersadminlink"><?php _e('Users');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['usersadminlink']; ?> id="minimeta-usersadminlink" name="minimeta-usersadminlink" /></label><br />
-        </td></tr><tr><td colspan="2" style="text-align:left;">
-        <p style="font-weight:bold;"><?php _e('Show allways:');?></p>
-		 <label for="minimeta-rsslink" style="margin-left:100px;"><input class="checkbox" type="checkbox" <?php echo $checkoptions['rsslink']; ?> id="minimeta-rsslink" name="minimeta-rsslink" />&nbsp;<?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>');?></label><br />
-		 <label for="minimeta-rsscommentlink" style="margin-left:100px;"><input class="checkbox" type="checkbox" <?php echo $checkoptions['rsscommentlink']; ?> id="minimeta-rsscommentlink" name="minimeta-rsscommentlink" />&nbsp;<?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>');?></label><br />
-		 <label for="minimeta-wordpresslink" style="margin-left:100px;"><input class="checkbox" type="checkbox" <?php echo $checkoptions['wordpresslink']; ?> id="minimeta-wordpresslink" name="minimeta-wordpresslink" />&nbsp;<?php _e('Link to WordPress.org');?></label><br />
-		 <label for="minimeta-showwpmeta" style="margin-left:100px;"><input class="checkbox" type="checkbox" <?php echo $checkoptions['showwpmeta']; ?> id="minimeta-showwpmeta" name="minimeta-showwpmeta" />&nbsp;<?php _e('wp_meta Plugin hooks');?></label><br />
         </td></tr></table>
-        <p style="text-align:right;font-size:10px"><a herf="http://danielhuesken.de/protfolio/minimeta/" target="new">MiniMeta Widget</a> by <a herf="http://danielhuesken.de" target="new">Daniel H&uuml;sken</a></p>
+        <p style="text-align:right;font-size:x-small"><a herf="http://danielhuesken.de/protfolio/minimeta/" target="new">MiniMeta Widget</a> by <a herf="http://danielhuesken.de" target="new">Daniel H&uuml;sken</a></p>
         <input type="hidden" id="minimeta-submit" name="minimeta-submit" value="1" />
 		<?php
 	}
 	
 	// This registers our widget so it appears with the other available
 	// widgets and can be dragged and dropped into any active sidebars.
-	register_sidebar_widget(array('Mini Meta', 'widgets'), 'widget_minimeta');
+	register_sidebar_widget('MiniMeta Widget', 'widget_minimeta');
 
 	// This registers our optional widget control form. Because of this
 	// our widget will have a button that reveals a 400x390 pixel form.
-	register_widget_control(array('Mini Meta', 'widgets'), 'widget_minimeta_control', 400, 410);
+	register_widget_control('MiniMeta Widget', 'widget_minimeta_control', 380, 280);
 }
 add_action('init', 'widget_minnimeta_init');
 
@@ -235,7 +237,7 @@ function MiniMeta_update_dashboard() {
     $URL = 'http://danielhuesken.de/wp-content/plugins-versions.php';
     $version = '2.6.1';
     $period = 86400;
-    $Updatetext = __('A new version of MiniMeta Widget Plugin is available <a href="http://danielhuesken.de/protfolio/minimeta/" target="_new">here</a>');
+    $Updatetext = __('A new version of MiniMeta Widget Plugin is available <a href=\"http://danielhuesken.de/protfolio/minimeta/\" target=\"_new\">here</a>');
 	require_once(ABSPATH . WPINC . '/class-snoopy.php');
 	$check_intervall = get_option( $name."_next_update" );
 	if ( ($check_intervall < time() ) or (empty($check_intervall)) ) {
