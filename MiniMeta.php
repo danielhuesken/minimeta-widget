@@ -73,6 +73,8 @@ function widget_minnimeta_init() {
         if(is_array($getoptions)) $options=array_merge($options, $getoptions);
         //Show a standart Title if empty
         if (empty($options['title'])) $options['title']=__('Meta');
+        //title compatibility for SBM
+        if (!empty($args['title'])) $options['title']=$args['title'];
 		?>
 		
         <?php echo $args["before_widget"]; ?>
