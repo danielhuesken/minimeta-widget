@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
 Author: Daniel H&uuml;sken
-Version: 2.6.4
+Version: 2.6.5
 Author URI: http://danielhuesken.de
 */
 
@@ -46,6 +46,7 @@ Change log:
                                Fixed some bugs
    Version 2.6.4    Comatibility for Sidebar Modules and K2 SBM
                               Added German Translation (Only not in WordPress strings)
+   Version 2.6.5    removed Update check because its integratet in WP 2.3
  */
 
 
@@ -229,40 +230,9 @@ function widget_minnimeta_init() {
 	// This registers our optional widget control form. Because of this
 	// our widget will have a button that reveals a 400x390 pixel form.
 	register_widget_control('MiniMeta Widget', 'widget_minimeta_control', 380, 280);
+    
 }
 add_action('init', 'widget_minnimeta_init');
-
-//Update Check
-function MiniMeta_update_dashboard() {  
-   	// use wordpress snoopy class
-    $name = 'MiniMeta';
-    $URL = 'http://danielhuesken.de/wp-content/plugins-versions.php';
-    $version = '2.6.1';
-    $period = 86400;
-    $Updatetext = __('A new version of MiniMeta Widget Plugin is available <a href=\"http://danielhuesken.de/protfolio/minimeta/\" target=\"_new\">here</a>');
-	require_once(ABSPATH . WPINC . '/class-snoopy.php');
-	$check_intervall = get_option( $name."_next_update" );
-	if ( ($check_intervall < time() ) or (empty($check_intervall)) ) {
-		if (class_exists(snoopy)) {
-			$client = new Snoopy();
-			$client->_fp_timeout = 10;
-			if (@$client->fetch($URL) === true) {
-                $remote = $client->results;
-                $server_version = unserialize($remote);
-                if (is_array($server_version)) {
-                    if ( version_compare($server_version[$name], $version, '>') ) {
-                        echo '<h3>'.__('Update Information').'</h3>';  
-                        echo '<p>'.$Updatetext.'</p>';
-                    } else {
-                        $check_intervall = time() + $period;
-                        update_option( $name."_next_update", $check_intervall );    
-                    }
-    			} 	
-            }
-		}        
-	}   
-}    
-add_action('activity_box_end', 'MiniMeta_update_dashboard', '0');
 
 /**
 * Deactivate plugin
@@ -272,7 +242,6 @@ add_action('activity_box_end', 'MiniMeta_update_dashboard', '0');
 */
 function widget_minnimeta_deactivate() {
 	delete_option('widget_minimeta');
-    delete_option('MiniMeta_next_update');
 }
 
 add_action('deactivate_'.dirname(plugin_basename(__FILE__)).'/MiniMeta.php','widget_minnimeta_deactivate');
