@@ -47,6 +47,8 @@ Change log:
    Version 2.6.4    Comatibility for Sidebar Modules and K2 SBM
                               Added German Translation (Only not in WordPress strings)
    Version 2.6.5    removed Update check because its integratet in WP 2.3
+   Version 2.7.0    Support for WP Admin Links (http://wordpress.org/extend/plugins/wp-admin-links/)
+                              Some more Code Cleanup
  */
 
 
@@ -67,7 +69,7 @@ function widget_minnimeta_init() {
         $options= array('login'=>'link','logout' =>'1','registerlink' =>'1','seiteadmin' =>'1','rememberme' =>'1',
                         'rsslink' =>'1','rsscommentlink' =>'1','wordpresslink' =>'1','lostpwlink' =>'','newpostslink' =>'',
                         'newpageslink' =>'','commentsadminlink' =>'','pluginsadminlink' =>'','usersadminlink' =>'',
-                        'showadminhierarchy' =>'','showwpmeta' =>'1','displayidentity'=>'');
+                        'showadminhierarchy' =>'','showwpmeta' =>'1','displayidentity'=>'','usewpadminlinks'=>'');
         //load options
         $getoptions = get_option('widget_minimeta');
         //overwrite def. options with loadet options
@@ -76,33 +78,36 @@ function widget_minnimeta_init() {
         if (empty($options['title'])) $options['title']=__('Meta');
         //title compatibility for SBM
         if (!empty($args['title'])) $options['title']=$args['title'];
-		?>
-		
-        <?php echo $args["before_widget"]; ?>
-		<?php if(is_user_logged_in()) { ?>
-            <?php 
+
+		//Shown part of Widget
+        echo $args["before_widget"];
+        if(is_user_logged_in()) {
             if ($options['displayidentity'] and !empty($user_identity)) $options['title']=$user_identity;
             if($options['profilelink'] and current_user_can('read')) {
                 echo $args['before_title'] ."<a href=\"".get_bloginfo('wpurl')."/wp-admin/profile.php\" title=\"".__('Your Profile')."\">". $options['title'] ."</a>". $args['after_title']; 
             } else {
             echo $args['before_title'] . $options['title'] . $args['after_title']; 
             }
-            ?>
-            <ul>
-			<?php if($options['seiteadmin']) {wp_register();} ?>
-                <?php if($options['showadminhierarchy'] and ($options['newpageslink'] or $options['newpostslink'] or $options['profilelink'] or $options['logout'])) {?><ul class="children"><?php }?>
-                <?php if($options['logout']) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=logout&amp;redirect_to=<?php echo $_SERVER['REQUEST_URI']; ?>" title="<?php _e('Logout') ?>"><?php _e('Logout') ?></a></li><?php }?>
-                <?php if($options['newpostslink'] and current_user_can('edit_posts')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/post-new.php" title="<?php _e('Write Post') ?>"><?php _e('Write Post') ?></a></li><?php }?>
-                <?php if($options['newpageslink'] and current_user_can('edit_pages')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/page-new.php" title="<?php _e('Write Page') ?>"><?php _e('Write Page') ?></a></li><?php }?>			
-                    <?php if($options['showadminhierarchy'] and ($options['usersadminlink'] or $options['commentsadminlink'] or $options['pluginsadminlink'])) {?><ul class="children"><?php }?>
-                    <?php if($options['usersadminlink'] and current_user_can('edit_users')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/users.php" title="<?php _e('Users') ?>"><?php _e('Users') ?></a></li><?php }?>
-                    <?php if($options['commentsadminlink'] and current_user_can('edit_posts')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/edit-comments.php" title="<?php _e('Comments') ?>"><?php _e('Comments') ?></a></li><?php }?>
-                    <?php if($options['pluginsadminlink'] and current_user_can('activate_plugins')) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-admin/plugins.php" title="<?php _e('Plugins') ?>"><?php _e('Plugins') ?></a></li><?php }?>
-                    <?php if($options['showadminhierarchy'] and ($options['usersadminlink'] or $options['commentsadminlink'] or $options['pluginsadminlink'])) {?></ul><?php }?>
-                <?php if($options['showadminhierarchy'] and ($options['newpageslink'] or $options['newpostslink'] or $options['profilelink'] or $options['logout'])) {?></ul><?php }?>
-		<?php } else { ?>
-			<?php echo $args['before_title'] . $options['title']. $args['after_title']; ?>
-            <?php if($options['login']=='form') {?>
+            //For Wp-Admin Links if supportet
+            echo "<ul>";
+            if (function_exists(wp_admin_links) and $options['usewpadminlinks']) { 
+                wp_admin_links('','','',true);
+            } else  {
+                if($options['seiteadmin']) {wp_register();}
+                    if($options['showadminhierarchy'] and ($options['newpageslink'] or $options['newpostslink'] or $options['profilelink'] or $options['logout'])) echo "<ul class=\"children\">"; 
+                    if($options['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\">".__('Logout')."</a></li>"; 
+                    if($options['newpostslink'] and current_user_can('edit_posts')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/post-new.php\" title=\"".__('Write Post')."\">".__('Write Post')."</a></li>";
+                    if($options['newpageslink'] and current_user_can('edit_pages')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/page-new.php\" title=\"".__('Write Page')."\">".__('Write Page')."</a></li>";			
+                        if($options['showadminhierarchy'] and ($options['usersadminlink'] or $options['commentsadminlink'] or $options['pluginsadminlink'])) echo "<ul class=\"children\">";
+                        if($options['usersadminlink'] and current_user_can('edit_users')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/users.php\" title=\"".__('Users')."\">".__('Users')."</a></li>";
+                        if($options['commentsadminlink'] and current_user_can('edit_posts')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/edit-comments.php\" title=\"".__('Comments')."\">".__('Comments')."</a></li>";
+                        if($options['pluginsadminlink'] and current_user_can('activate_plugins')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/plugins.php\" title=\"".__('Plugins')."\">".__('Plugins')."</a></li>";
+                        if($options['showadminhierarchy'] and ($options['usersadminlink'] or $options['commentsadminlink'] or $options['pluginsadminlink'])) echo "</ul>"; 
+                    if($options['showadminhierarchy'] and ($options['newpageslink'] or $options['newpostslink'] or $options['profilelink'] or $options['logout'])) echo "</ul>";
+            } 
+        } else {
+			echo $args['before_title'] . $options['title']. $args['after_title'];
+            if($options['login']=='form') {?>
 				<form name="loginform" id="loginform" action="<?php bloginfo('wpurl'); ?>/wp-login.php" method="post">
 				<label><?php _e('Username:') ?><br />
 				<input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label><br />
@@ -111,21 +116,20 @@ function widget_minnimeta_init() {
 				<?php if($options['rememberme']) {?><label><input name="rememberme" id="rememberme" type="checkbox" value="forever" tabindex="90" /> <?php _e('Remember me'); ?></label><?php } ?>
 				<div align="center"><input type="submit" id="wp-submit" name="wp-submit" value="<?php _e('Login'); ?> &raquo;" tabindex="100" /></div>
 				<input type="hidden" name="redirect_to" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
-				</form>
-			<?php }?>
-            <ul>
-			<?php if($options['login']=='link') {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=login&amp;redirect_to=<?php echo $_SERVER['REQUEST_URI']; ?>" title="<?php _e('Login') ?>"><?php _e('Login') ?></a></li><?php }?>
-			<?php if($options['lostpwlink']) {?><li><a href="<?php bloginfo('wpurl'); ?>/wp-login.php?action=lostpassword" title="<?php _e('Password Lost and Found') ?>"><?php _e('Lost your password?') ?></a></li><?php }?>
-			<?php if($options['registerlink']) {wp_register();} ?>
-		<?php } ?>
+				</form><?php
+			}
+            echo "<ul>";
+			if($options['login']=='link') echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Login')."\">".__('Login')."</a></li>";
+			if($options['lostpwlink']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=lostpassword\" title=\"".__('Password Lost and Found')."\">".__('Lost your password?')."</a></li>";
+			if($options['registerlink']) wp_register();
+		} 
 
-		<?php if($options['rsslink']) {?><li><a href="<?php bloginfo('rss2_url'); ?>" title="<?php echo attribute_escape(__('Syndicate this site using RSS 2.0')); ?>"><?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li><?php }?>
-		<?php if($options['rsscommentlink']) {?><li><a href="<?php bloginfo('comments_rss2_url'); ?>" title="<?php echo attribute_escape(__('The latest comments to all posts in RSS')); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li><?php }?>
-		<?php if($options['wordpresslink']) {?><li><a href="http://wordpress.org/" title="<?php echo attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.')); ?>">WordPress.org</a></li><?php }?>
-		<?php if($options['showwpmeta']) { wp_meta(); } ?>
-		</ul>
-		<?php echo $args['after_widget']; ?>
-		<?php
+		if($options['rsslink']) echo "<li><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		if($options['rsscommentlink']) echo "<li><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		if($options['wordpresslink']) echo "<li><a href=\"http://wordpress.org/\" title=\"".attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.'))."\">WordPress.org</a></li>";
+		if($options['showwpmeta']) wp_meta();
+		echo "</ul>";
+		echo $args['after_widget'];
 	}
 			
 	function widget_minimeta_control() {
@@ -152,6 +156,7 @@ function widget_minnimeta_init() {
 			$newoptions['showadminhierarchy'] = isset($_POST['minimeta-showadminhierarchy']);
             $newoptions['showwpmeta'] = isset($_POST['minimeta-showwpmeta']);
             $newoptions['displayidentity'] = isset($_POST['minimeta-displayidentity']);
+            $newoptions['usewpadminlinks'] = isset($_POST['minimeta-usewpadminlinks']);
 		}
 		//safe options only when changed
         if ( $options != $newoptions ) {
@@ -162,7 +167,7 @@ function widget_minnimeta_init() {
         $checkoptions= array('title'=>__('Meta'),'loginLink'=>'checked="checked"','loginForm'=>'','loginOff'=>'','logout' =>'checked="checked"','registerlink' =>'checked="checked"','seiteadmin' =>'checked="checked"','rememberme' =>'checked="checked"',
                 'rsslink' =>'checked="checked"','rsscommentlink' =>'checked="checked"','wordpresslink' =>'checked="checked"','lostpwlink' =>'','newpostslink' =>'',
                 'newpageslink' =>'','commentsadminlink' =>'','pluginsadminlink' =>'','usersadminlink' =>'',
-                'showadminhierarchy' =>'','showwpmeta' =>'checked="checked"','displayidentity'=>'');
+                'showadminhierarchy' =>'','showwpmeta' =>'checked="checked"','displayidentity'=>'','usewpadminlinks'=>'');
 
 		//set checked for aktivatet options
 		$checkoptions['title'] = attribute_escape($options['title']);
@@ -189,9 +194,10 @@ function widget_minnimeta_init() {
 		if (isset($options['showadminhierarchy'])) $checkoptions['showadminhierarchy'] = $options['showadminhierarchy'] ? 'checked="checked"' : '';
         if (isset($options['showwpmeta'])) $checkoptions['showwpmeta'] = $options['showwpmeta'] ? 'checked="checked"' : '';
         if (isset($options['displayidentity'])) $checkoptions['displayidentity'] = $options['displayidentity'] ? 'checked="checked"' : '';
+        if (isset($options['usewpadminlinks'])) $checkoptions['usewpadminlinks'] = $options['usewpadminlinks'] ? 'checked="checked"' : '';
+		
 		//displaying options
-		?>
-		<?php if (!class_exists('K2SBM') and !class_exists('SBM')) {?><p><label for="minimeta-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title" name="minimeta-title" type="text" value="<?php echo $checkoptions['title']; ?>" /></label></p><?php } ?>
+		if (!class_exists('K2SBM') and !class_exists('SBM')) {?><p><label for="minimeta-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title" name="minimeta-title" type="text" value="<?php echo $checkoptions['title']; ?>" /></label></p><?php } ?>
 		<table style="width:100%;border:none"><tr><td valign="top" style="text-align:left;">
         <span style="font-weight:bold;"><?php _e('Show when logget out:','MiniMetaWidget');?></span><br />
          <label for="minimeta-login"><?php _e('Login Type:','MiniMetaWidget');?><br /><input type="radio" name="minimeta-login" id="minimeta-login-link" value="link" <?php echo $checkoptions['loginLink']; ?> />&nbsp;<?php _e('Link','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login" id="minimeta-login-form" value="form" <?php echo $checkoptions['loginForm']; ?> />&nbsp;<?php _e('Form','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login" id="minimeta-login-off" value="off" <?php echo $checkoptions['loginOff']; ?> />&nbsp;<?php _e('Off','MiniMetaWidget');?>&nbsp</label><br />
@@ -211,6 +217,9 @@ function widget_minnimeta_init() {
 		 <label for="minimeta-displayidentity"><?php _e('Disply user Identity as title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['displayidentity']; ?> id="minimeta-displayidentity" name="minimeta-displayidentity" /></label><br />
          <label for="minimeta-profilelink"><?php _e('Link to Your Profile in title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['profilelink']; ?> id="minimeta-profilelink" name="minimeta-profilelink" /></label><br />
          <span style="font-style:italic;"><?php _e('Admin Tools:','MiniMetaWidget');?></span><br />
+         <?PHP if (function_exists(wp_admin_links)) { ?>
+          <label for="minimeta-usewpadminlinks" title="<?php _e('Use WP Admin Lings Plugin instat off the admin links from MiniMeta Widget','MiniMetaWidget');?>"><?php _e('Use WP Admin Lings Plugin','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['usewpadminlinks']; ?> id="minimeta-usewpadminlinks" name="minimeta-usewpadminlinks" /></label><br />
+         <?PHP } ?>
          <label for="minimeta-showadminhierarchy"><?php _e('Make admin tools hierarchy','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['showadminhierarchy']; ?> id="minimeta-showadminhierarchy" name="minimeta-showadminhierarchy" /></label><br />
          <label for="minimeta-newpostslink"><?php _e('Write Post');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['newpostslink']; ?> id="minimeta-newpostslink" name="minimeta-newpostslink" /></label><br />
 		 <label for="minimeta-newpageslink"><?php _e('Write Page');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['newpageslink']; ?> id="minimeta-newpageslink" name="minimeta-newpageslink" /></label><br />
