@@ -50,7 +50,11 @@ Change log:
    Version 2.7.0    Support for WP Admin Links (http://wordpress.org/extend/plugins/wp-admin-links/)
                               Some more Code Cleanup
                               Changed MinMeta.php to minimeta-widget.php
- */
+                              Added plugin hooks for login form
+                                    Testet with:    Semisecure Login (http://wordpress.org/extend/plugins/semisecure-login/)
+                                                            Raz-Captcha (http://wordpress.org/extend/plugins/raz-captcha/) must delete seite dependings
+                                                            Chap Secure Login (http://wordpress.org/extend/plugins/chap-secure-login/)
+*/
 
 
 // Put functions into one big function we'll call at the plugins_loaded
@@ -63,10 +67,23 @@ function widget_minnimeta_init() {
 	// errors occurring when you deactivate the dynamic-sidebar plugin.
 	if ( !function_exists('register_sidebar_widget') )
 		return;
+    
+    //copy action login_head to wp-head if login form enabeld for plugin hooks
+	function login_head_to_wp_head() {
+        //defaults only for login form
+        $options= array('login'=>'link');
+        //load options
+        $getoptions = get_option('widget_minimeta');
+        //overwrite def. options with loadet options
+        if(is_array($getoptions)) $options=array_merge($options, $getoptions);
+        if($options['login']=='form') do_action('login_head');
+    }
+    add_action('wp_head', 'login_head_to_wp_head');
+    
+    function widget_minimeta($args) {
+        global $user_identity;	
 
-	function widget_minimeta($args) {
-        global $user_identity;		
-		//defaults
+        //defaults
         $options= array('login'=>'link','logout' =>'1','registerlink' =>'1','seiteadmin' =>'1','rememberme' =>'1',
                         'rsslink' =>'1','rsscommentlink' =>'1','wordpresslink' =>'1','lostpwlink' =>'','newpostslink' =>'',
                         'newpageslink' =>'','commentsadminlink' =>'','pluginsadminlink' =>'','usersadminlink' =>'',
@@ -110,13 +127,21 @@ function widget_minnimeta_init() {
 			echo $args['before_title'] . $options['title']. $args['after_title'];
             if($options['login']=='form') {?>
 				<form name="loginform" id="loginform" action="<?php bloginfo('wpurl'); ?>/wp-login.php" method="post">
-				<label><?php _e('Username:') ?><br />
-				<input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label><br />
-				<label><?php _e('Password:') ?><br />
-				<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /></label><br />
-				<?php if($options['rememberme']) {?><label><input name="rememberme" id="rememberme" type="checkbox" value="forever" tabindex="90" /> <?php _e('Remember me'); ?></label><?php } ?>
-				<div align="center"><input type="submit" id="wp-submit" name="wp-submit" value="<?php _e('Login'); ?> &raquo;" tabindex="100" /></div>
-				<input type="hidden" name="redirect_to" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
+					<p>
+                        <label><?php _e('Username:') ?><br />
+                        <input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
+                    </p>
+                    <p>
+                        <label><?php _e('Password:') ?><br />
+                        <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /></label>
+                    </p>
+                    <?php do_action('login_form'); ?>
+                    <?php if($options['rememberme']) {?><p><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember me'); ?></label></p><?php } ?>
+                    <p class="submit">
+                        <input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Login'); ?> &raquo;" tabindex="100" />
+                        <input type="hidden" name="redirect_to" value="<?php echo attribute_escape($redirect_to); ?>" />
+                    </p>
+                    <input type="hidden" name="redirect_to" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 				</form><?php
 			}
             echo "<ul>";
@@ -243,6 +268,7 @@ function widget_minnimeta_init() {
     
 }
 add_action('init', 'widget_minnimeta_init');
+
 
 /**
 * Deactivate plugin
