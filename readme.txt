@@ -20,12 +20,13 @@ Mini Verson of the WP Meta Widget
 
 == Installation ==
 
-1. Upload `MiniMeta.php` to the `/wp-content/plugins/` directory
+1. Download MiniMeta Widget.
+1. Decompress and upload the contents of the archive into /wp-content/plugins/.
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Use your 'Presentation'/'Sidebar Widgets' settings to drag and configure
+1. Use your 'Presentation'|'Sidebar Widgets' settings to drag and configure
 
 == Screenshots ==
 
-1. Mini Meta Widget with Login form
-2. Links of Mini Meta Widget when logtin
-3. Mini Meta Widget confugration Page
+1. MiniMeta Widget with Login form
+2. Links of MiniMeta Widget when loggt in
+3. MiniMeta Widget confugration Page

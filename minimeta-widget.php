@@ -49,6 +49,7 @@ Change log:
    Version 2.6.5    removed Update check because its integratet in WP 2.3
    Version 2.7.0    Support for WP Admin Links (http://wordpress.org/extend/plugins/wp-admin-links/)
                               Some more Code Cleanup
+                              Changed MinMeta.php to minimeta-widget.php
  */
 
 
@@ -253,5 +254,5 @@ function widget_minnimeta_deactivate() {
 	delete_option('widget_minimeta');
 }
 
-add_action('deactivate_'.dirname(plugin_basename(__FILE__)).'/MiniMeta.php','widget_minnimeta_deactivate');
+add_action('deactivate_'.dirname(plugin_basename(__FILE__)).'/minimeta-widget.php','widget_minnimeta_deactivate');
 ?>
