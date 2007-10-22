@@ -1,7 +1,7 @@
 === MiniMeta Widget ===
 Contributors: danielhuesken
 Donate link: http://danielhuesken.de/
-Tags: widget, meta, admin, links
+Tags: widget, sidebar, meta, admin, links
 Requires at least: 2.2
 Tested up to: 2.3.0
 Stable tag: 2.6.5
@@ -23,7 +23,25 @@ Mini Verson of the WP Meta Widget
 1. Download MiniMeta Widget.
 1. Decompress and upload the contents of the archive into /wp-content/plugins/.
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Use your 'Presentation'|'Sidebar Widgets' settings to drag and configure
+1. Use your 'Presentation'|'Sidebar Widgets' settings to drag and configure== Frequently Asked Questions ==
+
+== Frequently Asked Questions ==
+
+= After upload a new Version of MiniMeta Widget I have the old one =
+
+Delete old Plugin Directory bevor upload the new version, because the Plugin Filname hase changed in Version 2.7.0.
+You must activate the Plugin again.
+
+= Plugin Hooks are testet =
+
+Version 2.7.0 needed
+[Semisecure Login](http://wordpress.org/extend/plugins/semisecure-login/)
+[Raz-Captcha](http://wordpress.org/extend/plugins/raz-captcha/)
+[Chap Secure Login](http://wordpress.org/extend/plugins/chap-secure-login/)
+
+= Raz-Captcha Plugin hooks don´t work =
+
+In the Plugin file are dependings for files where the plugin work. This dependings must be commentet out.
 
 == Screenshots ==
 
