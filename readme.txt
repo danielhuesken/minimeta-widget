@@ -23,7 +23,7 @@ Mini Verson of the WP Meta Widget
 1. Download MiniMeta Widget.
 1. Decompress and upload the contents of the archive into /wp-content/plugins/.
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Use your 'Presentation'|'Sidebar Widgets' settings to drag and configure== Frequently Asked Questions ==
+1. Use your 'Presentation'|'Sidebar Widgets' settings to drag and configure
 
 == Frequently Asked Questions ==
 
