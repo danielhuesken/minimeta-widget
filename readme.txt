@@ -4,7 +4,7 @@ Donate link: http://danielhuesken.de/
 Tags: widget, sidebar, meta, admin, links
 Requires at least: 2.2
 Tested up to: 2.3.0
-Stable tag: 2.6.5
+Stable tag: 2.7.0
 
 Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links.  The Links can alle enabeld or disabeld.
 
@@ -34,12 +34,12 @@ You must activate the Plugin again.
 
 = Plugin Hooks are testet =
 
-Version 2.7.0 needed
-[Semisecure Login](http://wordpress.org/extend/plugins/semisecure-login/)
-[Raz-Captcha](http://wordpress.org/extend/plugins/raz-captcha/)
-[Chap Secure Login](http://wordpress.org/extend/plugins/chap-secure-login/)
+Version 2.7.0 needed:<br />
+[Semisecure Login](http://wordpress.org/extend/plugins/semisecure-login/)<br />
+[Raz-Captcha](http://wordpress.org/extend/plugins/raz-captcha/)<br />
+[Chap Secure Login](http://wordpress.org/extend/plugins/chap-secure-login/)<br />
 
-= Raz-Captcha Plugin hooks don´t work =
+= Raz-Captcha Plugin hooks do not work =
 
 In the Plugin file are dependings for files where the plugin work. This dependings must be commentet out.
 
