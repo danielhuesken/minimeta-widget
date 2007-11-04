@@ -54,6 +54,9 @@ Change log:
                                     Testet with:    Semisecure Login (http://wordpress.org/extend/plugins/semisecure-login/)
                                                             Raz-Captcha (http://wordpress.org/extend/plugins/raz-captcha/) must delete seite dependings
                                                             Chap Secure Login (http://wordpress.org/extend/plugins/chap-secure-login/)
+   Version 2.7.1    Grammer fixes (thx Joe)
+                             Updatet German Localisation (thx Joe)
+                             readded link to Your Profile
 */
 
 
@@ -84,7 +87,7 @@ function widget_minnimeta_init() {
         global $user_identity;	
 
         //defaults
-        $options= array('login'=>'link','logout' =>'1','registerlink' =>'1','seiteadmin' =>'1','rememberme' =>'1',
+        $options= array('login'=>'link','logout' =>'1','profilelinkadmin' => '0','registerlink' =>'1','seiteadmin' =>'1','rememberme' =>'1',
                         'rsslink' =>'1','rsscommentlink' =>'1','wordpresslink' =>'1','lostpwlink' =>'','newpostslink' =>'',
                         'newpageslink' =>'','commentsadminlink' =>'','pluginsadminlink' =>'','usersadminlink' =>'',
                         'showadminhierarchy' =>'','showwpmeta' =>'1','displayidentity'=>'','usewpadminlinks'=>'');
@@ -114,6 +117,7 @@ function widget_minnimeta_init() {
                 if($options['seiteadmin']) {wp_register();}
                     if($options['showadminhierarchy'] and ($options['newpageslink'] or $options['newpostslink'] or $options['profilelink'] or $options['logout'])) echo "<ul class=\"children\">"; 
                     if($options['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\">".__('Logout')."</a></li>"; 
+                    if($options['profilelinkadmin']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/profile.php\" title=\"".__('Your Profile')."\">".__('Your Profile')."</a></li>"; 
                     if($options['newpostslink'] and current_user_can('edit_posts')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/post-new.php\" title=\"".__('Write Post')."\">".__('Write Post')."</a></li>";
                     if($options['newpageslink'] and current_user_can('edit_pages')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/page-new.php\" title=\"".__('Write Page')."\">".__('Write Page')."</a></li>";			
                         if($options['showadminhierarchy'] and ($options['usersadminlink'] or $options['commentsadminlink'] or $options['pluginsadminlink'])) echo "<ul class=\"children\">";
@@ -178,6 +182,7 @@ function widget_minnimeta_init() {
             $newoptions['commentsadminlink'] = isset($_POST['minimeta-commentsadminlink']);
             $newoptions['usersadminlink'] = isset($_POST['minimeta-usersadminlink']);
 			$newoptions['profilelink'] = isset($_POST['minimeta-profilelink']);
+            $newoptions['profilelinkadmin'] = isset($_POST['minimeta-profilelinkadmin']);
 			$newoptions['showadminhierarchy'] = isset($_POST['minimeta-showadminhierarchy']);
             $newoptions['showwpmeta'] = isset($_POST['minimeta-showwpmeta']);
             $newoptions['displayidentity'] = isset($_POST['minimeta-displayidentity']);
@@ -191,7 +196,7 @@ function widget_minnimeta_init() {
 		//def. options
         $checkoptions= array('title'=>__('Meta'),'loginLink'=>'checked="checked"','loginForm'=>'','loginOff'=>'','logout' =>'checked="checked"','registerlink' =>'checked="checked"','seiteadmin' =>'checked="checked"','rememberme' =>'checked="checked"',
                 'rsslink' =>'checked="checked"','rsscommentlink' =>'checked="checked"','wordpresslink' =>'checked="checked"','lostpwlink' =>'','newpostslink' =>'',
-                'newpageslink' =>'','commentsadminlink' =>'','pluginsadminlink' =>'','usersadminlink' =>'',
+                'newpageslink' =>'','commentsadminlink' =>'','pluginsadminlink' =>'','usersadminlink' =>'','profilelinkadmin' => '',
                 'showadminhierarchy' =>'','showwpmeta' =>'checked="checked"','displayidentity'=>'','usewpadminlinks'=>'');
 
 		//set checked for aktivatet options
@@ -216,6 +221,7 @@ function widget_minnimeta_init() {
         if (isset($options['commentsadminlink'])) $checkoptions['commentsadminlink'] = $options['commentsadminlink'] ? 'checked="checked"' : '';
         if (isset($options['usersadminlink'])) $checkoptions['usersadminlink'] = $options['usersadminlink'] ? 'checked="checked"' : '';
 		if (isset($options['profilelink'])) $checkoptions['profilelink']= $options['profilelink'] ? 'checked="checked"' : '';
+        if (isset($options['profilelinkadmin'])) $checkoptions['profilelinkadmin']= $options['profilelinkadmin'] ? 'checked="checked"' : '';
 		if (isset($options['showadminhierarchy'])) $checkoptions['showadminhierarchy'] = $options['showadminhierarchy'] ? 'checked="checked"' : '';
         if (isset($options['showwpmeta'])) $checkoptions['showwpmeta'] = $options['showwpmeta'] ? 'checked="checked"' : '';
         if (isset($options['displayidentity'])) $checkoptions['displayidentity'] = $options['displayidentity'] ? 'checked="checked"' : '';
@@ -238,21 +244,21 @@ function widget_minnimeta_init() {
         </td><td style="text-align:right;">
         <span style="font-weight:bold;"><?php _e('Show when logget in:','MiniMetaWidget');?></span><br />
          <label for="minimeta-logout"><?php _e('Logout');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['logout']; ?> id="minimeta-logout" name="minimeta-logout" /></label><br />
-         <label for="minimeta-seiteadmin"><?php _e('Seite Admin');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['seiteadmin']; ?> id="minimeta-seiteadmin" name="minimeta-seiteadmin" /></label><br />
+         <label for="minimeta-seiteadmin"><?php _e('Site Admin');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['seiteadmin']; ?> id="minimeta-seiteadmin" name="minimeta-seiteadmin" /></label><br />
 		 <label for="minimeta-displayidentity"><?php _e('Disply user Identity as title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['displayidentity']; ?> id="minimeta-displayidentity" name="minimeta-displayidentity" /></label><br />
          <label for="minimeta-profilelink"><?php _e('Link to Your Profile in title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['profilelink']; ?> id="minimeta-profilelink" name="minimeta-profilelink" /></label><br />
          <span style="font-style:italic;"><?php _e('Admin Tools:','MiniMetaWidget');?></span><br />
          <?PHP if (function_exists(wp_admin_links)) { ?>
-          <label for="minimeta-usewpadminlinks" title="<?php _e('Use WP Admin Lings Plugin instat off the admin links from MiniMeta Widget','MiniMetaWidget');?>"><?php _e('Use WP Admin Lings Plugin','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['usewpadminlinks']; ?> id="minimeta-usewpadminlinks" name="minimeta-usewpadminlinks" /></label><br />
+          <label for="minimeta-usewpadminlinks" title="<?php _e('Use WP Admin Links Plugin and not the admin links from MiniMeta Widget','MiniMetaWidget');?>"><?php _e('Use WP Admin Links Plugin','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['usewpadminlinks']; ?> id="minimeta-usewpadminlinks" name="minimeta-usewpadminlinks" /></label><br />
          <?PHP } ?>
          <label for="minimeta-showadminhierarchy"><?php _e('Make admin tools hierarchy','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['showadminhierarchy']; ?> id="minimeta-showadminhierarchy" name="minimeta-showadminhierarchy" /></label><br />
+         <label for="minimeta-profilelinkadmin"><?php _e('Your Profile');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['profilelinkadmin']; ?> id="minimeta-profilelinkadmin" name="minimeta-profilelinkadmin" /></label><br />
          <label for="minimeta-newpostslink"><?php _e('Write Post');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['newpostslink']; ?> id="minimeta-newpostslink" name="minimeta-newpostslink" /></label><br />
 		 <label for="minimeta-newpageslink"><?php _e('Write Page');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['newpageslink']; ?> id="minimeta-newpageslink" name="minimeta-newpageslink" /></label><br />
          <label for="minimeta-pluginsadminlink"><?php _e('Plugins');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['pluginsadminlink']; ?> id="minimeta-pluginsadminlink" name="minimeta-pluginsadminlink" /></label><br />
          <label for="minimeta-commentsadminlink"><?php _e('Comments');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['commentsadminlink']; ?> id="minimeta-commentsadminlink" name="minimeta-commentsadminlink" /></label><br />
          <label for="minimeta-usersadminlink"><?php _e('Users');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['usersadminlink']; ?> id="minimeta-usersadminlink" name="minimeta-usersadminlink" /></label><br />
         </td></tr></table>
-        <p style="text-align:right;font-size:x-small"><a herf="http://danielhuesken.de/protfolio/minimeta/" target="new">MiniMeta Widget</a> by <a herf="http://danielhuesken.de" target="new">Daniel H&uuml;sken</a></p>
         <input type="hidden" id="minimeta-submit" name="minimeta-submit" value="1" />
 		<?php
 	}
@@ -263,7 +269,7 @@ function widget_minnimeta_init() {
 
 	// This registers our optional widget control form. Because of this
 	// our widget will have a button that reveals a 400x390 pixel form.
-	register_widget_control('MiniMeta Widget', 'widget_minimeta_control', 380, 280);
+	register_widget_control('MiniMeta Widget', 'widget_minimeta_control', 380, 270);
     
 }
 add_action('init', 'widget_minnimeta_init');

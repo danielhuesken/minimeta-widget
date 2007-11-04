@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Daniel Hüsken\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-09-23 14:19+0100\n"
+"PO-Revision-Date: 2007-11-04 19:20+0100\n"
 "Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
 "Language-Team: Daniel Hüsken\n"
 "MIME-Version: 1.0\n"
@@ -44,19 +44,19 @@ msgstr "Link zu WordPress.org"
 
 #: MiniMeta.php:202
 msgid "wp_meta Plugin hooks"
-msgstr "wp_meta Plugin hooks"
+msgstr "wp_meta Plugin Hooks"
 
 #: MiniMeta.php:204
 msgid "Show when logget in:"
-msgstr "Angezeige eingeloggt:"
+msgstr "Anzeige eingeloggt:"
 
 #: MiniMeta.php:207
 msgid "Disply user Identity as title"
-msgstr "Zeige Benutzer Namen im Titel"
+msgstr "Zeige Benutzernamen als Titel"
 
 #: MiniMeta.php:208
 msgid "Link to Your Profile in title"
-msgstr "Link zu Deinem Profiel im Titel"
+msgstr "Link zu Deinem Profil im Titel"
 
 #: MiniMeta.php:209
 msgid "Admin Tools:"
@@ -65,4 +65,12 @@ msgstr "Admin Tools:"
 #: MiniMeta.php:210
 msgid "Make admin tools hierarchy"
 msgstr "Hierachische Admin Tools"
+
+#: MiniMeta.php:252
+msgid "Use WP Admin Links Plugin and not the admin links from MiniMeta Widget"
+msgstr "Benutze das WP Admin Links Plugin und nicht die admin Links vom MiniMeta Widget"
+
+#: MiniMeta.php:252
+msgid "Use WP Admin Links Plugin"
+msgstr "Benutze WP Admin Links"
 

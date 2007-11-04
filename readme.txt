@@ -4,7 +4,7 @@ Donate link: http://danielhuesken.de/
 Tags: widget, sidebar, meta, admin, links
 Requires at least: 2.2
 Tested up to: 2.3.0
-Stable tag: 2.7.0
+Stable tag: 2.7.1
 
 Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links.  The Links can alle enabeld or disabeld.
 
@@ -48,3 +48,4 @@ In the Plugin file are dependings for files where the plugin work. This dependin
 1. MiniMeta Widget with Login form
 2. Links of MiniMeta Widget when loggt in
 3. MiniMeta Widget confugration Page
+4. MiniMeta Widget with WP Admin Links Plugin
