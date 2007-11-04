@@ -1,0 +1,76 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Daniel Hüsken\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-11-04 19:20+0100\n"
+"Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
+"Language-Team: Daniel Hüsken\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: MiniMeta.php:192
+msgid "Show when logget out:"
+msgstr "Anzeige ausgeloggt:"
+
+#: MiniMeta.php:193
+msgid "Login Type:"
+msgstr "Login Typen:"
+
+#: MiniMeta.php:193
+msgid "Link"
+msgstr "Link"
+
+#: MiniMeta.php:193
+msgid "Form"
+msgstr "Form"
+
+#: MiniMeta.php:193
+msgid "Off"
+msgstr "Aus"
+
+#: MiniMeta.php:198
+msgid "Show allways:"
+msgstr "Anzeige immer:"
+
+#: MiniMeta.php:201
+msgid "Link to WordPress.org"
+msgstr "Link zu WordPress.org"
+
+#: MiniMeta.php:202
+msgid "wp_meta Plugin hooks"
+msgstr "wp_meta Plugin Hooks"
+
+#: MiniMeta.php:204
+msgid "Show when logget in:"
+msgstr "Anzeige eingeloggt:"
+
+#: MiniMeta.php:207
+msgid "Disply user Identity as title"
+msgstr "Zeige Benutzernamen als Titel"
+
+#: MiniMeta.php:208
+msgid "Link to Your Profile in title"
+msgstr "Link zu Deinem Profil im Titel"
+
+#: MiniMeta.php:209
+msgid "Admin Tools:"
+msgstr "Admin Tools:"
+
+#: MiniMeta.php:210
+msgid "Make admin tools hierarchy"
+msgstr "Hierachische Admin Tools"
+
+#: MiniMeta.php:252
+msgid "Use WP Admin Links Plugin and not the admin links from MiniMeta Widget"
+msgstr "Benutze das WP Admin Links Plugin und nicht die admin Links vom MiniMeta Widget"
+
+#: MiniMeta.php:252
+msgid "Use WP Admin Links Plugin"
+msgstr "Benutze WP Admin Links"
+
