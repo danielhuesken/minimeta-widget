@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
 Author: Daniel H&uuml;sken
-Version: 2.7.1
+Version: 3.0.0
 Author URI: http://danielhuesken.de
 */
 
@@ -57,6 +57,8 @@ Change log:
    Version 2.7.1    Grammer fixes (thx Joe)
                              Updatet German Localisation (thx Joe)
                              readded link to Your Profile
+   Version 3.0.0    Better support for K2 SBM
+                           Plasing the widget up to 9 times
 */
 
 
@@ -71,65 +73,56 @@ function widget_minnimeta_init() {
 	if ( !function_exists('register_sidebar_widget') )
 		return;
     
-    //copy action login_head to wp-head if login form enabeld for plugin hooks
-	function login_head_to_wp_head() {
-        //defaults only for login form
-        $options= array('login'=>'link');
-        //load options
-        $getoptions = get_option('widget_minimeta');
-        //overwrite def. options with loadet options
-        if(is_array($getoptions)) $options=array_merge($options, $getoptions);
-        if($options['login']=='form') do_action('login_head');
-    }
-    add_action('wp_head', 'login_head_to_wp_head');
-    
-    function widget_minimeta($args) {
+    function widget_minimeta($args,$number=1) {
         global $user_identity;	
-
         //defaults
-        $options= array('login'=>'link','logout' =>'1','profilelinkadmin' => '0','registerlink' =>'1','seiteadmin' =>'1','rememberme' =>'1',
+        $options[$number]= array('login'=>'link','logout' =>'1','profilelinkadmin' => '0','registerlink' =>'1','seiteadmin' =>'1','rememberme' =>'1',
                         'rsslink' =>'1','rsscommentlink' =>'1','wordpresslink' =>'1','lostpwlink' =>'','newpostslink' =>'',
                         'newpageslink' =>'','commentsadminlink' =>'','pluginsadminlink' =>'','usersadminlink' =>'',
                         'showadminhierarchy' =>'','showwpmeta' =>'1','displayidentity'=>'','usewpadminlinks'=>'');
         //load options
-        $getoptions = get_option('widget_minimeta');
+        if (K2_USING_SBM) {
+         $getoptions = sbm_get_option('widget_minimeta');
+        } else {
+         $getoptions = get_option('widget_minimeta');
+        }
         //overwrite def. options with loadet options
-        if(is_array($getoptions)) $options=array_merge($options, $getoptions);
+        $options[$number]=array_merge($options[$number], (array)$getoptions[$number]);
         //Show a standart Title if empty
-        if (empty($options['title'])) $options['title']=__('Meta');
+        if (empty($options[$number]['title'])) $options[$number]['title']=__('Meta');
         //title compatibility for SBM
-        if (!empty($args['title'])) $options['title']=$args['title'];
+        if (!empty($args['title'])) $options[$number]['title']=$args['title'];
 
 		//Shown part of Widget
         echo $args["before_widget"];
         if(is_user_logged_in()) {
-            if ($options['displayidentity'] and !empty($user_identity)) $options['title']=$user_identity;
-            if($options['profilelink'] and current_user_can('read')) {
-                echo $args['before_title'] ."<a href=\"".get_bloginfo('wpurl')."/wp-admin/profile.php\" title=\"".__('Your Profile')."\">". $options['title'] ."</a>". $args['after_title']; 
+            if ($options[$number]['displayidentity'] and !empty($user_identity)) $options[$number]['title']=$user_identity;
+            if($options[$number]['profilelink'] and current_user_can('read')) {
+                echo $args['before_title'] ."<a href=\"".get_bloginfo('wpurl')."/wp-admin/profile.php\" title=\"".__('Your Profile')."\">". $options[$number]['title'] ."</a>". $args['after_title']; 
             } else {
-            echo $args['before_title'] . $options['title'] . $args['after_title']; 
+            echo $args['before_title'] . $options[$number]['title'] . $args['after_title']; 
             }
             //For Wp-Admin Links if supportet
             echo "<ul>";
-            if (function_exists(wp_admin_links) and $options['usewpadminlinks']) { 
+            if (function_exists(wp_admin_links) and $options[$number]['usewpadminlinks']) { 
                 wp_admin_links('','','',true);
             } else  {
-                if($options['seiteadmin']) {wp_register();}
-                    if($options['showadminhierarchy'] and ($options['newpageslink'] or $options['newpostslink'] or $options['profilelink'] or $options['logout'])) echo "<ul class=\"children\">"; 
-                    if($options['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\">".__('Logout')."</a></li>"; 
-                    if($options['profilelinkadmin']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/profile.php\" title=\"".__('Your Profile')."\">".__('Your Profile')."</a></li>"; 
-                    if($options['newpostslink'] and current_user_can('edit_posts')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/post-new.php\" title=\"".__('Write Post')."\">".__('Write Post')."</a></li>";
-                    if($options['newpageslink'] and current_user_can('edit_pages')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/page-new.php\" title=\"".__('Write Page')."\">".__('Write Page')."</a></li>";			
-                        if($options['showadminhierarchy'] and ($options['usersadminlink'] or $options['commentsadminlink'] or $options['pluginsadminlink'])) echo "<ul class=\"children\">";
-                        if($options['usersadminlink'] and current_user_can('edit_users')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/users.php\" title=\"".__('Users')."\">".__('Users')."</a></li>";
-                        if($options['commentsadminlink'] and current_user_can('edit_posts')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/edit-comments.php\" title=\"".__('Comments')."\">".__('Comments')."</a></li>";
-                        if($options['pluginsadminlink'] and current_user_can('activate_plugins')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/plugins.php\" title=\"".__('Plugins')."\">".__('Plugins')."</a></li>";
-                        if($options['showadminhierarchy'] and ($options['usersadminlink'] or $options['commentsadminlink'] or $options['pluginsadminlink'])) echo "</ul>"; 
-                    if($options['showadminhierarchy'] and ($options['newpageslink'] or $options['newpostslink'] or $options['profilelink'] or $options['logout'])) echo "</ul>";
+                if($options[$number]['seiteadmin']) {wp_register();}
+                    if($options[$number]['showadminhierarchy'] and ($options[$number]['newpageslink'] or $options[$number]['newpostslink'] or $options[$number]['profilelink'] or $options[$number]['logout'])) echo "<ul class=\"children\">"; 
+                    if($options[$number]['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\">".__('Logout')."</a></li>"; 
+                    if($options[$number]['profilelinkadmin']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/profile.php\" title=\"".__('Your Profile')."\">".__('Your Profile')."</a></li>"; 
+                    if($options[$number]['newpostslink'] and current_user_can('edit_posts')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/post-new.php\" title=\"".__('Write Post')."\">".__('Write Post')."</a></li>";
+                    if($options[$number]['newpageslink'] and current_user_can('edit_pages')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/page-new.php\" title=\"".__('Write Page')."\">".__('Write Page')."</a></li>";			
+                        if($options[$number]['showadminhierarchy'] and ($options[$number]['usersadminlink'] or $options[$number]['commentsadminlink'] or $options[$number]['pluginsadminlink'])) echo "<ul class=\"children\">";
+                        if($options[$number]['usersadminlink'] and current_user_can('edit_users')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/users.php\" title=\"".__('Users')."\">".__('Users')."</a></li>";
+                        if($options[$number]['commentsadminlink'] and current_user_can('edit_posts')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/edit-comments.php\" title=\"".__('Comments')."\">".__('Comments')."</a></li>";
+                        if($options[$number]['pluginsadminlink'] and current_user_can('activate_plugins')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/plugins.php\" title=\"".__('Plugins')."\">".__('Plugins')."</a></li>";
+                        if($options[$number]['showadminhierarchy'] and ($options[$number]['usersadminlink'] or $options[$number]['commentsadminlink'] or $options[$number]['pluginsadminlink'])) echo "</ul>"; 
+                    if($options[$number]['showadminhierarchy'] and ($options[$number]['newpageslink'] or $options[$number]['newpostslink'] or $options[$number]['profilelink'] or $options[$number]['logout'])) echo "</ul>";
             } 
         } else {
-			echo $args['before_title'] . $options['title']. $args['after_title'];
-            if($options['login']=='form') {?>
+			echo $args['before_title'] . $options[$number]['title']. $args['after_title'];
+            if($options[$number]['login']=='form') {?>
 				<form name="loginform" id="loginform" action="<?php bloginfo('wpurl'); ?>/wp-login.php" method="post">
 					<p>
                         <label><?php _e('Username:') ?><br />
@@ -140,7 +133,7 @@ function widget_minnimeta_init() {
                         <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /></label>
                     </p>
                     <?php do_action('login_form'); ?>
-                    <?php if($options['rememberme']) {?><p><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember me'); ?></label></p><?php } ?>
+                    <?php if($options[$number]['rememberme']) {?><p><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember me'); ?></label></p><?php } ?>
                     <p class="submit">
                         <input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Login'); ?> &raquo;" tabindex="100" />
                         <input type="hidden" name="redirect_to" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
@@ -148,129 +141,202 @@ function widget_minnimeta_init() {
 				</form><?php
 			}
             echo "<ul>";
-			if($options['login']=='link') echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Login')."\">".__('Login')."</a></li>";
-			if($options['lostpwlink']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=lostpassword\" title=\"".__('Password Lost and Found')."\">".__('Lost your password?')."</a></li>";
-			if($options['registerlink']) wp_register();
+			if($options[$number]['login']=='link') echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Login')."\">".__('Login')."</a></li>";
+			if($options[$number]['lostpwlink']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=lostpassword\" title=\"".__('Password Lost and Found')."\">".__('Lost your password?')."</a></li>";
+			if($options[$number]['registerlink']) wp_register();
 		} 
 
-		if($options['rsslink']) echo "<li><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
-		if($options['rsscommentlink']) echo "<li><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
-		if($options['wordpresslink']) echo "<li><a href=\"http://wordpress.org/\" title=\"".attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.'))."\">WordPress.org</a></li>";
-		if($options['showwpmeta']) wp_meta();
+		if($options[$number]['rsslink']) echo "<li><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		if($options[$number]['rsscommentlink']) echo "<li><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		if($options[$number]['wordpresslink']) echo "<li><a href=\"http://wordpress.org/\" title=\"".attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.'))."\">WordPress.org</a></li>";
+		if($options[$number]['showwpmeta']) wp_meta();
 		echo "</ul>";
 		echo $args['after_widget'];
 	}
 			
-	function widget_minimeta_control() {
+	function widget_minimeta_control($number=1) {
 		//load options
-        $options = $newoptions = get_option('widget_minimeta');
+        if (K2_USING_SBM) {
+         $options = $newoptions = sbm_get_option('widget_minimeta');
+        } else {
+         $options = $newoptions = get_option('widget_minimeta');
+        }
         //get post options
-		if ( $_POST["minimeta-submit"] ) {
-			$newoptions['title'] = strip_tags(stripslashes($_POST["minimeta-title"]));
-			$newoptions['login'] = strip_tags(stripslashes($_POST['minimeta-login']));
-			$newoptions['logout'] = isset($_POST['minimeta-logout']);
-            $newoptions['registerlink'] = isset($_POST['minimeta-registerlink']);
-            $newoptions['seiteadmin'] = isset($_POST['minimeta-seiteadmin']);
-			$newoptions['rememberme'] = isset($_POST['minimeta-rememberme']);
-			$newoptions['rsslink'] = isset($_POST['minimeta-rsslink']);
-			$newoptions['rsscommentlink'] = isset($_POST['minimeta-rsscommentlink']);
-			$newoptions['wordpresslink'] = isset($_POST['minimeta-wordpresslink']);
-			$newoptions['lostpwlink'] = isset($_POST['minimeta-lostpwlink']);
-			$newoptions['newpostslink'] = isset($_POST['minimeta-newpostslink']);
-			$newoptions['newpageslink'] = isset($_POST['minimeta-newpageslink']);
-            $newoptions['pluginsadminlink'] = isset($_POST['minimeta-pluginsadminlink']);
-            $newoptions['commentsadminlink'] = isset($_POST['minimeta-commentsadminlink']);
-            $newoptions['usersadminlink'] = isset($_POST['minimeta-usersadminlink']);
-			$newoptions['profilelink'] = isset($_POST['minimeta-profilelink']);
-            $newoptions['profilelinkadmin'] = isset($_POST['minimeta-profilelinkadmin']);
-			$newoptions['showadminhierarchy'] = isset($_POST['minimeta-showadminhierarchy']);
-            $newoptions['showwpmeta'] = isset($_POST['minimeta-showwpmeta']);
-            $newoptions['displayidentity'] = isset($_POST['minimeta-displayidentity']);
-            $newoptions['usewpadminlinks'] = isset($_POST['minimeta-usewpadminlinks']);
+		if ( $_POST['minimeta-submit-'.$number] ) {
+            $newoptions[$number]['title'] = strip_tags(stripslashes($_POST['minimeta-title-'.$number]));
+			$newoptions[$number]['login'] = strip_tags(stripslashes($_POST['minimeta-login-'.$number]));
+			$newoptions[$number]['logout'] = isset($_POST['minimeta-logout-'.$number]);
+            $newoptions[$number]['registerlink'] = isset($_POST['minimeta-registerlink-'.$number]);
+            $newoptions[$number]['seiteadmin'] = isset($_POST['minimeta-seiteadmin-'.$number]);
+			$newoptions[$number]['rememberme'] = isset($_POST['minimeta-rememberme-'.$number]);
+			$newoptions[$number]['rsslink'] = isset($_POST['minimeta-rsslink-'.$number]);
+			$newoptions[$number]['rsscommentlink'] = isset($_POST['minimeta-rsscommentlink-'.$number]);
+			$newoptions[$number]['wordpresslink'] = isset($_POST['minimeta-wordpresslink-'.$number]);
+			$newoptions[$number]['lostpwlink'] = isset($_POST['minimeta-lostpwlink-'.$number]);
+			$newoptions[$number]['newpostslink'] = isset($_POST['minimeta-newpostslink-'.$number]);
+			$newoptions[$number]['newpageslink'] = isset($_POST['minimeta-newpageslink-'.$number]);
+            $newoptions[$number]['pluginsadminlink'] = isset($_POST['minimeta-pluginsadminlink-'.$number]);
+            $newoptions[$number]['commentsadminlink'] = isset($_POST['minimeta-commentsadminlink-'.$number]);
+            $newoptions[$number]['usersadminlink'] = isset($_POST['minimeta-usersadminlink-'.$number]);
+			$newoptions[$number]['profilelink'] = isset($_POST['minimeta-profilelink-'.$number]);
+            $newoptions[$number]['profilelinkadmin'] = isset($_POST['minimeta-profilelinkadmin-'.$number]);
+			$newoptions[$number]['showadminhierarchy'] = isset($_POST['minimeta-showadminhierarchy-'.$number]);
+            $newoptions[$number]['showwpmeta'] = isset($_POST['minimeta-showwpmeta-'.$number]);
+            $newoptions[$number]['displayidentity'] = isset($_POST['minimeta-displayidentity-'.$number]);
+            $newoptions[$number]['usewpadminlinks'] = isset($_POST['minimeta-usewpadminlinks-'.$number]);         
 		}
 		//safe options only when changed
         if ( $options != $newoptions ) {
 			$options = $newoptions;
-			update_option('widget_minimeta', $options);
+            if (K2_USING_SBM) {
+             sbm_update_option('widget_minimeta', $options);
+            } else {
+             update_option('widget_minimeta', $options);
+            }
 		}
 		//def. options
-        $checkoptions= array('title'=>__('Meta'),'loginLink'=>'checked="checked"','loginForm'=>'','loginOff'=>'','logout' =>'checked="checked"','registerlink' =>'checked="checked"','seiteadmin' =>'checked="checked"','rememberme' =>'checked="checked"',
+        $checkoptions[$number]= array('title'=>__('Meta'),'loginLink'=>'checked="checked"','loginForm'=>'','loginOff'=>'','logout' =>'checked="checked"','registerlink' =>'checked="checked"','seiteadmin' =>'checked="checked"','rememberme' =>'checked="checked"',
                 'rsslink' =>'checked="checked"','rsscommentlink' =>'checked="checked"','wordpresslink' =>'checked="checked"','lostpwlink' =>'','newpostslink' =>'',
                 'newpageslink' =>'','commentsadminlink' =>'','pluginsadminlink' =>'','usersadminlink' =>'','profilelinkadmin' => '',
                 'showadminhierarchy' =>'','showwpmeta' =>'checked="checked"','displayidentity'=>'','usewpadminlinks'=>'');
 
 		//set checked for aktivatet options
-		$checkoptions['title'] = attribute_escape($options['title']);
-		if (isset($options['login'])) { 
-			$checkoptions['login'] = htmlspecialchars($options['login'], ENT_QUOTES);
-			$checkoptions['loginLink'] = $checkoptions['login'] == 'link' ? 'checked="checked"' : '';
-			$checkoptions['loginForm'] = $checkoptions['login'] == 'form' ? 'checked="checked"' : '';
-			$checkoptions['loginOff'] = $checkoptions['login'] == 'off' ? 'checked="checked"' : '';
+		if (!K2_USING_SBM) $checkoptions[$number]['title'] = attribute_escape($options[$number]['title']);
+		if (isset($options[$number]['login'])) { 
+			$checkoptions[$number]['login'] = htmlspecialchars($options[$number]['login'], ENT_QUOTES);
+			$checkoptions[$number]['loginLink'] = $checkoptions[$number]['login'] == 'link' ? 'checked="checked"' : '';
+			$checkoptions[$number]['loginForm'] = $checkoptions[$number]['login'] == 'form' ? 'checked="checked"' : '';
+			$checkoptions[$number]['loginOff'] = $checkoptions[$number]['login'] == 'off' ? 'checked="checked"' : '';
 		} 
-		if (isset($options['logout'])) $checkoptions['logout'] = $options['logout'] ? 'checked="checked"' : '';
-        if (isset($options['registerlink'])) $checkoptions['registerlink'] = $options['registerlink'] ? 'checked="checked"' : '';
-        if (isset($options['seiteadmin'])) $checkoptions['seiteadmin'] = $options['seiteadmin'] ? 'checked="checked"' : '';
-		if (isset($options['rememberme'])) $checkoptions['rememberme'] = $options['rememberme'] ? 'checked="checked"' : '';
-		if (isset($options['rsslink'])) $checkoptions['rsslink'] = $options['rsslink'] ? 'checked="checked"' : '';
-		if (isset($options['rsscommentlink'])) $checkoptions['rsscommentlink'] = $options['rsscommentlink'] ? 'checked="checked"' : '';
-		if (isset($options['wordpresslink'])) $checkoptions['wordpresslink'] = $options['wordpresslink'] ? 'checked="checked"' : '';
-		if (isset($options['lostpwlink'])) $checkoptions['lostpwlink'] = $options['lostpwlink'] ? 'checked="checked"' : '';
-		if (isset($options['newpostslink'])) $checkoptions['newpostslink'] = $options['newpostslink'] ? 'checked="checked"' : '';
-		if (isset($options['newpageslink'])) $checkoptions['newpageslink'] = $options['newpageslink'] ? 'checked="checked"' : '';
-        if (isset($options['pluginsadminlink'])) $checkoptions['pluginsadminlink'] = $options['pluginsadminlink'] ? 'checked="checked"' : '';
-        if (isset($options['commentsadminlink'])) $checkoptions['commentsadminlink'] = $options['commentsadminlink'] ? 'checked="checked"' : '';
-        if (isset($options['usersadminlink'])) $checkoptions['usersadminlink'] = $options['usersadminlink'] ? 'checked="checked"' : '';
-		if (isset($options['profilelink'])) $checkoptions['profilelink']= $options['profilelink'] ? 'checked="checked"' : '';
-        if (isset($options['profilelinkadmin'])) $checkoptions['profilelinkadmin']= $options['profilelinkadmin'] ? 'checked="checked"' : '';
-		if (isset($options['showadminhierarchy'])) $checkoptions['showadminhierarchy'] = $options['showadminhierarchy'] ? 'checked="checked"' : '';
-        if (isset($options['showwpmeta'])) $checkoptions['showwpmeta'] = $options['showwpmeta'] ? 'checked="checked"' : '';
-        if (isset($options['displayidentity'])) $checkoptions['displayidentity'] = $options['displayidentity'] ? 'checked="checked"' : '';
-        if (isset($options['usewpadminlinks'])) $checkoptions['usewpadminlinks'] = $options['usewpadminlinks'] ? 'checked="checked"' : '';
+		if (isset($options[$number]['logout'])) $checkoptions[$number]['logout'] = $options[$number]['logout'] ? 'checked="checked"' : '';
+        if (isset($options[$number]['registerlink'])) $checkoptions[$number]['registerlink'] = $options[$number]['registerlink'] ? 'checked="checked"' : '';
+        if (isset($options[$number]['seiteadmin'])) $checkoptions[$number]['seiteadmin'] = $options[$number]['seiteadmin'] ? 'checked="checked"' : '';
+		if (isset($options[$number]['rememberme'])) $checkoptions[$number]['rememberme'] = $options[$number]['rememberme'] ? 'checked="checked"' : '';
+		if (isset($options[$number]['rsslink'])) $checkoptions[$number]['rsslink'] = $options[$number]['rsslink'] ? 'checked="checked"' : '';
+		if (isset($options[$number]['rsscommentlink'])) $checkoptions[$number]['rsscommentlink'] = $options[$number]['rsscommentlink'] ? 'checked="checked"' : '';
+		if (isset($options[$number]['wordpresslink'])) $checkoptions[$number]['wordpresslink'] = $options[$number]['wordpresslink'] ? 'checked="checked"' : '';
+		if (isset($options[$number]['lostpwlink'])) $checkoptions[$number]['lostpwlink'] = $options[$number]['lostpwlink'] ? 'checked="checked"' : '';
+		if (isset($options[$number]['newpostslink'])) $checkoptions[$number]['newpostslink'] = $options[$number]['newpostslink'] ? 'checked="checked"' : '';
+		if (isset($options[$number]['newpageslink'])) $checkoptions[$number]['newpageslink'] = $options[$number]['newpageslink'] ? 'checked="checked"' : '';
+        if (isset($options[$number]['pluginsadminlink'])) $checkoptions[$number]['pluginsadminlink'] = $options[$number]['pluginsadminlink'] ? 'checked="checked"' : '';
+        if (isset($options[$number]['commentsadminlink'])) $checkoptions[$number]['commentsadminlink'] = $options[$number]['commentsadminlink'] ? 'checked="checked"' : '';
+        if (isset($options[$number]['usersadminlink'])) $checkoptions[$number]['usersadminlink'] = $options[$number]['usersadminlink'] ? 'checked="checked"' : '';
+		if (isset($options[$number]['profilelink'])) $checkoptions[$number]['profilelink']= $options[$number]['profilelink'] ? 'checked="checked"' : '';
+        if (isset($options[$number]['profilelinkadmin'])) $checkoptions[$number]['profilelinkadmin']= $options[$number]['profilelinkadmin'] ? 'checked="checked"' : '';
+		if (isset($options[$number]['showadminhierarchy'])) $checkoptions[$number]['showadminhierarchy'] = $options[$number]['showadminhierarchy'] ? 'checked="checked"' : '';
+        if (isset($options[$number]['showwpmeta'])) $checkoptions[$number]['showwpmeta'] = $options[$number]['showwpmeta'] ? 'checked="checked"' : '';
+        if (isset($options[$number]['displayidentity'])) $checkoptions[$number]['displayidentity'] = $options[$number]['displayidentity'] ? 'checked="checked"' : '';
+        if (isset($options[$number]['usewpadminlinks'])) $checkoptions[$number]['usewpadminlinks'] = $options[$number]['usewpadminlinks'] ? 'checked="checked"' : '';
 		
 		//displaying options
-		if (!class_exists('K2SBM') and !class_exists('SBM')) {?><p><label for="minimeta-title"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title" name="minimeta-title" type="text" value="<?php echo $checkoptions['title']; ?>" /></label></p><?php } ?>
+		if (!K2_USING_SBM) {?><p><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title-<?php echo $number; ?>" name="minimeta-title-<?php echo $number; ?>" type="text" value="<?php echo $checkoptions[$number]['title']; ?>" /></label></p><?php } ?>
 		<table style="width:100%;border:none"><tr><td valign="top" style="text-align:left;">
         <span style="font-weight:bold;"><?php _e('Show when logget out:','MiniMetaWidget');?></span><br />
-         <label for="minimeta-login"><?php _e('Login Type:','MiniMetaWidget');?><br /><input type="radio" name="minimeta-login" id="minimeta-login-link" value="link" <?php echo $checkoptions['loginLink']; ?> />&nbsp;<?php _e('Link','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login" id="minimeta-login-form" value="form" <?php echo $checkoptions['loginForm']; ?> />&nbsp;<?php _e('Form','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login" id="minimeta-login-off" value="off" <?php echo $checkoptions['loginOff']; ?> />&nbsp;<?php _e('Off','MiniMetaWidget');?>&nbsp</label><br />
-         <label for="minimeta-rememberme"><input class="checkbox" type="checkbox" <?php echo $checkoptions['rememberme']; ?> id="minimeta-rememberme" name="minimeta-rememberme" />&nbsp;<?php _e('Remember me');?></label><br />
-		 <label for="minimeta-lostpwlink"><input class="checkbox" type="checkbox" <?php echo $checkoptions['lostpwlink']; ?> id="minimeta-lostpwlink" name="minimeta-lostpwlink" />&nbsp;<?php _e('Lost your password?');?></label><br />
-		 <label for="minimeta-registerlink"><input class="checkbox" type="checkbox" <?php echo $checkoptions['registerlink']; ?> id="minimeta-registerlink" name="minimeta-registerlink" />&nbsp;<?php _e('Register');?></label><br />
+         <label for="minimeta-login-<?php echo $number; ?>"><?php _e('Login Type:','MiniMetaWidget');?><br /><input type="radio" name="minimeta-login-<?php echo $number; ?>" id="minimeta-login-link-<?php echo $number; ?>" value="link" <?php echo $checkoptions[$number]['loginLink']; ?> />&nbsp;<?php _e('Link','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login-<?php echo $number; ?>" id="minimeta-login-form-<?php echo $number; ?>" value="form" <?php echo $checkoptions[$number]['loginForm']; ?> />&nbsp;<?php _e('Form','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login-<?php echo $number; ?>" id="minimeta-login-off-<?php echo $number; ?>" value="off" <?php echo $checkoptions[$number]['loginOff']; ?> />&nbsp;<?php _e('Off','MiniMetaWidget');?>&nbsp</label><br />
+         <label for="minimeta-rememberme-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['rememberme']; ?> id="minimeta-rememberme-<?php echo $number; ?>" name="minimeta-rememberme-<?php echo $number; ?>" />&nbsp;<?php _e('Remember me');?></label><br />
+		 <label for="minimeta-lostpwlink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['lostpwlink']; ?> id="minimeta-lostpwlink-<?php echo $number; ?>" name="minimeta-lostpwlink-<?php echo $number; ?>" />&nbsp;<?php _e('Lost your password?');?></label><br />
+		 <label for="minimeta-registerlink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['registerlink']; ?> id="minimeta-registerlink-<?php echo $number; ?>" name="minimeta-registerlink-<?php echo $number; ?>" />&nbsp;<?php _e('Register');?></label><br />
         <br />
         <span style="font-weight:bold;"><?php _e('Show allways:','MiniMetaWidget');?></span><br />
-		 <label for="minimeta-rsslink"><input class="checkbox" type="checkbox" <?php echo $checkoptions['rsslink']; ?> id="minimeta-rsslink" name="minimeta-rsslink" />&nbsp;<?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>');?></label><br />
-		 <label for="minimeta-rsscommentlink"><input class="checkbox" type="checkbox" <?php echo $checkoptions['rsscommentlink']; ?> id="minimeta-rsscommentlink" name="minimeta-rsscommentlink" />&nbsp;<?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>');?></label><br />
-		 <label for="minimeta-wordpresslink"><input class="checkbox" type="checkbox" <?php echo $checkoptions['wordpresslink']; ?> id="minimeta-wordpresslink" name="minimeta-wordpresslink" />&nbsp;<?php _e('Link to WordPress.org','MiniMetaWidget');?></label><br />
-		 <label for="minimeta-showwpmeta"><input class="checkbox" type="checkbox" <?php echo $checkoptions['showwpmeta']; ?> id="minimeta-showwpmeta" name="minimeta-showwpmeta" />&nbsp;<?php _e('wp_meta Plugin hooks','MiniMetaWidget');?></label><br />
+		 <label for="minimeta-rsslink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['rsslink']; ?> id="minimeta-rsslink-<?php echo $number; ?>" name="minimeta-rsslink-<?php echo $number; ?>" />&nbsp;<?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>');?></label><br />
+		 <label for="minimeta-rsscommentlink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['rsscommentlink']; ?> id="minimeta-rsscommentlink-<?php echo $number; ?>" name="minimeta-rsscommentlink-<?php echo $number; ?>" />&nbsp;<?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>');?></label><br />
+		 <label for="minimeta-wordpresslink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['wordpresslink']; ?> id="minimeta-wordpresslink-<?php echo $number; ?>" name="minimeta-wordpresslink-<?php echo $number; ?>" />&nbsp;<?php _e('Link to WordPress.org','MiniMetaWidget');?></label><br />
+		 <label for="minimeta-showwpmeta-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['showwpmeta']; ?> id="minimeta-showwpmeta-<?php echo $number; ?>" name="minimeta-showwpmeta-<?php echo $number; ?>" />&nbsp;<?php _e('wp_meta Plugin hooks','MiniMetaWidget');?></label><br />
         </td><td style="text-align:right;">
         <span style="font-weight:bold;"><?php _e('Show when logget in:','MiniMetaWidget');?></span><br />
-         <label for="minimeta-logout"><?php _e('Logout');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['logout']; ?> id="minimeta-logout" name="minimeta-logout" /></label><br />
-         <label for="minimeta-seiteadmin"><?php _e('Site Admin');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['seiteadmin']; ?> id="minimeta-seiteadmin" name="minimeta-seiteadmin" /></label><br />
-		 <label for="minimeta-displayidentity"><?php _e('Disply user Identity as title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['displayidentity']; ?> id="minimeta-displayidentity" name="minimeta-displayidentity" /></label><br />
-         <label for="minimeta-profilelink"><?php _e('Link to Your Profile in title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['profilelink']; ?> id="minimeta-profilelink" name="minimeta-profilelink" /></label><br />
+         <label for="minimeta-logout-<?php echo $number; ?>"><?php _e('Logout');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['logout']; ?> id="minimeta-logout-<?php echo $number; ?>" name="minimeta-logout-<?php echo $number; ?>" /></label><br />
+         <label for="minimeta-profilelinkadmin-<?php echo $number; ?>"><?php _e('Your Profile');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['profilelinkadmin']; ?> id="minimeta-profilelinkadmin-<?php echo $number; ?>" name="minimeta-profilelinkadmin-<?php echo $number; ?>" /></label><br />
+         <label for="minimeta-seiteadmin-<?php echo $number; ?>"><?php _e('Site Admin');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['seiteadmin']; ?> id="minimeta-seiteadmin-<?php echo $number; ?>" name="minimeta-seiteadmin-<?php echo $number; ?>" /></label><br />
+		 <label for="minimeta-displayidentity-<?php echo $number; ?>"><?php _e('Disply user Identity as title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['displayidentity']; ?> id="minimeta-displayidentity-<?php echo $number; ?>" name="minimeta-displayidentity-<?php echo $number; ?>" /></label><br />
+         <label for="minimeta-profilelink-<?php echo $number; ?>"><?php _e('Link to Your Profile in title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['profilelink']; ?> id="minimeta-profilelink-<?php echo $number; ?>" name="minimeta-profilelink-<?php echo $number; ?>" /></label><br />
          <span style="font-style:italic;"><?php _e('Admin Tools:','MiniMetaWidget');?></span><br />
          <?PHP if (function_exists(wp_admin_links)) { ?>
-          <label for="minimeta-usewpadminlinks" title="<?php _e('Use WP Admin Links Plugin and not the admin links from MiniMeta Widget','MiniMetaWidget');?>"><?php _e('Use WP Admin Links Plugin','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['usewpadminlinks']; ?> id="minimeta-usewpadminlinks" name="minimeta-usewpadminlinks" /></label><br />
+          <label for="minimeta-usewpadminlinks-<?php echo $number; ?>" title="<?php _e('Use WP Admin Links Plugin and not the admin links from MiniMeta Widget','MiniMetaWidget');?>"><?php _e('Use WP Admin Links Plugin','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['usewpadminlinks']; ?> id="minimeta-usewpadminlinks-<?php echo $number; ?>" name="minimeta-usewpadminlinks-<?php echo $number; ?>" /></label><br />
          <?PHP } ?>
-         <label for="minimeta-showadminhierarchy"><?php _e('Make admin tools hierarchy','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['showadminhierarchy']; ?> id="minimeta-showadminhierarchy" name="minimeta-showadminhierarchy" /></label><br />
-         <label for="minimeta-profilelinkadmin"><?php _e('Your Profile');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['profilelinkadmin']; ?> id="minimeta-profilelinkadmin" name="minimeta-profilelinkadmin" /></label><br />
-         <label for="minimeta-newpostslink"><?php _e('Write Post');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['newpostslink']; ?> id="minimeta-newpostslink" name="minimeta-newpostslink" /></label><br />
-		 <label for="minimeta-newpageslink"><?php _e('Write Page');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['newpageslink']; ?> id="minimeta-newpageslink" name="minimeta-newpageslink" /></label><br />
-         <label for="minimeta-pluginsadminlink"><?php _e('Plugins');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['pluginsadminlink']; ?> id="minimeta-pluginsadminlink" name="minimeta-pluginsadminlink" /></label><br />
-         <label for="minimeta-commentsadminlink"><?php _e('Comments');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['commentsadminlink']; ?> id="minimeta-commentsadminlink" name="minimeta-commentsadminlink" /></label><br />
-         <label for="minimeta-usersadminlink"><?php _e('Users');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions['usersadminlink']; ?> id="minimeta-usersadminlink" name="minimeta-usersadminlink" /></label><br />
+         <label for="minimeta-showadminhierarchy-<?php echo $number; ?>"><?php _e('Make admin tools hierarchy','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['showadminhierarchy']; ?> id="minimeta-showadminhierarchy-<?php echo $number; ?>" name="minimeta-showadminhierarchy-<?php echo $number; ?>" /></label><br />
+         <label for="minimeta-newpostslink-<?php echo $number; ?>"><?php _e('Write Post');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['newpostslink']; ?> id="minimeta-newpostslink-<?php echo $number; ?>" name="minimeta-newpostslink-<?php echo $number; ?>" /></label><br />
+		 <label for="minimeta-newpageslink-<?php echo $number; ?>"><?php _e('Write Page');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['newpageslink']; ?> id="minimeta-newpageslink-<?php echo $number; ?>" name="minimeta-newpageslink-<?php echo $number; ?>" /></label><br />
+         <label for="minimeta-pluginsadminlink-<?php echo $number; ?>"><?php _e('Plugins');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['pluginsadminlink']; ?> id="minimeta-pluginsadminlink-<?php echo $number; ?>" name="minimeta-pluginsadminlink-<?php echo $number; ?>" /></label><br />
+         <label for="minimeta-commentsadminlink-<?php echo $number; ?>"><?php _e('Comments');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['commentsadminlink']; ?> id="minimeta-commentsadminlink-<?php echo $number; ?>" name="minimeta-commentsadminlink-<?php echo $number; ?>" /></label><br />
+         <label for="minimeta-usersadminlink-<?php echo $number; ?>"><?php _e('Users');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['usersadminlink']; ?> id="minimeta-usersadminlink-<?php echo $number; ?>" name="minimeta-usersadminlink-<?php echo $number; ?>" /></label><br />
         </td></tr></table>
-        <input type="hidden" id="minimeta-submit" name="minimeta-submit" value="1" />
+        <?PHP if (!K2_USING_SBM) {?><input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="minimeta-submit-<?php echo $number; ?>" value="1" /><?php } ?>
 		<?php
 	}
 	
-	// This registers our widget so it appears with the other available
-	// widgets and can be dragged and dropped into any active sidebars.
-	register_sidebar_widget('MiniMeta Widget', 'widget_minimeta');
-
-	// This registers our optional widget control form. Because of this
-	// our widget will have a button that reveals a 400x390 pixel form.
-	register_widget_control('MiniMeta Widget', 'widget_minimeta_control', 380, 270);
     
+    function widget_minimeta_setup() {
+        $options = $newoptions = get_option('widget_minimeta');
+        if ( isset($_POST['minimeta-number-submit']) ) {
+            $number = (int) $_POST['minimeta-number'];
+            if ( $number > 9 ) $number = 9;
+            if ( $number < 1 ) $number = 1;
+            $newoptions['number'] = $number;
+        }
+        if ( $options != $newoptions ) {
+            $options = $newoptions;
+            update_option('widget_minimeta', $options);
+            widget_minimeta_register();
+        }
+    }
+    
+    
+    function widget_minimeta_page() {
+        $options = $newoptions = get_option('widget_minimeta');
+        ?>
+        <div class="wrap">
+            <form method="POST">
+                <h2>MiniMeta Widgets</h2>
+                <p style="line-height: 30px;"><?php _e('How many MiniMeta widgets would you like?','MiniMetaWidget'); ?>
+                <select id="minimeta-number" name="minimeta-number" value="<?php echo $options['number']; ?>">
+                <?php for ( $i = 1; $i < 10; ++$i ) echo "<option value='$i' ".($options['number']==$i ? "selected='selected'" : '').">$i</option>"; ?>
+                </select>
+                <span class="submit"><input type="submit" name="minimeta-number-submit" id="minimeta-number-submit" value="<?php _e('Save'); ?>" /></span></p>
+            </form>
+        </div>
+        <?php
+    }   
+    
+    //copy action login_head to wp-head if login form enabeld for plugin hooks
+	function widget_minimeta_login_head_to_wp_head() {
+        //load options
+        if (K2_USING_SBM) {
+         $options = sbm_get_option('widget_minimeta');
+        } else {
+         $options = get_option('widget_minimeta');
+        }
+        //do action from login had
+        if($options[1]['login']=='form' or $options[2]['login']=='form' or $options[3]['login']=='form' or
+           $options[4]['login']=='form' or $options[5]['login']=='form' or $options[6]['login']=='form' or
+           $options[7]['login']=='form' or $options[8]['login']=='form' or $options[9]['login']=='form') {
+          do_action('login_head');
+        }
+    }
+    
+    
+    function widget_minimeta_register() { 
+ 	 // This registers our widget and  widget control form for K2 SBM Widgets
+	 if (K2_USING_SBM) {
+      register_sidebar_module('MiniMeta Widget', 'widget_minimeta');
+      register_sidebar_module_control('MiniMeta Widget', 'widget_minimeta_control');
+     } else { // This registers our widget and  widget control form for WordPress Widgets
+      $options = get_option('widget_minimeta');
+	  $number = $options['number'];
+	  if ( $number < 1 ) $number = 1;
+	  if ( $number > 9 ) $number = 9;
+	  for ($i = 1; $i <= 9; $i++) {
+		$name = array('MiniMeta Widget %s', null, $i);
+		register_sidebar_widget($name, $i <= $number ? 'widget_minimeta' : /* unregister */ '', $i);
+		register_widget_control($name, $i <= $number ? 'widget_minimeta_control' : /* unregister */ '', 400, 280, $i);
+	  }
+	  add_action('sidebar_admin_setup', 'widget_minimeta_setup');
+	  add_action('sidebar_admin_page', 'widget_minimeta_page');
+     }
+     add_action('wp_head', 'widget_minimeta_login_head_to_wp_head');
+    }
+    
+    
+ widget_minimeta_register();
 }
 add_action('init', 'widget_minnimeta_init');
 
@@ -282,7 +348,11 @@ add_action('init', 'widget_minnimeta_init');
 * Delete all Options
 */
 function widget_minnimeta_deactivate() {
-	delete_option('widget_minimeta');
+	if (K2_USING_SBM) {
+     sbm_delete_option('widget_minimeta');
+    } else {
+     delete_option('widget_minimeta');
+    }
 }
 
 add_action('deactivate_'.dirname(plugin_basename(__FILE__)).'/minimeta-widget.php','widget_minnimeta_deactivate');
