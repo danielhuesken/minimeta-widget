@@ -81,7 +81,7 @@ function widget_minnimeta_init() {
                         'newpageslink' =>'','commentsadminlink' =>'','pluginsadminlink' =>'','usersadminlink' =>'',
                         'showadminhierarchy' =>'','showwpmeta' =>'1','displayidentity'=>'','usewpadminlinks'=>'');
         //load options
-        if (K2_USING_SBM) {
+        if (get_option('k2sidebarmanager') == '1') {
          $getoptions = sbm_get_option('widget_minimeta');
         } else {
          $getoptions = get_option('widget_minimeta');
@@ -156,13 +156,14 @@ function widget_minnimeta_init() {
 			
 	function widget_minimeta_control($number=1) {
 		//load options
-        if (K2_USING_SBM) {
-         $options = $newoptions = sbm_get_option('widget_minimeta');
+        if (get_option('k2sidebarmanager') == '1') {
+         $options[$number] = $newoptions[$number] = sbm_get_option('widget_minimeta');
         } else {
          $options = $newoptions = get_option('widget_minimeta');
         }
+        
         //get post options
-		if ( $_POST['minimeta-submit-'.$number] ) {
+		if ( $_POST['minimeta-submit-'.$number] or $_POST['minimeta-login-'.$number]) {
             $newoptions[$number]['title'] = strip_tags(stripslashes($_POST['minimeta-title-'.$number]));
 			$newoptions[$number]['login'] = strip_tags(stripslashes($_POST['minimeta-login-'.$number]));
 			$newoptions[$number]['logout'] = isset($_POST['minimeta-logout-'.$number]);
@@ -185,15 +186,20 @@ function widget_minnimeta_init() {
             $newoptions[$number]['displayidentity'] = isset($_POST['minimeta-displayidentity-'.$number]);
             $newoptions[$number]['usewpadminlinks'] = isset($_POST['minimeta-usewpadminlinks-'.$number]);         
 		}
-		//safe options only when changed
-        if ( $options != $newoptions ) {
-			$options = $newoptions;
-            if (K2_USING_SBM) {
-             sbm_update_option('widget_minimeta', $options);
-            } else {
-             update_option('widget_minimeta', $options);
-            }
-		}
+       
+		//safe options only when changed 
+        if (get_option('k2sidebarmanager') == '1') {
+         if ( $options[$number] != $newoptions[$number] ) {
+			 $options[$number] = $newoptions[$number];
+             //Update K2 SBM Options
+             sbm_update_option('widget_minimeta', $options[$number]);
+         }
+        } else {
+         if ( $options != $newoptions ) {
+			  $options = $newoptions;
+              update_option('widget_minimeta', $options);
+		 }
+        }
 		//def. options
         $checkoptions[$number]= array('title'=>__('Meta'),'loginLink'=>'checked="checked"','loginForm'=>'','loginOff'=>'','logout' =>'checked="checked"','registerlink' =>'checked="checked"','seiteadmin' =>'checked="checked"','rememberme' =>'checked="checked"',
                 'rsslink' =>'checked="checked"','rsscommentlink' =>'checked="checked"','wordpresslink' =>'checked="checked"','lostpwlink' =>'','newpostslink' =>'',
@@ -229,7 +235,7 @@ function widget_minnimeta_init() {
         if (isset($options[$number]['usewpadminlinks'])) $checkoptions[$number]['usewpadminlinks'] = $options[$number]['usewpadminlinks'] ? 'checked="checked"' : '';
 		
 		//displaying options
-		if (!K2_USING_SBM) {?><p><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title-<?php echo $number; ?>" name="minimeta-title-<?php echo $number; ?>" type="text" value="<?php echo $checkoptions[$number]['title']; ?>" /></label></p><?php } ?>
+		if (get_option('k2sidebarmanager') != '1') {?><p><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title-<?php echo $number; ?>" name="minimeta-title-<?php echo $number; ?>" type="text" value="<?php echo $checkoptions[$number]['title']; ?>" /></label></p><?php } ?>
 		<table style="width:100%;border:none"><tr><td valign="top" style="text-align:left;">
         <span style="font-weight:bold;"><?php _e('Show when logget out:','MiniMetaWidget');?></span><br />
          <label for="minimeta-login-<?php echo $number; ?>"><?php _e('Login Type:','MiniMetaWidget');?><br /><input type="radio" name="minimeta-login-<?php echo $number; ?>" id="minimeta-login-link-<?php echo $number; ?>" value="link" <?php echo $checkoptions[$number]['loginLink']; ?> />&nbsp;<?php _e('Link','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login-<?php echo $number; ?>" id="minimeta-login-form-<?php echo $number; ?>" value="form" <?php echo $checkoptions[$number]['loginForm']; ?> />&nbsp;<?php _e('Form','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login-<?php echo $number; ?>" id="minimeta-login-off-<?php echo $number; ?>" value="off" <?php echo $checkoptions[$number]['loginOff']; ?> />&nbsp;<?php _e('Off','MiniMetaWidget');?>&nbsp</label><br />
@@ -260,7 +266,7 @@ function widget_minnimeta_init() {
          <label for="minimeta-commentsadminlink-<?php echo $number; ?>"><?php _e('Comments');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['commentsadminlink']; ?> id="minimeta-commentsadminlink-<?php echo $number; ?>" name="minimeta-commentsadminlink-<?php echo $number; ?>" /></label><br />
          <label for="minimeta-usersadminlink-<?php echo $number; ?>"><?php _e('Users');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['usersadminlink']; ?> id="minimeta-usersadminlink-<?php echo $number; ?>" name="minimeta-usersadminlink-<?php echo $number; ?>" /></label><br />
         </td></tr></table>
-        <?PHP if (!K2_USING_SBM) {?><input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="minimeta-submit-<?php echo $number; ?>" value="1" /><?php } ?>
+        <?PHP if (get_option('k2sidebarmanager') != '1') {?><input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="minimeta-submit-<?php echo $number; ?>" value="1" /><?php } ?>
 		<?php
 	}
 	
@@ -299,28 +305,28 @@ function widget_minnimeta_init() {
     
     //copy action login_head to wp-head if login form enabeld for plugin hooks
 	function widget_minimeta_login_head_to_wp_head() {
-        //load options
-        if (K2_USING_SBM) {
-         $options = sbm_get_option('widget_minimeta');
+        if (get_option('k2sidebarmanager') == '1') {
+            //can't find out is lofin form active in K2 modules thats why its ollways on.
+            do_action('login_head'); //do action from login had
         } else {
-         $options = get_option('widget_minimeta');
-        }
-        //do action from login had
-        if($options[1]['login']=='form' or $options[2]['login']=='form' or $options[3]['login']=='form' or
-           $options[4]['login']=='form' or $options[5]['login']=='form' or $options[6]['login']=='form' or
-           $options[7]['login']=='form' or $options[8]['login']=='form' or $options[9]['login']=='form') {
-          do_action('login_head');
-        }
+            $options = get_option('widget_minimeta');
+            //find out is a ligon form in any MiniMeta Widegt activatet
+            if($options[1]['login']=='form' or $options[2]['login']=='form' or $options[3]['login']=='form' or
+               $options[4]['login']=='form' or $options[5]['login']=='form' or $options[6]['login']=='form' or
+               $options[7]['login']=='form' or $options[8]['login']=='form' or $options[9]['login']=='form') {
+             do_action('login_head'); //do action from login had
+            }
+        }    
     }
     
     
     function widget_minimeta_register() { 
  	 // This registers our widget and  widget control form for K2 SBM Widgets
-	 if (K2_USING_SBM) {
+	 $options = get_option('widget_minimeta');
+     if (get_option('k2sidebarmanager') == '1') {
       register_sidebar_module('MiniMeta Widget', 'widget_minimeta');
       register_sidebar_module_control('MiniMeta Widget', 'widget_minimeta_control');
      } else { // This registers our widget and  widget control form for WordPress Widgets
-      $options = get_option('widget_minimeta');
 	  $number = $options['number'];
 	  if ( $number < 1 ) $number = 1;
 	  if ( $number > 9 ) $number = 9;
@@ -332,14 +338,13 @@ function widget_minnimeta_init() {
 	  add_action('sidebar_admin_setup', 'widget_minimeta_setup');
 	  add_action('sidebar_admin_page', 'widget_minimeta_page');
      }
-     add_action('wp_head', 'widget_minimeta_login_head_to_wp_head');
+     if (!is_user_logged_in()) add_action('wp_head', 'widget_minimeta_login_head_to_wp_head');
     }
     
     
  widget_minimeta_register();
 }
 add_action('init', 'widget_minnimeta_init');
-
 
 /**
 * Deactivate plugin
@@ -350,9 +355,8 @@ add_action('init', 'widget_minnimeta_init');
 function widget_minnimeta_deactivate() {
 	if (K2_USING_SBM) {
      sbm_delete_option('widget_minimeta');
-    } else {
-     delete_option('widget_minimeta');
-    }
+    } 
+    delete_option('widget_minimeta');
 }
 
 add_action('deactivate_'.dirname(plugin_basename(__FILE__)).'/minimeta-widget.php','widget_minnimeta_deactivate');
