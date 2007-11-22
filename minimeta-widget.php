@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
 Author: Daniel H&uuml;sken
-Version: 3.0.0
+Version: 2.8.0
 Author URI: http://danielhuesken.de
 */
 
@@ -57,7 +57,7 @@ Change log:
    Version 2.7.1    Grammer fixes (thx Joe)
                              Updatet German Localisation (thx Joe)
                              readded link to Your Profile
-   Version 3.0.0    Better support for K2 SBM
+   Version 2.8.0    Better support for K2 SBM
                            Plasing the widget up to 9 times
 */
 
