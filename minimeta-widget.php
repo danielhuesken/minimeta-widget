@@ -73,6 +73,10 @@ function widget_minnimeta_init() {
 	if ( !function_exists('register_sidebar_widget') )
 		return;
     
+    //find out if K2 is activatet and set K2_USING_SBM Konstant
+    if (!defined(K2_CURRENT)) define('K2_USING_SBM',false);
+    
+    
     function widget_minimeta($args,$number=1) {
         global $user_identity;	
         //defaults
@@ -82,7 +86,7 @@ function widget_minnimeta_init() {
                         'showadminhierarchy' =>'','showwpmeta' =>'1','displayidentity'=>'','usewpadminlinks'=>'');
         //load options
         if (K2_USING_SBM) {
-         $getoptions = sbm_get_option('widget_minimeta');
+         $getoptions[$number] = sbm_get_option('widget_minimeta');
         } else {
          $getoptions = get_option('widget_minimeta');
         }
@@ -90,7 +94,7 @@ function widget_minnimeta_init() {
         $options[$number]=array_merge($options[$number], (array)$getoptions[$number]);
         //Show a standart Title if empty
         if (empty($options[$number]['title'])) $options[$number]['title']=__('Meta');
-        //title compatibility for SBM
+        //title compatibility for K2SBM
         if (!empty($args['title'])) $options[$number]['title']=$args['title'];
 
 		//Shown part of Widget
@@ -321,13 +325,14 @@ function widget_minnimeta_init() {
     
     
     function widget_minimeta_register() { 
- 	 // This registers our widget and  widget control form for K2 SBM Widgets
-	 $options = get_option('widget_minimeta');
+ 	 // This registers our widget and  widget control form for K2 SBM
+     
      if (K2_USING_SBM) {
       register_sidebar_module('MiniMeta Widget', 'widget_minimeta');
       register_sidebar_module_control('MiniMeta Widget', 'widget_minimeta_control');
      } else { // This registers our widget and  widget control form for WordPress Widgets
-	  $number = $options['number'];
+	  $options = get_option('widget_minimeta');
+      $number = $options['number'];
 	  if ( $number < 1 ) $number = 1;
 	  if ( $number > 9 ) $number = 9;
 	  for ($i = 1; $i <= 9; $i++) {
