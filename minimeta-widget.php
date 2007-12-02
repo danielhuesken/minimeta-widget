@@ -57,7 +57,7 @@ Change log:
    Version 2.7.1    Grammer fixes (thx Joe)
                              Updatet German Localisation (thx Joe)
                              readded link to Your Profile
-   Version 3.0.0    Better support for K2 SBM
+   Version 3.0.0    Better/full support for K2 SBM
                            Plasing the widget up to 9 times
                            removed WP-Admin Links Plugin Support
                            Integrated owen Admin Links
@@ -83,7 +83,7 @@ function widget_minnimeta_init() {
         global $user_identity,$wpdb;	
         //defaults
         $options[$number]= array('login'=>'link','logout' =>'1','profilelinkadmin' => '0','registerlink' =>'1','seiteadmin' =>'1','rememberme' =>'1',
-                        'rsslink' =>'1','rsscommentlink' =>'1','wordpresslink' =>'1','lostpwlink' =>'','usersadminlink' =>'',
+                        'rsslink' =>'1','rsscommentlink' =>'1','wordpresslink' =>'1','lostpwlink' =>'',
                         'showwpmeta' =>'1','displayidentity'=>'','useselectbox'=>'');
         //load options
         if (K2_USING_SBM) {
@@ -97,7 +97,11 @@ function widget_minnimeta_init() {
         if (empty($options[$number]['title'])) $options[$number]['title']=__('Meta');
         //title compatibility for K2SBM
         if (!empty($args['title'])) $options[$number]['title']=$args['title'];
-
+        
+        //Don´t show Wigit if it hase no links
+        if (!((!is_user_logged_in() and $options[$number]['login']=='off' and !$options[$number]['registerlink'] and !$options[$number]['rememberme'] and !$options[$number]['lostpwlink'] and !$options[$number]['rsslink'] and !$options[$number]['rsscommentlink'] and !$options[$number]['wordpresslink'] and !$options[$number]['showwpmeta']) or
+              (is_user_logged_in() and !$options[$number]['logout'] and !$options[$number]['seiteadmin'] and sizeof($options[$number]['adminlinks'])==0 and !$options[$number]['rsslink'] and !$options[$number]['rsscommentlink'] and !$options[$number]['wordpresslink'] and !$options[$number]['showwpmeta']))) {
+        
 		//Shown part of Widget
         echo $args["before_widget"];
         if(is_user_logged_in()) {
@@ -109,24 +113,22 @@ function widget_minnimeta_init() {
             }
 
             echo "<ul>";
-                if($options[$number]['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\" class=\"logout\" >".__('Logout')."</a></li>"; 
                 if($options[$number]['seiteadmin']) {wp_register();}
+                if($options[$number]['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\" class=\"logout\" >".__('Logout')."</a></li>"; 
                 
-                if (file_exists('adminlinks_user.php')) {
-                 include('adminlinks_user.php');
-                } else {
-                 include('adminlinks_std.php');
-                }
-              
-                if ($options[$number]['useselectbox']) { 
-                 echo "<li><select class=\"admin-links\" tabindex=\"95\" onchange=\"window.location = this.value\"><optgroup label=\"".get_bloginfo('name')."\">";
-                } else {
-                 echo "<ul class=\"children\">";
-                }    
-                foreach ($adminlinks as $menu) {
+                if (sizeof($options[$number]['adminlinks'])>0) { //show only if a Admin Link is selectesd
+                 if (file_exists('adminlinks_user.php')) { //include Admi Links Data
+                  include('adminlinks_user.php');
+                 } else {
+                  include('adminlinks_std.php');
+                 }           
+                 if ($options[$number]['useselectbox']) { 
+                  echo "<li><select class=\"admin-links\" tabindex=\"95\" onchange=\"window.location = this.value\"><option value=\"".get_bloginfo('wpurl')."\">".get_bloginfo('name')."</option>";
+                 }   
+                 foreach ($adminlinks as $menu) {
                   $output="";
                   foreach ($menu as $submenu) {
-                    if(current_user_can($submenu[1]) and is_array($submenu) and in_array($submenu[2],(array)$options[$number]['adminlinks'])) {
+                    if(current_user_can($submenu[1]) and is_array($submenu) and in_array($submenu[2],$options[$number]['adminlinks'])) {
                       if ($options[$number]['useselectbox']) {
                        $output.= "<option value=\"".get_bloginfo('wpurl')."/wp-admin/".$submenu[2]."\">".$submenu[0]."</option>";
                       } else {
@@ -136,17 +138,21 @@ function widget_minnimeta_init() {
                   }
                   if (!empty($output)) {
                    if ($options[$number]['useselectbox']) {
-                    echo "</optgroup><optgroup label=\"".$menu['menu']."\">";
+                    echo "<optgroup label=\"".$menu['menu']."\">";
                    } else {
-                    echo "</ul><li>".$menu['menu']."</li><ul class=\"children\">";
+                    echo "<li>".$menu['menu']."</li><ul class=\"children\">";
                    }
                    echo $output;
+                   if ($options[$number]['useselectbox']) {
+                    echo "</optgroup>";
+                   } else {
+                    echo "</ul>";
+                   }
                   }
-                }
-                if ($options[$number]['useselectbox']) {
-                 echo "</optgroup></select></li>";
-                } else {
-                 echo "</ul>";
+                 }
+                 if ($options[$number]['useselectbox']) {
+                  echo "</optgroup></select></li>";
+                 }
                 }
          } else {
 			echo $args['before_title'] . $options[$number]['title']. $args['after_title'];
@@ -180,6 +186,7 @@ function widget_minnimeta_init() {
 		if($options[$number]['showwpmeta']) wp_meta();
 		echo "</ul>";
 		echo $args['after_widget'];
+        }
 	}
 			
 	function widget_minimeta_control($number=1) {
@@ -207,8 +214,11 @@ function widget_minnimeta_init() {
             $newoptions[$number]['showwpmeta'] = isset($_POST['minimeta-showwpmeta-'.$number]);
             $newoptions[$number]['displayidentity'] = isset($_POST['minimeta-displayidentity-'.$number]);
             $newoptions[$number]['useselectbox'] = isset($_POST['minimeta-useselectbox-'.$number]);
-            for ($i=0;$i<sizeof($_POST['minimeta-adminlinks-'.$number]);$i++) {
-             $newoptions[$number]['adminlinks'][$i] = strip_tags(stripslashes($_POST['minimeta-adminlinks-'.$number][$i]));
+            unset($newoptions[$number]['adminlinks']);
+            if (strip_tags(stripslashes($_POST['minimeta-adminlinks-'.$number][0]))!="none") {
+             for ($i=0;$i<sizeof($_POST['minimeta-adminlinks-'.$number]);$i++) {
+              $newoptions[$number]['adminlinks'][$i] = strip_tags(stripslashes($_POST['minimeta-adminlinks-'.$number][$i]));
+             }
             }
 		}
        
@@ -271,18 +281,23 @@ function widget_minnimeta_init() {
          <label for="minimeta-seiteadmin-<?php echo $number; ?>"><?php _e('Site Admin');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['seiteadmin']; ?> id="minimeta-seiteadmin-<?php echo $number; ?>" name="minimeta-seiteadmin-<?php echo $number; ?>" /></label><br />
 		 <label for="minimeta-displayidentity-<?php echo $number; ?>"><?php _e('Disply user Identity as title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['displayidentity']; ?> id="minimeta-displayidentity-<?php echo $number; ?>" name="minimeta-displayidentity-<?php echo $number; ?>" /></label><br />
          <label for="minimeta-profilelink-<?php echo $number; ?>"><?php _e('Link to Your Profile in title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['profilelink']; ?> id="minimeta-profilelink-<?php echo $number; ?>" name="minimeta-profilelink-<?php echo $number; ?>" /></label><br />
-         <span style="font-style:italic;"><?php _e('Admin Tools:','MiniMetaWidget');?></span><br />
-         <label for="minimeta-useselectbox-<?php echo $number; ?>" title="<?php _e('Use Select Box for Admin Links','MiniMetaWidget');?>"><?php _e('Use Select Box for Admin Links','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['useselectbox']; ?> id="minimeta-useselectbox-<?php echo $number; ?>" name="minimeta-useselectbox-<?php echo $number; ?>" /></label><br />
-         <label for="minimeta-adminlinks-<?php echo $number; ?>" title="<?php _e('Admin Links Selection','MiniMetaWidget');?>"> 
-         <select class="select" type="select" tabindex="95" size="5" name="minimeta-adminlinks-<?php echo $number; ?>[]" id="minimeta-adminlinks-<?php echo $number; ?>" multiple="multiple"><optgroup label="<?php _e('Select Multieble with Strg','MiniMetaWidget');?>">
+         <span style="font-style:italic;"><?php _e('Admin links:','MiniMetaWidget');?></span><br />
+         <label for="minimeta-useselectbox-<?php echo $number; ?>" title="<?php _e('Use Select Box for Admin Links','MiniMetaWidget');?>"><?php _e('Use Select Box','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['useselectbox']; ?> id="minimeta-useselectbox-<?php echo $number; ?>" name="minimeta-useselectbox-<?php echo $number; ?>" /></label><br />
+         <label for="minimeta-adminlinks-<?php echo $number; ?>" title="<?php _e('Admin Links Selection','MiniMetaWidget');?>"><?php _e('Select Admin Links:','MiniMetaWidget');?><br />
+         <select class="select" type="select" tabindex="95" size="7" name="minimeta-adminlinks-<?php echo $number; ?>[]" id="minimeta-adminlinks-<?php echo $number; ?>" multiple="multiple">
          <?PHP
+            if (sizeof($options[$number]['adminlinks'])==0) {
+             echo "<option value=\"none\" selected=\"selected\" style=\"font-style:italic;\">".__('No Admin Links','MiniMetaWidget')."</option>";
+            } else {
+             echo "<option value=\"none\" style=\"font-style:italic;\">".__('No Admin Links','MiniMetaWidget')."</option>";
+            }
             if (file_exists('adminlinks_user.php')) {
              include('adminlinks_user.php');
             } else {
              include('adminlinks_std.php');
             }
             foreach ($adminlinks as $menu) {
-             echo "</optgroup><optgroup label=\"".$menu['menu']."\">";
+             echo "<optgroup label=\"".$menu['menu']."\">";
              foreach ($menu as $submenu) {
               if (is_array($submenu)) {
                $checkoptions[$number]['adminlinks']="";
@@ -290,6 +305,7 @@ function widget_minnimeta_init() {
                echo "<option value=\"".$submenu[2]."\" ".$checkoptions[$number]['adminlinks'].">".$submenu[0]."</option>";
               }
              }
+             echo "</optgroup>";
             }        
         ?>  
          </select></label><br />
@@ -363,7 +379,7 @@ function widget_minnimeta_init() {
 	  for ($i = 1; $i <= 9; $i++) {
 		$name = array('MiniMeta Widget %s', null, $i);
 		register_sidebar_widget($name, $i <= $number ? 'widget_minimeta' : /* unregister */ '', $i);
-		register_widget_control($name, $i <= $number ? 'widget_minimeta_control' : /* unregister */ '', 400, 280, $i);
+		register_widget_control($name, $i <= $number ? 'widget_minimeta_control' : /* unregister */ '', 400, 300, $i);
 	  }
 	  add_action('sidebar_admin_setup', 'widget_minimeta_setup');
 	  add_action('sidebar_admin_page', 'widget_minimeta_page');

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Daniel Hüsken\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-11-04 19:20+0100\n"
+"PO-Revision-Date: 2007-12-02 20:01+0100\n"
 "Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
 "Language-Team: Daniel Hüsken\n"
 "MIME-Version: 1.0\n"
@@ -59,18 +59,26 @@ msgid "Link to Your Profile in title"
 msgstr "Link zu Deinem Profil im Titel"
 
 #: MiniMeta.php:209
-msgid "Admin Tools:"
-msgstr "Admin Tools:"
+msgid "Admin Links:"
+msgstr "Admin Links:"
 
 #: MiniMeta.php:210
-msgid "Make admin tools hierarchy"
-msgstr "Hierachische Admin Tools"
+msgid "Admin Links Selection"
+msgstr "Admin Links Auswahl"
 
 #: MiniMeta.php:252
-msgid "Use WP Admin Links Plugin and not the admin links from MiniMeta Widget"
-msgstr "Benutze das WP Admin Links Plugin und nicht die admin Links vom MiniMeta Widget"
+msgid "Select Admin Links:"
+msgstr "Admin Links auswählen:"
 
 #: MiniMeta.php:252
-msgid "Use WP Admin Links Plugin"
-msgstr "Benutze WP Admin Links"
+msgid "No Admin Links"
+msgstr "Keine Admin Links"
+
+#: MiniMeta.php:252
+msgid "Use Select Box for Admin Links"
+msgstr "Benutze eine auswahl Box für die Admin Links"
+
+#: MiniMeta.php:252
+msgid "Use Select Box"
+msgstr "Benutze Auswahl Box"
 

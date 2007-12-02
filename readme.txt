@@ -6,24 +6,23 @@ Requires at least: 2.2
 Tested up to: 2.3.0
 Stable tag: 2.7.1
 
-Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links.  The Links can alle enabeld or disabeld.
+Mini Verson of the WP Meta Widget with differnt logon types and some additional Admin Links.  The Links can alle enabeld or disabeld.
 
 == Description ==
 
 Mini Verson of the WP Meta Widget
 
 * Diffrent logon types (form,link,none)
-* Uses redirection with logon form
+* Uses redirection for logon/logout 
 * All standart WP Links can enabled/disabled
-* Uses standart WP text for translation
-* Additional admin links
+* Additional Admin Links
 
 == Installation ==
 
 1. Download MiniMeta Widget.
 1. Decompress and upload the contents of the archive into /wp-content/plugins/.
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Use your 'Presentation'|'Sidebar Widgets' settings to drag and configure
+1. Use your 'Presentation'|'Sidebar Widgets' or 'Presentation'|'K2 Seidbar Manager' settings to drag and configure
 
 == Frequently Asked Questions ==
 
@@ -43,9 +42,18 @@ Version 2.7.0 needed:<br />
 
 In the Plugin file are dependings for files where the plugin work. This dependings must be commentet out.
 
+= Can I edit/make Admin Links =
+
+Yes, simply copy the adminlinks_std.php file to adminlinks_user.php and edit it.
+the adminlinks_user.php will not be overweritet on Plugin Updates.
+
+= The widget coud not display =
+
+The Widget would not display if all thinks are disabeld to display when loggt in or off
+
 == Screenshots ==
 
 1. MiniMeta Widget with Login form
-2. Links of MiniMeta Widget when loggt in
+2. Some links of MiniMeta Widget when loggt in
 3. MiniMeta Widget confugration Page
-4. MiniMeta Widget with WP Admin Links Plugin
+4. MiniMeta Widget with Admin Links select box
