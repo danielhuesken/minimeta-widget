@@ -123,7 +123,7 @@ function widget_minnimeta_init() {
                   include('adminlinks_std.php');
                  }           
                  if ($options[$number]['useselectbox']) { 
-                  echo "<li><select class=\"admin-links\" tabindex=\"95\" onchange=\"window.location = this.value\"><option value=\"".get_bloginfo('wpurl')."\">".get_bloginfo('name')."</option>";
+                  echo "<li><select class=\"admin-links\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Pleace select:')."</option>";
                  }   
                  foreach ($adminlinks as $menu) {
                   $output="";
@@ -215,7 +215,7 @@ function widget_minnimeta_init() {
             $newoptions[$number]['displayidentity'] = isset($_POST['minimeta-displayidentity-'.$number]);
             $newoptions[$number]['useselectbox'] = isset($_POST['minimeta-useselectbox-'.$number]);
             unset($newoptions[$number]['adminlinks']);
-            if (strip_tags(stripslashes($_POST['minimeta-adminlinks-'.$number][0]))!="none") {
+            if (strip_tags(stripslashes($_POST['minimeta-adminlinks-'.$number][0]))!="") {
              for ($i=0;$i<sizeof($_POST['minimeta-adminlinks-'.$number]);$i++) {
               $newoptions[$number]['adminlinks'][$i] = strip_tags(stripslashes($_POST['minimeta-adminlinks-'.$number][$i]));
              }
@@ -283,14 +283,9 @@ function widget_minnimeta_init() {
          <label for="minimeta-profilelink-<?php echo $number; ?>"><?php _e('Link to Your Profile in title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['profilelink']; ?> id="minimeta-profilelink-<?php echo $number; ?>" name="minimeta-profilelink-<?php echo $number; ?>" /></label><br />
          <span style="font-style:italic;"><?php _e('Admin links:','MiniMetaWidget');?></span><br />
          <label for="minimeta-useselectbox-<?php echo $number; ?>" title="<?php _e('Use Select Box for Admin Links','MiniMetaWidget');?>"><?php _e('Use Select Box','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['useselectbox']; ?> id="minimeta-useselectbox-<?php echo $number; ?>" name="minimeta-useselectbox-<?php echo $number; ?>" /></label><br />
-         <label for="minimeta-adminlinks-<?php echo $number; ?>" title="<?php _e('Admin Links Selection','MiniMetaWidget');?>"><?php _e('Select Admin Links:','MiniMetaWidget');?><br />
+         <label for="minimeta-adminlinks-<?php echo $number; ?>" title="<?php _e('Admin Links Selection','MiniMetaWidget');?>"><?php _e('Select Admin Links:','MiniMetaWidget');?> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-adminlinks-<?php echo $number; ?>'),true)" style="font-size:9px;"><?php _e('All'); ?></a> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-adminlinks-<?php echo $number; ?>'),false)" style="font-size:9px;"><?php _e('None'); ?></a><br />
          <select class="select" type="select" tabindex="95" size="7" name="minimeta-adminlinks-<?php echo $number; ?>[]" id="minimeta-adminlinks-<?php echo $number; ?>" multiple="multiple">
          <?PHP
-            if (sizeof($options[$number]['adminlinks'])==0) {
-             echo "<option value=\"none\" selected=\"selected\" style=\"font-style:italic;\">".__('No Admin Links','MiniMetaWidget')."</option>";
-            } else {
-             echo "<option value=\"none\" style=\"font-style:italic;\">".__('No Admin Links','MiniMetaWidget')."</option>";
-            }
             if (file_exists('adminlinks_user.php')) {
              include('adminlinks_user.php');
             } else {
@@ -309,12 +304,21 @@ function widget_minnimeta_init() {
             }        
         ?>  
          </select></label><br />
-        
         </td></tr></table>
         <?PHP if (!K2_USING_SBM) {?><input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="minimeta-submit-<?php echo $number; ?>" value="1" /><?php } ?>
 		<?php
 	}
-	
+    
+    function widget_minimeta_admin_head() {
+     ?>
+     <script type="text/javascript">
+	 function selectAll_widget_minimeta(selectBox,selectAll) {
+	  for (var i = 0; i < selectBox.options.length; i++) selectBox.options[i].selected = selectAll;
+	 }
+	 </script>    
+     <?PHP
+    }
+    add_action('admin_head', 'widget_minimeta_admin_head');
     
     function widget_minimeta_setup() {
         $options = $newoptions = get_option('widget_minimeta');

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Daniel Hüsken\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-02 20:01+0100\n"
+"PO-Revision-Date: 2007-12-03 21:49+0100\n"
 "Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
 "Language-Team: Daniel Hüsken\n"
 "MIME-Version: 1.0\n"
@@ -81,4 +81,8 @@ msgstr "Benutze eine auswahl Box für die Admin Links"
 #: MiniMeta.php:252
 msgid "Use Select Box"
 msgstr "Benutze Auswahl Box"
+
+#: MiniMeta.php:126
+msgid "Pleace select:"
+msgstr "Bitte auswählen:"
 
