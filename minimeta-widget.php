@@ -61,6 +61,8 @@ Change log:
                            Plasing the widget up to 9 times
                            removed WP-Admin Links Plugin Support
                            Integrated owen Admin Links
+                           Style Sheet Support
+                           Support for own Style Sheet and Admin Links
 */
 
 
