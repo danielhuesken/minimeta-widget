@@ -114,33 +114,33 @@ function widget_minnimeta_init() {
 
             echo "<ul>";
                 if($options[$number]['seiteadmin']) {wp_register();}
-                if($options[$number]['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\" class=\"logout\" >".__('Logout')."</a></li>"; 
+                if($options[$number]['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\" class=\"minimeta-logout\">".__('Logout')."</a></li>"; 
                 
                 if (sizeof($options[$number]['adminlinks'])>0) { //show only if a Admin Link is selectesd
-                 if (file_exists('adminlinks_user.php')) { //include Admi Links Data
-                  include('adminlinks_user.php');
+                 if (file_exists('custom/minimeta-adminlinks.php')) { //include Admi Links Data
+                  include('custom/minimeta-adminlinks.php');
                  } else {
-                  include('adminlinks_std.php');
+                  include('minimeta-adminlinks.php');
                  }           
                  if ($options[$number]['useselectbox']) { 
-                  echo "<li><select class=\"admin-links\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Pleace select:')."</option>";
+                  echo "<li><select class=\"minimeta-adminlinks\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Pleace select:','MiniMetaWidget')."</option>";
                  }   
                  foreach ($adminlinks as $menu) {
                   $output="";
                   foreach ($menu as $submenu) {
                     if(current_user_can($submenu[1]) and is_array($submenu) and in_array($submenu[2],$options[$number]['adminlinks'])) {
                       if ($options[$number]['useselectbox']) {
-                       $output.= "<option value=\"".get_bloginfo('wpurl')."/wp-admin/".$submenu[2]."\">".$submenu[0]."</option>";
+                       $output.= "<option value=\"".get_bloginfo('wpurl')."/wp-admin/".$submenu[2]."\" class=\"minimeta-adminlinks\">".$submenu[0]."</option>";
                       } else {
-                       $output.= "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/".$submenu[2]."\" title=\"".$submenu[0]."\">".$submenu[0]."</a></li>";
+                       $output.= "<li class=\"minimeta-adminlinks\"><a href=\"".get_bloginfo('wpurl')."/wp-admin/".$submenu[2]."\" title=\"".$submenu[0]."\" class=\"minimeta-adminlinks\">".$submenu[0]."</a></li>";
                       }
                     }
                   }
                   if (!empty($output)) {
                    if ($options[$number]['useselectbox']) {
-                    echo "<optgroup label=\"".$menu['menu']."\">";
+                    echo "<optgroup label=\"".$menu['menu']."\" class=\"minimeta-adminlinks\">";
                    } else {
-                    echo "<li>".$menu['menu']."</li><ul class=\"children\">";
+                    echo "<li class=\"minimeta-adminlinks_menu\">".$menu['menu']."</li><ul class=\"minimeta-adminlinks\">";
                    }
                    echo $output;
                    if ($options[$number]['useselectbox']) {
@@ -175,14 +175,14 @@ function widget_minnimeta_init() {
 				</form><?php
 			}
             echo "<ul>";
-			if($options[$number]['login']=='link') echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Login')."\">".__('Login')."</a></li>";
-			if($options[$number]['lostpwlink']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=lostpassword\" title=\"".__('Password Lost and Found')."\">".__('Lost your password?')."</a></li>";
+			if($options[$number]['login']=='link') echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Login')."\" class=\"minimeta-login\">".__('Login')."</a></li>";
+			if($options[$number]['lostpwlink']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=lostpassword\" title=\"".__('Password Lost and Found')."\" class=\"minimeta-lostpw\">".__('Lost your password?')."</a></li>";
 			if($options[$number]['registerlink']) wp_register();
 		} 
 
-		if($options[$number]['rsslink']) echo "<li><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
-		if($options[$number]['rsscommentlink']) echo "<li><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
-		if($options[$number]['wordpresslink']) echo "<li><a href=\"http://wordpress.org/\" title=\"".attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.'))."\">WordPress.org</a></li>";
+		if($options[$number]['rsslink']) echo "<li><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\" class=\"minimeta-rss\">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		if($options[$number]['rsscommentlink']) echo "<li><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\" class=\"minimeta-commentsrss\">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		if($options[$number]['wordpresslink']) echo "<li><a href=\"http://wordpress.org/\" title=\"".attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.'))."\" class=\"minimeta-wporg\">WordPress.org</a></li>";
 		if($options[$number]['showwpmeta']) wp_meta();
 		echo "</ul>";
 		echo $args['after_widget'];
@@ -286,10 +286,10 @@ function widget_minnimeta_init() {
          <label for="minimeta-adminlinks-<?php echo $number; ?>" title="<?php _e('Admin Links Selection','MiniMetaWidget');?>"><?php _e('Select Admin Links:','MiniMetaWidget');?> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-adminlinks-<?php echo $number; ?>'),true)" style="font-size:9px;"><?php _e('All'); ?></a> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-adminlinks-<?php echo $number; ?>'),false)" style="font-size:9px;"><?php _e('None'); ?></a><br />
          <select class="select" type="select" tabindex="95" size="7" name="minimeta-adminlinks-<?php echo $number; ?>[]" id="minimeta-adminlinks-<?php echo $number; ?>" multiple="multiple">
          <?PHP
-            if (file_exists('adminlinks_user.php')) {
-             include('adminlinks_user.php');
+            if (file_exists('custom/minimeta-adminlinks.php')) {
+             include('custom/minimeta-adminlinks.php');
             } else {
-             include('adminlinks_std.php');
+             include('minimeta-adminlinks.php');
             }
             foreach ($adminlinks as $menu) {
              echo "<optgroup label=\"".$menu['menu']."\">";
@@ -352,8 +352,9 @@ function widget_minnimeta_init() {
         <?php
     }   
     
-    //copy action login_head to wp-head if login form enabeld for plugin hooks
-	function widget_minimeta_login_head_to_wp_head() {
+    //WP-Head hooks
+	function widget_minimeta_wp_head() {
+      if (!is_user_logged_in()) {   //copy action login_head to wp-head if login form enabeld for plugin hooks 
         if (K2_USING_SBM) {
             //can't find out is lofin form active in K2 modules thats why its ollways on.
             do_action('login_head'); //do action from login had
@@ -365,7 +366,14 @@ function widget_minnimeta_init() {
                $options[7]['login']=='form' or $options[8]['login']=='form' or $options[9]['login']=='form') {
              do_action('login_head'); //do action from login had
             }
-        }    
+        }
+      } 
+      //Set Style sheet
+      if (file_exists('custom/minimeta-widget.css')) {
+        echo "<link rel=\"stylesheet\" href=\"".get_bloginfo('wpurl')."/wp-content/plugins/".dirname(plugin_basename(__FILE__))."/custom/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
+      } else {
+        echo "<link rel=\"stylesheet\" href=\"".get_bloginfo('wpurl')."/wp-content/plugins/".dirname(plugin_basename(__FILE__))."/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
+      }
     }
     
     
@@ -388,7 +396,7 @@ function widget_minnimeta_init() {
 	  add_action('sidebar_admin_setup', 'widget_minimeta_setup');
 	  add_action('sidebar_admin_page', 'widget_minimeta_page');
      }
-     if (!is_user_logged_in()) add_action('wp_head', 'widget_minimeta_login_head_to_wp_head');
+     add_action('wp_head', 'widget_minimeta_wp_head');
     }
     
     

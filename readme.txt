@@ -3,7 +3,7 @@ Contributors: danielhuesken
 Donate link: http://danielhuesken.de/
 Tags: widget, sidebar, meta, admin, links
 Requires at least: 2.2
-Tested up to: 2.3.0
+Tested up to: 2.3.1
 Stable tag: 2.7.1
 
 Mini Verson of the WP Meta Widget with differnt logon types and some additional Admin Links.  The Links can alle enabeld or disabeld.
@@ -15,7 +15,9 @@ Mini Verson of the WP Meta Widget
 * Diffrent logon types (form,link,none)
 * Uses redirection for logon/logout 
 * All standart WP Links can enabled/disabled
-* Additional Admin Links
+* Additional Admin Links custumiseable
+* build in style sheet support
+* Full K2 SBM support
 
 == Installation ==
 
@@ -33,7 +35,7 @@ You must activate the Plugin again.
 
 = Plugin Hooks are testet =
 
-Version 2.7.0 needed:<br />
+Version later 2.7.0 needed:<br />
 [Semisecure Login](http://wordpress.org/extend/plugins/semisecure-login/)<br />
 [Raz-Captcha](http://wordpress.org/extend/plugins/raz-captcha/)<br />
 [Chap Secure Login](http://wordpress.org/extend/plugins/chap-secure-login/)<br />
@@ -42,14 +44,14 @@ Version 2.7.0 needed:<br />
 
 In the Plugin file are dependings for files where the plugin work. This dependings must be commentet out.
 
-= Can I edit/make Admin Links =
+= Can I make own Admin Links / Style sheet files=
 
-Yes, simply copy the adminlinks_std.php file to adminlinks_user.php and edit it.
-the adminlinks_user.php will not be overweritet on Plugin Updates.
+Yes, simply copy the minimeta-adminlinks.php or minimeta-widget.css file in the custom folder and edit it.
+The files in the custom folder will not be overweritet on Plugin Updates.
 
-= The widget coud not display =
+= The widget coud not displayt =
 
-The Widget would not display if all thinks are disabeld to display when loggt in or off
+The Widget would not display if all links to display are disabeld when loggt in or off
 
 == Screenshots ==
 
