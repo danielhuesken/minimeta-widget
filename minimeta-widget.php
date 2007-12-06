@@ -80,9 +80,15 @@ function widget_minnimeta_init() {
     //find out if K2 is activatet and set K2_USING_SBM Konstant
     if (!defined(K2_CURRENT)) define('K2_USING_SBM',false);
     
+    if (file_exists('custom/minimeta-adminlinks.php')) { //include Admi Links Data
+      require('custom/minimeta-adminlinks.php');
+    } else {
+      require('minimeta-adminlinks.php');
+    }   
+    
     
     function widget_minimeta($args,$number=1) {
-        global $user_identity,$wpdb;	
+        global $user_identity;	
         //defaults
         $options[$number]= array('login'=>'link','logout' =>'1','profilelinkadmin' => '0','registerlink' =>'1','seiteadmin' =>'1','rememberme' =>'1',
                         'rsslink' =>'1','rsscommentlink' =>'1','wordpresslink' =>'1','lostpwlink' =>'',
@@ -117,16 +123,12 @@ function widget_minnimeta_init() {
             echo "<ul>";
                 if($options[$number]['seiteadmin']) {wp_register();}
                 if($options[$number]['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\" class=\"minimeta-logout\">".__('Logout')."</a></li>"; 
-                
+             
                 if (sizeof($options[$number]['adminlinks'])>0) { //show only if a Admin Link is selectesd
-                 if (file_exists('custom/minimeta-adminlinks.php')) { //include Admi Links Data
-                  include('custom/minimeta-adminlinks.php');
-                 } else {
-                  include('minimeta-adminlinks.php');
-                 }           
                  if ($options[$number]['useselectbox']) { 
                   echo "<li><select class=\"minimeta-adminlinks\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Pleace select:','MiniMetaWidget')."</option>";
-                 }   
+                 }
+                 $adminlinks=minmeta_adminliks(); 
                  foreach ($adminlinks as $menu) {
                   $output="";
                   foreach ($menu as $submenu) {
@@ -192,7 +194,6 @@ function widget_minnimeta_init() {
 	}
 			
 	function widget_minimeta_control($number=1) {
-        global $wpdb;
 		//load options
         if (K2_USING_SBM) {
          $options[$number] = $newoptions[$number] = sbm_get_option('widget_minimeta');
@@ -288,11 +289,7 @@ function widget_minnimeta_init() {
          <label for="minimeta-adminlinks-<?php echo $number; ?>" title="<?php _e('Admin Links Selection','MiniMetaWidget');?>"><?php _e('Select Admin Links:','MiniMetaWidget');?> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-adminlinks-<?php echo $number; ?>'),true)" style="font-size:9px;"><?php _e('All'); ?></a> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-adminlinks-<?php echo $number; ?>'),false)" style="font-size:9px;"><?php _e('None'); ?></a><br />
          <select class="select" type="select" tabindex="95" size="7" name="minimeta-adminlinks-<?php echo $number; ?>[]" id="minimeta-adminlinks-<?php echo $number; ?>" multiple="multiple">
          <?PHP
-            if (file_exists('custom/minimeta-adminlinks.php')) {
-             include('custom/minimeta-adminlinks.php');
-            } else {
-             include('minimeta-adminlinks.php');
-            }
+            $adminlinks=minmeta_adminliks();
             foreach ($adminlinks as $menu) {
              echo "<optgroup label=\"".$menu['menu']."\">";
              foreach ($menu as $submenu) {
