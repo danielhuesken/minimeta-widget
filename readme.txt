@@ -44,7 +44,7 @@ Version later 2.7.0 needed:<br />
 
 In the Plugin file are dependings for files where the plugin work. This dependings must be commentet out.
 
-= Can I make own Admin Links / Style sheet files=
+= Can I make own Admin Links / Style sheet files =
 
 Yes, simply copy the minimeta-adminlinks.php or minimeta-widget.css file in the custom folder and edit it.
 The files in the custom folder will not be overweritet on Plugin Updates.
