@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Daniel Hüsken\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-04 07:07+0100\n"
+"PO-Revision-Date: 2007-12-09 19:09+0100\n"
 "Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
 "Language-Team: Daniel Hüsken\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: MiniMeta.php:192
-msgid "Show when logget out:"
+msgid "Show when logged out:"
 msgstr "Anzeige ausgeloggt:"
 
 #: MiniMeta.php:193
@@ -47,7 +47,7 @@ msgid "wp_meta Plugin hooks"
 msgstr "wp_meta Plugin Hooks"
 
 #: MiniMeta.php:204
-msgid "Show when logget in:"
+msgid "Show when logged in:"
 msgstr "Anzeige eingeloggt:"
 
 #: MiniMeta.php:207
@@ -83,6 +83,6 @@ msgid "Use Select Box"
 msgstr "Benutze Auswahl Box"
 
 #: MiniMeta.php:126
-msgid "Pleace select:"
+msgid "Please select:"
 msgstr "Bitte auswählen:"
 

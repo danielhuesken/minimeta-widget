@@ -126,7 +126,7 @@ function widget_minnimeta_init() {
              
                 if (sizeof($options[$number]['adminlinks'])>0) { //show only if a Admin Link is selectesd
                  if ($options[$number]['useselectbox']) { 
-                  echo "<li><select class=\"minimeta-adminlinks\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Pleace select:','MiniMetaWidget')."</option>";
+                  echo "<li><select class=\"minimeta-adminlinks\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Please select:','MiniMetaWidget')."</option>";
                  }
                  $adminlinks=minmeta_adminliks(); 
                  foreach ($adminlinks as $menu) {
@@ -267,7 +267,7 @@ function widget_minnimeta_init() {
 		//displaying options
 		if (!K2_USING_SBM) {?><p><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title-<?php echo $number; ?>" name="minimeta-title-<?php echo $number; ?>" type="text" value="<?php echo $checkoptions[$number]['title']; ?>" /></label></p><?php } ?>
 		<table style="width:100%;border:none"><tr><td valign="top" style="text-align:left;">
-        <span style="font-weight:bold;"><?php _e('Show when logget out:','MiniMetaWidget');?></span><br />
+        <span style="font-weight:bold;"><?php _e('Show when logged out:','MiniMetaWidget');?></span><br />
          <label for="minimeta-login-<?php echo $number; ?>"><?php _e('Login Type:','MiniMetaWidget');?><br /><input type="radio" name="minimeta-login-<?php echo $number; ?>" id="minimeta-login-link-<?php echo $number; ?>" value="link" <?php echo $checkoptions[$number]['loginLink']; ?> />&nbsp;<?php _e('Link','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login-<?php echo $number; ?>" id="minimeta-login-form-<?php echo $number; ?>" value="form" <?php echo $checkoptions[$number]['loginForm']; ?> />&nbsp;<?php _e('Form','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="minimeta-login-<?php echo $number; ?>" id="minimeta-login-off-<?php echo $number; ?>" value="off" <?php echo $checkoptions[$number]['loginOff']; ?> />&nbsp;<?php _e('Off','MiniMetaWidget');?>&nbsp</label><br />
          <label for="minimeta-rememberme-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['rememberme']; ?> id="minimeta-rememberme-<?php echo $number; ?>" name="minimeta-rememberme-<?php echo $number; ?>" />&nbsp;<?php _e('Remember me');?></label><br />
 		 <label for="minimeta-lostpwlink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['lostpwlink']; ?> id="minimeta-lostpwlink-<?php echo $number; ?>" name="minimeta-lostpwlink-<?php echo $number; ?>" />&nbsp;<?php _e('Lost your password?');?></label><br />
@@ -279,7 +279,7 @@ function widget_minnimeta_init() {
 		 <label for="minimeta-wordpresslink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['wordpresslink']; ?> id="minimeta-wordpresslink-<?php echo $number; ?>" name="minimeta-wordpresslink-<?php echo $number; ?>" />&nbsp;<?php _e('Link to WordPress.org','MiniMetaWidget');?></label><br />
 		 <label for="minimeta-showwpmeta-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['showwpmeta']; ?> id="minimeta-showwpmeta-<?php echo $number; ?>" name="minimeta-showwpmeta-<?php echo $number; ?>" />&nbsp;<?php _e('wp_meta Plugin hooks','MiniMetaWidget');?></label><br />
         </td><td style="text-align:right;">
-        <span style="font-weight:bold;"><?php _e('Show when logget in:','MiniMetaWidget');?></span><br />
+        <span style="font-weight:bold;"><?php _e('Show when logged in:','MiniMetaWidget');?></span><br />
          <label for="minimeta-logout-<?php echo $number; ?>"><?php _e('Logout');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['logout']; ?> id="minimeta-logout-<?php echo $number; ?>" name="minimeta-logout-<?php echo $number; ?>" /></label><br />
          <label for="minimeta-seiteadmin-<?php echo $number; ?>"><?php _e('Site Admin');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['seiteadmin']; ?> id="minimeta-seiteadmin-<?php echo $number; ?>" name="minimeta-seiteadmin-<?php echo $number; ?>" /></label><br />
 		 <label for="minimeta-displayidentity-<?php echo $number; ?>"><?php _e('Disply user Identity as title','MiniMetaWidget');?>&nbsp;<input class="checkbox" type="checkbox" <?php echo $checkoptions[$number]['displayidentity']; ?> id="minimeta-displayidentity-<?php echo $number; ?>" name="minimeta-displayidentity-<?php echo $number; ?>" /></label><br />
