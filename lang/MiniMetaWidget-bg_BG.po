@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-MiniMeta Widget\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-09 13:30+0200\n"
-"Last-Translator: Alexander Dichev <http://dichev.com/contact/>\n"
+"PO-Revision-Date: 2007-12-09 20:00+0100\n"
+"Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
 "Language-Team: Alexander Dichev <http://dichev.com/contact/english/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: MiniMeta.php:192
-msgid "Show when logget out:"
+msgid "Show when logged out:"
 msgstr "Показване след изход:"
 
 #: MiniMeta.php:193
@@ -47,7 +47,7 @@ msgid "wp_meta Plugin hooks"
 msgstr "wp_meta Plugin hooks"
 
 #: MiniMeta.php:204
-msgid "Show when logget in:"
+msgid "Show when logged in:"
 msgstr "Показване след вход:"
 
 #: MiniMeta.php:207
@@ -83,6 +83,6 @@ msgid "Use Select Box"
 msgstr "Използване на Падащо Меню"
 
 #: MiniMeta.php:126
-msgid "Pleace select:"
+msgid "Please select:"
 msgstr "Моля, изберете:"
 
