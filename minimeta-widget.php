@@ -320,6 +320,8 @@ function widget_minnimeta_init() {
      <?PHP
     }
     add_action('admin_head', 'widget_minimeta_admin_head');
+    //add_action('admin_head-themes_page_widgets', 'widget_minimeta_admin_head'); the hook don't works.
+    //add_action('admin_head-themes_page_k2-sbm-manager', 'widget_minimeta_admin_head');
     
     function widget_minimeta_setup() {
         $options = $newoptions = get_option('widget_minimeta');
