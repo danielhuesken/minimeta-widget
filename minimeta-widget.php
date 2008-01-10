@@ -65,6 +65,8 @@ Change log:
                            Support for own Style Sheet and Admin Links
     Version 3.0.1    Bugfix </Optiongroup>
                             Grammer fixes
+                            Cookie handlind for login fix
+                            cusom style not lod fix
 */
 
 
@@ -361,6 +363,10 @@ function widget_minnimeta_init() {
         if (K2_USING_SBM) {
             //can't find out is lofin form active in K2 modules thats why its ollways on.
             do_action('login_head'); //do action from login had
+            //Set a cookie now to see if they are supported by the browser.
+            setcookie(TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN);
+            if ( SITECOOKIEPATH != COOKIEPATH )
+                setcookie(TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN);
         } else {
             $options = get_option('widget_minimeta');
             //find out is a ligon form in any MiniMeta Widegt activatet
@@ -368,13 +374,17 @@ function widget_minnimeta_init() {
                $options[4]['login']=='form' or $options[5]['login']=='form' or $options[6]['login']=='form' or
                $options[7]['login']=='form' or $options[8]['login']=='form' or $options[9]['login']=='form') {
              do_action('login_head'); //do action from login had
+             //Set a cookie now to see if they are supported by the browser.
+             setcookie(TEST_COOKIE, 'WP Cookie check', 0, COOKIEPATH, COOKIE_DOMAIN);
+             if ( SITECOOKIEPATH != COOKIEPATH )
+                setcookie(TEST_COOKIE, 'WP Cookie check', 0, SITECOOKIEPATH, COOKIE_DOMAIN);
             }
         }
       } 
       //Set Style sheet
-      if (file_exists('custom/minimeta-widget.css')) {
+      if (file_exists('wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/custom/minimeta-widget.css')) {
         echo "<link rel=\"stylesheet\" href=\"".get_bloginfo('wpurl')."/wp-content/plugins/".dirname(plugin_basename(__FILE__))."/custom/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
-      } else {
+      } elseif (file_exists('wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/minimeta-widget.css')) {
         echo "<link rel=\"stylesheet\" href=\"".get_bloginfo('wpurl')."/wp-content/plugins/".dirname(plugin_basename(__FILE__))."/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
       }
     }
