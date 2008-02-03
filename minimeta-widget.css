@@ -6,11 +6,12 @@ optgroup,option,select.minimeta-adminlinks {  /* selectbox settings */
 }
 
 li.minimeta-adminlinks_menu {  /* menu settings*/
- font-weight: bold;
+ font-weight:bold;
  font-style:italic;
 }
 ul.minimeta-adminlinks{  /* link ul settings  */
- /* margin-left: 15px; */ /* four thems where the oudent not work*/
+ font-weight:normal;
+ font-style:normal;
 }
 a.minimeta-adminlinks{  /* link settings */
 
