@@ -2,7 +2,7 @@
 /*
 Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
-Description: Mini Verson of the WP Meta Widget with differnt logon types and some additional admin links
+Description: Mini Version of the WP Meta Widget with different logon types and some additional admin links.
 Author: Daniel H&uuml;sken
 Version: 3.0.1
 Author URI: http://danielhuesken.de
@@ -67,6 +67,7 @@ Change log:
                             Grammer fixes
                             Cookie handlind for login fix
                             cusom style not lod fix
+                            CSS syle fix for thems
 */
 
 

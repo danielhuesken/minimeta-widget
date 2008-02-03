@@ -10,7 +10,7 @@ li.minimeta-adminlinks_menu {  /* menu settings*/
  font-style:italic;
 }
 ul.minimeta-adminlinks{  /* link ul settings  */
- margin-left: 15px;
+ /* margin-left: 15px; */ /* four thems where the oudent not work*/
 }
 a.minimeta-adminlinks{  /* link settings */
 
