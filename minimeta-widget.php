@@ -64,6 +64,7 @@ Change log:
                            Style Sheet Support
                            Support for own Style Sheet and Admin Links
     Version 3.0.1    Bugfix </Optiongroup>
+                            Bugfix wron <li> (thx David Potter)
                             Grammer fixes
                             Cookie handlind for login fix
                             cusom style not lod fix
@@ -149,13 +150,13 @@ function widget_minnimeta_init() {
                    if ($options[$number]['useselectbox']) {
                     echo "<optgroup label=\"".$menu['menu']."\" class=\"minimeta-adminlinks\">";
                    } else {
-                    echo "<li class=\"minimeta-adminlinks_menu\">".$menu['menu']."</li><ul class=\"minimeta-adminlinks\">";
+                    echo "<li class=\"minimeta-adminlinks_menu\">".$menu['menu']."<ul class=\"minimeta-adminlinks\">";
                    }
                    echo $output;
                    if ($options[$number]['useselectbox']) {
                     echo "</optgroup>";
                    } else {
-                    echo "</ul>";
+                    echo "</ul></li>";
                    }
                   }
                  }
