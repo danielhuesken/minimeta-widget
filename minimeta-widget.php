@@ -323,7 +323,7 @@ function widget_minnimeta_init() {
 	 </script>    
      <?PHP
     }
-    add_action('admin_head', 'widget_minimeta_admin_head');
+    add_action('admin_head', 'widget_minimeta_admin_head',10);
     //add_action('admin_head-themes_page_widgets', 'widget_minimeta_admin_head'); the hook don't works.
     //add_action('admin_head-themes_page_k2-sbm-manager', 'widget_minimeta_admin_head');
     
@@ -411,7 +411,7 @@ function widget_minnimeta_init() {
 	  add_action('sidebar_admin_setup', 'widget_minimeta_setup');
 	  add_action('sidebar_admin_page', 'widget_minimeta_page');
      }
-     add_action('wp_head', 'widget_minimeta_wp_head');
+     add_action('wp_head', 'widget_minimeta_wp_head',1);
     }
     
     
