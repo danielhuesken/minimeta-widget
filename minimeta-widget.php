@@ -411,7 +411,7 @@ function widget_minnimeta_init() {
 	  add_action('sidebar_admin_setup', 'widget_minimeta_setup');
 	  add_action('sidebar_admin_page', 'widget_minimeta_page');
      }
-     add_action('wp_head', 'widget_minimeta_wp_head',1);
+     add_action('wp_head', 'widget_minimeta_wp_head');
     }
     
     
