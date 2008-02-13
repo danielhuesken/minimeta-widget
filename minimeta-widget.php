@@ -406,7 +406,7 @@ function widget_minnimeta_init() {
 	  for ($i = 1; $i <= 9; $i++) {
 		$name = array('MiniMeta Widget %s', null, $i);
 		register_sidebar_widget($name, $i <= $number ? 'widget_minimeta' : /* unregister */ '', $i);
-		register_widget_control($name, $i <= $number ? 'widget_minimeta_control' : /* unregister */ '', 400, 300, $i);
+		register_widget_control($name, $i <= $number ? 'widget_minimeta_control' : /* unregister */ '', 400, 340, $i);
 	  }
 	  add_action('sidebar_admin_setup', 'widget_minimeta_setup');
 	  add_action('sidebar_admin_page', 'widget_minimeta_page');
