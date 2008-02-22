@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-MiniMeta Widget\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-02-22 12:17+0100\n"
+"Last-Translator: Carl Andersen <carl@frugalware.dk>\n"
+"Language-Team: Daniel Hüsken\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Danish\n"
+"X-Poedit-Country: DENMARK\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: MiniMeta.php:192
+msgid "Show when logged out:"
+msgstr "Vis når du er logget ud:"
+
+#: MiniMeta.php:193
+msgid "Login Type:"
+msgstr "Login Type:"
+
+#: MiniMeta.php:193
+msgid "Link"
+msgstr "Link"
+
+#: MiniMeta.php:193
+msgid "Form"
+msgstr "Form"
+
+#: MiniMeta.php:193
+msgid "Off"
+msgstr "Fra"
+
+#: MiniMeta.php:198
+msgid "Show allways:"
+msgstr "Vis altid:"
+
+#: MiniMeta.php:201
+msgid "Link to WordPress.org"
+msgstr "Link til WordPress.org"
+
+#: MiniMeta.php:202
+msgid "wp_meta Plugin hooks"
+msgstr "wp_meta Plugin Hooks"
+
+#: MiniMeta.php:204
+msgid "Show when logged in:"
+msgstr "Vis når der er logget ind:"
+
+#: MiniMeta.php:207
+msgid "Disply user Identity as title"
+msgstr "Vis bruger identitet som titel"
+
+#: MiniMeta.php:208
+msgid "Link to Your Profile in title"
+msgstr "Link til Din Profil i titlen"
+
+#: MiniMeta.php:209
+msgid "Admin Links:"
+msgstr "Admin Links:"
+
+#: MiniMeta.php:210
+msgid "Admin Links Selection"
+msgstr "Admin Links udvalg"
+
+#: MiniMeta.php:252
+msgid "Select Admin Links:"
+msgstr "Udvælge Admin Links:"
+
+#: MiniMeta.php:252
+msgid "No Admin Links"
+msgstr "Ingen Admin Links"
+
+#: MiniMeta.php:252
+msgid "Use Select Box for Admin Links"
+msgstr "Brug Udvælgnings Box for Admin Links"
+
+#: MiniMeta.php:252
+msgid "Use Select Box"
+msgstr "Brug Udvalg Box"
+
+#: MiniMeta.php:126
+msgid "Please select:"
+msgstr "Venligst vælg:"
+
