@@ -7,41 +7,39 @@ function minmeta_adminliks() {
   $plugins[$i]=strtolower(plugin_basename($plugins[$i]));
  }
  //adminlinks
- $adminlinks[1]['menu'] =  __('Dashboard'); //menu group
- $adminlinks[1][5] = array(__('Dashboard'), '1', 'index.php'); //menu link
- if (in_array("wp-serverinfo/wp-serverinfo.php",$plugins)) $adminlinks[1][10] = array(__('WP-ServerInfo', 'wp-serverinfo'), 1, 'index.php?page=wp-serverinfo/wp-serverinfo.php'); //menu link
- if (in_array("wp-stats/wp-stats.php",$plugins)) $adminlinks[1][11] = array(__('WP-Stats', 'wp-stats'), 1, 'index.php?page=wp-stats/wp-stats.php'); //menu link
- if (in_array("wp-useronline/wp-useronline.php",$plugins)) $adminlinks[1][12] = array(__('WP-UserOnline', 'wp-useronline'), 1, 'index.php?page=wp-useronline/useronline.php'); //menu link
- if (in_array("stats.php",$plugins)) $adminlinks[1][13] = array(__('Blog Stats'), 'manage_options', 'index.php?page=stats'); //menu link
+ $adminlinks[0]['menu'] =  __('Dashboard'); //menu group
+ $adminlinks[0][5] = array(__('Dashboard'), 'read', 'index.php'); //menu link
+ if (in_array("wp-serverinfo/wp-serverinfo.php",$plugins)) $adminlinks[0][10] = array(__('WP-ServerInfo', 'wp-serverinfo'), 1, 'index.php?page=wp-serverinfo/wp-serverinfo.php'); //menu link
+ if (in_array("wp-stats/wp-stats.php",$plugins)) $adminlinks[0][11] = array(__('WP-Stats', 'wp-stats'), 1, 'index.php?page=wp-stats/wp-stats.php'); //menu link
+ if (in_array("wp-useronline/wp-useronline.php",$plugins)) $adminlinks[0][12] = array(__('WP-UserOnline', 'wp-useronline'), 1, 'index.php?page=wp-useronline/useronline.php'); //menu link
+ if (in_array("stats.php",$plugins)) $adminlinks[0][13] = array(__('Blog Stats'), 'manage_options', 'index.php?page=stats'); //menu link
  $adminlinks[5]['menu'] =  __('Write'); //menu group
- $adminlinks[5][5] =    array(__('Write Post'), 'edit_posts', 'post-new.php'); //menu link
- $adminlinks[5][10] =   array(__('Write Page'), 'edit_pages', 'page-new.php'); //menu link
+ $adminlinks[5][5] =    array(__('Post'), 'edit_posts', 'post-new.php'); //menu link
+ $adminlinks[5][10] =   array(__('Page'), 'edit_pages', 'page-new.php'); //menu link
+ $adminlinks[5][10] =   array(__('Link'), 'manage_links', 'link-add.php'); //menu link
  $adminlinks[10]['menu'] = __('Manage');
  $adminlinks[10][5] =   array(__('Posts'), 'edit_posts', 'edit.php');
  $adminlinks[10][10] =  array(__('Pages'), 'edit_pages', 'edit-pages.php');
- $adminlinks[10][12] =  array(__('Uploads'), 'upload_files', 'upload.php');
- $adminlinks[10][15] =  array(__('Categories'), 'manage_categories','categories.php');
- $adminlinks[10][30] =  array(__('Files'), 'edit_files', 'templates.php');
- $adminlinks[10][35] =  array(__('Import'), 'import', 'import.php');
- $adminlinks[10][40] =  array(__('Export'), 'import', 'export.php');
+ $adminlinks[10][15] =  array(__('Links'), 'manage_links', 'link-manager.php');
+ $adminlinks[10][20] =  array(__('Categories'), 'manage_categories', 'categories.php');
+ $adminlinks[10][25] =  array(__('Tags'), 'manage_categories','edit-tags.php');
+ $adminlinks[10][30] =  array(__('Link Categories'), 'manage_categories', 'edit-link-categories.php');
+ $adminlinks[10][35] =  array(__('Media Library'), 'upload_files', 'upload.php');
+ $adminlinks[10][40] =  array(__('Import'), 'import', 'import.php');
+ $adminlinks[10][45] =  array(__('Export'), 'import', 'export.php');
  if (in_array("simple-forum/sf-control.php",$plugins)) $adminlinks[10][50] =  array(__('Simple Forum', 'sforum'), 8, 'edit.php?page=simple-forum/sf-admin.php');
  if (in_array("wp-ban/wp-ban.php",$plugins)) $adminlinks[10][51] =  array(__('Ban', 'wp-ban'), 'manage_options', 'edit.php?page=wp-ban/ban-options.php');
- $adminlinks[15]['menu'] = __('Comments');
- $adminlinks[15][5] =   array(__('Comments'), 'edit_posts', 'edit-comments.php');
- $adminlinks[15][25] =  array(sprintf(__("Awaiting Moderation (%s)"), $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'")), 'edit_posts', 'moderation.php');
+ $adminlinks[15]['menu'] =  __('Design'); 
+ $adminlinks[15][5] = array(__('Themes'), 'switch_themes', 'themes.php');
+ if (function_exists('dynamic_sidebar')) $adminlinks[15][7] = array(__( 'Widgets' ), 'switch_themes', 'widgets.php');
+ $adminlinks[15][10] = array(__('Theme Editor'), 'edit_themes', 'theme-editor.php');
+ if (get_current_theme()=="K2") $adminlinks[15][15] = array(__('K2 Options','k2_domain'), 'edit_themes', 'themes.php?page=k2-options');
+ if (get_current_theme()=="K2" and K2_USING_SBM) $adminlinks[15][7] = array(__('K2 Sidebar Manager','k2_domain'), 'edit_themes', 'themes.php?page=k2-sbm-manager');
+ $adminlinks[15][50] = array(__('Custom Image Header'), 'edit_themes', 'themes.php?page=custom-header');
+ $adminlinks[20]['menu'] = __('Comments');
+ $adminlinks[20][5] =   array(__('Comments'), 'edit_posts', 'edit-comments.php');
+ $adminlinks[20][25] =  array(sprintf(__("Awaiting Moderation (%s)"), $wpdb->get_var("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_approved = '0'")), 'edit_posts', 'moderation.php');
  if (in_array("akismet/akismet.php",$plugins)) $adminlinks[15][30] = array(sprintf(__('Akismet Spam (%s)'), akismet_spam_count()), 'moderate_comments', 'edit-comments.php?page=akismet-admin');
- $adminlinks[20]['menu'] = __('Blogroll');
- $adminlinks[20][5] = array(__('Manage Blogroll'), 'manage_links', 'link-manager.php');
- $adminlinks[20][10] = array(__('Add Link'), 'manage_links', 'link-add.php');
- $adminlinks[20][20] = array(__('Import Links'), 'manage_links', 'link-import.php');
- $adminlinks[20][30] = array(__('Categories'), 'manage_links', 'edit-link-categories.php');
- $adminlinks[25]['menu'] = __('Presentation');
- $adminlinks[25][5] = array(__('Themes'), 'switch_themes', 'themes.php');
- if (function_exists('dynamic_sidebar')) $adminlinks[25][7] = array(__( 'Widgets' ), 'switch_themes', 'widgets.php');
- $loggtinlinks[25][10] = array(__('Theme Editor'), 'edit_themes', 'theme-editor.php');
- if (get_current_theme()=="K2") $adminlinks[25][15] = array(__('K2 Options','k2_domain'), 'edit_themes', 'themes.php?page=k2-options');
- if (get_current_theme()=="K2" and K2_USING_SBM) $adminlinks[25][7] = array(__('K2 Sidebar Manager','k2_domain'), 'edit_themes', 'themes.php?page=k2-sbm-manager');
- $adminlinks[25][50] = array(__('Custom Image Header'), 'edit_themes', 'themes.php?page=custom-header');
  $adminlinks[30]['menu'] = __('Plugins');
  $adminlinks[30][5] = array(__('Plugins'), 'activate_plugins', 'plugins.php');
  $loggtinlinks[30][10] = array(__('Plugin Editor'), 'edit_plugins', 'plugin-editor.php');
@@ -55,7 +53,7 @@ function minmeta_adminliks() {
  } 
  $adminlinks[35][5] = array(__('Authors &amp; Users'), 'edit_users', 'users.php');
  $adminlinks[35][10] = array(__('Your Profile'), 'read', 'profile.php');
- $adminlinks[40]['menu'] = __('Options');
+ $adminlinks[40]['menu'] = __('Settings');
  $adminlinks[40][10] = array(__('General'), 'manage_options', 'options-general.php');
  $adminlinks[40][15] = array(__('Writing'), 'manage_options', 'options-writing.php');
  $adminlinks[40][20] = array(__('Reading'), 'manage_options', 'options-reading.php');
