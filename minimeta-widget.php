@@ -69,7 +69,8 @@ Change log:
                             Cookie handlind for login fix
                             cusom style not lod fix
                             CSS syle fix for thems
-    Version 3.1.0 
+    Version 3.1.0    Full Compatibility to WP 2.5
+                           Added Opten to disable topics for Admin Links
 */
 
 
@@ -99,18 +100,19 @@ add_action('init', 'widget_minnimeta_init');
    
 function widget_minimeta($args,$widget_args = 1) {
     global $user_identity;	
-        
     extract( $args, EXTR_SKIP );
-	if ( is_numeric($widget_args) )
-		$widget_args = array( 'number' => $widget_args );
-	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
-	extract( $widget_args, EXTR_SKIP );
+    
     //load options
     if (K2_USING_SBM) {
+        $number=1;
         $options[$number] = sbm_get_option('widget_minimeta');
         //title compatibility for K2SBM
-        $options[$number]['title']=$args['title'];
+        $options[$number]['title']=$title;
     } else {
+        if ( is_numeric($widget_args) )
+            $widget_args = array( 'number' => $widget_args );
+        $widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
+        extract( $widget_args, EXTR_SKIP );
         $options = get_option('widget_minimeta');
     }
     
@@ -206,6 +208,73 @@ function widget_minimeta($args,$widget_args = 1) {
 }
 			
 function widget_minimeta_control($widget_args = 1) {
+   if (K2_USING_SBM) {
+    $number=1; //SBM dont need numbers set it to 1
+    $options = sbm_get_option('widget_minimeta'); //load Options
+    if ( $_POST['widget-minimeta'][$number]['login']) {
+		$options['login'] = strip_tags(stripslashes($_POST['widget-minimeta'][$number]['login']));
+		$options['logout'] = isset($_POST['widget-minimeta'][$number]['logout']);
+        $options['registerlink'] = isset($_POST['widget-minimeta'][$number]['registerlink']);
+        $options['seiteadmin'] = isset($_POST['widget-minimeta'][$number]['seiteadmin']);
+        $options['rememberme'] = isset($_POST['widget-minimeta'][$number]['rememberme']);
+		$options['rsslink'] = isset($_POST['widget-minimeta'][$number]['rsslink']);
+		$options['rsscommentlink'] = isset($_POST['widget-minimeta'][$number]['rsscommentlink']);
+		$options['wordpresslink'] = isset($_POST['widget-minimeta'][$number]['wordpresslink']);
+		$options['lostpwlink'] = isset($_POST['widget-minimeta'][$number]['lostpwlink']);
+		$options['profilelink'] = isset($_POST['widget-minimeta'][$number]['profilelink']);
+        $options['showwpmeta'] = isset($_POST['widget-minimeta'][$number]['showwpmeta']);
+        $options['displayidentity'] = isset($_POST['widget-minimeta'][$number]['displayidentity']);
+        $options['useselectbox'] = isset($_POST['widget-minimeta'][$number]['useselectbox']);          
+        $options['notopics'] = isset($_POST['widget-minimeta'][$number]['notopics']); 
+        unset($adminlinks);
+        if (strip_tags(stripslashes($_POST['widget-minimeta'][$number]['adminlinks'][0]))!="") {
+            for ($i=0;$i<sizeof($_POST['widget-minimeta'][$number]['adminlinks']);$i++) {
+                  $options['adminlinks'][$i] = strip_tags(stripslashes($_POST['widget-minimeta'][$number]['adminlinks'][$i]));
+            }
+        }
+        sbm_update_option('widget_minimeta', $options); //save Options
+    } 
+    //make settings
+    if (empty($options['login'])) {
+        $loginLink='checked="checked"';
+        $loginForm='';
+        $loginOff='';
+        $logout='checked="checked"';
+        $registerlink='checked="checked"';
+        $seiteadmin='checked="checked"';
+        $rememberme='checked="checked"';
+        $rsslink='checked="checked"';
+        $rsscommentlink='checked="checked"';
+        $wordpresslink='checked="checked"';
+        $lostpwlink='';
+        $profilelink='';
+        $showwpmeta='checked="checked"';
+        $displayidentity='';
+        $useselectbox='';
+        $notopics='';    
+    } else {
+		if (isset($options['login'])) { 
+			$options['login'] = htmlspecialchars($options['login'], ENT_QUOTES);
+			$loginLink = $options['login'] == 'link' ? 'checked="checked"' : '';
+			$loginForm = $options['login'] == 'form' ? 'checked="checked"' : '';
+			$loginOff = $options['login'] == 'off' ? 'checked="checked"' : '';
+		} 
+		$logout = $options['logout'] ? 'checked="checked"' : '';
+        $registerlink = $options['registerlink'] ? 'checked="checked"' : '';
+        $seiteadmin = $options['seiteadmin'] ? 'checked="checked"' : '';
+		$rememberme = $options['rememberme'] ? 'checked="checked"' : '';
+		$rsslink = $options['rsslink'] ? 'checked="checked"' : '';
+		$rsscommentlink = $options['rsscommentlink'] ? 'checked="checked"' : '';
+		$wordpresslink = $options['wordpresslink'] ? 'checked="checked"' : '';
+		$lostpwlink = $options['lostpwlink'] ? 'checked="checked"' : '';
+		$profilelink= $options['profilelink'] ? 'checked="checked"' : '';
+        $showwpmeta = $options['showwpmeta'] ? 'checked="checked"' : '';
+        $displayidentity = $options['displayidentity'] ? 'checked="checked"' : '';
+        $useselectbox = $options['useselectbox'] ? 'checked="checked"' : '';
+        $notopics = $options['notopics'] ? 'checked="checked"' : '';
+        $options[$number]['adminlinks']=$options['adminlinks'];
+    }
+   } else { // WP-Widgets
     global $wp_registered_widgets;
     static $updated = false; // Whether or not we have already updated the data after a POST submit
     
@@ -311,12 +380,10 @@ function widget_minimeta_control($widget_args = 1) {
         $useselectbox = $options[$number]['useselectbox'] ? 'checked="checked"' : '';
         $notopics = $options[$number]['notopics'] ? 'checked="checked"' : '';
   	}
-
+   }
 	// The form has inputs with names like widget-minimeta[$number][something] so that all data for that instance of
 	// the widget are stored in one $_POST variable: $_POST['widget-minimeta'][$number]
-
    
-    
 		//displaying options
 		if (!K2_USING_SBM) {?><p><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" /></label></p><?php } ?>
 		<table style="width:100%;border:none"><tr><td valign="top" style="text-align:left;">
@@ -439,9 +506,6 @@ function widget_minimeta_register() {
 * Delete all Options
 */
 function widget_minnimeta_deactivate() {
-	if (K2_USING_SBM) {
-     sbm_delete_option('widget_minimeta');
-    } 
     delete_option('widget_minimeta');
 }
 add_action('deactivate_'.dirname(plugin_basename(__FILE__)).'/minimeta-widget.php','widget_minnimeta_deactivate');
