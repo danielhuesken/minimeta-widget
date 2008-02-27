@@ -136,9 +136,10 @@ function widget_minimeta($args,$widget_args = 1) {
                 if($options[$number]['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\" class=\"minimeta-logout\">".__('Logout')."</a></li>"; 
              
                 if (sizeof($options[$number]['adminlinks'])>0) { //show only if a Admin Link is selectesd
-                 if ($options[$number]['useselectbox'])
-                    echo "<li><select class=\"minimeta-adminlinks\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Please select:','MiniMetaWidget')."</option>";
-
+                 if ($options[$number]['useselectbox']) {
+                    echo "</ul>";
+                    echo "<select class=\"minimeta-adminlinks\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Please select:','MiniMetaWidget')."</option>";
+                 }
                  $adminlinks=minmeta_adminliks(); 
                  foreach ($adminlinks as $menu) {
                   $output="";
@@ -169,7 +170,8 @@ function widget_minimeta($args,$widget_args = 1) {
                   }
 
                   if ($options[$number]['useselectbox'])
-                    echo "</select></li>";
+                    echo "</select>";
+                    echo "<ul>";
                 }
          } else {
 			echo $args['before_title'] . $options[$number]['title']. $args['after_title'];
@@ -193,7 +195,7 @@ function widget_minimeta($args,$widget_args = 1) {
 				</form><?php
 			}
             echo "<ul>";
-			if($options[$number]['login']=='link') echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Login')."\" class=\"minimeta-login\">".__('Login')."</a></li>";
+ 			if($options[$number]['login']=='link') echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Login')."\" class=\"minimeta-login\">".__('Login')."</a></li>";
 			if($options[$number]['lostpwlink']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=lostpassword\" title=\"".__('Password Lost and Found')."\" class=\"minimeta-lostpw\">".__('Lost your password?')."</a></li>";
 			if($options[$number]['registerlink']) wp_register();
 		} 
