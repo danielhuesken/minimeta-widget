@@ -70,7 +70,8 @@ Change log:
                             cusom style not lod fix
                             CSS syle fix for thems
     Version 3.1.0    Full Compatibility to WP 2.5
-                           Added Opten to disable topics for Admin Links
+                              Added Opten to disable topics for Admin Links
+                              Added enable/disable Wordpress Cookie test
 */
 
 
@@ -130,8 +131,8 @@ function widget_minimeta($args,$widget_args = 1) {
             } else {
             echo $before_title . $options[$number]['title'] . $after_title; 
             }
-
-            echo "<ul>";
+ 
+                echo "<ul>";
                 if($options[$number]['seiteadmin']) {wp_register();}
                 if($options[$number]['logout']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Logout')."\" class=\"minimeta-logout\">".__('Logout')."</a></li>"; 
              
@@ -176,7 +177,7 @@ function widget_minimeta($args,$widget_args = 1) {
          } else {
 			echo $args['before_title'] . $options[$number]['title']. $args['after_title'];
             if($options[$number]['login']=='form') {?>
-				<form name="loginform" id="loginform" action="<?php bloginfo('wpurl'); ?>/wp-login.php" method="post">
+				<form name="loginform" id="loginform-<?php echo $number; ?>" action="<?php bloginfo('wpurl'); ?>/wp-login.php" method="post">
 					<p>
                         <label><?php _e('Username:') ?><br />
                         <input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
@@ -190,12 +191,13 @@ function widget_minimeta($args,$widget_args = 1) {
                     <p class="submit">
                         <input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Log in'); ?>" tabindex="100" />
                         <input type="hidden" name="redirect_to" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
-                        <input type="hidden" name="testcookie" value="1" />
+                        <?php if($options[$number]['testcookie']) {?><input type="hidden" name="testcookie" value="1" /><?php } ?>
                     </p>
 				</form><?php
 			}
+            
             echo "<ul>";
- 			if($options[$number]['login']=='link') echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Login')."\" class=\"minimeta-login\">".__('Login')."</a></li>";
+            if($options[$number]['login']=='link') echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" title=\"".__('Login')."\" class=\"minimeta-login\">".__('Login')."</a></li>";
 			if($options[$number]['lostpwlink']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=lostpassword\" title=\"".__('Password Lost and Found')."\" class=\"minimeta-lostpw\">".__('Lost your password?')."</a></li>";
 			if($options[$number]['registerlink']) wp_register();
 		} 
@@ -217,6 +219,7 @@ function widget_minimeta_control($widget_args = 1) {
 		$options['login'] = strip_tags(stripslashes($_POST['widget-minimeta'][$number]['login']));
 		$options['logout'] = isset($_POST['widget-minimeta'][$number]['logout']);
         $options['registerlink'] = isset($_POST['widget-minimeta'][$number]['registerlink']);
+        $options['testcookie'] = isset($_POST['widget-minimeta'][$number]['testcookie']);
         $options['seiteadmin'] = isset($_POST['widget-minimeta'][$number]['seiteadmin']);
         $options['rememberme'] = isset($_POST['widget-minimeta'][$number]['rememberme']);
 		$options['rsslink'] = isset($_POST['widget-minimeta'][$number]['rsslink']);
@@ -243,6 +246,7 @@ function widget_minimeta_control($widget_args = 1) {
         $loginOff='';
         $logout='checked="checked"';
         $registerlink='checked="checked"';
+        $testcookie='checked="checked"';
         $seiteadmin='checked="checked"';
         $rememberme='checked="checked"';
         $rsslink='checked="checked"';
@@ -263,6 +267,7 @@ function widget_minimeta_control($widget_args = 1) {
 		} 
 		$logout = $options['logout'] ? 'checked="checked"' : '';
         $registerlink = $options['registerlink'] ? 'checked="checked"' : '';
+        $testcookie = $options['testcookie'] ? 'checked="checked"' : '';
         $seiteadmin = $options['seiteadmin'] ? 'checked="checked"' : '';
 		$rememberme = $options['rememberme'] ? 'checked="checked"' : '';
 		$rsslink = $options['rsslink'] ? 'checked="checked"' : '';
@@ -316,6 +321,7 @@ function widget_minimeta_control($widget_args = 1) {
 			$options[$widget_number]['login'] = strip_tags(stripslashes($widget_minmeta['login']));
 			$options[$widget_number]['logout'] = isset($widget_minmeta['logout']);
             $options[$widget_number]['registerlink'] = isset($widget_minmeta['registerlink']);
+            $options[$widget_number]['testcookie'] = isset($widget_minmeta['testcookie']);
             $options[$widget_number]['seiteadmin'] = isset($widget_minmeta['seiteadmin']);
 			$options[$widget_number]['rememberme'] = isset($widget_minmeta['rememberme']);
 			$options[$widget_number]['rsslink'] = isset($widget_minmeta['rsslink']);
@@ -348,6 +354,7 @@ function widget_minimeta_control($widget_args = 1) {
         $loginOff='';
         $logout='checked="checked"';
         $registerlink='checked="checked"';
+        $testcookie='';
         $seiteadmin='checked="checked"';
         $rememberme='checked="checked"';
         $rsslink='checked="checked"';
@@ -370,6 +377,7 @@ function widget_minimeta_control($widget_args = 1) {
 		} 
 		$logout = $options[$number]['logout'] ? 'checked="checked"' : '';
         $registerlink = $options[$number]['registerlink'] ? 'checked="checked"' : '';
+        $testcookie = $options[$number]['testcookie'] ? 'checked="checked"' : '';
         $seiteadmin = $options[$number]['seiteadmin'] ? 'checked="checked"' : '';
 		$rememberme = $options[$number]['rememberme'] ? 'checked="checked"' : '';
 		$rsslink = $options[$number]['rsslink'] ? 'checked="checked"' : '';
@@ -391,6 +399,7 @@ function widget_minimeta_control($widget_args = 1) {
 		<table style="width:100%;border:none"><tr><td valign="top" style="text-align:left;">
         <span style="font-weight:bold;"><?php _e('Show when logged out:','MiniMetaWidget');?></span><br />
          <label for="minimeta-login-<?php echo $number; ?>"><?php _e('Login Type:','MiniMetaWidget');?><br /><input type="radio" name="widget-minimeta[<?php echo $number; ?>][login]" id="minimeta-login-link-<?php echo $number; ?>" value="link" <?php echo $loginLink; ?> />&nbsp;<?php _e('Link','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="widget-minimeta[<?php echo $number; ?>][login]" id="minimeta-login-form-<?php echo $number; ?>" value="form" <?php echo $loginForm; ?> />&nbsp;<?php _e('Form','MiniMetaWidget');?>&nbsp;&nbsp;<input type="radio" name="widget-minimeta[<?php echo $number; ?>][login]" id="minimeta-login-off-<?php echo $number; ?>" value="off" <?php echo $loginOff; ?> />&nbsp;<?php _e('Off','MiniMetaWidget');?>&nbsp</label><br />
+         <label for="minimeta-testcookie-<?php echo $number; ?>" title="<?php _e('Enable WordPress Cookie Test for login Form','MiniMetaWidget');?>"><input class="checkbox" type="checkbox" <?php echo $testcookie; ?> id="minimeta-testcookie-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][testcookie]" />&nbsp;<?php _e('Enable Cookie Test','MiniMetaWidget');?></label><br />
          <label for="minimeta-rememberme-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $rememberme; ?> id="minimeta-rememberme-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][rememberme]" />&nbsp;<?php _e('Remember me');?></label><br />
 		 <label for="minimeta-lostpwlink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $lostpwlink; ?> id="minimeta-lostpwlink-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][lostpwlink]" />&nbsp;<?php _e('Lost your password?');?></label><br />
 		 <label for="minimeta-registerlink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $registerlink; ?> id="minimeta-registerlink-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][registerlink]" />&nbsp;<?php _e('Register');?></label><br />

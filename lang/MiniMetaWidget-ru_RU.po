@@ -73,3 +73,9 @@ msgstr "Do not show Admin Links topics"
 
 msgid "No Topics"
 msgstr "No Topics"
+
+msgid "Enable WordPress Cookie Test for login Form"
+msgstr "Enable WordPress Cookie Test for login Form"
+
+msgid "Enable Cookie Test"
+msgstr "Enable Cookie Test"
