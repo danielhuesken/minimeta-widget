@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Daniel Hüsken\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-02-28 21:24+0100\n"
+"PO-Revision-Date: 2008-03-02 14:23+0100\n"
 "Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
 "Language-Team: Daniel Hüsken\n"
 "MIME-Version: 1.0\n"
@@ -16,18 +16,6 @@ msgstr ""
 
 msgid "Show when logged out:"
 msgstr "Anzeige ausgeloggt:"
-
-msgid "Login Type:"
-msgstr "Login Typen:"
-
-msgid "Link"
-msgstr "Link"
-
-msgid "Form"
-msgstr "Form"
-
-msgid "Off"
-msgstr "Aus"
 
 msgid "Show allways:"
 msgstr "Anzeige immer:"
@@ -79,4 +67,16 @@ msgstr "WordPress Cookie test einschalten für das login Form"
 
 msgid "Enable Cookie Test"
 msgstr "Cookie Test einschalten"
+
+msgid "Login Link"
+msgstr "Login Link"
+
+msgid "Login Form"
+msgstr "Login Form"
+
+msgid "Enable WordPress redirect function on Login/out"
+msgstr "WP Login/Logout redirect Funktion einschalten"
+
+msgid "Enable Login/out Redirect"
+msgstr "Login/out Redirect Einschalten"
 

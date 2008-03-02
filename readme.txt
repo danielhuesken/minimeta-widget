@@ -12,10 +12,10 @@ Mini Verson of the WP Meta Widget with differnt logon types and some additional 
 
 Mini Verson of the WP Meta Widget
 
-* Diffrent logon types (form,link,none)
+* Diffrent logon types (form,link)
 * Uses redirection for logon/logout 
 * All standart WP Links can enabled/disabled
-* Additional Admin Links custumiseable
+* Additional Admin Links (customizeable)
 * build in style sheet support
 * Full K2 SBM support
 

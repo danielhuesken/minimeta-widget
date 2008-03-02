@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Belyi Mish\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-02-18 03:33+0300\n"
-"Last-Translator: Belyi Mish <belyi.mish@gmail.com>\n"
+"PO-Revision-Date: 2008-03-02 14:46+0100\n"
+"Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
 "Language-Team: Belyi Mish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -16,18 +16,6 @@ msgstr ""
 
 msgid "Show when logged out:"
 msgstr "Показывать, когда выполняется вход:"
-
-msgid "Login Type:"
-msgstr "Тип логина:"
-
-msgid "Link"
-msgstr "Ссылка"
-
-msgid "Form"
-msgstr "Форма"
-
-msgid "Off"
-msgstr "Выкл"
 
 msgid "Show allways:"
 msgstr "Показывать всегда:"
@@ -79,3 +67,16 @@ msgstr "Enable WordPress Cookie Test for login Form"
 
 msgid "Enable Cookie Test"
 msgstr "Enable Cookie Test"
+
+msgid "Login Link"
+msgstr "Login Link"
+
+msgid "Login Form"
+msgstr "Login Form"
+
+msgid "Enable WordPress redirect function on Login/out"
+msgstr "Enable WordPress redirect function on Login/out"
+
+msgid "Enable Login/out Redirect"
+msgstr "nable Login/out Redirect"
+

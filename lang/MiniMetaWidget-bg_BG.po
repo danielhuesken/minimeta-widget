@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-MiniMeta Widget\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-09 20:00+0100\n"
+"PO-Revision-Date: 2008-03-02 14:46+0100\n"
 "Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
 "Language-Team: Alexander Dichev <http://dichev.com/contact/english/>\n"
 "MIME-Version: 1.0\n"
@@ -16,18 +16,6 @@ msgstr ""
 
 msgid "Show when logged out:"
 msgstr "Показване след изход:"
-
-msgid "Login Type:"
-msgstr "Тип на Входа:"
-
-msgid "Link"
-msgstr "Линк"
-
-msgid "Form"
-msgstr "Формуляр"
-
-msgid "Off"
-msgstr "Изключено"
 
 msgid "Show allways:"
 msgstr "Показване винаги:"
@@ -74,9 +62,21 @@ msgstr "Do not show Admin Links topics"
 msgid "No Topics"
 msgstr "No Topics"
 
-
 msgid "Enable WordPress Cookie Test for login Form"
 msgstr "Enable WordPress Cookie Test for login Form"
 
 msgid "Enable Cookie Test"
 msgstr "Enable Cookie Test"
+
+msgid "Login Link"
+msgstr "Login Link"
+
+msgid "Login Form"
+msgstr "Login Form"
+
+msgid "Enable WordPress redirect function on Login/out"
+msgstr "Enable WordPress redirect function on Login/out"
+
+msgid "Enable Login/out Redirect"
+msgstr "nable Login/out Redirect"
+
