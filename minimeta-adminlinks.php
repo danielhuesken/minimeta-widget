@@ -91,6 +91,7 @@ function minmeta_adminliks() {
   $adminlinks[45][60]=array(__('Style', 'nggallery'),'','admin.php?page=nggallery-style');
   $adminlinks[45][70]=array(__('Setup Gallery', 'nggallery'),'activate_plugins','admin.php?page=nggallery-setup');
   $adminlinks[45][80]=array(__('Roles', 'nggallery'),'activate_plugins','admin.php?page=nggallery-roles');
+  $adminlinks[45][90]=array(__('About', 'nggallery'),'activate_plugins','admin.php?page=nggallery-about');
  }
  if (in_array("wp-dbmanager/wp-dbmanager.php",$plugins)) {
   $adminlinks[46]['menu'] = __('Database', 'wp-dbmanager');
