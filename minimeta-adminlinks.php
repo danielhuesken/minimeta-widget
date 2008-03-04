@@ -16,7 +16,7 @@ function minmeta_adminliks() {
  $adminlinks[5]['menu'] =  __('Write'); //menu group
  $adminlinks[5][5] =    array(__('Post'), 'edit_posts', 'post-new.php'); //menu link
  $adminlinks[5][10] =   array(__('Page'), 'edit_pages', 'page-new.php'); //menu link
- $adminlinks[5][10] =   array(__('Link'), 'manage_links', 'link-add.php'); //menu link
+ $adminlinks[5][15] =   array(__('Link'), 'manage_links', 'link-add.php'); //menu link
  $adminlinks[10]['menu'] = __('Manage');
  $adminlinks[10][5] =   array(__('Posts'), 'edit_posts', 'edit.php');
  $adminlinks[10][10] =  array(__('Pages'), 'edit_pages', 'edit-pages.php');
