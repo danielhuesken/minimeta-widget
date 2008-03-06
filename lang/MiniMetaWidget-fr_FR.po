@@ -1,0 +1,82 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Luc Saint-Elie\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-03-06 20:53+0100\n"
+"Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
+"Language-Team: Luc Saint-Elie <lstelie@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "Show when logged out:"
+msgstr "Afficher lors de la déconnexion :"
+
+msgid "Show allways:"
+msgstr "Toujours afficherf:"
+
+msgid "Link to WordPress.org"
+msgstr "Lien vers WordPress.org"
+
+msgid "wp_meta Plugin hooks"
+msgstr "wp_meta Plugin Hooks"
+
+msgid "Show when logged in:"
+msgstr "Afficher lors de la connexion :"
+
+msgid "Disply user Identity as title"
+msgstr "Afficher le nom d'utilisateur en titre"
+
+msgid "Link to Your Profile in title"
+msgstr "Lien vers votre profil en titre"
+
+msgid "Admin Links:"
+msgstr "Lien Admin:"
+
+msgid "Admin Links Selection"
+msgstr "Sélection de liens Admin"
+
+msgid "Select Admin Links:"
+msgstr "Sélectionner les liens Admin:"
+
+msgid "No Admin Links"
+msgstr "Pas de liens Admin"
+
+msgid "Use Select Box for Admin Links"
+msgstr "Utiliser une boite de sélection pour les liens Admin"
+
+msgid "Use Select Box"
+msgstr "Utiliser une Sélect box"
+
+msgid "Please select:"
+msgstr "SVP sélectionnez:"
+
+msgid "Do not show Admin Links topics"
+msgstr "Do not show Admin Links topics"
+
+msgid "No Topics"
+msgstr "No Topics"
+
+msgid "Enable WordPress Cookie Test for login Form"
+msgstr "Enable WordPress Cookie Test for login Form"
+
+msgid "Enable Cookie Test"
+msgstr "Enable Cookie Test"
+
+msgid "Login Link"
+msgstr "Login Link"
+
+msgid "Login Form"
+msgstr "Login Form"
+
+msgid "Enable WordPress redirect function on Login/out"
+msgstr "Enable WordPress redirect function on Login/out"
+
+msgid "Enable Login/out Redirect"
+msgstr "nable Login/out Redirect"
+
