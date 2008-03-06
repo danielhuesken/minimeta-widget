@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Luc Saint-Elie\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-03-05 21:06+0100\n"
+"Last-Translator: Luc Saint-Elie <lstelie@gmail.com>\n"
+"Language-Team: Luc Saint-Elie <lstelie@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: MiniMeta.php:192
+msgid "Show when logged out:"
+msgstr "Afficher lors de la déconnexion :"
+
+#: MiniMeta.php:193
+msgid "Login Type:"
+msgstr "Type de connexion :"
+
+#: MiniMeta.php:193
+msgid "Link"
+msgstr "Lien"
+
+#: MiniMeta.php:193
+msgid "Form"
+msgstr "Formulaire"
+
+#: MiniMeta.php:193
+msgid "Off"
+msgstr "OFF"
+
+#: MiniMeta.php:198
+msgid "Show allways:"
+msgstr "Toujours afficherf:"
+
+#: MiniMeta.php:201
+msgid "Link to WordPress.org"
+msgstr "Lien vers WordPress.org"
+
+#: MiniMeta.php:202
+msgid "wp_meta Plugin hooks"
+msgstr "wp_meta Plugin Hooks"
+
+#: MiniMeta.php:204
+msgid "Show when logged in:"
+msgstr "Afficher lors de la connexion :"
+
+#: MiniMeta.php:207
+msgid "Disply user Identity as title"
+msgstr "Afficher le nom d'utilisateur en titre"
+
+#: MiniMeta.php:208
+msgid "Link to Your Profile in title"
+msgstr "Lien vers votre profil en titre"
+
+#: MiniMeta.php:209
+msgid "Admin Links:"
+msgstr "Lien Admin :"
+
+#: MiniMeta.php:210
+msgid "Admin Links Selection"
+msgstr "Sélection de liens Admin"
+
+#: MiniMeta.php:252
+msgid "Select Admin Links:"
+msgstr "Sélectionner les liens Admin :"
+
+#: MiniMeta.php:252
+msgid "No Admin Links"
+msgstr "Pas de liens Admin"
+
+#: MiniMeta.php:252
+msgid "Use Select Box for Admin Links"
+msgstr "Utiliser une boite de sélection pour les liens Admin"
+
+#: MiniMeta.php:252
+msgid "Use Select Box"
+msgstr "Utiliser une Sélect box"
+
+#: MiniMeta.php:126
+msgid "Please select:"
+msgstr "SVP sélectionnez :"
+
