@@ -27,7 +27,6 @@ function minmeta_adminliks() {
  $adminlinks[10][35] =  array(__('Media Library'), 'upload_files', 'upload.php');
  $adminlinks[10][40] =  array(__('Import'), 'import', 'import.php');
  $adminlinks[10][45] =  array(__('Export'), 'import', 'export.php');
- if (in_array("simple-forum/sf-control.php",$plugins)) $adminlinks[10][50] =  array(__('Simple Forum', 'sforum'), 8, 'edit.php?page=simple-forum/sf-admin.php');
  if (in_array("wp-ban/wp-ban.php",$plugins)) $adminlinks[10][51] =  array(__('Ban', 'wp-ban'), 'manage_options', 'edit.php?page=wp-ban/ban-options.php');
  $adminlinks[15]['menu'] =  __('Design'); 
  $adminlinks[15][5] = array(__('Themes'), 'switch_themes', 'themes.php');
@@ -135,6 +134,15 @@ function minmeta_adminliks() {
   $adminlinks[50][30]=array( __('Ratings Usage', 'wp-postratings'),'manage_ratings','admin.php?page=wp-postratings/postratings-usage.php');
   //$adminlinks[50][40]=array( __('Uninstall WP-PostRatings', 'wp-postratings'),'manage_ratings','admin.php?page=wp-postratings/postratings-uninstall.php');
  }
+ if (in_array("simple-forum/sf-control.php",$plugins)) {
+  $adminlinks[51]['menu'] = __('Forum', 'sforum');
+  $adminlinks[51][10]=array( __('Manage Options', 'sforum'),'8','admin.php?page=simple-forum/admin/sf-adminoptions.php');
+  $adminlinks[51][20]=array( __('Manage Forums', 'sforum'),'8','admin.php?page=simple-forum/admin/sf-adminforums.php');
+  $adminlinks[51][30]=array( __('Manage User Groups', 'sforum'),'8','admin.php?page=simple-forum/admin/sf-adminusergroups.php');
+  $adminlinks[51][40]=array( __('Manage Permission Sets', 'sforum'),'8','admin.php?page=simple-forum/admin/sf-adminpermissions.php');
+  $adminlinks[51][50]=array( __('Manage Database', 'sforum'),'8','admin.php?page=simple-forum/admin/sf-admindatabase.php');
+  $adminlinks[51][60]=array( __('Online Help', 'sforum'),'8','admin.php?page=imple-forum/admin/sf-adminpopuphelp.php');
+ } 
 return $adminlinks;
 }
 ?>
