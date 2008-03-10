@@ -75,6 +75,7 @@ Change log:
                              Added enable/disable login/ou redirect
                              <ul> xhtml fixes
                             Loginform an Link at same time
+                            Atomatik Admin Links creation as Adminon Plugins Tab. minimeta-adminlinks.php no more nedded.
 */
 
 
@@ -92,11 +93,6 @@ function widget_minnimeta_init() {
     //find out if K2 is activatet and set K2_USING_SBM Konstant
     if (!defined(K2_CURRENT)) define('K2_USING_SBM',false);
     
-    if (file_exists('custom/minimeta-adminlinks.php')) { //include Admi Links Data
-      require('custom/minimeta-adminlinks.php');
-    } else {
-      require('minimeta-adminlinks.php');
-    }   
     widget_minimeta_register();
 }   
 add_action('init', 'widget_minnimeta_init');
@@ -152,7 +148,7 @@ function widget_minimeta($args,$widget_args = 1) {
                     }
                     echo "<select class=\"minimeta-adminlinks\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Please select:','MiniMetaWidget')."</option>";
                  }
-                 $adminlinks=minmeta_adminliks(); 
+                 $adminlinks=get_option('widget_minimeta_adminlinks'); 
                  foreach ($adminlinks as $menu) {
                   $output="";
                   foreach ($menu as $submenu) {
@@ -433,7 +429,7 @@ function widget_minimeta_control($widget_args = 1) {
          <label for="minimeta-adminlinks-<?php echo $number; ?>" title="<?php _e('Admin Links Selection','MiniMetaWidget');?>"><?php _e('Select Admin Links:','MiniMetaWidget');?> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-adminlinks-<?php echo $number; ?>'),true)" style="font-size:9px;"><?php _e('All'); ?></a> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-adminlinks-<?php echo $number; ?>'),false)" style="font-size:9px;"><?php _e('None'); ?></a><br />
          <select class="select" type="select" tabindex="95" size="7" name="widget-minimeta[<?php echo $number; ?>][adminlinks][]" id="minimeta-adminlinks-<?php echo $number; ?>" multiple="multiple">
          <?PHP
-            $adminlinks=minmeta_adminliks();
+            $adminlinks=get_option('widget_minimeta_adminlinks');
             foreach ($adminlinks as $menu) {
              echo "<optgroup label=\"".$menu['menu']."\">";
              foreach ($menu as $submenu) {
@@ -491,7 +487,36 @@ function widget_minimeta_wp_head() {
     }
 }
     
-    
+function widget_minimeta_generate_adminlinks() { //function to generate admin links
+ global $menu,$submenu;
+ if (is_user_logged_in() and current_user_can(10) and "plugins.php"==basename($_SERVER["PHP_SELF"])) {
+  if (!isset($submenu['index.php'][0][0])) //Add Dashboard submenu
+    $submenu['index.php'][0] = array(__('Dashboard'), 'read', 'index.php'); 
+  foreach ( $menu as $key => $item ) {
+    $adminlinks[$key]['menu']=strip_tags($item[0]);
+    if ($item[2]=="edit-comments.php") //Overwrite for Comments menu without number
+        $adminlinks[20]['menu'] = __('Comments');
+    foreach ($submenu[$item[2]] as $keysub => $itemsub) {
+        $adminlinks[$key][$keysub][0]=strip_tags($itemsub[0]);
+        $adminlinks[$key][$keysub][1]=$itemsub[1];
+        $menu_hook = get_plugin_page_hook($itemsub[2], $item[2]);       
+        if (file_exists(ABSPATH . PLUGINDIR . "/".$itemsub[2]) || ! empty($menu_hook)) {
+            if (!in_array($item[2],array('index.php','page-new.php','edit.php','themes.php','edit-comments.php','options-general.php','plugins.php','users.php','profile.php')) )
+                $adminlinks[$key][$keysub][2]= "admin.php?page=".$itemsub[2];
+            else
+                $adminlinks[$key][$keysub][2]= $item[2]."?page=".$itemsub[2];
+        } else {
+            $adminlinks[$key][$keysub][2]= $itemsub[2];
+        }
+    }   
+    if ($adminlinks[$key][$keysub][2]=="edit-comments.php?page=akismet-admin") //Overwrite for Akismet Spam menu without number
+        $adminlinks[$key][$keysub][0] = __('Akismet Spam');
+  }
+  update_option('widget_minimeta_adminlinks', $adminlinks);
+ }
+}
+add_action('admin_init','widget_minimeta_generate_adminlinks',1);
+  
 function widget_minimeta_register() { 
  	// This registers our widget and  widget control form for K2 SBM  
     if (K2_USING_SBM) {
@@ -530,6 +555,7 @@ function widget_minimeta_register() {
 */
 function widget_minnimeta_deactivate() {
     delete_option('widget_minimeta');
+    delete_option('widget_minimeta_adminlinks');
 }
 add_action('deactivate_'.dirname(plugin_basename(__FILE__)).'/minimeta-widget.php','widget_minnimeta_deactivate');
 ?>
