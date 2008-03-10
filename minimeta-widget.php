@@ -489,7 +489,7 @@ function widget_minimeta_wp_head() {
     
 function widget_minimeta_generate_adminlinks() { //function to generate admin links
  global $menu,$submenu;
- if (is_user_logged_in() and current_user_can(10) and "plugins.php"==basename($_SERVER["PHP_SELF"])) {
+ if (current_user_can(10) and ("plugins.php"==basename($_SERVER["PHP_SELF"]) or "themes.php"==basename($_SERVER["PHP_SELF"]))) {
   if (!isset($submenu['index.php'][0][0])) //Add Dashboard submenu
     $submenu['index.php'][0] = array(__('Dashboard'), 'read', 'index.php'); 
   foreach ( $menu as $key => $item ) {
@@ -516,7 +516,7 @@ function widget_minimeta_generate_adminlinks() { //function to generate admin li
  }
 }
 add_action('admin_init','widget_minimeta_generate_adminlinks',1);
-  
+ 
 function widget_minimeta_register() { 
  	// This registers our widget and  widget control form for K2 SBM  
     if (K2_USING_SBM) {
