@@ -2,7 +2,7 @@
 Contributors: danielhuesken
 Donate link: http://danielhuesken.de/
 Tags: widget, sidebar, meta, admin, links
-Requires at least: 2.5
+Requires at least: 2.5.0
 Tested up to: 2.5.0 (svn)
 Stable tag: 3.0.1
 
@@ -15,7 +15,7 @@ Mini Verson of the WP Meta Widget
 * Diffrent logon types (form,link)
 * Uses redirection for logon/logout 
 * All standart WP Links can enabled/disabled
-* Additional Admin Links (customizeable)
+* Additional Admin Links (from Plugins too)
 * build in style sheet support
 * Full K2 SBM support
 
@@ -44,9 +44,9 @@ Version later 2.7.0 needed:<br />
 
 In the Plugin file are dependings for files where the plugin work. This dependings must be commentet out.
 
-= Can I make own Admin Links / Style sheet files =
+= Can I make own Style sheet =
 
-Yes, simply copy the minimeta-adminlinks.php or minimeta-widget.css file in the custom folder and edit it.
+Yes, simply copy the minimeta-widget.css file in the custom folder and edit it.
 The files in the custom folder will not be overweritet on Plugin Updates.
 
 = The widget coud not displayt =

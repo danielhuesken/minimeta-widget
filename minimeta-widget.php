@@ -547,12 +547,7 @@ function widget_minimeta_register() {
     add_action('wp_head', 'widget_minimeta_wp_head',10);
 }
 
-/**
-* Deactivate plugin
-*
-* Function used when this plugin is deactivated in Wordpress.
-* Delete all Options
-*/
+// Deactivate plugin -Delete all Options
 function widget_minnimeta_deactivate() {
     delete_option('widget_minimeta');
     delete_option('widget_minimeta_adminlinks');
