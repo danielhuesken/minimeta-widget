@@ -488,8 +488,8 @@ function widget_minimeta_wp_head() {
 }
     
 function widget_minimeta_generate_adminlinks() { //function to generate admin links
- global $menu,$submenu;
- if (current_user_can(10) and ("plugins.php"==basename($_SERVER["PHP_SELF"]) or "themes.php"==basename($_SERVER["PHP_SELF"]))) {
+ global $menu,$submenu,$pagenow;
+ if (current_user_can(10) and ("plugins.php"==$pagenow or "themes.php"==$pagenow)) {
   if (!isset($submenu['index.php'][0][0])) //Add Dashboard submenu
     $submenu['index.php'][0] = array(__('Dashboard'), 'read', 'index.php'); 
   foreach ( $menu as $key => $item ) {
