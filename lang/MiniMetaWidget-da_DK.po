@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-MiniMeta Widget\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-03-02 14:46+0100\n"
+"PO-Revision-Date: 2008-03-13 17:40+0100\n"
 "Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
 "Language-Team: Daniel Hüsken\n"
 "MIME-Version: 1.0\n"
@@ -79,4 +79,7 @@ msgstr "Enable WordPress redirect function on Login/out"
 
 msgid "Enable Login/out Redirect"
 msgstr "nable Login/out Redirect"
+
+msgid "Displaying Meta links, Login Form and Admin Links"
+msgstr "Displaying Meta links, Login Form and Admin Links"
 

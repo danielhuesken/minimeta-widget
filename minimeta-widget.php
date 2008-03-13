@@ -78,26 +78,7 @@ Change log:
                             Atomatik Admin Links creation as Adminon Plugins Tab. minimeta-adminlinks.php no more nedded.
 */
 
-
-// Put functions into one big function we'll call at the plugins_loaded
-// action. This ensures that all required plugin functions are defined.
-function widget_minnimeta_init() {
-	//Loads language files
-	load_plugin_textdomain('MiniMetaWidget', 'wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/lang');
-	
-	// Check for the required plugin functions. This will prevent fatal
-	// errors occurring when you deactivate the dynamic-sidebar plugin.
-	if ( !function_exists('register_sidebar_widget') )
-		return;
-    
-    //find out if K2 is activatet and set K2_USING_SBM Konstant
-    if (!defined(K2_CURRENT)) define('K2_USING_SBM',false);
-    
-    widget_minimeta_register();
-}   
-add_action('init', 'widget_minnimeta_init');
-
-   
+//Display Widget 
 function widget_minimeta($args,$widget_args = 1) {
     global $user_identity;	
     extract( $args, EXTR_SKIP );
@@ -114,11 +95,14 @@ function widget_minimeta($args,$widget_args = 1) {
         $widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
         extract( $widget_args, EXTR_SKIP );
         $options = get_option('widget_minimeta');
+        if ( !isset($options[$number]) )
+            return;
     }
     
     //Don´t show Wiget if it have no links
-    if (!((!is_user_logged_in() and !$options[$number]['loginlink'] and !$options[$number]['loginform'] and !$options[$number]['registerlink'] and !$options[$number]['rememberme'] and !$options[$number]['lostpwlink'] and !$options[$number]['rsslink'] and !$options[$number]['rsscommentlink'] and !$options[$number]['wordpresslink'] and !$options[$number]['showwpmeta']) or
-           (is_user_logged_in() and !$options[$number]['logout'] and !$options[$number]['seiteadmin'] and sizeof($options[$number]['adminlinks'])==0 and !$options[$number]['rsslink'] and !$options[$number]['rsscommentlink'] and !$options[$number]['wordpresslink'] and !$options[$number]['showwpmeta']))) {
+    if ((!is_user_logged_in() and !$options[$number]['loginlink'] and !$options[$number]['loginform'] and !$options[$number]['registerlink'] and !$options[$number]['rememberme'] and !$options[$number]['lostpwlink'] and !$options[$number]['rsslink'] and !$options[$number]['rsscommentlink'] and !$options[$number]['wordpresslink'] and !$options[$number]['showwpmeta']) or
+        (is_user_logged_in() and !$options[$number]['logout'] and !$options[$number]['seiteadmin'] and sizeof($options[$number]['adminlinks'])==0 and !$options[$number]['rsslink'] and !$options[$number]['rsscommentlink'] and !$options[$number]['wordpresslink'] and !$options[$number]['showwpmeta'])) 
+            return;
         
 	//Shown part of Widget
     echo $before_widget;
@@ -216,7 +200,6 @@ function widget_minimeta($args,$widget_args = 1) {
 		if ($endul) 
             echo "</ul>";
 		echo $after_widget;
-        }
 }
 			
 function widget_minimeta_control($widget_args = 1) {
@@ -316,9 +299,10 @@ function widget_minimeta_control($widget_args = 1) {
 		foreach ( $this_sidebar as $_widget_id ) {
 			// Remove all widgets of this type from the sidebar.  We'll add the new data in a second.  This makes sure we don't get any duplicate data
 			// since widget ids aren't necessarily persistent across multiple updates
-			if ( 'widget_minimeta' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
+            if ( 'widget_minimeta' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
-				unset($options[$widget_number]);
+				if ( !in_array( "minimeta-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed. "minimeta-$widget_number" is "{id_base}-{widget_number}
+					unset($options[$widget_number]);
 			}
 		}
 
@@ -446,9 +430,10 @@ function widget_minimeta_control($widget_args = 1) {
         </td></tr></table>
         <?PHP if (!K2_USING_SBM) {?><input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][submit]" value="1" /><?php } ?>
 		<?php
-	}
+}
 
-function widget_minimeta_admin_head() {
+//JS Admin Header for All/None Selection
+function widget_minimeta_admin_head() { 
     ?>
     <script type="text/javascript">
 	 function selectAll_widget_minimeta(selectBox,selectAll) {
@@ -457,9 +442,6 @@ function widget_minimeta_admin_head() {
 	</script>    
     <?PHP
 }
-add_action('admin_head', 'widget_minimeta_admin_head',10);
-//add_action('admin_head-themes_page_widgets', 'widget_minimeta_admin_head',10); //the hook don't works.
-//add_action('admin_head-themes_page_k2-sbm-manager', 'widget_minimeta_admin_head',10);
     
 //WP-Head hooks high Priority
 function widget_minimeta_wp_head_login() {
@@ -486,8 +468,9 @@ function widget_minimeta_wp_head() {
         echo "<link rel=\"stylesheet\" href=\"".get_bloginfo('wpurl')."/wp-content/plugins/".dirname(plugin_basename(__FILE__))."/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
     }
 }
-    
-function widget_minimeta_generate_adminlinks() { //function to generate admin links
+
+//function to generate admin links    
+function widget_minimeta_generate_adminlinks() { 
  global $menu,$submenu,$pagenow;
  if (current_user_can(10) and ("plugins.php"==$pagenow or "themes.php"==$pagenow)) {
   if (!isset($submenu['index.php'][0][0])) //Add Dashboard submenu
@@ -515,37 +498,70 @@ function widget_minimeta_generate_adminlinks() { //function to generate admin li
   update_option('widget_minimeta_adminlinks', $adminlinks);
  }
 }
-add_action('admin_init','widget_minimeta_generate_adminlinks',1);
- 
-function widget_minimeta_register() { 
- 	// This registers our widget and  widget control form for K2 SBM  
-    if (K2_USING_SBM) {
+
+// This registers our widget and  widget control for K2 SBM 
+function widget_minimeta_register_K2() {  
       register_sidebar_module('MiniMeta Widget', 'widget_minimeta');
       register_sidebar_module_control('MiniMeta Widget', 'widget_minimeta_control');
-    } else { // This registers our widget and  widget control form for WordPress Widgets
-	  if ( !$options = get_option('widget_minimeta') )
+}
+
+// This registers our widget and  widget control for WP
+function widget_minimeta_register_WP() {
+	if ( !$options = get_option('widget_minimeta') )
 		$options = array();
-        
-      $widget_ops = array('classname' => 'widget_minimeta', 'description' => __('Displaying Meta links, Login Form and Admin Links'));
-	  $control_ops = array('width' => 450, 'height' => 350, 'id_base' => 'minimeta');
-	  $name = __('MiniMeta Widget');
-      // If there are none, we register the widget's existance with a generic template
-	  if ( !$options ) {
+
+	$widget_ops = array('classname' => 'widget_minimeta', 'description' => __('Displaying Meta links, Login Form and Admin Links','MiniMetaWidget'));
+	$control_ops = array('width' => 450, 'height' => 350, 'id_base' => 'minimeta');
+	$name = __('MiniMeta Widget');
+
+	$registered = false;
+	foreach ( array_keys($options) as $o ) {
+		// Old widgets can have null values for some reason
+		if ( !isset($options[$o]['title']) ) // we used 'something' above in our exampple.  Replace with with whatever your real data are.
+			continue;
+
+		// $id should look like {$id_base}-{$o}
+		$id = $control_ops['id_base']."-".$o; // Never never never translate an id
+		$registered = true;
+		wp_register_sidebar_widget( $id, $name, 'widget_minimeta', $widget_ops, array( 'number' => $o ) );
+		wp_register_widget_control( $id, $name, 'widget_minimeta_control', $control_ops, array( 'number' => $o ) );
+	}
+
+	// If there are none, we register the widget's existance with a generic template
+	if ( !$registered ) {
 		wp_register_sidebar_widget( $control_ops['id_base'].'-1', $name, 'widget_minimeta', $widget_ops, array( 'number' => -1 ) );
 		wp_register_widget_control( $control_ops['id_base'].'-1', $name, 'widget_minimeta_control', $control_ops, array( 'number' => -1 ) );
-	  }
-	  foreach ( array_keys($options) as $o ) {
-		// Old widgets can have null values for some reason
-		if ( !isset($options[$o]['title']))
-			continue;
-		$id = $control_ops['id_base']."-".$o; // Never never never translate an id
-		wp_register_sidebar_widget($id, $name, 'widget_minimeta', $widget_ops, array( 'number' => $o ));
-		wp_register_widget_control($id, $name, 'widget_minimeta_control', $control_ops, array( 'number' => $o ));
-	  }
+	}
+}
+
+// add all action and so on only if plugin loaded.
+function widget_minnimeta_init() {
+	//Loads language files
+	load_plugin_textdomain('MiniMetaWidget', 'wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/lang');
+	
+	// Check for the required plugin functions. This will prevent fatal
+	// errors occurring when you deactivate the dynamic-sidebar plugin.
+	if ( !function_exists('register_sidebar_widget') )
+		return;
+    
+    //find out if K2 is activatet and set K2_USING_SBM Konstant
+    if (!defined(K2_CURRENT)) define('K2_USING_SBM',false);
+    
+    //Only add actions and so on if Plugin is Activaded
+    if (K2_USING_SBM) { //K2 SBM only
+        widget_minimeta_register_K2();
+        add_action('admin_head-themes_page_k2-sbm-manager', 'widget_minimeta_admin_head',10);
+    } else { //WP only
+        add_action('widgets_init', 'widget_minimeta_register_WP');
+        add_action('admin_head-themes_page_widgets', 'widget_minimeta_admin_head',10);
     }
+    //WP and K2 SBM
     if (has_action('login_head')) add_action('wp_head', 'widget_minimeta_wp_head_login',1);
     add_action('wp_head', 'widget_minimeta_wp_head',10);
-}
+    add_action('admin_head', 'widget_minimeta_admin_head',10);
+    add_action('admin_init','widget_minimeta_generate_adminlinks',1);
+}   
+add_action('init', 'widget_minnimeta_init',1); //1 must because WP widgets_init don't work
 
 // Deactivate plugin -Delete all Options
 function widget_minnimeta_deactivate() {
