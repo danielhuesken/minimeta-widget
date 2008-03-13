@@ -164,30 +164,29 @@ function widget_minimeta($args,$widget_args = 1) {
 			echo $args['before_title'] . $options[$number]['title']. $args['after_title'];
             if($options[$number]['loginform']) {?>
 				<form name="loginform" id="loginform" action="<?php bloginfo('wpurl'); ?>/wp-login.php" method="post">
-					<p>
-                        <label><?php _e('Username:') ?><br />
+                    <p>
+                        <label><?php _e('Username') ?><br />
                         <input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
                     </p>
                     <p>
-                        <label><?php _e('Password:') ?><br />
+                        <label><?php _e('Password') ?><br />
                         <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /></label>
                     </p>
                     <?php do_action('login_form'); ?>
-                    <?php if($options[$number]['rememberme']) {?><p><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember me'); ?></label></p><?php } ?>
+                    <?php if($options[$number]['rememberme']) {?><p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember Me'); ?></label></p><?php } ?>
                     <p class="submit">
                         <input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Log in'); ?>" tabindex="100" />
-                        <?php if($options[$number]['redirect']) {?><input type="hidden" name="redirect_to" value="<?php echo $_SERVER['REQUEST_URI']; ?>" /><?php } ?>
+                        <?php if($options[$number]['redirect']) {?><input type="hidden" name="redirect_to" value="<?php echo attribute_escape($_SERVER['REQUEST_URI']); ?>" /><?php } ?>
                         <?php if($options[$number]['testcookie']) {?><input type="hidden" name="testcookie" value="1" /><?php } ?>
                     </p>
 				</form><?php
 			}
             
-            
             if ($options[$number]['loginlink'] or $options[$number]['lostpwlink'] or ($options[$number]['registerlink'] and get_option('users_can_register')) or $options[$number]['rsslink'] or $options[$number]['rsscommentlink'] or $options[$number]['wordpresslink'] or ($options[$number]['showwpmeta'] and has_action('wp_meta'))) {
                 echo "<ul>";
                 $endul=true;
             }
-            if($options[$number]['loginlink'] and $options[$number]['redirect']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" class=\"minimeta-login\">".__('Log in')."</a></li>";
+            if($options[$number]['loginlink'] and $options[$number]['redirect']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=login&amp;redirect_to=".attribute_escape($_SERVER['REQUEST_URI'])."\" class=\"minimeta-login\">".__('Log in')."</a></li>";
 			if($options[$number]['loginlink'] and !$options[$number]['redirect']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php\" class=\"minimeta-login\">".__('Log in')."</a></li>";
             if($options[$number]['lostpwlink']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=lostpassword\" title=\"".__('Password Lost and Found')."\" class=\"minimeta-lostpw\">".__('Lost your password?')."</a></li>";
 			if($options[$number]['registerlink'] and get_option('users_can_register')) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=register\" class=\"minimeta-register\">" . __('Register') . "</a></li>";
