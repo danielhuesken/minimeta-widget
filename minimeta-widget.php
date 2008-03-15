@@ -77,7 +77,7 @@ Change log:
                             Loginform an Link at same time
                             Atomatik Admin Links creation as Adminon Plugins Tab. minimeta-adminlinks.php no more nedded.
 */
-
+ 
 //Display Widget 
 function widget_minimeta($args,$widget_args = 1) {
     global $user_identity;	
@@ -509,7 +509,7 @@ function widget_minimeta_register_WP() {
 	if ( !$options = get_option('widget_minimeta') )
 		$options = array();
 
-	$widget_ops = array('classname' => 'widget_minimeta', 'description' => __('Displaying Meta links, Login Form and Admin Links','MiniMetaWidget'));
+	$widget_ops = array('description' => __('Displaying Meta links, Login Form and Admin Links','MiniMetaWidget'));
 	$control_ops = array('width' => 450, 'height' => 350, 'id_base' => 'minimeta');
 	$name = __('MiniMeta Widget');
 
@@ -534,13 +534,18 @@ function widget_minimeta_register_WP() {
 }
 
 // add all action and so on only if plugin loaded.
-function widget_minnimeta_init() {
+function widget_minimeta_init() {
+    global $wp_version;
 	//Loads language files
 	load_plugin_textdomain('MiniMetaWidget', 'wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/lang');
 	
-	// Check for the required plugin functions. This will prevent fatal
+    // Let only Activate on WordPress Version 2.5 or heiger
+    if (version_compare($wp_version, '2.5-beta1', '<')) 
+	    return;
+    
+    // Check for the required plugin functions. This will prevent fatal
 	// errors occurring when you deactivate the dynamic-sidebar plugin.
-	if ( !function_exists('register_sidebar_widget') )
+	if (!function_exists('register_sidebar_widget'))
 		return;
     
     //find out if K2 is activatet and set K2_USING_SBM Konstant
@@ -560,12 +565,12 @@ function widget_minnimeta_init() {
     add_action('admin_head', 'widget_minimeta_admin_head',10);
     add_action('admin_init','widget_minimeta_generate_adminlinks',1);
 }   
-add_action('init', 'widget_minnimeta_init',1); //1 must because WP widgets_init don't work
+add_action('init', 'widget_minimeta_init',1); //1 must because WP widgets_init don't work
 
 // Deactivate plugin -Delete all Options
-function widget_minnimeta_deactivate() {
+function widget_minimeta_deactivate() {
     delete_option('widget_minimeta');
     delete_option('widget_minimeta_adminlinks');
 }
-add_action('deactivate_'.dirname(plugin_basename(__FILE__)).'/minimeta-widget.php','widget_minnimeta_deactivate');
+register_deactivation_hook(plugin_basename(__FILE__),'widget_minimeta_deactivate');
 ?>
