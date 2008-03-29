@@ -540,7 +540,7 @@ function widget_minimeta_init() {
 	load_plugin_textdomain('MiniMetaWidget', 'wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/lang');
 	
     // Let only Activate on WordPress Version 2.5 or heiger
-    if (version_compare($wp_version, '2.5-beta1', '<')) 
+    if (version_compare($wp_version, '2.5', '<')) 
 	    return;
     
     // Check for the required plugin functions. This will prevent fatal
