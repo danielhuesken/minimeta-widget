@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-MiniMeta Widget\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-03-13 17:40+0100\n"
+"PO-Revision-Date: 2008-03-31 22:56+0100\n"
 "Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
 "Language-Team: Alexander Dichev <http://dichev.com/contact/english/>\n"
 "MIME-Version: 1.0\n"
@@ -82,4 +82,7 @@ msgstr "nable Login/out Redirect"
 
 msgid "Displaying Meta links, Login Form and Admin Links"
 msgstr "Displaying Meta links, Login Form and Admin Links"
+
+msgid "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
+msgstr "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
 

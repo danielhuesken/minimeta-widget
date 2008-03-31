@@ -76,6 +76,8 @@ Change log:
                              <ul> xhtml fixes
                             Loginform an Link at same time
                             Atomatik Admin Links creation as Adminon Plugins Tab. minimeta-adminlinks.php no more nedded.
+     Version 3.5.1   Add message to notify when WP is lower than 2.5
+                            Fix bug at adminlinks selection
 */
  
 //Display Widget 
@@ -268,7 +270,7 @@ function widget_minimeta_control($widget_args = 1) {
         $displayidentity = $options['displayidentity'] ? 'checked="checked"' : '';
         $useselectbox = $options['useselectbox'] ? 'checked="checked"' : '';
         $notopics = $options['notopics'] ? 'checked="checked"' : '';
-        $options[$number]['adminlinks']=$options['adminlinks'];
+        $adminlinksset=$options['adminlinks'];
     }
    } else { // WP-Widgets
     global $wp_registered_widgets;
@@ -378,6 +380,7 @@ function widget_minimeta_control($widget_args = 1) {
         $displayidentity = $options[$number]['displayidentity'] ? 'checked="checked"' : '';
         $useselectbox = $options[$number]['useselectbox'] ? 'checked="checked"' : '';
         $notopics = $options[$number]['notopics'] ? 'checked="checked"' : '';
+        $adminlinksset = $options[$number]['adminlinks'];
   	}
    }
 	// The form has inputs with names like widget-minimeta[$number][something] so that all data for that instance of
@@ -418,7 +421,7 @@ function widget_minimeta_control($widget_args = 1) {
              foreach ($menu as $submenu) {
               if (is_array($submenu)) {
                $checkadminlinks="";
-               if (in_array($submenu[2],(array)$options[$number]['adminlinks'])) $checkadminlinks="selected=\"selected\"";
+               if (in_array($submenu[2],(array)$adminlinksset)) $checkadminlinks="selected=\"selected\"";
                echo "<option value=\"".$submenu[2]."\" ".$checkadminlinks.">".$submenu[0]."</option>";
               }
              }
@@ -540,8 +543,10 @@ function widget_minimeta_init() {
 	load_plugin_textdomain('MiniMetaWidget', 'wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/lang');
 	
     // Let only Activate on WordPress Version 2.5 or heiger
-    if (version_compare($wp_version, '2.5', '<')) 
+    if (version_compare($wp_version, '2.5', '<')) {
+        add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, MiniMeta Widget works only under WordPress 2.5 or higher',"MiniMetaWidget") . '</strong></p></div>\';'));
 	    return;
+    }
     
     // Check for the required plugin functions. This will prevent fatal
 	// errors occurring when you deactivate the dynamic-sidebar plugin.
