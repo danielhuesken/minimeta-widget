@@ -1,0 +1,30 @@
+option.minimeta-adminlinks {  /* selectbox settings */  
+ margin-left: 15px;
+}
+optgroup,option,select.minimeta-adminlinks {  /* selectbox settings */  
+ font-size:11px;
+}
+
+li.minimeta-adminlinks_menu {  /* menu settings*/
+ font-weight:bold;
+ font-style:italic;
+}
+ul.minimeta-adminlinks{  /* link ul settings  */
+ font-weight:normal;
+ font-style:normal;
+}
+a.minimeta-adminlinks{  /* link settings */
+
+}
+
+a.minimeta-logout {  /*Logout link in red */
+ color:red;
+}
+ /* Resets 1em to 10px */
+a.minimeta-login,
+a.minimeta-lostpw,
+a.minimeta-rss,
+a.minimeta-commentsrss,
+a.minimeta-wporg{
+
+}
