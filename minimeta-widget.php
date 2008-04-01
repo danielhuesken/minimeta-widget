@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Version of the WP Meta Widget with different logon types and some additional admin links.
 Author: Daniel H&uuml;sken
-Version: 3.5.1
+Version: 3.5.2
 Author URI: http://danielhuesken.de
 */
 
@@ -76,8 +76,9 @@ Change log:
                              <ul> xhtml fixes
                             Loginform an Link at same time
                             Atomatik Admin Links creation as Adminon Plugins Tab. minimeta-adminlinks.php no more nedded.
-     Version 3.5.1   Add message to notify when WP is lower than 2.5
-                            Fix bug at adminlinks selection
+   Version 3.5.1   Add message to notify when WP is lower than 2.5
+                          Fix bug at adminlinks selection
+   Version 3.5.2    Now Hopfull complite bug fix at adminlinks selection
 */
  
 //Display Widget 
@@ -138,7 +139,7 @@ function widget_minimeta($args,$widget_args = 1) {
                  foreach ($adminlinks as $menu) {
                   $output="";
                   foreach ($menu as $submenu) {
-                    if(current_user_can($submenu[1]) and is_array($submenu) and in_array($submenu[2],$options[$number]['adminlinks'])) {
+                    if(current_user_can($submenu[1]) and is_array($submenu) and in_array(wp_specialchars($submenu[2]),$options[$number]['adminlinks'])) {
                       if ($options[$number]['useselectbox']) {
                        $output.= "<option value=\"".get_bloginfo('wpurl')."/wp-admin/".$submenu[2]."\" class=\"minimeta-adminlinks\">".$submenu[0]."</option>";
                       } else {
@@ -225,11 +226,9 @@ function widget_minimeta_control($widget_args = 1) {
         $options['displayidentity'] = isset($_POST['widget-minimeta'][$number]['displayidentity']);
         $options['useselectbox'] = isset($_POST['widget-minimeta'][$number]['useselectbox']);          
         $options['notopics'] = isset($_POST['widget-minimeta'][$number]['notopics']); 
-        unset($adminlinks);
-        if (strip_tags(stripslashes($_POST['widget-minimeta'][$number]['adminlinks'][0]))!="") {
-            for ($i=0;$i<sizeof($_POST['widget-minimeta'][$number]['adminlinks']);$i++) {
-                  $options['adminlinks'][$i] = strip_tags(stripslashes($_POST['widget-minimeta'][$number]['adminlinks'][$i]));
-            }
+        unset($options['adminlinks']);
+        for ($i=0;$i<sizeof($_POST['widget-minimeta'][$number]['adminlinks']);$i++) {
+            $options['adminlinks'][$i] = wp_specialchars($_POST['widget-minimeta'][$number]['adminlinks'][$i]);
         }
         sbm_update_option('widget_minimeta', $options); //save Options
     } 
@@ -274,19 +273,19 @@ function widget_minimeta_control($widget_args = 1) {
     }
    } else { // WP-Widgets
     global $wp_registered_widgets;
-    static $updated = false; // Whether or not we have already updated the data after a POST submit
-    
-    if ( is_numeric($widget_args) )
-        $widget_args = array( 'number' => $widget_args );
-    $widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
-    extract( $widget_args, EXTR_SKIP );
+	static $updated = false; // Whether or not we have already updated the data after a POST submit
 
-    // Data should be stored as array:  array( number => data for that instance of the widget, ... )
+	if ( is_numeric($widget_args) )
+		$widget_args = array( 'number' => $widget_args );
+	$widget_args = wp_parse_args( $widget_args, array( 'number' => -1 ) );
+	extract( $widget_args, EXTR_SKIP );
+
+	// Data should be stored as array:  array( number => data for that instance of the widget, ... )
 	$options = get_option('widget_minimeta');
 	if ( !is_array($options) )
 		$options = array();
-
-	// We need to update the data
+    
+    	// We need to update the data
 	if ( !$updated && !empty($_POST['sidebar']) ) {
 		// Tells us what sidebar to put the data in
 		$sidebar = (string) $_POST['sidebar'];
@@ -300,45 +299,43 @@ function widget_minimeta_control($widget_args = 1) {
 		foreach ( $this_sidebar as $_widget_id ) {
 			// Remove all widgets of this type from the sidebar.  We'll add the new data in a second.  This makes sure we don't get any duplicate data
 			// since widget ids aren't necessarily persistent across multiple updates
-            if ( 'widget_minimeta' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
+			if ( 'widget_minimeta' == $wp_registered_widgets[$_widget_id]['callback'] && isset($wp_registered_widgets[$_widget_id]['params'][0]['number']) ) {
 				$widget_number = $wp_registered_widgets[$_widget_id]['params'][0]['number'];
-				if ( !in_array( "minimeta-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed. "minimeta-$widget_number" is "{id_base}-{widget_number}
+				if ( !in_array( "minimeta-$widget_number", $_POST['widget-id'] ) ) // the widget has been removed. "many-$widget_number" is "{id_base}-{widget_number}
 					unset($options[$widget_number]);
 			}
 		}
 
-		foreach ( (array) $_POST['widget-minimeta'] as $widget_number => $widget_minmeta ) {
-			// compile data from $widget_minmeta
-			$options[$widget_number]['title'] = strip_tags(stripslashes($widget_minmeta['title']));
-			$options[$widget_number]['loginlink'] = isset($widget_minmeta['loginlink']);
-            $options[$widget_number]['loginform'] = isset($widget_minmeta['loginform']);
-			$options[$widget_number]['logout'] = isset($widget_minmeta['logout']);
-            $options[$widget_number]['registerlink'] = isset($widget_minmeta['registerlink']);
-            $options[$widget_number]['testcookie'] = isset($widget_minmeta['testcookie']);
-            $options[$widget_number]['redirect'] = isset($widget_minmeta['redirect']);
-            $options[$widget_number]['seiteadmin'] = isset($widget_minmeta['seiteadmin']);
-			$options[$widget_number]['rememberme'] = isset($widget_minmeta['rememberme']);
-			$options[$widget_number]['rsslink'] = isset($widget_minmeta['rsslink']);
-			$options[$widget_number]['rsscommentlink'] = isset($widget_minmeta['rsscommentlink']);
-			$options[$widget_number]['wordpresslink'] = isset($widget_minmeta['wordpresslink']);
-			$options[$widget_number]['lostpwlink'] = isset($widget_minmeta['lostpwlink']);
-			$options[$widget_number]['profilelink'] = isset($widget_minmeta['profilelink']);
-            $options[$widget_number]['showwpmeta'] = isset($widget_minmeta['showwpmeta']);
-            $options[$widget_number]['displayidentity'] = isset($widget_minmeta['displayidentity']);
-            $options[$widget_number]['useselectbox'] = isset($widget_minmeta['useselectbox']);          
-            $options[$widget_number]['notopics'] = isset($widget_minmeta['notopics']); 
-            unset($adminlinks);
-            if (strip_tags(stripslashes($_POST['widget-minimeta'][$widget_number]['adminlinks'][0]))!="") {
-             for ($i=0;$i<sizeof($_POST['widget-minimeta'][$widget_number]['adminlinks']);$i++) {
-              $options[$widget_number]['adminlinks'][$i] = strip_tags(stripslashes($_POST['widget-minimeta'][$widget_number]['adminlinks'][$i]));
-             }
-            }        
+		foreach ( (array) $_POST['widget-minimeta'] as $widget_number => $widget_minmeta_instance ) {
+            // compile data from $widget_minmeta
+			$options[$widget_number]['title'] = wp_specialchars($widget_minmeta_instance['title']);
+			$options[$widget_number]['loginlink'] = isset($widget_minmeta_instance['loginlink']);
+            $options[$widget_number]['loginform'] = isset($widget_minmeta_instance['loginform']);
+			$options[$widget_number]['logout'] = isset($widget_minmeta_instance['logout']);
+            $options[$widget_number]['registerlink'] = isset($widget_minmeta_instance['registerlink']);
+            $options[$widget_number]['testcookie'] = isset($widget_minmeta_instance['testcookie']);
+            $options[$widget_number]['redirect'] = isset($widget_minmeta_instance['redirect']);
+            $options[$widget_number]['seiteadmin'] = isset($widget_minmeta_instance['seiteadmin']);
+			$options[$widget_number]['rememberme'] = isset($widget_minmeta_instance['rememberme']);
+			$options[$widget_number]['rsslink'] = isset($widget_minmeta_instance['rsslink']);
+			$options[$widget_number]['rsscommentlink'] = isset($widget_minmeta_instance['rsscommentlink']);
+			$options[$widget_number]['wordpresslink'] = isset($widget_minmeta_instance['wordpresslink']);
+			$options[$widget_number]['lostpwlink'] = isset($widget_minmeta_instance['lostpwlink']);
+			$options[$widget_number]['profilelink'] = isset($widget_minmeta_instance['profilelink']);
+            $options[$widget_number]['showwpmeta'] = isset($widget_minmeta_instance['showwpmeta']);
+            $options[$widget_number]['displayidentity'] = isset($widget_minmeta_instance['displayidentity']);
+            $options[$widget_number]['useselectbox'] = isset($widget_minmeta_instance['useselectbox']);          
+            $options[$widget_number]['notopics'] = isset($widget_minmeta_instance['notopics']); 
+            unset($options[$widget_number]['adminlinks']);
+            for ($i=0;$i<sizeof($_POST['widget-minimeta'][$widget_number]['adminlinks']);$i++) {
+                $options[$widget_number]['adminlinks'][$i] = wp_specialchars($_POST['widget-minimeta'][$widget_number]['adminlinks'][$i]);
+            }
 		}
 
 		update_option('widget_minimeta', $options);
 		$updated = true; // So that we don't go through this more than once
 	}
-
+    
 
 	// Here we echo out the form
 	if ( -1 == $number ) { // We echo out a template for a form which can be converted to a specific form later via JS
@@ -421,7 +418,7 @@ function widget_minimeta_control($widget_args = 1) {
              foreach ($menu as $submenu) {
               if (is_array($submenu)) {
                $checkadminlinks="";
-               if (in_array($submenu[2],(array)$adminlinksset)) $checkadminlinks="selected=\"selected\"";
+               if (in_array(wp_specialchars($submenu[2]),(array)$adminlinksset)) $checkadminlinks="selected=\"selected\"";
                echo "<option value=\"".$submenu[2]."\" ".$checkadminlinks.">".$submenu[0]."</option>";
               }
              }
