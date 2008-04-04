@@ -481,7 +481,7 @@ function widget_minimeta_generate_adminlinks() {
     if (!is_array($submenu[$item[2]])) //look foor only menu without submenu
         $submenu[$item[2]][0] = array($item[0], $item[1], $item[2]); 
     foreach ($submenu[$item[2]] as $keysub => $itemsub) {
-        $adminlinks[$key][$keysub][0]=strip_tags($itemsub[0]);
+        $adminlinks[$key][$keysub][0]=wp_specialchars($itemsub[0]);
         $adminlinks[$key][$keysub][1]=$itemsub[1];
         $menu_hook = get_plugin_page_hook($itemsub[2], $item[2]);       
         if (file_exists(ABSPATH . PLUGINDIR . "/".$itemsub[2]) || ! empty($menu_hook)) {
