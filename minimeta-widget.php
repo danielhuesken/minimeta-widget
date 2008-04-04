@@ -475,11 +475,11 @@ function widget_minimeta_generate_adminlinks() {
  if (!(current_user_can(10) and ("widgets.php"==$pagenow or "themes.php"==$pagenow or "themes.php"==$pagenow))) 
     return;
  foreach ( $menu as $key => $item ) {
+    if ($item[2]=="edit-comments.php") //Overwrite for Comments menu without number
+        $item[0] = __('Comments');
     $adminlinks[$key]['menu']=wp_specialchars($item[0]);
     if (!is_array($submenu[$item[2]])) //look foor only menu without submenu
         $submenu[$item[2]][0] = array($item[0], $item[1], $item[2]); 
-    if ($item[2]=="edit-comments.php") //Overwrite for Comments menu without number
-        $adminlinks[20]['menu'] = __('Comments');
     foreach ($submenu[$item[2]] as $keysub => $itemsub) {
         $adminlinks[$key][$keysub][0]=strip_tags($itemsub[0]);
         $adminlinks[$key][$keysub][1]=$itemsub[1];
