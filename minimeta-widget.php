@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Version of the WP Meta Widget with different logon types and some additional admin links.
 Author: Daniel H&uuml;sken
-Version: 3.5.2
+Version: 3.5.3
 Author URI: http://danielhuesken.de
 */
 
@@ -79,6 +79,7 @@ Change log:
    Version 3.5.1   Add message to notify when WP is lower than 2.5
                           Fix bug at adminlinks selection
    Version 3.5.2    Now Hopfull complite bug fix at adminlinks selection
+   Version 3.5.3    Adminlinks creation for menus with empty submenus
 */
  
 //Display Widget 
@@ -471,11 +472,12 @@ function widget_minimeta_wp_head() {
 //function to generate admin links    
 function widget_minimeta_generate_adminlinks() { 
  global $menu,$submenu,$pagenow;
- if (current_user_can(10) and ("plugins.php"==$pagenow or "themes.php"==$pagenow)) {
-  if (!isset($submenu['index.php'][0][0])) //Add Dashboard submenu
-    $submenu['index.php'][0] = array(__('Dashboard'), 'read', 'index.php'); 
-  foreach ( $menu as $key => $item ) {
-    $adminlinks[$key]['menu']=strip_tags($item[0]);
+ if (!(current_user_can(10) and ("widgets.php"==$pagenow or "themes.php"==$pagenow or "themes.php"==$pagenow))) 
+    return;
+ foreach ( $menu as $key => $item ) {
+    $adminlinks[$key]['menu']=wp_specialchars($item[0]);
+    if (!is_array($submenu[$item[2]])) //look foor only menu without submenu
+        $submenu[$item[2]][0] = array($item[0], $item[1], $item[2]); 
     if ($item[2]=="edit-comments.php") //Overwrite for Comments menu without number
         $adminlinks[20]['menu'] = __('Comments');
     foreach ($submenu[$item[2]] as $keysub => $itemsub) {
@@ -493,9 +495,8 @@ function widget_minimeta_generate_adminlinks() {
     }   
     if ($adminlinks[$key][$keysub][2]=="edit-comments.php?page=akismet-admin") //Overwrite for Akismet Spam menu without number
         $adminlinks[$key][$keysub][0] = __('Akismet Spam');
-  }
-  update_option('widget_minimeta_adminlinks', $adminlinks);
  }
+ update_option('widget_minimeta_adminlinks', $adminlinks);
 }
 
 // This registers our widget and  widget control for K2 SBM 
