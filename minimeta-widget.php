@@ -79,7 +79,7 @@ Change log:
    Version 3.5.1   Add message to notify when WP is lower than 2.5
                           Fix bug at adminlinks selection
    Version 3.5.2    Now Hopfull complite bug fix at adminlinks selection
-   Version 3.5.3    Adminlinks creation for menus with empty submenus
+   Version 3.5.3    Adminlinks creation for menus with empty submenus and menus without same submenu link
 */
  
 //Display Widget 
@@ -477,10 +477,22 @@ function widget_minimeta_generate_adminlinks() {
  foreach ( $menu as $key => $item ) {
     if ($item[2]=="edit-comments.php") //Overwrite for Comments menu without number
         $item[0] = __('Comments');
-    $adminlinks[$key]['menu']=wp_specialchars($item[0]);
-    if (!is_array($submenu[$item[2]])) //look foor only menu without submenu
-        $submenu[$item[2]][0] = array($item[0], $item[1], $item[2]); 
-    foreach ($submenu[$item[2]] as $keysub => $itemsub) {
+    $adminlinks[$key]['menu']=wp_specialchars($item[0]); //write Menues
+    if (is_array($submenu[$item[2]])) { //look if submenu existing to crate submenu on men if they downt exists
+        $menulink=false; unset($lowestkey);
+        foreach ($submenu[$item[2]] as $keysub => $itemsub) { // Find submenu wisout an existing menu link
+            if(!isset($lowestkey) or $lowestkey>$keysub) $lowestkey=$keysub;
+            if ($itemsub[2]==$item[2])
+                $menulink=true;
+        }
+        if ($menulink) {
+            $lowestkey--;
+            $submenu[$item[2]][$lowestkey] = array($item[0], $item[1], $item[2]); //create submenu
+        }
+    } else {
+        $submenu[$item[2]][0] = array($item[0], $item[1], $item[2]); //create submenu
+    }
+    foreach ($submenu[$item[2]] as $keysub => $itemsub) { //Crate submenus and links
         $adminlinks[$key][$keysub][0]=wp_specialchars($itemsub[0]);
         $adminlinks[$key][$keysub][1]=$itemsub[1];
         $menu_hook = get_plugin_page_hook($itemsub[2], $item[2]);       
@@ -492,9 +504,9 @@ function widget_minimeta_generate_adminlinks() {
         } else {
             $adminlinks[$key][$keysub][2]= $itemsub[2];
         }
+        if ($adminlinks[$key][$keysub][2]=="edit-comments.php?page=akismet-admin") //Overwrite for Akismet Spam menu without number
+            $adminlinks[$key][$keysub][0] = __('Akismet Spam');
     }   
-    if ($adminlinks[$key][$keysub][2]=="edit-comments.php?page=akismet-admin") //Overwrite for Akismet Spam menu without number
-        $adminlinks[$key][$keysub][0] = __('Akismet Spam');
  }
  update_option('widget_minimeta_adminlinks', $adminlinks);
 }
