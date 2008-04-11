@@ -81,6 +81,7 @@ Change log:
    Version 3.5.2    Now Hopfull complite bug fix at adminlinks selection
    Version 3.5.3    Adminlinks creation for menus with empty submenus and menus without same submenu link
    Version 3.5.4    admin_head corections
+                           adminlink generation improfments
 */
  
 //Display Widget 
@@ -473,27 +474,31 @@ function widget_minimeta_wp_head() {
 //function to generate admin links    
 function widget_minimeta_generate_adminlinks() { 
  global $menu,$submenu,$pagenow;
- if (!(current_user_can(10) and ("widgets.php"==$pagenow or "themes.php"==$pagenow or "themes.php"==$pagenow))) 
-    return;
- foreach ( $menu as $key => $item ) {
+ if (!(current_user_can(10) and ("widgets.php"==$pagenow or (K2_USING_SBM and "themes.php"==$pagenow)))) 
+    return;   
+ //let orginal Variables unchanged
+ $tempmenu=$menu;
+ $tempsubmenu=$submenu;
+ //scan the menu
+ foreach ( $tempmenu as $key => $item ) {
     if ($item[2]=="edit-comments.php") //Overwrite for Comments menu without number
         $item[0] = __('Comments');
     $adminlinks[$key]['menu']=wp_specialchars($item[0]); //write Menues
-    if (is_array($submenu[$item[2]])) { //look if submenu existing to crate submenu on men if they downt exists
+    if (is_array($tempsubmenu[$item[2]])) { //look if submenu existing to crate submenu on men if they downt exists
         $menulink=false; unset($lowestkey);
-        foreach ($submenu[$item[2]] as $keysub => $itemsub) { // Find submenu wisout an existing menu link
+        foreach ($tempsubmenu[$item[2]] as $keysub => $itemsub) { // Find submenu wisout an existing menu link
             if(!isset($lowestkey) or $lowestkey>$keysub) $lowestkey=$keysub;
             if ($itemsub[2]==$item[2])
                 $menulink=true;
         }
         if ($menulink) {
             $lowestkey--;
-            $submenu[$item[2]][$lowestkey] = array($item[0], $item[1], $item[2]); //create submenu
+            $tempsubmenu[$item[2]][$lowestkey] = array($item[0], $item[1], $item[2]); //create submenu
         }
     } else {
-        $submenu[$item[2]][0] = array($item[0], $item[1], $item[2]); //create submenu
+        $tempsubmenu[$item[2]][0] = array($item[0], $item[1], $item[2]); //create submenu
     }
-    foreach ($submenu[$item[2]] as $keysub => $itemsub) { //Crate submenus and links
+    foreach ($tempsubmenu[$item[2]] as $keysub => $itemsub) { //Crate submenus and links
         $adminlinks[$key][$keysub][0]=wp_specialchars($itemsub[0]);
         $adminlinks[$key][$keysub][1]=$itemsub[1];
         $menu_hook = get_plugin_page_hook($itemsub[2], $item[2]);       
@@ -549,7 +554,7 @@ function widget_minimeta_register_WP() {
 
 // add all action and so on only if plugin loaded.
 function widget_minimeta_init() {
-    global $wp_version;
+    global $wp_version,$pagenow;
 	//Loads language files
 	load_plugin_textdomain('MiniMetaWidget', 'wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/lang');
 	
