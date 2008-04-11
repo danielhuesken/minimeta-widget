@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Version of the WP Meta Widget with different logon types and some additional admin links.
 Author: Daniel H&uuml;sken
-Version: 3.5.3
+Version: 3.5.4
 Author URI: http://danielhuesken.de
 */
 
@@ -80,6 +80,7 @@ Change log:
                           Fix bug at adminlinks selection
    Version 3.5.2    Now Hopfull complite bug fix at adminlinks selection
    Version 3.5.3    Adminlinks creation for menus with empty submenus and menus without same submenu link
+   Version 3.5.4    admin_head corections
 */
  
 //Display Widget 
@@ -572,12 +573,12 @@ function widget_minimeta_init() {
         add_action('admin_head-themes_page_k2-sbm-manager', 'widget_minimeta_admin_head',10);
     } else { //WP only
         add_action('widgets_init', 'widget_minimeta_register_WP');
-        add_action('admin_head-themes_page_widgets', 'widget_minimeta_admin_head',10);
+        //add_action('admin_head-themes_page_widgets', 'widget_minimeta_admin_head',10); //dont work
+        if ("widgets.php"==$pagenow) add_action('admin_head', 'widget_minimeta_admin_head',10);
     }
     //WP and K2 SBM
     if (has_action('login_head')) add_action('wp_head', 'widget_minimeta_wp_head_login',1);
     add_action('wp_head', 'widget_minimeta_wp_head',10);
-    add_action('admin_head', 'widget_minimeta_admin_head',10);
     add_action('admin_init','widget_minimeta_generate_adminlinks',1);
 }   
 add_action('init', 'widget_minimeta_init',1); //1 must because WP widgets_init don't work
