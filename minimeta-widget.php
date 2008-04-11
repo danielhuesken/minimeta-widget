@@ -82,6 +82,7 @@ Change log:
    Version 3.5.3    Adminlinks creation for menus with empty submenus and menus without same submenu link
    Version 3.5.4    admin_head corections
                            adminlink generation improfments
+                           more <ul> xhtml fixes
 */
  
 //Display Widget 
@@ -122,6 +123,7 @@ function widget_minimeta($args,$widget_args = 1) {
             }
                 $endul=false;
                 if (($options[$number]['useselectbox'] and sizeof($options[$number]['adminlinks'])>0 and ($options[$number]['seiteadmin'] or $options[$number]['logout'])) or
+                    ($options[$number]['useselectbox'] and sizeof($options[$number]['adminlinks'])<=0 and ($options[$number]['seiteadmin'] or $options[$number]['logout'] or $options[$number]['rsslink'] or $options[$number]['rsscommentlink'] or $options[$number]['wordpresslink'] or ($options[$number]['showwpmeta'] and has_action('wp_meta')))) or
                    (!$options[$number]['useselectbox'] and (sizeof($options[$number]['adminlinks'])>0 or $options[$number]['seiteadmin'] or $options[$number]['logout'] or $options[$number]['rsslink'] or $options[$number]['rsscommentlink'] or $options[$number]['wordpresslink'] or ($options[$number]['showwpmeta'] and has_action('wp_meta'))))) {
                     echo "<ul>";
                     $endul=true;
@@ -491,9 +493,10 @@ function widget_minimeta_generate_adminlinks() {
             if ($itemsub[2]==$item[2])
                 $menulink=true;
         }
-        if ($menulink) {
+        if (!$menulink) {
             $lowestkey--;
             $tempsubmenu[$item[2]][$lowestkey] = array($item[0], $item[1], $item[2]); //create submenu
+            ksort($tempsubmenu[$item[2]]);
         }
     } else {
         $tempsubmenu[$item[2]][0] = array($item[0], $item[1], $item[2]); //create submenu
@@ -575,15 +578,15 @@ function widget_minimeta_init() {
     //Only add actions and so on if Plugin is Activaded
     if (K2_USING_SBM) { //K2 SBM only
         widget_minimeta_register_K2();
-        add_action('admin_head-themes_page_k2-sbm-manager', 'widget_minimeta_admin_head',10);
+        add_action('admin_head-themes_page_k2-sbm-manager', 'widget_minimeta_admin_head');
     } else { //WP only
         add_action('widgets_init', 'widget_minimeta_register_WP');
-        //add_action('admin_head-themes_page_widgets', 'widget_minimeta_admin_head',10); //dont work
-        if ("widgets.php"==$pagenow) add_action('admin_head', 'widget_minimeta_admin_head',10);
+        //add_action('admin_head-themes_page_widgets', 'widget_minimeta_admin_head',9); //dont work
+        if ("widgets.php"==$pagenow) add_action('admin_head', 'widget_minimeta_admin_head');
     }
     //WP and K2 SBM
     if (has_action('login_head')) add_action('wp_head', 'widget_minimeta_wp_head_login',1);
-    add_action('wp_head', 'widget_minimeta_wp_head',10);
+    add_action('wp_head', 'widget_minimeta_wp_head');
     add_action('admin_init','widget_minimeta_generate_adminlinks',1);
 }   
 add_action('init', 'widget_minimeta_init',1); //1 must because WP widgets_init don't work
