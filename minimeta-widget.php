@@ -107,8 +107,8 @@ function widget_minimeta($args,$widget_args = 1) {
     }
     
     //Don´t show Wiget if it have no links
-    if ((!is_user_logged_in() and !$options[$number]['loginlink'] and !$options[$number]['loginform'] and !$options[$number]['registerlink'] and !$options[$number]['rememberme'] and !$options[$number]['lostpwlink'] and !$options[$number]['rsslink'] and !$options[$number]['rsscommentlink'] and !$options[$number]['wordpresslink'] and !$options[$number]['showwpmeta']) or
-        (is_user_logged_in() and !$options[$number]['logout'] and !$options[$number]['seiteadmin'] and sizeof($options[$number]['adminlinks'])==0 and !$options[$number]['rsslink'] and !$options[$number]['rsscommentlink'] and !$options[$number]['wordpresslink'] and !$options[$number]['showwpmeta'])) 
+    if ((!is_user_logged_in() and !$options[$number]['loginlink'] and !$options[$number]['loginform'] and !$options[$number]['registerlink'] and !$options[$number]['rememberme'] and !$options[$number]['lostpwlink'] and !$options[$number]['rsslink'] and !$options[$number]['rsscommentlink'] and !$options[$number]['wordpresslink'] and !($options[$number]['showwpmeta'] and has_action('wp_meta')) or
+        (is_user_logged_in() and !$options[$number]['logout'] and !$options[$number]['seiteadmin'] and sizeof($options[$number]['adminlinks'])==0 and !$options[$number]['rsslink'] and !$options[$number]['rsscommentlink'] and !$options[$number]['wordpresslink'] and !($options[$number]['showwpmeta'] and has_action('wp_meta'))))) 
             return;
         
 	//Shown part of Widget
@@ -121,24 +121,14 @@ function widget_minimeta($args,$widget_args = 1) {
             } else {
             echo $before_title . $options[$number]['title'] . $after_title; 
             }
-                $endul=false;
-                if (($options[$number]['useselectbox'] and sizeof($options[$number]['adminlinks'])>0 and ($options[$number]['seiteadmin'] or $options[$number]['logout'])) or
-                    ($options[$number]['useselectbox'] and sizeof($options[$number]['adminlinks'])<=0 and ($options[$number]['seiteadmin'] or $options[$number]['logout'] or $options[$number]['rsslink'] or $options[$number]['rsscommentlink'] or $options[$number]['wordpresslink'] or ($options[$number]['showwpmeta'] and has_action('wp_meta')))) or
-                   (!$options[$number]['useselectbox'] and (sizeof($options[$number]['adminlinks'])>0 or $options[$number]['seiteadmin'] or $options[$number]['logout'] or $options[$number]['rsslink'] or $options[$number]['rsscommentlink'] or $options[$number]['wordpresslink'] or ($options[$number]['showwpmeta'] and has_action('wp_meta'))))) {
-                    echo "<ul>";
-                    $endul=true;
-                }
+                echo "<ul>"; $endul=true;  
                 if($options[$number]['seiteadmin']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-admin/\" class=\"minimeta-siteadmin\">".__('Site Admin')."</a></li>";
                 if($options[$number]['logout'] and $options[$number]['redirect']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout&amp;redirect_to=".$_SERVER['REQUEST_URI']."\" class=\"minimeta-logout\">".__('Log out')."</a></li>"; 
                 if($options[$number]['logout'] and !$options[$number]['redirect']) echo "<li><a href=\"".get_bloginfo('wpurl')."/wp-login.php?action=logout\" class=\"minimeta-logout\">".__('Log out')."</a></li>"; 
              
                 if (sizeof($options[$number]['adminlinks'])>0) { //show only if a Admin Link is selectesd
                  if ($options[$number]['useselectbox']) {
-                    if ($endul) {
-                        echo "</ul>";
-                        $endul=false;
-                    }
-                    echo "<select class=\"minimeta-adminlinks\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Please select:','MiniMetaWidget')."</option>";
+                    echo "<li class=\"minimeta-adminlinks\"><select class=\"minimeta-adminlinks\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Please select:','MiniMetaWidget')."</option>";
                  }
                  $adminlinks=get_option('widget_minimeta_adminlinks'); 
                  foreach ($adminlinks as $menu) {
@@ -161,11 +151,7 @@ function widget_minimeta($args,$widget_args = 1) {
                    }     
                   }
                   if ($options[$number]['useselectbox']) {
-                    echo "</select>";
-                    if ($options[$number]['rsslink'] or $options[$number]['rsscommentlink'] or $options[$number]['wordpresslink'] or ($options[$number]['showwpmeta'] and has_action('wp_meta'))) {
-                        echo "<ul>";
-                        $endul=true;
-                    }
+                    echo "</select></li>";
                   }
                 }
          } else {
@@ -189,7 +175,7 @@ function widget_minimeta($args,$widget_args = 1) {
                     </p>
 				</form><?php
 			}
-            
+            $endul=false;
             if ($options[$number]['loginlink'] or $options[$number]['lostpwlink'] or ($options[$number]['registerlink'] and get_option('users_can_register')) or $options[$number]['rsslink'] or $options[$number]['rsscommentlink'] or $options[$number]['wordpresslink'] or ($options[$number]['showwpmeta'] and has_action('wp_meta'))) {
                 echo "<ul>";
                 $endul=true;
