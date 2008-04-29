@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Version of the WP Meta Widget with different logon types and some additional admin links.
 Author: Daniel H&uuml;sken
-Version: 3.5.4
+Version: 3.5.5
 Author URI: http://danielhuesken.de
 */
 
@@ -83,6 +83,7 @@ Change log:
    Version 3.5.4    admin_head corections
                            adminlink generation improfments
                            more <ul> xhtml fixes
+   Version 3.5.5    Fixes for K2 1.0-RC6
 */
  
 //Display Widget 
@@ -558,16 +559,22 @@ function widget_minimeta_init() {
 	if (!function_exists('register_sidebar_widget'))
 		return;
     
-    //find out if K2 is activatet and set K2_USING_SBM Konstant
-    if (!defined(K2_CURRENT)) define('K2_USING_SBM',false);
-    
+    //find out if K2 and his SBM is activatet and set K2_USING_SBM Konstant if it not set
+    if (!defined('K2_USING_SBM')) {
+        if (defined('K2_CURRENT') and get_option('k2sidebarmanager') == '1') {
+            define('K2_USING_SBM',true);
+        } else {
+            define('K2_USING_SBM',false);
+        }
+    }
     //Only add actions and so on if Plugin is Activaded
     if (K2_USING_SBM) { //K2 SBM only
         widget_minimeta_register_K2();
-        add_action('admin_head-themes_page_k2-sbm-manager', 'widget_minimeta_admin_head');
+        //add_action('admin_head-themes_page_k2-sbm-manager', 'widget_minimeta_admin_head'); //dont work anymore
+        if ("themes.php"==$pagenow) add_action('admin_head', 'widget_minimeta_admin_head');
     } else { //WP only
         add_action('widgets_init', 'widget_minimeta_register_WP');
-        //add_action('admin_head-themes_page_widgets', 'widget_minimeta_admin_head',9); //dont work
+        //add_action('admin_head-themes_page_widgets', 'widget_minimeta_admin_head'); //dont work
         if ("widgets.php"==$pagenow) add_action('admin_head', 'widget_minimeta_admin_head');
     }
     //WP and K2 SBM
