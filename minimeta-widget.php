@@ -84,7 +84,7 @@ Change log:
                            adminlink generation improfments
                            more <ul> xhtml fixes
    Version 3.5.5    Fixes for K2 1.0-RC6
-                          WP 2.6 Plugin Path copatibilty
+                              WP 2.6 Plugin dir copatibilty
 */
  
 //Display Widget 
@@ -454,10 +454,10 @@ function widget_minimeta_wp_head_login() {
 //WP-Head hooks low Priority
 function widget_minimeta_wp_head() {
     //Set Style sheet
-    if (file_exists(WP_CONTENT_DIR.'/plugins/'.dirname(plugin_basename(__FILE__)).'/custom/minimeta-widget.css')) {
-        echo "<link rel=\"stylesheet\" href=\"".WP_CONTENT_URL."/plugins/".dirname(plugin_basename(__FILE__))."/custom/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
+    if (file_exists(WP_PLUGIN_DIR.dirname(plugin_basename(__FILE__)).'/custom/minimeta-widget.css')) {
+        echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL.dirname(plugin_basename(__FILE__))."/custom/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
     } elseif (file_exists('wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/minimeta-widget.css')) {
-        echo "<link rel=\"stylesheet\" href=\"".WP_CONTENT_URL."/plugins/".dirname(plugin_basename(__FILE__))."/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
+        echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL.dirname(plugin_basename(__FILE__))."/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
     }
 }
 
@@ -548,13 +548,13 @@ function widget_minimeta_init() {
     global $wp_version,$pagenow;
 	
     // Pre-2.6 compatibility
-    if ( !defined('WP_CONTENT_URL') )
-        define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
-    if ( !defined('WP_CONTENT_DIR') )
-        define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+	if ( !defined('WP_PLUGIN_URL') )
+        define( 'WP_PLUGIN_URL', get_option('siteurl') . '/wp-content/plugins');
+    if ( !defined('WP_PLUGIN_DIR') )
+        define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
 
     //Loads language files
-	load_plugin_textdomain('MiniMetaWidget', WP_CONTENT_DIR.'/plugins/'.dirname(plugin_basename(__FILE__)).'/lang');
+	load_plugin_textdomain('MiniMetaWidget', WP_PLUGIN_DIR.dirname(plugin_basename(__FILE__)).'/lang');
 	
     // Let only Activate on WordPress Version 2.5 or heiger
     if (version_compare($wp_version, '2.5', '<')) {
@@ -597,5 +597,5 @@ function widget_minimeta_deactivate() {
     delete_option('widget_minimeta');
     delete_option('widget_minimeta_adminlinks');
 }
-register_deactivation_hook(plugin_basename(__FILE__),'widget_minimeta_deactivate');
+register_deactivation_hook(__FILE__,'widget_minimeta_deactivate');
 ?>
