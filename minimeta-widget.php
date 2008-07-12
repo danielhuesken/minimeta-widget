@@ -2,7 +2,7 @@
 /*
 Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
-Description: Mini Version of the WP Meta Widget with different logon types and some additional admin links.
+Description: Mini Version of the WP Meta Widget with different logon types and  additional admin links.
 Author: Daniel H&uuml;sken
 Version: 3.5.5
 Author URI: http://danielhuesken.de
@@ -464,7 +464,7 @@ function widget_minimeta_wp_head() {
 //function to generate admin links    
 function widget_minimeta_generate_adminlinks() { 
  global $menu,$submenu,$pagenow;
- if (!(current_user_can(10) and ("widgets.php"==$pagenow or (K2_USING_SBM and "themes.php"==$pagenow)))) 
+ if (!(current_user_can(10) and ("plugins.php"==$pagenow or "widgets.php"==$pagenow or (K2_USING_SBM and "themes.php"==$pagenow)))) 
     return;   
  //let orginal Variables unchanged
  $tempmenu=$menu;
