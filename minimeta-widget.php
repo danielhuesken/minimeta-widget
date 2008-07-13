@@ -2,7 +2,7 @@
 /*
 Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
-Description: Mini Version of the WP Meta Widget with different logon types and  additional admin links.
+Description: Mini Version of the WP Meta Widget with different logon types and some additional admin links.
 Author: Daniel H&uuml;sken
 Version: 3.5.5
 Author URI: http://danielhuesken.de
@@ -456,7 +456,7 @@ function widget_minimeta_wp_head() {
     //Set Style sheet
     if (file_exists(WP_PLUGIN_DIR.dirname(plugin_basename(__FILE__)).'/custom/minimeta-widget.css')) {
         echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL.dirname(plugin_basename(__FILE__))."/custom/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
-    } elseif (file_exists('wp-content/plugins/'.dirname(plugin_basename(__FILE__)).'/minimeta-widget.css')) {
+    } elseif (file_exists(WP_PLUGIN_DIR.dirname(plugin_basename(__FILE__)).'/minimeta-widget.css')) {
         echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL.dirname(plugin_basename(__FILE__))."/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
     }
 }
@@ -464,16 +464,18 @@ function widget_minimeta_wp_head() {
 //function to generate admin links    
 function widget_minimeta_generate_adminlinks() { 
  global $menu,$submenu,$pagenow;
- if (!(current_user_can(10) and ("plugins.php"==$pagenow or "widgets.php"==$pagenow or (K2_USING_SBM and "themes.php"==$pagenow)))) 
+ if (!(current_user_can(10) and ("widgets.php"==$pagenow or (K2_USING_SBM and "themes.php"==$pagenow)))) 
     return;   
  //let orginal Variables unchanged
  $tempmenu=$menu;
  $tempsubmenu=$submenu;
  //scan the menu
  foreach ( $tempmenu as $key => $item ) {
-    if ($item[2]=="edit-comments.php") //Overwrite for Comments menu without number
+    if ($item[2]=="edit-comments.php") //Overwrite for Comments menu without number since wp 2.5
         $item[0] = __('Comments');
-    $adminlinks[$key]['menu']=wp_specialchars($item[0]); //write Menues
+	if ($item[2]=="plugins.php") //Overwrite for Plugins menu without number since wp 2.6
+        $item[0] = __('Plugins');
+    $adminlinks[$key]['menu']=wp_specialchars(strip_tags($item[0])); //write Menues
     if (is_array($tempsubmenu[$item[2]])) { //look if submenu existing to crate submenu on men if they downt exists
         $menulink=false; unset($lowestkey);
         foreach ($tempsubmenu[$item[2]] as $keysub => $itemsub) { // Find submenu wisout an existing menu link
@@ -490,7 +492,7 @@ function widget_minimeta_generate_adminlinks() {
         $tempsubmenu[$item[2]][0] = array($item[0], $item[1], $item[2]); //create submenu
     }
     foreach ($tempsubmenu[$item[2]] as $keysub => $itemsub) { //Crate submenus and links
-        $adminlinks[$key][$keysub][0]=wp_specialchars($itemsub[0]);
+        $adminlinks[$key][$keysub][0]=wp_specialchars(strip_tags($itemsub[0]));
         $adminlinks[$key][$keysub][1]=$itemsub[1];
         $menu_hook = get_plugin_page_hook($itemsub[2], $item[2]);       
         if (file_exists(ABSPATH . PLUGINDIR . "/".$itemsub[2]) || ! empty($menu_hook)) {
