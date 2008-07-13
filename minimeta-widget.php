@@ -454,10 +454,10 @@ function widget_minimeta_wp_head_login() {
 //WP-Head hooks low Priority
 function widget_minimeta_wp_head() {
     //Set Style sheet
-    if (file_exists(WP_PLUGIN_DIR.dirname(plugin_basename(__FILE__)).'/custom/minimeta-widget.css')) {
-        echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL.dirname(plugin_basename(__FILE__))."/custom/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
-    } elseif (file_exists(WP_PLUGIN_DIR.dirname(plugin_basename(__FILE__)).'/minimeta-widget.css')) {
-        echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL.dirname(plugin_basename(__FILE__))."/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
+    if (file_exists(WP_PLUGIN_DIR."/".dirname(plugin_basename(__FILE__)).'/custom/minimeta-widget.css')) {
+        echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL."/".dirname(plugin_basename(__FILE__))."/custom/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
+    } elseif (file_exists(WP_PLUGIN_DIR."/".dirname(plugin_basename(__FILE__)).'/minimeta-widget.css')) {
+        echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL."/".dirname(plugin_basename(__FILE__))."/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
     }
 }
 
