@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Version of the WP Meta Widget with different logon types and some additional admin links.
 Author: Daniel H&uuml;sken
-Version: 3.5.5
+Version: 3.5.6
 Author URI: http://danielhuesken.de
 */
 
@@ -85,6 +85,7 @@ Change log:
                            more <ul> xhtml fixes
    Version 3.5.5    Fixes for K2 1.0-RC6
                               WP 2.6 Plugin dir copatibilty
+   Version 3.5.6  Lang Path fix
 */
  
 //Display Widget 
@@ -556,7 +557,7 @@ function widget_minimeta_init() {
         define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
 
     //Loads language files
-	load_plugin_textdomain('MiniMetaWidget', WP_PLUGIN_DIR.dirname(plugin_basename(__FILE__)).'/lang');
+	load_plugin_textdomain('MiniMetaWidget', WP_PLUGIN_DIR."/".dirname(plugin_basename(__FILE__)).'/lang');
 	
     // Let only Activate on WordPress Version 2.5 or heiger
     if (version_compare($wp_version, '2.5', '<')) {
