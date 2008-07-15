@@ -455,9 +455,9 @@ function widget_minimeta_wp_head_login() {
 //WP-Head hooks low Priority
 function widget_minimeta_wp_head() {
     //Set Style sheet
-    if (file_exists(WP_PLUGIN_DIR."/".dirname(plugin_basename(__FILE__)).'/custom/minimeta-widget.css')) {
+    if (file_exists(WP_PLUGIN_DIR.'/'.dirname(plugin_basename(__FILE__)).'/custom/minimeta-widget.css')) {
         echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL."/".dirname(plugin_basename(__FILE__))."/custom/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
-    } elseif (file_exists(WP_PLUGIN_DIR."/".dirname(plugin_basename(__FILE__)).'/minimeta-widget.css')) {
+    } elseif (file_exists(WP_PLUGIN_DIR.'/'.dirname(plugin_basename(__FILE__)).'/minimeta-widget.css')) {
         echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL."/".dirname(plugin_basename(__FILE__))."/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
     }
 }
@@ -557,7 +557,7 @@ function widget_minimeta_init() {
         define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
 
     //Loads language files
-	load_plugin_textdomain('MiniMetaWidget', WP_PLUGIN_DIR."/".dirname(plugin_basename(__FILE__)).'/lang');
+	load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.dirname(plugin_basename(__FILE__)).'/lang');
 	
     // Let only Activate on WordPress Version 2.5 or heiger
     if (version_compare($wp_version, '2.5', '<')) {
