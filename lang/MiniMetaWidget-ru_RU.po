@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Belyi Mish\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-03-31 22:56+0100\n"
+"Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
+"Language-Team: Belyi Mish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "Show when logged out:"
+msgstr "Показывать, когда выполняется вход:"
+
+msgid "Show allways:"
+msgstr "Показывать всегда:"
+
+msgid "Link to WordPress.org"
+msgstr "Ссылка на WordPress.org"
+
+msgid "wp_meta Plugin hooks"
+msgstr "wp_meta Plugin Hooks"
+
+msgid "Show when logged in:"
+msgstr "Показывать, когда вход выполнен:"
+
+msgid "Disply user Identity as title"
+msgstr "Показывать логин как титул"
+
+msgid "Link to Your Profile in title"
+msgstr "Ссылка на ваш профиль в титуле"
+
+msgid "Admin Links:"
+msgstr "Административные ссылки:"
+
+msgid "Admin Links Selection"
+msgstr "Выбор административных ссылок"
+
+msgid "Select Admin Links:"
+msgstr "Выберите административные ссылки:"
+
+msgid "No Admin Links"
+msgstr "Нет административных ссылок"
+
+msgid "Use Select Box for Admin Links"
+msgstr "Использовать ниспадающее меню для административных ссылок"
+
+msgid "Use Select Box"
+msgstr "Использовать ниспадающее меню"
+
+msgid "Please select:"
+msgstr "Пожалуйста выберите:"
+
+msgid "Do not show Admin Links topics"
+msgstr "Do not show Admin Links topics"
+
+msgid "No Topics"
+msgstr "No Topics"
+
+msgid "Enable WordPress Cookie Test for login Form"
+msgstr "Enable WordPress Cookie Test for login Form"
+
+msgid "Enable Cookie Test"
+msgstr "Enable Cookie Test"
+
+msgid "Login Link"
+msgstr "Login Link"
+
+msgid "Login Form"
+msgstr "Login Form"
+
+msgid "Enable WordPress redirect function on Login/out"
+msgstr "Enable WordPress redirect function on Login/out"
+
+msgid "Enable Login/out Redirect"
+msgstr "nable Login/out Redirect"
+
+msgid "Displaying Meta links, Login Form and Admin Links"
+msgstr "Displaying Meta links, Login Form and Admin Links"
+
+msgid "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
+msgstr "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
+
