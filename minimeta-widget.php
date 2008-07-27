@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/protfolio/minimeta/
 Description: Mini Version of the WP Meta Widget with different logon types and some additional admin links.
 Author: Daniel H&uuml;sken
-Version: 3.5.6
+Version: 3.5.7
 Author URI: http://danielhuesken.de
 */
 
@@ -86,6 +86,8 @@ Change log:
    Version 3.5.5    Fixes for K2 1.0-RC6
                               WP 2.6 Plugin dir copatibilty
    Version 3.5.6  Lang Path fix
+   Version 3.5.7  Fix for the lastes K2 nightly
+   
 */
  
 //Display Widget 
@@ -94,7 +96,7 @@ function widget_minimeta($args,$widget_args = 1) {
     extract( $args, EXTR_SKIP );
     
     //load options
-    if (K2_USING_SBM) {
+    if (K2_LOAD_SBM) {
         $number=1;
         $options[$number] = sbm_get_option('widget_minimeta');
         //title compatibility for K2SBM
@@ -199,7 +201,7 @@ function widget_minimeta($args,$widget_args = 1) {
 }
 			
 function widget_minimeta_control($widget_args = 1) {
-   if (K2_USING_SBM) {
+   if (K2_LOAD_SBM) {
     $number=1; //SBM dont need numbers set it to 1
     $options = sbm_get_option('widget_minimeta'); //load Options
     if ( $_POST['widget-minimeta'][$number]) {
@@ -378,7 +380,7 @@ function widget_minimeta_control($widget_args = 1) {
 	// the widget are stored in one $_POST variable: $_POST['widget-minimeta'][$number]
    
 		//displaying options
-		if (!K2_USING_SBM) {?><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" /></label><?php } ?>
+		if (!K2_LOAD_SBM) {?><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" /></label><?php } ?>
 		<table style="width:100%;border:neone"><tr><td style="text-align:left;vertical-align:top;">
         <span style="font-weight:bold;"><?php _e('Show when logged out:','MiniMetaWidget');?></span><br />
          <label for="minimeta-loginlink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $loginlink; ?> id="minimeta-loginlink-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][loginlink]" />&nbsp;<?php _e('Login Link','MiniMetaWidget');?></label><br />
@@ -421,7 +423,7 @@ function widget_minimeta_control($widget_args = 1) {
         ?>  
          </select></label><br />
         </td></tr></table>
-        <?PHP if (!K2_USING_SBM) {?><input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][submit]" value="1" /><?php } ?>
+        <?PHP if (!K2_LOAD_SBM) {?><input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][submit]" value="1" /><?php } ?>
 		<?php
 }
 
@@ -439,7 +441,7 @@ function widget_minimeta_admin_head() {
 //WP-Head hooks high Priority
 function widget_minimeta_wp_head_login() {
     if (!is_user_logged_in()) {   //copy action login_head to wp-head if login form enabeld for plugin hooks 
-        if (K2_USING_SBM) {
+        if (K2_LOAD_SBM) {
             do_action('login_head'); //do action from login had
         } else {
             $options = get_option('widget_minimeta');
@@ -465,7 +467,7 @@ function widget_minimeta_wp_head() {
 //function to generate admin links    
 function widget_minimeta_generate_adminlinks() { 
  global $menu,$submenu,$pagenow;
- if (!(current_user_can(10) and ("widgets.php"==$pagenow or (K2_USING_SBM and "themes.php"==$pagenow)))) 
+ if (!(current_user_can(10) and ("plugins.php"==$pagenow or "widgets.php"==$pagenow or (K2_LOAD_SBM and "themes.php"==$pagenow)))) 
     return;   
  //let orginal Variables unchanged
  $tempmenu=$menu;
@@ -570,16 +572,12 @@ function widget_minimeta_init() {
 	if (!function_exists('register_sidebar_widget'))
 		return;
     
-    //find out if K2 and his SBM is activatet and set K2_USING_SBM Konstant if it not set
-    if (!defined('K2_USING_SBM')) {
-        if (defined('K2_CURRENT') and get_option('k2sidebarmanager') == '1') {
-            define('K2_USING_SBM',true);
-        } else {
-            define('K2_USING_SBM',false);
-        }
-    }
+    //find out if K2 and his SBM is activatet and set K2_LOAD_SBM Konstant if it not set
+    if (!defined('K2_LOAD_SBM')) 
+            define('K2_LOAD_SBM',false);
+ 
     //Only add actions and so on if Plugin is Activaded
-    if (K2_USING_SBM) { //K2 SBM only
+    if (K2_LOAD_SBM) { //K2 SBM only
         widget_minimeta_register_K2();
         //add_action('admin_head-themes_page_k2-sbm-manager', 'widget_minimeta_admin_head'); //dont work anymore
         if ("themes.php"==$pagenow) add_action('admin_head', 'widget_minimeta_admin_head');
