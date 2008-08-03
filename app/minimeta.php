@@ -29,13 +29,14 @@ function head_login() {
     }        
 }
 
+
 //WP-Head hooks low Priority
 function wp_head() {
     //Set Style sheet
     if (file_exists(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/custom/minimeta-widget.css')) {
-        echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL."/".WP_MINMETA_PLUGIN_DIR."/custom/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
+        echo "<link rel=\"stylesheet\" href=\"".plugins_url("/".WP_MINMETA_PLUGIN_DIR."/custom/minimeta-widget.css")."\" type=\"text/css\" media=\"screen\" />";
     } elseif (file_exists(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.css')) {
-        echo "<link rel=\"stylesheet\" href=\"".WP_PLUGIN_URL."/".WP_MINMETA_PLUGIN_DIR."/minimeta-widget.css\" type=\"text/css\" media=\"screen\" />";
+        echo "<link rel=\"stylesheet\" href=\"".plugins_url("/".WP_MINMETA_PLUGIN_DIR."/minimeta-widget.css")."\" type=\"text/css\" media=\"screen\" />";
     }
 }
 

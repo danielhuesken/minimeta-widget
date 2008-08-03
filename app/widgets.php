@@ -168,10 +168,8 @@ function display($args,$widget_args = 1) {
     $options = get_option('widget_minimeta');
     if ( !isset($options[$number]) )
         return;
-    
-	
-	$options=$options[$number];
-    include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/display/widget.php');
+      
+	include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/display/widget.php');
 }
 
 

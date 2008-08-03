@@ -86,7 +86,9 @@ Change log:
    Version 3.5.5    Fixes for K2 1.0-RC6
                               WP 2.6 Plugin dir copatibilty
    Version 3.5.6  Lang Path fix
-   Version 4.0.0  Fix for the lastes K2 nightly
+   Version 3.5.7  K2RC7 Copatibility older SBM don't work
+		       https path copatibility
+   Version 4.0.0  
    
 */
  
@@ -95,10 +97,23 @@ function widget_minimeta_init() {
     global $wp_version,$pagenow;
 	
     // Pre-2.6 compatibility
-	if ( !defined('WP_PLUGIN_URL') )
-        define('WP_PLUGIN_URL', get_option('siteurl') . '/wp-content/plugins');
     if ( !defined('WP_PLUGIN_DIR') )
-        define('WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
+        define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
+	if (!function_exists("site_url")) {
+	    function site_url($path = '', $scheme = null) { 
+			return get_bloginfo('wpurl').$path;
+		}
+	}
+	if (!function_exists("admin_url")) {
+	    function admin_url($path = '') {
+			return get_bloginfo('wpurl').'/wp-admin/'.$path;
+		}
+	}
+	if (!function_exists("plugins_url")) {
+	    function plugins_url($path = '') { 
+			return get_option('siteurl') . '/wp-content/plugins/'.$path;
+		}
+	}
     
 	//Set plugin dirname
 	define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
@@ -121,6 +136,7 @@ function widget_minimeta_init() {
 	MiniMetaOptions::init();
 
     //find out if K2 and his SBM is activatet and set K2_LOAD_SBM Konstant if it not set
+   //find out if K2 and his SBM is activatet and set K2_LOAD_SBM Konstant if it not set
     if (!defined('K2_LOAD_SBM')) 
             define('K2_LOAD_SBM',false);
  
