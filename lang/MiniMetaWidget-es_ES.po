@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP-MiniMeta Widget\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2008-07-04 15:33-0800\n"
+"Last-Translator: Álvaro Degives-Más <adegivesmas@gmail.com>\n"
+"Language-Team: Álvaro Degives-Más <http://nv1962.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-Country: SPAIN\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid "Show when logged out:"
+msgstr "Mostrar antes de inicio de sesión:"
+
+msgid "Show allways:"
+msgstr "Siempre mostrar:"
+
+msgid "Link to WordPress.org"
+msgstr "Enlace a WordPress.org"
+
+msgid "wp_meta Plugin hooks"
+msgstr "Plugin hooks de wp_meta"
+
+msgid "Show when logged in:"
+msgstr "Mostrar tras inicio sesión:"
+
+msgid "Disply user Identity as title"
+msgstr "Mostrar identidad como título"
+
+msgid "Link to Your Profile in title"
+msgstr "Enlace a perfil usuario en el título"
+
+msgid "Admin Links:"
+msgstr "Enlaces Admin:"
+
+msgid "Admin Links Selection"
+msgstr "Selección de enlaces Admin"
+
+msgid "Select Admin Links:"
+msgstr "Seleccione los enlaces Admin:"
+
+msgid "No Admin Links"
+msgstr "Sin enlaces Admin"
+
+msgid "Use Select Box for Admin Links"
+msgstr "Usar menú para enlaces Admin"
+
+msgid "Use Select Box"
+msgstr "Usar menú desplegable"
+
+msgid "Please select:"
+msgstr "Por favor, seleccione:"
+
+msgid "Do not show Admin Links topics"
+msgstr "Sin títulos para los enlaces Admin"
+
+msgid "No Topics"
+msgstr "Sin títulos"
+
+msgid "Enable WordPress Cookie Test for login Form"
+msgstr "Usar cookie de WordPress para controlar inicio de sesión"
+
+msgid "Enable Cookie Test"
+msgstr "Usar comprobación de cookie"
+
+msgid "Login Link"
+msgstr "Enlace a inicio sesión"
+
+msgid "Login Form"
+msgstr "Formulario inicio sesión"
+
+msgid "Enable WordPress redirect function on Login/out"
+msgstr "Activar redireccionamiento de WP Login/Logout"
+
+msgid "Enable Login/out Redirect"
+msgstr "Redireccionar Login/out"
+
+msgid "Displaying Meta links, Login Form and Admin Links"
+msgstr "Mostrar enlaces de Meta, formulario inicio sesión y Admin"
+
+msgid "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
+msgstr "El widget de MiniMeta sólo funciona bajo WordPress 2.5 o superior"
+
