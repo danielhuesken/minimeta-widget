@@ -88,6 +88,7 @@ Change log:
    Version 3.5.6  Lang Path fix
    Version 3.5.7  K2RC7 Copatibility older SBM don't work
 		       https path copatibility
+   Version 3.5.8  Path fix for wp 2.5
    Version 4.0.0  
    
 */
@@ -101,7 +102,7 @@ function widget_minimeta_init() {
         define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
 	if (!function_exists("site_url")) {
 	    function site_url($path = '', $scheme = null) { 
-			return get_bloginfo('wpurl').$path;
+			return get_bloginfo('wpurl').'/'.$path;
 		}
 	}
 	if (!function_exists("admin_url")) {
