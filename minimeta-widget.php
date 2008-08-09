@@ -137,7 +137,6 @@ function widget_minimeta_init() {
 	MiniMetaOptions::init();
 
     //find out if K2 and his SBM is activatet and set K2_LOAD_SBM Konstant if it not set
-   //find out if K2 and his SBM is activatet and set K2_LOAD_SBM Konstant if it not set
     if (!defined('K2_LOAD_SBM')) 
             define('K2_LOAD_SBM',false);
  

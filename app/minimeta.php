@@ -89,6 +89,29 @@ function generate_adminlinks() {
  update_option('widget_minimeta_adminlinks', $adminlinks);
 }
 
+	function get_widget_options() {
+		$i=0;
+		$option[$i]['name']='loginlink'; $option[$i]['defvalue']=true; $i++;
+		$option[$i]['name']='loginform'; $option[$i]['defvalue']=false; $i++;
+		$option[$i]['name']='logout'; $option[$i]['defvalue']=true; $i++;
+		$option[$i]['name']='registerlink'; $option[$i]['defvalue']=true; $i++;
+		$option[$i]['name']='testcookie'; $option[$i]['defvalue']=false; $i++;
+		$option[$i]['name']='redirect'; $option[$i]['defvalue']=false; $i++;
+		$option[$i]['name']='seiteadmin'; $option[$i]['defvalue']=true; $i++;
+		$option[$i]['name']='rememberme'; $option[$i]['defvalue']=true; $i++;
+		$option[$i]['name']='rsslink'; $option[$i]['defvalue']=true; $i++;
+		$option[$i]['name']='rsscommentlink'; $option[$i]['defvalue']=true; $i++;
+		$option[$i]['name']='wordpresslink'; $option[$i]['defvalue']=true; $i++;
+		$option[$i]['name']='lostpwlink'; $option[$i]['defvalue']=false; $i++;
+		$option[$i]['name']='profilelink'; $option[$i]['defvalue']=false; $i++;
+		$option[$i]['name']='showwpmeta'; $option[$i]['defvalue']=true; $i++;
+		$option[$i]['name']='displayidentity'; $option[$i]['defvalue']=false; $i++;
+		$option[$i]['name']='useselectbox'; $option[$i]['defvalue']=false; $i++;
+		$option[$i]['name']='notopics'; $option[$i]['defvalue']=false; $i++; 
+		return $option;
+	}
+
+
 }
 
 ?>

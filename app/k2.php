@@ -82,7 +82,7 @@ function control() {
     }
 
 	//displaying options
-	include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/display/widgetcontrol.php'); 
+	include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widgetcontrol.php'); 
 }
 
 //Display Widget 
@@ -95,7 +95,7 @@ function display($args,$widget_args = 1) {
     //title compatibility for K2SBM
     $options['title']=$title;
      
-	include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/display/widget.php');
+	include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widget.php');
 }
 
 

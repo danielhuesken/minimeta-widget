@@ -152,7 +152,7 @@ function control($widget_args = 1) {
    
 	//displaying options
 	?><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" /></label><?php 
-    include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/display/widgetcontrol.php'); 
+    include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widgetcontrol.php'); 
 	?><input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][submit]" value="1" /><?php 
 }
 
@@ -169,7 +169,7 @@ function display($args,$widget_args = 1) {
     if ( !isset($options[$number]) )
         return;
       
-	include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/display/widget.php');
+	include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widget.php');
 }
 
 
