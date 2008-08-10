@@ -1,6 +1,5 @@
-/*option.minimeta-adminlinks {   selectbox settings 
- margin-left: 15px;
-}  */ 
+option.minimeta-adminlinks {  /* selectbox settings */
+}   
 optgroup,option,select.minimeta-adminlinks {  /* selectbox settings */  
  font-size:10px;
 }
