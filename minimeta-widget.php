@@ -96,38 +96,34 @@ Change log:
 // add all action and so on only if plugin loaded.
 function widget_minimeta_init() {
     global $wp_version,$pagenow;
-	
-    // Pre-2.6 compatibility
-    if ( !defined('WP_PLUGIN_DIR') )
-        define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
-	if (!function_exists("site_url")) {
-	    function site_url($path = '', $scheme = null) { 
-			return get_bloginfo('wpurl').'/'.$path;
-		}
-	}
-	if (!function_exists("admin_url")) {
-	    function admin_url($path = '') {
-			return get_bloginfo('wpurl').'/wp-admin/'.$path;
-		}
-	}
-	if (!function_exists("plugins_url")) {
-	    function plugins_url($path = '') { 
-			return get_option('siteurl') . '/wp-content/plugins/'.$path;
-		}
-	}
-    
+
 	//Set plugin dirname
 	define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
 	
-    //Loads language files
-	load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/lang');
-	
-    // Let only Activate on WordPress Version 2.5 or heiger
-    if (version_compare($wp_version, '2.5', '<')) {
+    
+    if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPress Version 2.5 or heiger
+		//Loads language files
+		load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/lang');	
         add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, MiniMeta Widget works only under WordPress 2.5 or higher',"MiniMetaWidget") . '</strong></p></div>\';'));
 	    return;
-    }
-    
+    } elseif (version_compare($wp_version, '2.6', '<')) {   // Pre-2.6 compatibility
+        define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
+	    function site_url($path = '', $scheme = null) { 
+			return get_bloginfo('wpurl').'/'.$path;
+		}
+	    function admin_url($path = '') {
+			return get_bloginfo('wpurl').'/wp-admin/'.$path;
+		}
+	    function plugins_url($path = '') { 
+			return get_option('siteurl') . '/wp-content/plugins/'.$path;
+		}
+		//Loads language files
+		load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/lang');	
+	} else { //hieger than WP 2.6
+		//Loads language files
+		load_plugin_textdomain('MiniMetaWidget', false, WP_MINMETA_PLUGIN_DIR.'/lang');		
+	}
+  
 	require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/minimeta.php');
 	if (has_action('login_head')) add_action('wp_head', array('MiniMetaFunctions', 'head_login'),1);
 	add_action('wp_head', array('MiniMetaFunctions', 'wp_head'));
