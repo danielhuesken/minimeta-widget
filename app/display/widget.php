@@ -41,7 +41,9 @@
                     } else {
                         echo "<li class=\"minimeta-adminlinks_menu\">".$menu['menu']."<ul class=\"minimeta-adminlinks\">".$output."</ul></li>";
                     }
-                   }     
+                   } else {
+				     echo $output;
+				   }    
                   }
                   if ($options[$number]['useselectbox']) {
                     echo "</select></li>";

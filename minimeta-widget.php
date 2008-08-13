@@ -89,6 +89,8 @@ Change log:
    Version 3.5.7  K2RC7 Copatibility older SBM don't work
 		       https path copatibility
    Version 3.5.8  Path fix for wp 2.5
+   Version 3.5.9 Bug fix for no topics
+		      New language file selection    
    Version 4.0.0  
    
 */
@@ -99,8 +101,7 @@ function widget_minimeta_init() {
 
 	//Set plugin dirname
 	define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
-	
-    
+	  
     if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPress Version 2.5 or heiger
 		//Loads language files
 		load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/lang');	
