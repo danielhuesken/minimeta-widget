@@ -76,23 +76,10 @@ function control($widget_args = 1) {
 		foreach ( (array) $_POST['widget-minimeta'] as $widget_number => $widget_minmeta_instance ) {
             // compile data from $widget_minmeta
 			$options[$widget_number]['title'] = wp_specialchars($widget_minmeta_instance['title']);
-			$options[$widget_number]['loginlink'] = isset($widget_minmeta_instance['loginlink']);
-            $options[$widget_number]['loginform'] = isset($widget_minmeta_instance['loginform']);
-			$options[$widget_number]['logout'] = isset($widget_minmeta_instance['logout']);
-            $options[$widget_number]['registerlink'] = isset($widget_minmeta_instance['registerlink']);
-            $options[$widget_number]['testcookie'] = isset($widget_minmeta_instance['testcookie']);
-            $options[$widget_number]['redirect'] = isset($widget_minmeta_instance['redirect']);
-            $options[$widget_number]['seiteadmin'] = isset($widget_minmeta_instance['seiteadmin']);
-			$options[$widget_number]['rememberme'] = isset($widget_minmeta_instance['rememberme']);
-			$options[$widget_number]['rsslink'] = isset($widget_minmeta_instance['rsslink']);
-			$options[$widget_number]['rsscommentlink'] = isset($widget_minmeta_instance['rsscommentlink']);
-			$options[$widget_number]['wordpresslink'] = isset($widget_minmeta_instance['wordpresslink']);
-			$options[$widget_number]['lostpwlink'] = isset($widget_minmeta_instance['lostpwlink']);
-			$options[$widget_number]['profilelink'] = isset($widget_minmeta_instance['profilelink']);
-            $options[$widget_number]['showwpmeta'] = isset($widget_minmeta_instance['showwpmeta']);
-            $options[$widget_number]['displayidentity'] = isset($widget_minmeta_instance['displayidentity']);
-            $options[$widget_number]['useselectbox'] = isset($widget_minmeta_instance['useselectbox']);          
-            $options[$widget_number]['notopics'] = isset($widget_minmeta_instance['notopics']); 
+			 $widget_option_names=MiniMetaFunctions::widget_options();
+			 foreach ( (array) $widget_option_names as $option_name => $option_value ) {
+				$options[$widget_number][$option_name] = isset($_POST['widget-minimeta'][$widget_number][$option_name]);
+			 }
             unset($options[$widget_number]['adminlinks']);
             for ($i=0;$i<sizeof($_POST['widget-minimeta'][$widget_number]['adminlinks']);$i++) {
                 $options[$widget_number]['adminlinks'][$i] = wp_specialchars($_POST['widget-minimeta'][$widget_number]['adminlinks'][$i]);
@@ -105,48 +92,22 @@ function control($widget_args = 1) {
     
 
 	// Here we echo out the form
-	if ( -1 == $number ) { // We echo out a template for a form which can be converted to a specific form later via JS
+	
+	$widget_option_names=MiniMetaFunctions::widget_options();
+	foreach ( (array) $widget_option_names as $option_name => $option_value ) {
+		if (!isset($options[$number][$option_name])) $options[$number][$option_name]=$option_value;
+		$options_form[$option_name] = $options[$number][$option_name] ? 'checked="checked"' : '';
+	}
+	// We echo out a template for a form which can be converted to a specific form later via JS
+	if ( -1 == $number ) {
 		$title = __('Meta');
-        $loginlink='checked="checked"';
-        $loginform='';
-        $logout='checked="checked"';
-        $registerlink='checked="checked"';
-        $testcookie='';
-        $redirect='';
-        $seiteadmin='checked="checked"';
-        $rememberme='checked="checked"';
-        $rsslink='checked="checked"';
-        $rsscommentlink='checked="checked"';
-        $wordpresslink='checked="checked"';
-        $lostpwlink='';
-        $profilelink='';
-        $showwpmeta='checked="checked"';
-        $displayidentity='';
-        $useselectbox='';
-        $notopics='';
 		$number='%i%';
 	} else {
 		$title = attribute_escape($options[$number]['title']);
-		$loginlink = $options[$number]['loginlink'] ? 'checked="checked"' : '';
-        $loginform = $options[$number]['loginform'] ? 'checked="checked"' : '';
-        $logout = $options[$number]['logout'] ? 'checked="checked"' : '';
-        $registerlink = $options[$number]['registerlink'] ? 'checked="checked"' : '';
-        $testcookie = $options[$number]['testcookie'] ? 'checked="checked"' : '';
-        $redirect = $options[$number]['redirect'] ? 'checked="checked"' : '';
-        $seiteadmin = $options[$number]['seiteadmin'] ? 'checked="checked"' : '';
-		$rememberme = $options[$number]['rememberme'] ? 'checked="checked"' : '';
-		$rsslink = $options[$number]['rsslink'] ? 'checked="checked"' : '';
-		$rsscommentlink = $options[$number]['rsscommentlink'] ? 'checked="checked"' : '';
-		$wordpresslink = $options[$number]['wordpresslink'] ? 'checked="checked"' : '';
-		$lostpwlink = $options[$number]['lostpwlink'] ? 'checked="checked"' : '';
-		$profilelink= $options[$number]['profilelink'] ? 'checked="checked"' : '';
-        $showwpmeta = $options[$number]['showwpmeta'] ? 'checked="checked"' : '';
-        $displayidentity = $options[$number]['displayidentity'] ? 'checked="checked"' : '';
-        $useselectbox = $options[$number]['useselectbox'] ? 'checked="checked"' : '';
-        $notopics = $options[$number]['notopics'] ? 'checked="checked"' : '';
-        $adminlinksset = $options[$number]['adminlinks'];
-  	}
-
+		$options_form['adminlinksset']=$options[$number]['adminlinks'];
+	}
+	
+	
 	// The form has inputs with names like widget-minimeta[$number][something] so that all data for that instance of
 	// the widget are stored in one $_POST variable: $_POST['widget-minimeta'][$number]
    
