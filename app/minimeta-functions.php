@@ -16,17 +16,21 @@ class MiniMetaFunctions {
 	//WP-Head hooks high Priority
 	function head_login() {
 		if (!is_user_logged_in()) {   //copy action login_head to wp-head if login form enabeld for plugin hooks 
-			$option_fixed=get_option('widget_minimeta_fixed_widget');
-			if($option_fixed['loginform'] or (defined('K2_LOAD_SBM') and K2_LOAD_SBM)) {
-				do_action('login_head'); //do action from login had
-			} else {
+			$test=false;
+			$option=get_option('widget_minimeta_seidbar_widget');
+			if($option[1]['loginform']) //Check for seidbar widget
+				$test=true;
+			if( class_exists('K2SBM') and !$test) //Chek for SBM
+				$test=true;
+			if (!$test) {
 				$options = get_option('widget_minimeta');
 				//find out is a ligon form in any MiniMeta Widegt activatet
 				foreach ( (array) $options as $widget_number => $widget_minmeta ) {
 					if($widget_minmeta['loginform']) 
-						do_action('login_head'); //do action from login had
+						$test=true;
 				}
 			}
+			if ($test) do_action('login_head'); //do action from login had
 		}        
 	}
 
@@ -119,11 +123,11 @@ class MiniMetaFunctions {
 	//Set start Options
 	function install() {
 		MiniMetaFunctions::generate_adminlinks();
-		if (!get_option('widget_minimeta_fixed_widget')) {
+		if (!get_option('widget_minimeta_seidbar_widget')) {
 			$number=1;
 			$options[$number]=MiniMetaFunctions::widget_options();
 			$options[$number]['title']=__('Meta');
-			add_option('widget_minimeta_fixed_widget',$options);
+			add_option('widget_minimeta_seidbar_widget',$options);
 		}
 	}
 	
@@ -164,24 +168,23 @@ class MiniMetaFunctions {
 
 		if (has_action('login_head'))
 			add_action('wp_head', array('MiniMetaFunctions', 'head_login'),1);
-		if (current_user_can(10) and ("plugins.php"==$pagenow or "widgets.php"==$pagenow or (K2_LOAD_SBM and "themes.php"==$pagenow)))
+		if (current_user_can(10) and ("plugins.php"==$pagenow or "widgets.php"==$pagenow or (class_exists('K2SBM') and "themes.php"==$pagenow)))
 			add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
 		if ('themes.php'==$pagenow or "widgets.php"==$pagenow) 
 			add_action('admin_head', array('MiniMetaFunctions', 'admin_head'));
 		add_action('wp_head', array('MiniMetaFunctions', 'wp_head'));
 		add_action('admin_menu', array('MiniMetaFunctions', 'menu_entry'));
 	
-		//Only add actions and so on if Plugin is Activaded
-		if (function_exists('register_sidebar_widget')) {
-			if (defined('K2_LOAD_SBM') and K2_LOAD_SBM)  { //K2 SBM only
-				require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/k2.php');
-				MiniMetaK2::register();
-			} else { //Widgest only
-				require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets.php');
-				add_action('widgets_init', array('MiniMetaWidgets', 'register'));
-			}
+		//Support for Sidbar tyeps
+		if (class_exists('K2SBM'))  { //K2 SBM only
+			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/k2sbm.php');
+			MiniMetaK2SBM::register();
+		} elseif (function_exists('register_sidebar_widget')) { //Widgest only
+			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/wp-widgets.php');
+			add_action('widgets_init', array('MiniMetaWPWidgets', 'register'));
 		}
-		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/fiexed_widget.php');
+
+		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/seidbar-widget.php');
 	} 
 	
 }

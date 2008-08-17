@@ -6,25 +6,25 @@ $base_name = plugin_basename(__FILE__);
 $base_page = 'themes.php?page='.$base_name;
 $id = intval($_GET['id']);
 $mode = trim($_GET['mode']);
-$views_settings = array('widget_minimeta', 'widget_minimeta_adminlinks','widget_minimeta_fixed_widget');
+$views_settings = array('widget_minimeta', 'widget_minimeta_adminlinks','widget_minimeta_seidbar_widget');
 
 ### Form Processing
 // Update Options
 if(!empty($_POST['Submit'])) {
-	$options_fiexed_widget[1]['title']=wp_specialchars($_POST['widget-minimeta'][1]['title']);
+	$options_seidbar_widget[1]['title']=wp_specialchars($_POST['widget-minimeta'][1]['title']);
 	$widget_option_names=MiniMetaFunctions::widget_options();
 	foreach ( (array) $widget_option_names as $option_name => $option_value ) {
-		$options_fiexed_widget[1][$option_name] = isset($_POST['widget-minimeta'][1][$option_name]);
+		$options_seidbar_widget[1][$option_name] = isset($_POST['widget-minimeta'][1][$option_name]);
 	}
-    unset($options_fiexed_widget[1]['adminlinks']);
+    unset($options_seidbar_widget[1]['adminlinks']);
     for ($i=0;$i<sizeof($_POST['widget-minimeta'][1]['adminlinks']);$i++) {
-        $options_fiexed_widget[1]['adminlinks'][$i] = wp_specialchars($_POST['widget-minimeta'][1]['adminlinks'][$i]);
+        $options_seidbar_widget[1]['adminlinks'][$i] = wp_specialchars($_POST['widget-minimeta'][1]['adminlinks'][$i]);
     }
 	
 	$update_views_queries = array();
 	$update_views_text = array();
-	$update_views_queries[] = update_option('widget_minimeta_fixed_widget', $options_fiexed_widget);
-	$update_views_text[] = __('MiniMeta Fixed Widget Options', 'MiniMetaWidget');
+	$update_views_queries[] = update_option('widget_minimeta_seidbar_widget', $options_seidbar_widget);
+	$update_views_text[] = __('MiniMeta seidbar Widget Options', 'MiniMetaWidget');
 	
 	$i=0;
 	$text = '';
@@ -83,39 +83,39 @@ switch($mode) {
 			break;
 	// Main Page
 	default:
-		$options_fiexed_widget = get_option('widget_minimeta_fixed_widget');
+		$options_seidbar_widget = get_option('widget_minimeta_seidbar_widget');
 
 if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 <div class="wrap"> 
-	<h2><?php _e('MiniMeta Fiexed Widget Options', 'MiniMetaWidget'); ?></h2>
+	<h2><?php _e('MiniMeta Siedbar Widget Options', 'MiniMetaWidget'); ?></h2>
 	<?php $number=1; ?>
 	<table class="form-table">
 		<tr>
-			<td valign="top" width="30%"><strong><?php _e('Fiexed Widget Title:', 'MiniMetaWidget'); ?></strong></td>
+			<td valign="top" width="30%"><strong><?php _e('Siedbar Widget Title:', 'MiniMetaWidget'); ?></strong></td>
 			<td valign="top">
-				<input type="text" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" size="70" value="<?php echo htmlspecialchars(stripslashes($options_fiexed_widget[$number]['title'])); ?>" />
+				<input type="text" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" size="70" value="<?php echo htmlspecialchars(stripslashes($options_siedbar_widget[$number]['title'])); ?>" />
 			</td>
 		</tr>
 		 <tr>
-		 <td valign="top" width="30%"><strong><?php _e('Fiexed Widget Options:', 'MiniMetaWidget'); ?></strong></td>
+		 <td valign="top" width="30%"><strong><?php _e('Siedbar Widget Options:', 'MiniMetaWidget'); ?></strong></td>
 			<td valign="top">
 			<?
 			$number=1;
 			$widget_option_names=MiniMetaFunctions::widget_options();
 			foreach ( (array) $widget_option_names as $option_name => $option_value ) {
-				if (!isset($options_fiexed_widget[$number][$option_name])) $options_fiexed_widget[$number][$option_name]=$option_value;
-				$options_form[$option_name] = $options_fiexed_widget[$number][$option_name] ? 'checked="checked"' : '';
+				if (!isset($options_siedbar_widget[$number][$option_name])) $options_siedbar_widget[$number][$option_name]=$option_value;
+				$options_form[$option_name] = $options_siedbar_widget[$number][$option_name] ? 'checked="checked"' : '';
 			}
-			$options_form['adminlinksset']=$options_fiexed_widget[$number]['adminlinks'];
+			$options_form['adminlinksset']=$options_siedbar_widget[$number]['adminlinks'];
 			include('app/display/widgetcontrol.php'); ?>
 			</td>
 		</tr>
 		<tr>
-		 <td valign="top" width="30%"><strong><?php _e('Fiexed Widget Usage:', 'MiniMetaWidget'); ?></strong></td>
+		 <td valign="top" width="30%"><strong><?php _e('Siedbar Widget Usage:', 'MiniMetaWidget'); ?></strong></td>
 			<td valign="top">
-				Put Code to template. 
+				<strong>if (function_exists('MiniMetaSiedbarWidget')) MiniMetaSiedbarWidget('before_title','after_title','before_widget','after_widget');</strong>
 			</td>
 		</tr>
 	</table>

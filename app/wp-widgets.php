@@ -3,11 +3,11 @@
 /**
  * MiniMeta Widgets
  *
- * @package MiniMetaWidgets
+ * @package MiniMetaWPWidgets
  */
  
  
-class MiniMetaWidgets {
+class MiniMetaWPWidgets {
 
 // This registers our widget and  widget control for WP
 function register() {
@@ -15,7 +15,7 @@ function register() {
 		$options = array();
 
 	$widget_ops = array('description' => __('Displaying Meta links, Login Form and Admin Links','MiniMetaWidget'));
-	$control_ops = array('width' => 450, 'height' => 550, 'id_base' => 'minimeta');
+	$control_ops = array('width' => 500, 'height' => 550, 'id_base' => 'minimeta');
 	$name = __('MiniMeta Widget');
 
 	$registered = false;
@@ -27,14 +27,14 @@ function register() {
 		// $id should look like {$id_base}-{$o}
 		$id = $control_ops['id_base']."-".$o; // Never never never translate an id
 		$registered = true;
-		wp_register_sidebar_widget( $id, $name, array('MiniMetaWidgets', 'display'), $widget_ops, array( 'number' => $o ) );
-		wp_register_widget_control( $id, $name, array('MiniMetaWidgets', 'control'), $control_ops, array( 'number' => $o ) );
+		wp_register_sidebar_widget( $id, $name, array('MiniMetaWPWidgets', 'display'), $widget_ops, array( 'number' => $o ) );
+		wp_register_widget_control( $id, $name, array('MiniMetaWPWidgets', 'control'), $control_ops, array( 'number' => $o ) );
 	}
 
 	// If there are none, we register the widget's existance with a generic template
 	if ( !$registered ) {
-		wp_register_sidebar_widget( $control_ops['id_base'].'-1', $name, array('MiniMetaWidgets', 'display'), $widget_ops, array( 'number' => -1 ) );
-		wp_register_widget_control( $control_ops['id_base'].'-1', $name, array('MiniMetaWidgets', 'control'), $control_ops, array( 'number' => -1 ) );
+		wp_register_sidebar_widget( $control_ops['id_base'].'-1', $name, array('MiniMetaWPWidgets', 'display'), $widget_ops, array( 'number' => -1 ) );
+		wp_register_widget_control( $control_ops['id_base'].'-1', $name, array('MiniMetaWPWidgets', 'control'), $control_ops, array( 'number' => -1 ) );
 	}
 }
 

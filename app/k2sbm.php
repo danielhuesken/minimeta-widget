@@ -3,15 +3,15 @@
 /**
  * MiniMeta K2
  *
- * @package MiniMetaK2
+ * @package MiniMetaK2SBM
  */
  
  
-class MiniMetaK2 {
+class MiniMetaK2SBM {
 	// This registers our widget and  widget control for K2 SBM 
 	function register() {  
-      register_sidebar_module('MiniMeta Widget', array('MiniMetaK2', 'display'));
-      register_sidebar_module_control('MiniMeta Widget', array('MiniMetaK2', 'control'));
+      register_sidebar_module('MiniMeta Widget', array('MiniMetaK2SBM', 'display'));
+      register_sidebar_module_control('MiniMeta Widget', array('MiniMetaK2SBM', 'control'));
 	}
 
 	function control() {

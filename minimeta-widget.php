@@ -91,7 +91,9 @@ Change log:
    Version 3.5.8  Path fix for wp 2.5
    Version 3.5.9 Bug fix for no topics
 		      New language file selection    
-   Version 4.0.0  
+   Version 4.0.0  New Plugin file strucktur
+		      Support for Seidbar Widget with function
+		       Unistall function
    
 */
 
@@ -99,9 +101,9 @@ Change log:
 //Set plugin dirname
 define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
 //Load fuction file
-require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/minimeta.php');
+require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/minimeta-functions.php');
 //Plugin int 	
-add_action('init', array('MiniMetaFunctions', 'init')); 	
+add_action('init', array('MiniMetaFunctions', 'init'),1); //must set to 1 for widget support
 //install
 register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
 ?>
