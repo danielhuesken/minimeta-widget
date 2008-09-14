@@ -26,6 +26,19 @@ class MiniMetaK2SBM {
 			for ($i=0;$i<sizeof($_POST['widget-minimeta'][$number]['adminlinks']);$i++) {
 				$options['adminlinks'][$i] = wp_specialchars($_POST['widget-minimeta'][$number]['adminlinks'][$i]);
 			}
+			$options['linksin']="";
+			unset($options['linksin']);
+			for ($i=0;$i<sizeof($_POST['widget-minimeta'][$number]['linksin']);$i++) {
+				if (isset($_POST['widget-minimeta'][$number]['linksin'][$i])) $options['linksin'] .= $_POST['widget-minimeta'][$number]['linksin'][$i].",";
+			}
+			$options['linksin'] = substr($options['linksin'], 0, -1);
+			$options['linksout']="";
+			unset($options['linksout']);
+			for ($i=0;$i<sizeof($_POST['widget-minimeta'][$number]['linksout']);$i++) {
+				if (isset($_POST['widget-minimeta'][$number]['linksout'][$i])) $options['linksout'] .= $_POST['widget-minimeta'][$number]['linksout'][$i].",";
+			}
+			$options['linksout'] = substr($options['linksout'], 0, -1);
+			
 			sbm_update_option('widget_minimeta', $options); //save Options
 		} 
     
@@ -36,7 +49,9 @@ class MiniMetaK2SBM {
 			if (!isset($options[$option_name])) $options[$option_name]=$option_value;
 			$options_form[$option_name] = $options[$option_name] ? 'checked="checked"' : '';
 		}
-		if (isset($options['adminlinks'])) $options_form['adminlinksset']=$options['adminlinks'];
+		if (isset($options['adminlinks'])) $options_form['adminlinks']=$options['adminlinks'];
+		if (isset($options['linksin'])) $options_form['linksin']=$options['linksin'];
+		if (isset($options['linksout'])) $options_form['linksout']=$options['linksout'];
 	
 		//displaying options
 		include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widgetcontrol.php'); 

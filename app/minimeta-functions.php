@@ -14,24 +14,22 @@ class MiniMetaFunctions {
 	}
     
 	//WP-Head hooks high Priority
-	function head_login() {
-		if (!is_user_logged_in()) {   //copy action login_head to wp-head if login form enabeld for plugin hooks 
-			$test=false;
-			$option=get_option('widget_minimeta_seidbar_widget');
-			if($option[1]['loginform']) //Check for seidbar widget
-				$test=true;
-			if( class_exists('K2SBM') and !$test) //Chek for SBM
-				$test=true;
-			if (!$test) {
-				$options = get_option('widget_minimeta');
-				//find out is a ligon form in any MiniMeta Widegt activatet
-				foreach ( (array) $options as $widget_number => $widget_minmeta ) {
-					if($widget_minmeta['loginform']) 
-						$test=true;
-				}
+	function head_login() {  //copy action login_head to wp-head if login form enabeld for plugin hooks 
+		$test=false;
+		$option=get_option('widget_minimeta_seidbar_widget');
+		if($option[1]['loginform']) //Check for seidbar widget
+			$test=true;
+		if( class_exists('K2SBM') and !$test) //Chek for SBM
+			$test=true;
+		if (!$test) {
+			$options = get_option('widget_minimeta');
+			//find out is a ligon form in any MiniMeta Widegt activatet
+			foreach ( (array) $options as $widget_number => $widget_minmeta ) {
+				if($widget_minmeta['loginform']) 
+					$test=true;
 			}
-			if ($test) do_action('login_head'); //do action from login had
-		}        
+		}
+		if ($test) do_action('login_head'); //do action from login had	       
 	}
 
 	//WP-Head hooks low Priority
@@ -46,16 +44,12 @@ class MiniMetaFunctions {
 
 	//function to generate admin links    
 	function generate_adminlinks() { 
-		global $menu,$submenu,$pagenow;
+		global $menu,$submenu;
 		//let orginal Variables unchanged
 		$tempmenu=$menu;
 		$tempsubmenu=$submenu;
 		//scan the menu
 		foreach ( $tempmenu as $key => $item ) {
-			if ($item[2]=="edit-comments.php") //Overwrite for Comments menu without number since wp 2.5
-				$item[0] = __('Comments');
-			if ($item[2]=="plugins.php") //Overwrite for Plugins menu without number since wp 2.6
-				$item[0] = __('Plugins');
 			$adminlinks[$key]['menu']=wp_specialchars(strip_tags($item[0])); //write Menues
 			if (is_array($tempsubmenu[$item[2]])) { //look if submenu existing to crate submenu on men if they downt exists
 				$menulink=false; unset($lowestkey);
@@ -91,7 +85,7 @@ class MiniMetaFunctions {
 		update_option('widget_minimeta_adminlinks', $adminlinks);
 	}
 
-	//Thems Opten menu entry
+	//Thems Option  menu entry
 	function menu_entry() {
 		if (function_exists('add_theme_page')) {
 			add_theme_page(__('MiniMeta Widget','MiniMetaWidget'), __('MiniMeta Widget','MiniMetaWidget'), 'edit_themes', WP_MINMETA_PLUGIN_DIR.'/minimeta-widget-options.php') ;
@@ -122,19 +116,22 @@ class MiniMetaFunctions {
 
 	//Set start Options
 	function install() {
+		add_option('widget_minimeta_options',array('SeidbarNum'=>1),"MiniMeta Widget Generl Options");
+		add_option('widget_minimeta',"","MiniMeta Wordpress Widgets Options");
+		add_option('widget_minimeta_adminlinks',"","MiniMeta Widget Generated Admin Links");
 		MiniMetaFunctions::generate_adminlinks();
 		if (!get_option('widget_minimeta_seidbar_widget')) {
 			$number=1;
 			$options[$number]=MiniMetaFunctions::widget_options();
 			$options[$number]['title']=__('Meta');
-			add_option('widget_minimeta_seidbar_widget',$options);
+			add_option('widget_minimeta_seidbar_widget',$options,"MiniMeta Seidbar Widget Options");
 		}
 	}
 	
 	  
 	// add all action and so on only if plugin loaded.
 	function init() {
-		global $wp_version,$pagenow;
+		global $wp_version;
 	  
 		//Version checks
 		if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPress Version 2.5 or heiger
@@ -166,14 +163,16 @@ class MiniMetaFunctions {
 			load_plugin_textdomain('MiniMetaWidget', false, WP_MINMETA_PLUGIN_DIR.'/lang');	
 		}
 
-		if (has_action('login_head'))
+		if (has_action('login_head') and !is_user_logged_in())
 			add_action('wp_head', array('MiniMetaFunctions', 'head_login'),1);
-		if (current_user_can(10) and ("plugins.php"==$pagenow or "widgets.php"==$pagenow or (class_exists('K2SBM') and "themes.php"==$pagenow)))
+		if (current_user_can(10))
 			add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
-		if ('themes.php'==$pagenow or "widgets.php"==$pagenow) 
+		if (current_user_can('switch_themes')) {
 			add_action('admin_head', array('MiniMetaFunctions', 'admin_head'));
+			add_action('admin_menu', array('MiniMetaFunctions', 'menu_entry'));
+		}
 		add_action('wp_head', array('MiniMetaFunctions', 'wp_head'));
-		add_action('admin_menu', array('MiniMetaFunctions', 'menu_entry'));
+		
 	
 		//Support for Sidbar tyeps
 		if (class_exists('K2SBM'))  { //K2 SBM only

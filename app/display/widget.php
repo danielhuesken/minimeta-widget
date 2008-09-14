@@ -49,6 +49,7 @@
                     echo "</select></li>";
                   }
                 }
+				if (!empty($options[$number]['linksin'])) wp_list_bookmarks('echo=1&title_li=&categorize=0&show_images=0&show_private=1&hide_invisible=0&orderby=name&include='.$options[$number]['linksin']);
          } else {
 			echo $args['before_title'] . $options[$number]['title']. $args['after_title'];
             if($options[$number]['loginform']) {?>
@@ -79,6 +80,7 @@
 			if($options[$number]['loginlink'] and !$options[$number]['redirect']) echo "<li><a href=\"".site_url('wp-login.php', 'login')."\" class=\"minimeta-login\">".__('Log in')."</a></li>";
             if($options[$number]['lostpwlink']) echo "<li><a href=\"".site_url('wp-login.php?action=lostpassword', 'login')."\" title=\"".__('Password Lost and Found')."\" class=\"minimeta-lostpw\">".__('Lost your password?')."</a></li>";
 			if($options[$number]['registerlink'] and get_option('users_can_register')) echo "<li><a href=\"".site_url('wp-login.php?action=register', 'login')."\" class=\"minimeta-register\">" . __('Register') . "</a></li>";
+		    if (!empty($options[$number]['linksout'])) wp_list_bookmarks('echo=1&title_li=&categorize=0&show_images=0&show_private=1&hide_invisible=0&orderby=name&include='.$options[$number]['linksout']);
 		} 
 
 		if($options[$number]['rsslink']) echo "<li><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\" class=\"minimeta-rss\">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";

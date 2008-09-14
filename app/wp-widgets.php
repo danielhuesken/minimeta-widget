@@ -84,6 +84,18 @@ function control($widget_args = 1) {
             for ($i=0;$i<sizeof($_POST['widget-minimeta'][$widget_number]['adminlinks']);$i++) {
                 $options[$widget_number]['adminlinks'][$i] = wp_specialchars($_POST['widget-minimeta'][$widget_number]['adminlinks'][$i]);
             }
+			$options[$widget_number]['linksin']="";
+			unset($options[$widget_number]['linksin']);
+			for ($i=0;$i<sizeof($_POST['widget-minimeta'][$widget_number]['linksin']);$i++) {
+				if (isset($_POST['widget-minimeta'][$widget_number]['linksin'][$i])) $options[$widget_number]['linksin'] .= $_POST['widget-minimeta'][$widget_number]['linksin'][$i].",";
+			}
+			$options[$widget_number]['linksin'] = substr($options[$widget_number]['linksin'], 0, -1);
+			$options[$widget_number]['linksout']="";
+			unset($options[$widget_number]['linksout']);
+			for ($i=0;$i<sizeof($_POST['widget-minimeta'][$widget_number]['linksout']);$i++) {
+				if (isset($_POST['widget-minimeta'][$widget_number]['linksout'][$i])) $options[$widget_number]['linksout'] .= $_POST['widget-minimeta'][$widget_number]['linksout'][$i].",";
+			}
+			$options[$widget_number]['linksout'] = substr($options[$widget_number]['linksout'], 0, -1);
 		}
 
 		update_option('widget_minimeta', $options);
@@ -104,7 +116,9 @@ function control($widget_args = 1) {
 		$number='%i%';
 	} else {
 		$title = attribute_escape($options[$number]['title']);
-		$options_form['adminlinksset']=$options[$number]['adminlinks'];
+		$options_form['adminlinks']=$options[$number]['adminlinks'];
+		$options_form['linksin']=$options[$number]['linksin'];
+		$options_form['linksout']=$options[$number]['linksout'];
 	}
 	
 	

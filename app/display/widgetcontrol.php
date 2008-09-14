@@ -5,8 +5,20 @@
          <label for="minimeta-testcookie-<?php echo $number; ?>" title="<?php _e('Enable WordPress Cookie Test for login Form','MiniMetaWidget');?>">&nbsp;&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo $options_form['testcookie']; ?> id="minimeta-testcookie-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][testcookie]" />&nbsp;<?php _e('Enable Cookie Test','MiniMetaWidget');?></label><br />
          <label for="minimeta-rememberme-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $options_form['rememberme']; ?> id="minimeta-rememberme-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][rememberme]" />&nbsp;<?php _e('Remember me');?></label><br />
 		 <label for="minimeta-lostpwlink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $options_form['lostpwlink']; ?> id="minimeta-lostpwlink-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][lostpwlink]" />&nbsp;<?php _e('Lost your password?');?></label><br />
-		 <label for="minimeta-registerlink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $options_form['registerlink']; ?> id="minimeta-registerlink-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][registerlink]" />&nbsp;<?php _e('Register');?></label><br />
-        <br />
+		 <label for="minimeta-registerlink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $options_form['registerlink']; ?> id="minimeta-registerlink-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][registerlink]" />&nbsp;<?php _e('Register');?></label><br />    
+		 <label for="minimeta-linksout-<?php echo $number; ?>" title="<?php _e('Display Links Selection','MiniMetaWidget');?>"><?php _e('Display Links:','MiniMetaWidget');?> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-linksout-<?php echo $number; ?>'),true)" style="font-size:9px;"><?php _e('All'); ?></a> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-linksout-<?php echo $number; ?>'),false)" style="font-size:9px;"><?php _e('None'); ?></a><br />
+         <select class="select" style="height:70px;" name="widget-minimeta[<?php echo $number; ?>][linksout][]" id="minimeta-linksout-<?php echo $number; ?>" multiple="multiple">
+         <?PHP
+            $bookmarks=get_bookmarks(array('hide_invisible' => 0,'orderby' =>'name'));
+            (array)$linkidsout=explode(",",$options_form['linksout']);
+			foreach ($bookmarks as $links) {
+               $checklinksout="";
+               if (in_array($links->link_id,$linkidsout)) $checklinksout="selected=\"selected\"";
+               echo "<option value=\"".$links->link_id."\" ".$checklinksout.">".$links->link_name."</option>";
+            }        
+         ?>  
+         </select></label><br />		
+		<br />
         <span style="font-weight:bold;"><?php _e('Show allways:','MiniMetaWidget');?></span><br />
 		 <label for="minimeta-redirect-<?php echo $number; ?>" title="<?php _e('Enable WordPress redirect function on Login/out','MiniMetaWidget');?>"><input class="checkbox" type="checkbox" <?php echo $options_form['redirect']; ?> id="minimeta-redirect-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][redirect]" />&nbsp;<?php _e('Enable Login/out Redirect','MiniMetaWidget');?></label><br />
          <label for="minimeta-rsslink-<?php echo $number; ?>"><input class="checkbox" type="checkbox" <?php echo $options_form['rsslink']; ?> id="minimeta-rsslink-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][rsslink]" />&nbsp;<?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>');?></label><br />
@@ -31,12 +43,23 @@
              foreach ($menu as $submenu) {
               if (is_array($submenu)) {
                $checkadminlinks="";
-               if (in_array(wp_specialchars($submenu[2]),(array)$options_form['adminlinksset'])) $checkadminlinks="selected=\"selected\"";
+               if (in_array(wp_specialchars($submenu[2]),(array)$options_form['adminlinks'])) $checkadminlinks="selected=\"selected\"";
                echo "<option value=\"".$submenu[2]."\" ".$checkadminlinks.">".$submenu[0]."</option>";
               }
              }
              echo "</optgroup>";
             }        
         ?>  
-        </select></label>
+        </select></label><br />
+	     <label for="minimeta-linksin-<?php echo $number; ?>" title="<?php _e('Display Links Selection','MiniMetaWidget');?>"><?php _e('Display Links:','MiniMetaWidget');?> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-linksin-<?php echo $number; ?>'),true)" style="font-size:9px;"><?php _e('All'); ?></a> <a href="javascript:selectAll_widget_minimeta(document.getElementById('minimeta-linksin-<?php echo $number; ?>'),false)" style="font-size:9px;"><?php _e('None'); ?></a><br />
+         <select class="select" style="height:70px;" name="widget-minimeta[<?php echo $number; ?>][linksin][]" id="minimeta-linksin-<?php echo $number; ?>" multiple="multiple">
+         <?PHP
+			(array)$linkidsin=explode(",",$options_form['linksin']);
+			foreach ($bookmarks as $links) {
+               $checklinksin="";
+               if (in_array($links->link_id,$linkidsin)) $checklinksin="selected=\"selected\"";
+               echo "<option value=\"".$links->link_id."\" ".$checklinksin.">".$links->link_name."</option>";
+            }        
+         ?>  
+         </select></label><br />
         </td></tr></table>

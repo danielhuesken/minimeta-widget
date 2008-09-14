@@ -93,9 +93,10 @@ Change log:
 		      New language file selection    
    Version 4.0.0  New Plugin file strucktur
 		      Support for Seidbar Widget with function
-		       Unistall function
-   
-*/
+		       Unistall function as form and for WP 2.7
+	                  Best K2SBM detection
+		       Display own Links from Blog Links
+ */
 
 
 //Set plugin dirname
