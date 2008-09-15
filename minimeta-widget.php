@@ -92,7 +92,7 @@ Change log:
    Version 3.5.9 Bug fix for no topics
 		      New language file selection    
    Version 4.0.0  New Plugin file strucktur
-		      Support for Seidbar Widget with function
+		      Support for Sidebar Widget with function
 		       Unistall function as form and for WP 2.7
 	                  Best K2SBM detection
 		       Display own Links from Blog Links

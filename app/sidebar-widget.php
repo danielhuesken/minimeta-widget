@@ -3,17 +3,17 @@
 /**
  * MiniMeta Fixed Widget
  *
- * @package MiniMetaSiedbarWidget
+ * @package MiniMetaSidebarWidget
  */
  
 
-function MiniMetaSiedbarWidget($before_title='<h4>',$after_title='</h4>',$before_widget='<div class="MiniMetaSiedbarWidget">',$after_widget='</div>',$number=1) {
+function MiniMetaSidebarWidget($before_title='<h4>',$after_title='</h4>',$before_widget='<div class="MiniMetaSiedbarWidget">',$after_widget='</div>',$number= 'default') {
 	MiniMetaSiedbarWidget::display(array('before_widget'=>$before_widget,'after_widget'=>$after_widget,'before_title'=>$before_title,'after_title'=>$after_title),$number);
 }
  
-class MiniMetaSiedbarWidget {
+class MiniMetaSidebarWidget {
 	//Display Widget 
-	function display($args,$number = 1) {
+	function display($args,$number = 'default') {
 		global $user_identity;	
 		extract($args, EXTR_SKIP);
 		//load options

@@ -16,11 +16,16 @@ class MiniMetaFunctions {
 	//WP-Head hooks high Priority
 	function head_login() {  //copy action login_head to wp-head if login form enabeld for plugin hooks 
 		$test=false;
-		$option=get_option('widget_minimeta_seidbar_widget');
-		if($option[1]['loginform']) //Check for seidbar widget
-			$test=true;
 		if( class_exists('K2SBM') and !$test) //Chek for SBM
 			$test=true;
+		if (!$test) {
+			$options = get_option('widget_minimeta_sidebar_widget');
+			//find out is a ligon form in any MiniMeta sidebar Widegt activatet
+			foreach ( (array) $options as $widget_number => $widget_minmeta ) {
+				if($widget_minmeta['loginform']) 
+					$test=true;
+			}
+		}
 		if (!$test) {
 			$options = get_option('widget_minimeta');
 			//find out is a ligon form in any MiniMeta Widegt activatet
@@ -88,7 +93,7 @@ class MiniMetaFunctions {
 	//Thems Option  menu entry
 	function menu_entry() {
 		if (function_exists('add_theme_page')) {
-			add_theme_page(__('MiniMeta Widget','MiniMetaWidget'), __('MiniMeta Widget','MiniMetaWidget'), 'edit_themes', WP_MINMETA_PLUGIN_DIR.'/minimeta-widget-options.php') ;
+			add_theme_page(__('MiniMeta Widget','MiniMetaWidget'), __('MiniMeta Widget','MiniMetaWidget'), 'switch_themes', WP_MINMETA_PLUGIN_DIR.'/minimeta-widget-options.php') ;
 		}
 	}
 	
@@ -116,16 +121,17 @@ class MiniMetaFunctions {
 
 	//Set start Options
 	function install() {
-		add_option('widget_minimeta_options',array('SeidbarNum'=>1),"MiniMeta Widget Generl Options");
+		add_option('widget_minimeta_options',"","MiniMeta Widget Generl Options");
 		add_option('widget_minimeta',"","MiniMeta Wordpress Widgets Options");
 		add_option('widget_minimeta_adminlinks',"","MiniMeta Widget Generated Admin Links");
+		add_option('widget_minimeta_sidebar_widget',"","MiniMeta Sidebar Widget Options");
 		MiniMetaFunctions::generate_adminlinks();
-		if (!get_option('widget_minimeta_seidbar_widget')) {
-			$number=1;
-			$options[$number]=MiniMetaFunctions::widget_options();
-			$options[$number]['title']=__('Meta');
-			add_option('widget_minimeta_seidbar_widget',$options,"MiniMeta Seidbar Widget Options");
-		}
+		$options=get_option('widget_minimeta_sidebar_widget');
+		if (!is_array($options['default'])) {
+			$options['default']=MiniMetaFunctions::widget_options();
+			$options['default']['title']=__('Meta');
+			update_option('widget_minimeta_sidebar_widget',$options);
+		}	
 	}
 	
 	  
@@ -183,7 +189,7 @@ class MiniMetaFunctions {
 			add_action('widgets_init', array('MiniMetaWPWidgets', 'register'));
 		}
 
-		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/seidbar-widget.php');
+		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/sidebar-widget.php');
 	} 
 	
 }
