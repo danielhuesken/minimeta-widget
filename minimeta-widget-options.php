@@ -119,32 +119,16 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 
 <div class="wrap"> 
 	<h2><?php _e('MiniMeta Sidebar Widget Options', 'MiniMetaWidget'); ?></h2>
-	<table class="form-table" border="1"><tr>
-	<?PHP
-	foreach ($options_sidebar_widget as $tabs => $values) {
-	 $java="";
-	 foreach ($options_sidebar_widget as $javatabs => $javavalues) {
-	  if ($javatabs==$tabs) {
-	   $java.="document.getElementById('siedebar-".$javatabs."').style.display='block';";
-	  } else {
-	   $java.="document.getElementById('siedebar-".$javatabs."').style.display='none';";
-	  }
-	 }
-	 echo "<td onclick=\"".$java."\" align=\"center\"><strong><i>".$tabs."</i></strong></td>";
-	}
-	?>
-	<td style="width:140px" align=\"center\"><strong><?php _e('New:', 'MiniMetaWidget'); ?></strong><input type="text" id="widget-minimeta-SidebarNew" name="widget-minimeta-SidebarNew" size="10"  /></td>
-	<td style="width:120px" align=\"center\"><strong><?php _e('Delete:', 'MiniMetaWidget'); ?></strong><select id="widget-minimeta-SidebarDelete" name="widget-minimeta-SidebarDelete" size="1">
-	<option value=""><?php _e('none', 'MiniMetaWidget'); ?></option>
-	<?PHP 
-	foreach ($options_sidebar_widget as $number => $values) {
-		if ($number!="default") echo "<option value=\"".$number."\">".$number."</option>";
-	}
-	?>
-	</select></td>
-	<td  style="width:120px" align=\"center\"><input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" /></td>
-	</tr>
-	</table>
+	
+	<div id="minimetatabs"> 
+		<ul>
+		<?PHP
+			foreach ($options_sidebar_widget as $tabs => $values) {
+				echo "<li><a href=\"#siedebar-".$tabs."\"><span>".$tabs."</span></a></li>";
+			}
+		?>
+        </ul>
+  
 	<?php 
 	$options_sidebar_widget = get_option('widget_minimeta_Sidebar_widget');
 	foreach ($options_sidebar_widget as $number => $numbervalues) {
@@ -152,10 +136,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	if (empty($firstnumber) and empty($_POST['widget-minimeta-SidebarNew'])) $firstnumber=$number;
 	if (empty($firstnumber) and !empty($_POST['widget-minimeta-SidebarNew'])) $firstnumber=wp_specialchars($_POST['widget-minimeta-SidebarNew']);
 	?>
-	<table class="form-table" id="siedebar-<?php echo $number; ?>" style="display:<?php if ($number==$firstnumber) echo "block"; else echo "none"; ?>;"> 
-		 <tr>
-		 <td valign="top" width="30%"><strong><?php printf(__('Sidebar Widget %s Options:', 'MiniMetaWidget'),$number); ?></strong></td>
-			<td valign="top">
+	<div id="siedebar-<?php echo $number; ?>" style="width:500px;">
 			<strong><?php _e('Title:', 'MiniMetaWidget'); ?></strong> <input type="text" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" size="50" value="<?php echo htmlspecialchars(stripslashes($options_sidebar_widget[$number]['title'])); ?>" />
 			<?PHP
 			$widget_option_names=MiniMetaFunctions::widget_options();
@@ -167,16 +148,20 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 			$options_form['linksin']=$options_sidebar_widget[$number]['linksin'];
 			$options_form['linksout']=$options_sidebar_widget[$number]['linksout'];
 			include('app/display/widgetcontrol.php'); ?>
-			</td>
-		</tr>	
-		<tr>
-		 <td valign="top" width="30%"><strong><?php printf(__('Sidebar Widget %s Usage:', 'MiniMetaWidget'),$number); ?></strong></td>
-			<td valign="top">
-				<strong>if (function_exists('MiniMetaSidebarWidget')) MiniMetaSidebarWidget('before_title','after_title','before_widget','after_widget','<?php echo $number; ?>');</strong>
-			</td>
-		</tr>
-	</table>
+	</div>
 	<?php } ?>
+	</div>
+	
+	<input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" />
+	<?php _e('New:', 'MiniMetaWidget'); ?><input type="text" id="widget-minimeta-SidebarNew" name="widget-minimeta-SidebarNew" size="10" />
+	<?php _e('Delete:', 'MiniMetaWidget'); ?><select id="widget-minimeta-SidebarDelete" name="widget-minimeta-SidebarDelete" size="1">
+	<option value=""><?php _e('none', 'MiniMetaWidget'); ?></option>
+	<?PHP 
+	foreach ($options_sidebar_widget as $number => $values) {
+		if ($number!="default") echo "<option value=\"".$number."\">".$number."</option>";
+	}
+	?>
+	</select>
 </div>
 </form> 
 <p>&nbsp;</p>

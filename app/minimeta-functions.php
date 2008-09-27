@@ -2,14 +2,38 @@
 
 class MiniMetaFunctions {
 
+	function admin_load_js()
+	{
+		wp_register_script('jquery', plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/jquery.js'), FALSE, '1.2.6');
+		wp_enqueue_script('jquery.ui.core', plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/ui.core.js'), array('jquery'),'1.5.2');
+		wp_enqueue_script('jquery.ui.tabs', plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/ui.tabs.js'), array('jquery'),'1.5.2');
+		return;
+	}
+
+
+	//JS and css for Option Page
+	function admin_head_optionpage() { 
+		?>
+		<link rel="stylesheet" type="text/css" href="<?php echo(plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'));?>" />
+
+		<script type="text/javascript">
+		jQuery(document).ready(function()  
+		{  
+			jQuery("#minimetatabs > ul").tabs();
+		});  
+		</script> 
+		<?PHP
+	}
+
+
 	//JS Admin Header for All/None Selection
 	function admin_head() { 
-		?>
+		?>	
 		<script type="text/javascript">
 		function selectAll_widget_minimeta(selectBox,selectAll) {
 		for (var i = 0; i < selectBox.options.length; i++) selectBox.options[i].selected = selectAll;
 		}
-		</script>    
+		</script> 
 		<?PHP
 	}
     
@@ -176,7 +200,12 @@ class MiniMetaFunctions {
 		if (current_user_can('switch_themes')) {
 			add_action('admin_head', array('MiniMetaFunctions', 'admin_head'));
 			add_action('admin_menu', array('MiniMetaFunctions', 'menu_entry'));
+			if((isset($_GET['page'])) && (stristr($_GET['page'], 'minimeta-widget-options'))!==false) { //only on Option Page
+				add_action('admin_init', array('MiniMetaFunctions', 'admin_load_js'));
+				add_action('admin_head', array('MiniMetaFunctions', 'admin_head_optionpage'));
+			}
 		}
+	
 		add_action('wp_head', array('MiniMetaFunctions', 'wp_head'));
 		
 	
