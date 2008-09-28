@@ -15,7 +15,8 @@ function register() {
 		$options = array();
 
 	$widget_ops = array('description' => __('Displaying Meta links, Login Form and Admin Links','MiniMetaWidget'));
-	$control_ops = array('width' => 300, 'height' => 300, 'id_base' => 'minimeta');
+	//$control_ops = array('width' => 300, 'height' => 300, 'id_base' => 'minimeta');
+	$control_ops = array('id_base' => 'minimeta');
 	$name = __('MiniMeta Widget');
 
 	$registered = false;
@@ -105,9 +106,10 @@ function control($widget_args = 1) {
 	// the widget are stored in one $_POST variable: $_POST['widget-minimeta'][$number]
    
 	//displaying options
-	?><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?> <input style="width: 250px;" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" /></label><br /><?php 
-    include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widgetcontrol.php'); 
-	?><input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][submit]" value="1" /><?php 
+	?>
+	<p><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?><input class="widefat" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" /></label><p>
+	<?php include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widgetcontrol.php'); ?>
+	<input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][submit]" value="1" /><?php 
 }
 
 //Display Widget 

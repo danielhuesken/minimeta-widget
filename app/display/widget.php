@@ -1,5 +1,4 @@
 <?PHP
-	
     //Don´t show Wiget if it have no links
     if ((!is_user_logged_in() and !$optionset[$optionsetname]['loginlink'] and !$optionset[$optionsetname]['loginform'] and !$optionset[$optionsetname]['registerlink'] and !$optionset[$optionsetname]['rememberme'] and !$optionset[$optionsetname]['lostpwlink'] and !$optionset[$optionsetname]['rsslink'] and !$optionset[$optionsetname]['rsscommentlink'] and !$optionset[$optionsetname]['wordpresslink'] and !($optionset[$optionsetname]['showwpmeta'] and has_action('wp_meta')) or
         (is_user_logged_in() and !$optionset[$optionsetname]['logout'] and !$optionset[$optionsetname]['seiteadmin'] and sizeof($optionset[$optionsetname]['adminlinks'])==0 and !$optionset[$optionsetname]['rsslink'] and !$optionset[$optionsetname]['rsscommentlink'] and !$optionset[$optionsetname]['wordpresslink'] and !($optionset[$optionsetname]['showwpmeta'] and has_action('wp_meta'))))) 
@@ -22,7 +21,7 @@
              
                 if (sizeof($optionset[$optionsetname]['adminlinks'])>0) { //show only if a Admin Link is selectesd
                  if ($optionset[$optionsetname]['useselectbox']) {
-                    echo "<li class=\"minimeta-adminlinks\"><select class=\"minimeta-adminlinks\" tabindex=\"95\" onchange=\"window.location = this.value\"><option selected=\"selected\">".__('Please select:','MiniMetaWidget')."</option>";
+                    echo "<li class=\"minimeta-adminlinks\"><select class=\"minimeta-adminlinks\" onchange=\"document.location.href=this.options[this.selectedIndex].value;\"><option selected=\"selected\">".__('Please select:','MiniMetaWidget')."</option>";
                  }
                  $adminlinks=get_option('minimeta_adminlinks'); 
                  foreach ($adminlinks as $menu) {
