@@ -1,8 +1,4 @@
 <?PHP
-	//Load Options
-	$optionsetname=$options[$number]['optionset'];
-	$optionset = get_option('minimeta_widget_options');
-	$optionset[$optionsetname]['title']=$options[$number]['title'];
 	
     //Don´t show Wiget if it have no links
     if ((!is_user_logged_in() and !$optionset[$optionsetname]['loginlink'] and !$optionset[$optionsetname]['loginform'] and !$optionset[$optionsetname]['registerlink'] and !$optionset[$optionsetname]['rememberme'] and !$optionset[$optionsetname]['lostpwlink'] and !$optionset[$optionsetname]['rsslink'] and !$optionset[$optionsetname]['rsscommentlink'] and !$optionset[$optionsetname]['wordpresslink'] and !($optionset[$optionsetname]['showwpmeta'] and has_action('wp_meta')) or

@@ -23,7 +23,7 @@ class MiniMetaWidgetK2SBM {
 		} 
 	
 		//make settings
-		$optionset=$options['optionset']
+		$optionset=$options['optionset'];
 	
 		//displaying options
 		include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widgetcontrol.php'); 
@@ -36,11 +36,11 @@ class MiniMetaWidgetK2SBM {
 		//load options
 		$options = sbm_get_option('minimeta_widget');
 		
-		//Set otions to disply
+		//Set options to disply
 		$optionsetname=$options['optionset'];
 		$optionset = get_option('minimeta_widget_options');
 		$optionset[$optionsetname]['title']=$title;
-		
+
 		//Includ widget display
 		include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widget.php');
 	}

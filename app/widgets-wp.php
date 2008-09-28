@@ -125,7 +125,7 @@ function display( $args, $widget_args = 1 ) {
 	if ( !isset($options[$number]) )
 		return;
 	
-	//Set otions to disply
+	//Set options to disply
 	$optionsetname=$options[$number]['optionset'];
 	$optionset = get_option('minimeta_widget_options');
 	$optionset[$optionsetname]['title']=$options[$number]['title'];
