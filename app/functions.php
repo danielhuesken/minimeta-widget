@@ -104,27 +104,6 @@ class MiniMetaFunctions {
 		}
 	}
 	
-	//AllOn/off Otions for a Widget
-	function widget_options() {
-		$option['loginlink']=true;
-		$option['loginform']=false;
-		$option['logout']=true; 
-		$option['registerlink']=true;
-		$option['testcookie']=false; 
-		$option['redirect']=false; 
-		$option['seiteadmin']=true; 
-		$option['rememberme']=true; 
-		$option['rsslink']=true; 
-		$option['rsscommentlink']=true; 
-		$option['wordpresslink']=true; 
-		$option['lostpwlink']=false;
-		$option['profilelink']=false; 
-		$option['showwpmeta']=true; 
-		$option['displayidentity']=false; 
-		$option['useselectbox']=false; 
-		$option['notopics']=false;
-		return $option;
-	}
 
 	//Set start Options
 	function install() {
@@ -132,12 +111,29 @@ class MiniMetaFunctions {
 		add_option('minimeta_widget_wp',"","MiniMeta Wordpress Widgets Options");
 		add_option('minimeta_adminlinks',"","MiniMeta Widget Generated Admin Links");
 		MiniMetaFunctions::generate_adminlinks();
-		$options=get_option('minimeta_widget_options');
-		if (!is_array($options['default'])) {
-			$options['default']=MiniMetaFunctions::widget_options();
-			$options['default']['title']=__('Meta');
-			update_option('minimeta_widget_options',$options);
-		}	
+		//set def. options for default 
+		$options = get_option('minimeta_widget_options');
+		$options['default']['loginlink']=true;
+		$options['default']['loginform']=false;
+		$options['default']['logout']=true; 
+		$options['default']['registerlink']=true;
+		$options['default']['testcookie']=false; 
+		$options['default']['redirect']=false; 
+		$options['default']['seiteadmin']=true; 
+		$options['default']['rememberme']=true; 
+		$options['default']['rsslink']=true; 
+		$options['default']['rsscommentlink']=true; 
+		$options['default']['wordpresslink']=true; 
+		$options['default']['lostpwlink']=false;
+		$options['default']['profilelink']=false; 
+		$options['default']['showwpmeta']=true; 
+		$options['default']['displayidentity']=false; 
+		$options['default']['useselectbox']=false; 
+		$options['default']['notopics']=false;
+		unset($options['default']['adminlinks']);
+		unset($options['default']['linksin']);
+		unset($options['default']['linksout']);
+		update_option('minimeta_widget_options',$options);
 	}
 	
 	  
