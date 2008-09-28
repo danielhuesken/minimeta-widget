@@ -18,8 +18,12 @@ class MiniMetaWidgetSidebar {
 		extract($args, EXTR_SKIP);
 
 		//Set otions to disply
-		$optionsetname=$name;
 		$optionset = get_option('minimeta_widget_options');
+		if (isset($optionset[$name])) {
+			$optionsetname = $name;
+		} else {
+			$optionsetname = 'default';
+		} 
 		$optionset[$optionsetname]['title']=$title;
 		     
 		include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widget.php');

@@ -128,9 +128,14 @@ function display( $args, $widget_args = 1 ) {
 		return;
 	
 	//Set options to disply
-	$optionsetname=$options[$number]['optionset'];
+	
 	$optionset = get_option('minimeta_widget_options');
-	$optionset[$optionsetname]['title']=$options[$number]['title'];
+	if (isset($optionset[$options[$number]['optionset']])) {
+	  $optionsetname = $options[$number]['optionset'];
+	} else {
+	  $optionsetname = 'default';
+	} 
+	$optionset[$optionsetname]['title'] = $options[$number]['title'];
 	
 	include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widget.php');
 }

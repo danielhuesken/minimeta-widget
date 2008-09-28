@@ -37,8 +37,12 @@ class MiniMetaWidgetK2SBM {
 		$options = sbm_get_option('minimeta_widget');
 		
 		//Set options to disply
-		$optionsetname=$options['optionset'];
 		$optionset = get_option('minimeta_widget_options');
+		if (isset($optionset[$options['optionset']])) {
+			$optionsetname = $options['optionset'];
+		} else {
+			$optionsetname = 'default';
+		} 
 		$optionset[$optionsetname]['title']=$title;
 
 		//Includ widget display
