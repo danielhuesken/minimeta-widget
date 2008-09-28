@@ -2,7 +2,7 @@
 //Variables Variables Variables
 $id = intval($_GET['id']);
 $mode = trim($_GET['mode']);
-$views_settings = array('widget_minimeta','widget_minimeta_options', 'widget_minimeta_adminlinks','widget_minimeta_sidebar_widget');
+$views_settings = array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks');
 
 // Form Processing
 // Update Options
@@ -14,43 +14,39 @@ if(!empty($_POST['Submit'])) {
 	
 	foreach ($_POST['widget-minimeta'] as $number => $numbervalues) {
 	  if ($newnumber!=$number){ //Change only not deleted
-		$options_sidebar_widget[$number]['title']=wp_specialchars($_POST['widget-minimeta'][$number]['title']);
+		$options_widgets[$number]['title']=wp_specialchars($_POST['widget-minimeta'][$number]['title']);
 		$widget_option_names=MiniMetaFunctions::widget_options();
 		foreach ( (array) $widget_option_names as $option_name => $option_value ) {
-			$options_sidebar_widget[$number][$option_name] = isset($_POST['widget-minimeta'][$number][$option_name]);
+			$options_widgets[$number][$option_name] = isset($_POST['widget-minimeta'][$number][$option_name]);
 		}
-		unset($options_sidebar_widget[$number]['adminlinks']);
+		unset($options_widgets[$number]['adminlinks']);
 		for ($i=0;$i<sizeof($_POST['widget-minimeta'][$number]['adminlinks']);$i++) {
-			$options_sidebar_widget[$number]['adminlinks'][$i] = wp_specialchars($_POST['widget-minimeta'][$number]['adminlinks'][$i]);
+			$options_widgets[$number]['adminlinks'][$i] = wp_specialchars($_POST['widget-minimeta'][$number]['adminlinks'][$i]);
 		}
-		unset($options_sidebar_widget[$number]['linksin']);
-		$options_sidebar_widget[$number]['linksin']="";
+		unset($options_widgets[$number]['linksin']);
+		$options_widgets[$number]['linksin']="";
 		for ($i=0;$i<sizeof($_POST['widget-minimeta'][$number]['linksin']);$i++) {
-			if (isset($_POST['widget-minimeta'][$number]['linksin'][$i])) $options_sidebar_widget[$number]['linksin'] .= $_POST['widget-minimeta'][$number]['linksin'][$i].",";
+			if (isset($_POST['widget-minimeta'][$number]['linksin'][$i])) $options_widgets[$number]['linksin'] .= $_POST['widget-minimeta'][$number]['linksin'][$i].",";
 		}
-		$options_sidebar_widget[$number]['linksin'] = substr($options_sidebar_widget[$number]['linksin'], 0, -1);
-		unset($options_sidebar_widget[$number]['linksout']);
-		$options_sidebar_widget[$number]['linksout']="";
+		$options_widgets[$number]['linksin'] = substr($options_widgets[$number]['linksin'], 0, -1);
+		unset($options_widgets[$number]['linksout']);
+		$options_widgets[$number]['linksout']="";
 		for ($i=0;$i<sizeof($_POST['widget-minimeta'][$number]['linksout']);$i++) {
-			if (isset($_POST['widget-minimeta'][$number]['linksout'][$i])) $options_sidebar_widget[$number]['linksout'] .= $_POST['widget-minimeta'][$number]['linksout'][$i].",";
+			if (isset($_POST['widget-minimeta'][$number]['linksout'][$i])) $options_widgets[$number]['linksout'] .= $_POST['widget-minimeta'][$number]['linksout'][$i].",";
 		}
-		$options_sidebar_widget[$number]['linksout'] = substr($options_sidebar_widget[$number]['linksout'], 0, -1);
+		$options_widgets[$number]['linksout'] = substr($options_widgets[$number]['linksout'], 0, -1);
 	  }
 	}
 	
 	$number=wp_specialchars($_POST['widget-minimeta-SidebarNew']); //For new Sidebar Widget
 	if (!empty($number)) {
-		$options_sidebar_widget[$number]=MiniMetaFunctions::widget_options();
-		$options_sidebar_widget[$number]['title']=__('Meta')." ".$number;	
+		$options_widgets[$number]=MiniMetaFunctions::widget_options();
+		$options_widgets[$number]['title']=__('Meta')." ".$number;	
 	}
 	
-	$update_views_queries[] = update_option('widget_minimeta_Sidebar_widget', $options_sidebar_widget);
-	$update_views_text[] = __('MiniMeta Sidebar Widget Options', 'MiniMetaWidget');
-	
-	
-	if ($_POST['widget-minimeta-SidebarNum']>=1 and $_POST['widget-minimeta-SidebarNum']<=9) $generl_options['SidebarNum']=$_POST['widget-minimeta-SidebarNum'];
-	$update_views_queries[] = update_option('widget_minimeta_options', $generl_options);
-	$update_views_text[] = __('MiniMeta Generel Options', 'MiniMetaWidget');
+	$update_views_queries[] = update_option('minimeta_widget_options', $options_widgets);
+	$update_views_text[] = __('MiniMeta Widget Options', 'MiniMetaWidget');
+
 	
 	$i=0;
 	$text = '';
@@ -84,7 +80,7 @@ if(!empty($_POST['do'])) {
 						echo '</font><br />';
 					}
 				}
-				if (defined('K2_LOAD_SBM') and K2_LOAD_SBM) sbm_delete_option('widget_minimeta');
+				if (defined('K2_LOAD_SBM') and K2_LOAD_SBM) sbm_delete_option('minimeta_widget');
 				echo '</p>';
 				echo '</div>'; 
 				$mode = 'end-UNINSTALL';
@@ -111,7 +107,7 @@ switch($mode) {
 // Main Page
 default:
 		
-$options_sidebar_widget = get_option('widget_minimeta_Sidebar_widget');
+$options_widgets = get_option('minimeta_widget_options');
 	
 if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 
@@ -123,31 +119,30 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	<div id="minimetatabs"> 
 		<ul>
 		<?PHP
-			foreach ($options_sidebar_widget as $tabs => $values) {
+			foreach ($options_widgets as $tabs => $values) {
 				echo "<li><a href=\"#siedebar-".$tabs."\"><span>".$tabs."</span></a></li>";
 			}
 		?>
         </ul>
   
 	<?php 
-	$options_sidebar_widget = get_option('widget_minimeta_Sidebar_widget');
-	foreach ($options_sidebar_widget as $number => $numbervalues) {
+	foreach ($options_widgets as $number => $numbervalues) {
 	unset($options_form);
 	if (empty($firstnumber) and empty($_POST['widget-minimeta-SidebarNew'])) $firstnumber=$number;
 	if (empty($firstnumber) and !empty($_POST['widget-minimeta-SidebarNew'])) $firstnumber=wp_specialchars($_POST['widget-minimeta-SidebarNew']);
 	?>
 	<div id="siedebar-<?php echo $number; ?>" style="width:500px;">
-			<strong><?php _e('Title:', 'MiniMetaWidget'); ?></strong> <input type="text" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" size="50" value="<?php echo htmlspecialchars(stripslashes($options_sidebar_widget[$number]['title'])); ?>" />
+			<strong><?php _e('Title:', 'MiniMetaWidget'); ?></strong> <input type="text" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" size="50" value="<?php echo htmlspecialchars(stripslashes($options_widgets[$number]['title'])); ?>" />
 			<?PHP
 			$widget_option_names=MiniMetaFunctions::widget_options();
 			foreach ( (array) $widget_option_names as $option_name => $option_value ) {
-				if (!isset($options_sidebar_widget[$number][$option_name])) $options_sidebar_widget[$number][$option_name]=$option_value;
-				$options_form[$option_name] = $options_sidebar_widget[$number][$option_name] ? 'checked="checked"' : '';
+				if (!isset($options_widgets[$number][$option_name])) $options_widgets[$number][$option_name]=$option_value;
+				$options_form[$option_name] = $options_widgets[$number][$option_name] ? 'checked="checked"' : '';
 			}
-			$options_form['adminlinks']=$options_sidebar_widget[$number]['adminlinks'];
-			$options_form['linksin']=$options_sidebar_widget[$number]['linksin'];
-			$options_form['linksout']=$options_sidebar_widget[$number]['linksout'];
-			include('app/display/widgetcontrol.php'); ?>
+			$options_form['adminlinks']=$options_widgets[$number]['adminlinks'];
+			$options_form['linksin']=$options_widgets[$number]['linksin'];
+			$options_form['linksout']=$options_widgets[$number]['linksout'];
+			include('display/widgetoptions.php'); ?>
 	</div>
 	<?php } ?>
 	</div>
@@ -157,7 +152,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	<?php _e('Delete:', 'MiniMetaWidget'); ?><select id="widget-minimeta-SidebarDelete" name="widget-minimeta-SidebarDelete" size="1">
 	<option value=""><?php _e('none', 'MiniMetaWidget'); ?></option>
 	<?PHP 
-	foreach ($options_sidebar_widget as $number => $values) {
+	foreach ($options_widgets as $number => $values) {
 		if ($number!="default") echo "<option value=\"".$number."\">".$number."</option>";
 	}
 	?>

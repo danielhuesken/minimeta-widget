@@ -102,7 +102,7 @@ Change log:
 //Set plugin dirname
 define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
 //Load fuction file
-require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/minimeta-functions.php');
+require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
 //Plugin int 	
 add_action('init', array('MiniMetaFunctions', 'init'),1); //must set to 1 for widget support
 //install

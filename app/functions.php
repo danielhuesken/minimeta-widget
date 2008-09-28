@@ -1,8 +1,9 @@
 <?PHP
 
 class MiniMetaFunctions {
-
-	function admin_load_js()
+	
+	//Js for options page
+	function admin_load_js() 
 	{
 		wp_register_script('jquery', plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/jquery.js'), FALSE, '1.2.6');
 		wp_enqueue_script('jquery.ui.core', plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/ui.core.js'), array('jquery'),'1.5.2');
@@ -10,10 +11,9 @@ class MiniMetaFunctions {
 		return;
 	}
 
-
-	//JS and css for Option Page
-	function admin_head_optionpage() { 
-		?>
+	//JS Admin Header 
+	function admin_head() { 
+		?>	
 		<link rel="stylesheet" type="text/css" href="<?php echo(plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'));?>" />
 
 		<script type="text/javascript">
@@ -22,13 +22,7 @@ class MiniMetaFunctions {
 			jQuery("#minimetatabs > ul").tabs();
 		});  
 		</script> 
-		<?PHP
-	}
 
-
-	//JS Admin Header for All/None Selection
-	function admin_head() { 
-		?>	
 		<script type="text/javascript">
 		function selectAll_widget_minimeta(selectBox,selectAll) {
 		for (var i = 0; i < selectBox.options.length; i++) selectBox.options[i].selected = selectAll;
@@ -40,23 +34,11 @@ class MiniMetaFunctions {
 	//WP-Head hooks high Priority
 	function head_login() {  //copy action login_head to wp-head if login form enabeld for plugin hooks 
 		$test=false;
-		if( class_exists('K2SBM') and !$test) //Chek for SBM
-			$test=true;
-		if (!$test) {
-			$options = get_option('widget_minimeta_sidebar_widget');
-			//find out is a ligon form in any MiniMeta sidebar Widegt activatet
-			foreach ( (array) $options as $widget_number => $widget_minmeta ) {
-				if($widget_minmeta['loginform']) 
-					$test=true;
-			}
-		}
-		if (!$test) {
-			$options = get_option('widget_minimeta');
-			//find out is a ligon form in any MiniMeta Widegt activatet
-			foreach ( (array) $options as $widget_number => $widget_minmeta ) {
-				if($widget_minmeta['loginform']) 
-					$test=true;
-			}
+		$options = get_option('minimeta_widget_options');
+		//find out is a ligon form in any MiniMeta Widegt activatet
+		foreach ( (array) $options as $widget_number => $widget_minmeta ) {
+			if($widget_minmeta['loginform']) 
+				$test=true;
 		}
 		if ($test) do_action('login_head'); //do action from login had	       
 	}
@@ -111,13 +93,13 @@ class MiniMetaFunctions {
 					$adminlinks[$key][$keysub][0] = __('Akismet Spam');
 			}   
 		}
-		update_option('widget_minimeta_adminlinks', $adminlinks);
+		update_option('minimeta_adminlinks', $adminlinks);
 	}
 
 	//Thems Option  menu entry
 	function menu_entry() {
 		if (function_exists('add_theme_page')) {
-			add_theme_page(__('MiniMeta Widget','MiniMetaWidget'), __('MiniMeta Widget','MiniMetaWidget'), 'switch_themes', WP_MINMETA_PLUGIN_DIR.'/minimeta-widget-options.php') ;
+			add_theme_page(__('MiniMeta Widget','MiniMetaWidget'), __('MiniMeta Widget','MiniMetaWidget'), 'switch_themes', WP_MINMETA_PLUGIN_DIR.'/app/minimeta-options.php') ;
 		}
 	}
 	
@@ -145,16 +127,15 @@ class MiniMetaFunctions {
 
 	//Set start Options
 	function install() {
-		add_option('widget_minimeta_options',"","MiniMeta Widget Generl Options");
-		add_option('widget_minimeta',"","MiniMeta Wordpress Widgets Options");
-		add_option('widget_minimeta_adminlinks',"","MiniMeta Widget Generated Admin Links");
-		add_option('widget_minimeta_sidebar_widget',"","MiniMeta Sidebar Widget Options");
+		add_option('minimeta_widget_options',"","MiniMeta Widgets Options");
+		add_option('minimeta_widget_wp',"","MiniMeta Wordpress Widgets Options");
+		add_option('minimeta_adminlinks',"","MiniMeta Widget Generated Admin Links");
 		MiniMetaFunctions::generate_adminlinks();
-		$options=get_option('widget_minimeta_sidebar_widget');
+		$options=get_option('minimeta_widget_options');
 		if (!is_array($options['default'])) {
 			$options['default']=MiniMetaFunctions::widget_options();
 			$options['default']['title']=__('Meta');
-			update_option('widget_minimeta_sidebar_widget',$options);
+			update_option('minimeta_widget_options',$options);
 		}	
 	}
 	
@@ -195,14 +176,14 @@ class MiniMetaFunctions {
 
 		if (has_action('login_head') and !is_user_logged_in())
 			add_action('wp_head', array('MiniMetaFunctions', 'head_login'),1);
-		if (current_user_can(10))
-			add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
+
 		if (current_user_can('switch_themes')) {
-			add_action('admin_head', array('MiniMetaFunctions', 'admin_head'));
 			add_action('admin_menu', array('MiniMetaFunctions', 'menu_entry'));
-			if((isset($_GET['page'])) && (stristr($_GET['page'], 'minimeta-widget-options'))!==false) { //only on Option Page
+			if (current_user_can(10))
+				add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
+			if((isset($_GET['page'])) && (stristr($_GET['page'], 'minimeta-options'))!==false) { //only on Option Page
 				add_action('admin_init', array('MiniMetaFunctions', 'admin_load_js'));
-				add_action('admin_head', array('MiniMetaFunctions', 'admin_head_optionpage'));
+				add_action('admin_head', array('MiniMetaFunctions', 'admin_head'));
 			}
 		}
 	
@@ -211,14 +192,14 @@ class MiniMetaFunctions {
 	
 		//Support for Sidbar tyeps
 		if (class_exists('K2SBM'))  { //K2 SBM only
-			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/k2sbm.php');
-			MiniMetaK2SBM::register();
+			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-k2sbm.php');
+			MiniMetaWidgetK2SBM::register();
 		} elseif (function_exists('register_sidebar_widget')) { //Widgest only
-			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/wp-widgets.php');
-			add_action('widgets_init', array('MiniMetaWPWidgets', 'register'));
+			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-wp.php');
+			add_action('widgets_init', array('MiniMetaWidgetWP', 'register'));
 		}
-
-		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/sidebar-widget.php');
+		//lod seidbar widgets per function
+		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-sidebar.php');
 	} 
 	
 }
