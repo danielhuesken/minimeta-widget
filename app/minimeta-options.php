@@ -14,7 +14,6 @@ if(!empty($_POST['Submit'])) {
 	
 	foreach ($_POST['widget-minimeta'] as $number => $numbervalues) {
 	  if ($newnumber!=$number){ //Change only not deleted
-		$options_widgets[$number]['title']=wp_specialchars($_POST['widget-minimeta'][$number]['title']);
 		$widget_option_names=MiniMetaFunctions::widget_options();
 		foreach ( (array) $widget_option_names as $option_name => $option_value ) {
 			$options_widgets[$number][$option_name] = isset($_POST['widget-minimeta'][$number][$option_name]);
@@ -132,7 +131,6 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	if (empty($firstnumber) and !empty($_POST['widget-minimeta-SidebarNew'])) $firstnumber=wp_specialchars($_POST['widget-minimeta-SidebarNew']);
 	?>
 	<div id="siedebar-<?php echo $number; ?>" style="width:500px;">
-			<strong><?php _e('Title:', 'MiniMetaWidget'); ?></strong> <input type="text" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" size="50" value="<?php echo htmlspecialchars(stripslashes($options_widgets[$number]['title'])); ?>" />
 			<?PHP
 			$widget_option_names=MiniMetaFunctions::widget_options();
 			foreach ( (array) $widget_option_names as $option_name => $option_value ) {
