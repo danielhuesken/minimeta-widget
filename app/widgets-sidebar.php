@@ -7,7 +7,7 @@
  */
  
 
-function MiniMetaWidgetSidebar($before_title='<h4>',$title='Meta',$after_title='</h4>',$before_widget='<div class="MiniMetaSiedbarWidget">',$after_widget='</div>',$name= 'default') {
+function MiniMetaWidgetSidebar($before_title='<h4>',$title='Meta',$after_title='</h4>',$before_widget='<div class="MiniMetaWidgetSiedbar">',$after_widget='</div>',$name= 'default') {
 	MiniMetaSiedbarWidget::display(array('before_widget'=>$before_widget,'title'=>$title,'after_widget'=>$after_widget,'before_title'=>$before_title,'after_title'=>$after_title),$name);
 }
  

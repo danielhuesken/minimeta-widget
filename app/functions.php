@@ -19,6 +19,7 @@ class MiniMetaFunctions {
 		<script type="text/javascript">
 		jQuery(document).ready(function()  
 		{  
+			jQuery("#minimetaopttabs > ul").tabs();
 			jQuery("#minimetatabs > ul").tabs();
 		});  
 		</script> 

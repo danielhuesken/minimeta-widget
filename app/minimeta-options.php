@@ -113,9 +113,9 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 
 <div class="wrap"> 
-	<h2><?php _e('MiniMeta Sidebar Widget Options', 'MiniMetaWidget'); ?></h2>
+	<h2><?php _e('MiniMeta Widget Options', 'MiniMetaWidget'); ?></h2>
 	
-	<div id="minimetatabs"> 
+	<div id="minimetaopttabs"> 
 		<ul>
 		<?PHP
 			foreach ($options_widgets as $tabs => $values) {
@@ -130,7 +130,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	if (empty($firstnumber) and empty($_POST['widget-minimeta-SidebarNew'])) $firstnumber=$number;
 	if (empty($firstnumber) and !empty($_POST['widget-minimeta-SidebarNew'])) $firstnumber=wp_specialchars($_POST['widget-minimeta-SidebarNew']);
 	?>
-	<div id="siedebar-<?php echo $number; ?>" style="width:500px;">
+	<div id="siedebar-<?php echo $number; ?>" style="width:600px;">
 			<?PHP
 			$widget_option_names=MiniMetaFunctions::widget_options();
 			foreach ( (array) $widget_option_names as $option_name => $option_value ) {
@@ -159,45 +159,79 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 </form> 
 <p>&nbsp;</p>
 
-<!-- Uninstall MiniMeta Widget -->
-<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 <div class="wrap"> 
-	<h2><?php _e('Uninstall MiniMeta Widget', 'MiniMetaWidget'); ?></h2>
-	<p style="text-align: left;">
-		<?php _e('Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here.', 'MiniMetaWidget'); ?>
-	</p>
-	<p style="text-align: left; color: red">
-		<strong><?php _e('WARNING:', 'MiniMetaWidget'); ?></strong><br />
-		<?php _e('Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first.', 'MiniMetaWidget'); ?>
-	</p>
-	<p style="text-align: left; color: red">
-		<strong><?php _e('The following WordPress Options will be DELETED:', 'MiniMetaWidget'); ?></strong><br />
-	</p>
-	<table class="widefat">
-		<thead>
-			<tr>
-				<th><?php _e('WordPress Options', 'MiniMetaWidget'); ?></th>
-			</tr>
-		</thead>
-		<tr>
-			<td valign="top">
-				<ol>
-				<?php
-					foreach($views_settings as $settings) {
-						echo '<li>'.$settings.'</li>'."\n";
-					}
-				?>
-				</ol>
-			</td>
-		</tr>
-	</table>
-	<p>&nbsp;</p>
-	<p style="text-align: center;">
-		<input type="checkbox" name="uninstall_MiniMeta_yes" value="yes" />&nbsp;<?php _e('Yes', 'MiniMetaWidget'); ?><br /><br />
-		<input type="submit" name="do" value="<?php _e('UNINSTALL MiniMeta Widget', 'MiniMetaWidget'); ?>" class="button" onclick="return confirm('<?php _e('You Are About To Uninstall MiniMeta Widget From WordPress.\nThis Action Is Not Reversible.\n\n Choose [Cancel] To Stop, [OK] To Uninstall.', 'MiniMetaWidget'); ?>')" />
-	</p>
-</div> 
-</form>
+	<div id="minimetatabs"> 
+		<ul>
+			<li><a href="#usage"><span><?php _e('Usage', 'MiniMetaWidget'); ?></span></a></li>
+			<li><a href="#about"><span><?php _e('About', 'MiniMetaWidget'); ?></span></a></li>
+			<li><a href="#uninstall"><span><?php _e('Uninstall', 'MiniMetaWidget'); ?></span></a></li>
+        </ul>
+		<div id="usage" style="width:600px;">
+		 1. Create a otion set above.<br />
+		 2. Place a widget from WordPress or K2 Seidbar Modules or in Theme via PHP and select a option set.<br />
+		 3. redy.<br />
+		 &nbsp;<br />
+		 <strong>Code too place a Widget via PHP:</strong><br />
+		 <code> &lt;?PHP if (function_exists('MiniMetaWidgetSidebar')) MiniMetaWidgetSidebar(before_title, title, after_title, before_widget, after_widget, otionsetname); ?&gt; </code><br />
+		 &nbsp;<br />
+		 <strong>before_title</strong> = HTML before Title <i>default: &lt;h4&gt;</i><br />
+		 <strong>title</strong> = Title for Widget <i>default: Meta</i><br />
+		 <strong>after_title</strong> = HTML after Title <i>default: &lt;/h4&gt;</i><br />
+		 <strong>before_widget</strong> = HTML before Widget <i>default: &lt;div class="MiniMetaWidgetSiedbar"&gt;</i><br />
+		 <strong>after_widget</strong> = HTML after Widget <i>default: &lt;/div&gt;</i><br />
+		 <strong>otionsetname</strong> = Name of one settings from above <i>default: default</i><br />
+		 
+		</div>
+		<div id="about" style="width:600px;">
+		 <strong>Plugin Name:</strong> MiniMeta Wigdet<br />
+		 <strong>Author:</strong> Daniel H&uuml;sken<br />
+		 <strong>Author Webseite:</strong> <a href="http://danielhuesken.de" target="_new">http://danielhuesken.de</a><br />
+		 <strong>Plugin Webseite:</strong> <a href="http://danielhuesken.de/portfolio/minimeta/" target="_new">http://danielhuesken.de/portfolio/minimeta/</a><br />
+		 <strong>Plugin by WordPress:</strong> <a href="http://wordpress.org/extend/plugins/minimeta-widget/" target="_new">http://wordpress.org/extend/plugins/minimeta-widget/</a><br />
+		 
+		  <?php _e('If you find it useful, please consider donating.', 'MiniMetaWidget'); ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=daniel%40huesken-net%2ede&item_name=MiniMeta%20Widget%20Plugin%20for%20WordPress&no_shipping=1&no_note=1&tax=0&currency_code=EUR&lc=LV&bn=PP%2dDonationsBF&charset=UTF%2d8" target="_new"><img alt="Donate" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" /></a>
+		</div>
+		<div id="uninstall" style="width:600px;">
+			<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+			<p style="text-align: left;">
+				<?php _e('Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here.', 'MiniMetaWidget'); ?>
+			</p>
+			<p style="text-align: left; color: red">
+				<strong><?php _e('WARNING:', 'MiniMetaWidget'); ?></strong><br />
+				<?php _e('Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first.', 'MiniMetaWidget'); ?>
+			</p>
+			<p style="text-align: left; color: red">
+				<strong><?php _e('The following WordPress Options will be DELETED:', 'MiniMetaWidget'); ?></strong><br />
+			</p>
+			<table class="widefat">
+				<thead>
+					<tr>
+						<th><?php _e('WordPress Options', 'MiniMetaWidget'); ?></th>
+					</tr>
+				</thead>
+				<tr>
+					<td valign="top">
+						<ol>
+						<?php
+							foreach($views_settings as $settings) {
+								echo '<li>'.$settings.'</li>'."\n";
+							}
+						?>
+						</ol>
+					</td>
+				</tr>
+			</table>
+			<p>&nbsp;</p>
+			<p style="text-align: center;">
+				<input type="checkbox" name="uninstall_MiniMeta_yes" value="yes" />&nbsp;<?php _e('Yes', 'MiniMetaWidget'); ?><br /><br />
+				<input type="submit" name="do" value="<?php _e('UNINSTALL MiniMeta Widget', 'MiniMetaWidget'); ?>" class="button" onclick="return confirm('<?php _e('You Are About To Uninstall MiniMeta Widget From WordPress.\nThis Action Is Not Reversible.\n\n Choose [Cancel] To Stop, [OK] To Uninstall.', 'MiniMetaWidget'); ?>')" />
+			</p>		
+			</form>	
+		</div>		
+	</div>
+</div>
+
+
 <?php
 } // End switch($mode)
 ?>

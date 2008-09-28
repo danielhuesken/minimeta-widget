@@ -1,8 +1,13 @@
+
+.donate img {
+	 float:right; 
+	 margin:0.5em 0 0.5em 0.5em;
+}
+
 /* ui tabs */
 
 .ui-tabs-hide {
-        display: none;
-    }
+    display: none;
 }
 
 /* Hide useless elements in print layouts... */
@@ -107,7 +112,7 @@ div.ui-tabs-panel {
 }
 .ui-tabs-loading em {
     padding: 0 0 0 20px;
-    background: url(loading.gif) no-repeat 0 50%;
+    background: url(loader.gif) no-repeat 0 50%;
 }
 
 /* Additional IE specific bug fixes... */
