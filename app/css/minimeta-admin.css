@@ -22,12 +22,14 @@ div.ui-tabs-panel {
 	padding: .5em .9em;
 	height: auto;
 	overflow: auto;
-	border: 1px solid #000;
+	border: 1px solid #27537a;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
+    font-size: 12px;
 }
 
 /* Skin */
 .ui-tabs-nav, .ui-tabs-panel {
-    font-family: "Trebuchet MS", Trebuchet, Verdana, Helvetica, Arial, sans-serif;
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, Verdana, sans-serif;
     font-size: 12px;
 }
 .ui-tabs-nav {
