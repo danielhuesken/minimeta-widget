@@ -37,8 +37,8 @@ class MiniMetaFunctions {
 		$test=false;
 		$options = get_option('minimeta_widget_options');
 		//find out is a ligon form in any MiniMeta Widegt activatet
-		foreach ( (array) $options as $widget_number => $widget_minmeta ) {
-			if($widget_minmeta['loginform']) 
+		foreach ( (array) $options as $widget_number => $widget_minimeta ) {
+			if($widget_minimeta['loginform']) 
 				$test=true;
 		}
 		if ($test) do_action('login_head'); //do action from login had	       
@@ -113,6 +113,7 @@ class MiniMetaFunctions {
 		MiniMetaFunctions::generate_adminlinks();
 		//set def. options for default 
 		$options = get_option('minimeta_widget_options');
+		$options['default']['optionname']='default';
 		$options['default']['loginlink']=true;
 		$options['default']['loginform']=false;
 		$options['default']['logout']=true; 
@@ -130,9 +131,6 @@ class MiniMetaFunctions {
 		$options['default']['displayidentity']=false; 
 		$options['default']['useselectbox']=false; 
 		$options['default']['notopics']=false;
-		unset($options['default']['adminlinks']);
-		unset($options['default']['linksin']);
-		unset($options['default']['linksout']);
 		update_option('minimeta_widget_options',$options);
 	}
 	
