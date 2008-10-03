@@ -3,7 +3,8 @@
          <?PHP
             $options_widgets = get_option('minimeta_widget_options');
 			foreach ($options_widgets as $tabs => $values) {
-               echo "<option value=\"".$tabs."\"".selected($tabs,$optionset).">".$values['optionname']."</option>";
+			   $check= $tabs==$optionset ? ' selected=\"selected\"' : '';
+               echo "<option value=\"".$tabs."\"".$check.">".$values['optionname']."</option>";
             }        
          ?>  
          </select></label><p>

@@ -37,8 +37,8 @@ class MiniMetaFunctions {
 		$test=false;
 		$options = get_option('minimeta_widget_options');
 		//find out is a ligon form in any MiniMeta Widegt activatet
-		foreach ( (array) $options as $widget_number => $widget_minimeta ) {
-			if($widget_minimeta['loginform']) 
+		foreach ( (array) $options as $number => $value ) {
+			if($value['loginform']) 
 				$test=true;
 		}
 		if ($test) do_action('login_head'); //do action from login had	       
@@ -104,12 +104,31 @@ class MiniMetaFunctions {
 		}
 	}
 	
-
+    //delete Otions
+	function uninstall($echo=false) {
+		$option_settings=array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks');
+		foreach($option_settings as $setting) {
+			$delete_setting = delete_option($setting);
+			if ($echo) {
+				if($delete_setting) {
+					echo '<font color="green">';
+					printf(__('Setting Key \'%s\' has been deleted.', 'MiniMetaWidget'), "<strong><em>{$setting}</em></strong>");
+					echo '</font><br />';
+				} else {
+					echo '<font color="red">';
+					printf(__('Error deleting Setting Key \'%s\'.', 'MiniMetaWidget'), "<strong><em>{$setting}</em></strong>");
+					echo '</font><br />';
+				}
+			}
+		}
+	}
+	
+		
 	//Set start Options
 	function install() {
-		add_option('minimeta_widget_options',"","MiniMeta Widgets Options");
-		add_option('minimeta_widget_wp',"","MiniMeta Wordpress Widgets Options");
-		add_option('minimeta_adminlinks',"","MiniMeta Widget Generated Admin Links");
+		add_option('minimeta_widget_options');
+		add_option('minimeta_widget_wp');
+		add_option('minimeta_adminlinks');
 		MiniMetaFunctions::generate_adminlinks();
 		//set def. options for default 
 		$options = get_option('minimeta_widget_options');
@@ -132,9 +151,27 @@ class MiniMetaFunctions {
 		$options['default']['useselectbox']=false; 
 		$options['default']['notopics']=false;
 		update_option('minimeta_widget_options',$options);
+		if (get_option('widget_minimeta')) MiniMetaFunctions::update(); //Update if option exists
 	}
 	
-	  
+	//update from older version
+	function update($optionswpwold) {
+		$options = get_option('minimeta_widget_options');
+		$optionswpwold = get_option('widget_minimeta'); 
+		foreach ($optionswpwold as $number => $value ) { //convert old widget settings to new
+			$options[$number]=$optionswpwold[$number];
+			$options[$number]['optionname']=$value['title'];
+			$optionwpw[$number]['title']=$value['title'];
+			$optionwpw[$number]['optionset']=$number;
+			unset($options[$number]['title']);
+		}
+		update_option('minimeta_widget_options',$options);
+		update_option('minimeta_widget_wp',$optionwpw);
+		delete_option('widget_minimeta');
+		delete_option('widget_minimeta_adminlinks');
+	}
+	
+	
 	// add all action and so on only if plugin loaded.
 	function init() {
 		global $wp_version;

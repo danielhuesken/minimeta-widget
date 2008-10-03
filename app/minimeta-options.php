@@ -6,7 +6,9 @@ $views_settings = array('minimeta_widget_wp','minimeta_widget_options', 'minimet
 
 // Form Processing
 // Update Options
-if(!empty($_POST['Submit'])) {
+if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
+	check_admin_referer('MiniMeta-options');
+	
 	$update_views_queries = array();
 	$update_views_text = array();
 	
@@ -111,61 +113,35 @@ if(!empty($_POST['Submit'])) {
 		$text = '<font color="red">'.__('No MiniMeta Widget Option Updated', 'MiniMetaWidget').'</font>';
 	}
 }
-// Decide What To Do
-if(!empty($_POST['do'])) {
-	//  Uninstall MiniMeta Widget
-	switch($_POST['do']) {		
-		case __('UNINSTALL MiniMeta Widget', 'MiniMetaWidget') :
-			if(trim($_POST['uninstall_MiniMeta_yes']) == 'yes') {
-				echo '<div id="message" class="updated fade">';
-				echo '<p>';
-				foreach($views_settings as $setting) {
-					$delete_setting = delete_option($setting);
-					if($delete_setting) {
-						echo '<font color="green">';
-						printf(__('Setting Key \'%s\' has been deleted.', 'MiniMetaWidget'), "<strong><em>{$setting}</em></strong>");
-						echo '</font><br />';
-					} else {
-						echo '<font color="red">';
-						printf(__('Error deleting Setting Key \'%s\'.', 'MiniMetaWidget'), "<strong><em>{$setting}</em></strong>");
-						echo '</font><br />';
-					}
-				}
-				if (defined('K2_LOAD_SBM') and K2_LOAD_SBM) sbm_delete_option('minimeta_widget');
-				echo '</p>';
-				echo '</div>'; 
-				$mode = 'end-UNINSTALL';
-			}
-			break;
-	}
-}
-
 
 // Determines Which Mode It Is
-switch($mode) {
-		//  Deactivating WP-PostViews
-		case 'end-UNINSTALL':
-			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin='.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php';
-			if(function_exists('wp_nonce_url')) { 
-				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php');
-			}
-			echo '<div class="wrap">';
-			echo '<h2>'.__('Uninstall MiniMeta Widget', 'MiniMetaWidget').'</h2>';
-			echo '<p><strong>'.sprintf(__('<a href="%s">Click Here</a> To Finish The Uninstallation And MiniMeta Widget Will Be Deactivated Automatically.', 'MiniMetaWidget'), $deactivate_url).'</strong></p>';
-			echo '</div>';
-			break;
-
+if(trim($_POST['uninstall_MiniMeta_yes']) == 'yes' and current_user_can('edit_plugins')) {
+	check_admin_referer('MiniMeta-delete');
+	// Uninstall MiniMeta Widget
+	echo '<div id="message" class="updated fade">';
+	echo '<p>';
+	MiniMetaFunctions::uninstall(true); //Show uninstll with echos
+	echo '</p>';
+	echo '</div>'; 
+	//  Deactivating MiniMeta Widget
+	$deactivate_url = 'plugins.php?action=deactivate&amp;plugin='.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php';
+	if(function_exists('wp_nonce_url')) 
+		$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php');
+	echo '<div class="wrap">';
+	echo '<h2>'.__('Uninstall MiniMeta Widget', 'MiniMetaWidget').'</h2>';
+	echo '<p><strong>'.sprintf(__('<a href="%s">Click Here</a> To Finish The Uninstallation And MiniMeta Widget Will Be Deactivated Automatically.', 'MiniMetaWidget'), $deactivate_url).'</strong></p>';
+	echo '</div>';
+} else {
 // Main Page
-default:
 
 $options_widgets = get_option('minimeta_widget_options');
 	
 if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 
-
-<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
-
 <div class="wrap"> 
+	<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+	<?php wp_nonce_field('MiniMeta-options'); ?>
+	
 	<h2><?php _e('MiniMeta Widget Options', 'MiniMetaWidget'); ?></h2>
 	
 	<div id="minimetaopttabs"> 
@@ -258,8 +234,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
         </table>	
 	</div>
 	<?php } ?>
-	</div>
-	
+
 	<input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" />
 	<?php _e('New:', 'MiniMetaWidget'); ?><input type="text" id="widget-minimeta-SidebarNew" name="widget-minimeta-SidebarNew" size="10" />
 	<?php _e('Delete:', 'MiniMetaWidget'); ?><select id="widget-minimeta-SidebarDelete" name="widget-minimeta-SidebarDelete" size="1">
@@ -270,13 +245,18 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	}
 	?>
 	</select>
-</form> 
-<p>&nbsp;</p>
+	
+</form> 	
+</div>
+	
+<div class="wrap"> 
+	
+	<h2><?php _e('MiniMeta Widget', 'MiniMetaWidget'); ?></h2>
 	<div id="minimetatabs"> 
 		<ul>
 			<li><a href="#usage"><span><?php _e('Usage', 'MiniMetaWidget'); ?></span></a></li>
 			<li><a href="#about"><span><?php _e('About', 'MiniMetaWidget'); ?></span></a></li>
-			<li><a href="#uninstall"><span><?php _e('Uninstall', 'MiniMetaWidget'); ?></span></a></li>
+			<?php if(current_user_can('edit_plugins')) ?><li><a href="#uninstall"><span><?php _e('Uninstall', 'MiniMetaWidget'); ?></span></a></li>
         </ul>
 		<div id="usage" style="width:600px;">
 		 1. Create a otion set above.<br />
@@ -303,8 +283,10 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 		 
 		  <?php _e('If you find it useful, please consider donating.', 'MiniMetaWidget'); ?> <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=daniel%40huesken-net%2ede&item_name=MiniMeta%20Widget%20Plugin%20for%20WordPress&no_shipping=1&no_note=1&tax=0&currency_code=EUR&lc=LV&bn=PP%2dDonationsBF&charset=UTF%2d8" target="_new"><img alt="Donate" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" /></a>
 		</div>
+		<?php if(current_user_can('edit_plugins')) {?>
 		<div id="uninstall" style="width:600px;">
 			<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+			<?php wp_nonce_field('MiniMeta-delete'); ?>
 			<p style="text-align: left;">
 				<?php _e('Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here.', 'MiniMetaWidget'); ?>
 			</p>
@@ -339,11 +321,12 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 				<input type="submit" name="do" value="<?php _e('UNINSTALL MiniMeta Widget', 'MiniMetaWidget'); ?>" class="button" onclick="return confirm('<?php _e('You Are About To Uninstall MiniMeta Widget From WordPress.\nThis Action Is Not Reversible.\n\n Choose [Cancel] To Stop, [OK] To Uninstall.', 'MiniMetaWidget'); ?>')" />
 			</p>		
 			</form>	
-		</div>		
+		</div>
+		<?php } ?>
 	</div>
 </div>
 
 
 <?php
-} // End switch($mode)
+} // End if
 ?>
