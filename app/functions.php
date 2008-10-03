@@ -20,6 +20,7 @@ class MiniMetaFunctions {
 		jQuery(document).ready(function()  
 		{  
 			jQuery("#minimetaopttabs > ul").tabs();
+			jQuery("#minimetacsstabs > ul").tabs();
 			jQuery("#minimetatabs > ul").tabs();
 		});  
 		</script> 
@@ -42,16 +43,6 @@ class MiniMetaFunctions {
 				$test=true;
 		}
 		if ($test) do_action('login_head'); //do action from login had	       
-	}
-
-	//WP-Head hooks low Priority
-	function wp_head() {
-		//Set Style sheet
-		if (file_exists(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/custom/minimeta-widget.css')) {
-			echo "<link rel=\"stylesheet\" href=\"".plugins_url("/".WP_MINMETA_PLUGIN_DIR."/custom/minimeta-widget.css")."\" type=\"text/css\" media=\"screen\" />";
-		} elseif (file_exists(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.css')) {
-			echo "<link rel=\"stylesheet\" href=\"".plugins_url("/".WP_MINMETA_PLUGIN_DIR."/minimeta-widget.css")."\" type=\"text/css\" media=\"screen\" />";
-		}
 	}
 
 	//function to generate admin links    
@@ -106,7 +97,7 @@ class MiniMetaFunctions {
 	
     //delete Otions
 	function uninstall($echo=false) {
-		$option_settings=array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks');
+		$option_settings=array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks','minimeta_widget_styles');
 		foreach($option_settings as $setting) {
 			$delete_setting = delete_option($setting);
 			if ($echo) {
@@ -127,6 +118,7 @@ class MiniMetaFunctions {
 	//Set start Options
 	function install() {
 		add_option('minimeta_widget_options');
+		add_option('minimeta_widget_styles');
 		add_option('minimeta_widget_wp');
 		add_option('minimeta_adminlinks');
 		MiniMetaFunctions::generate_adminlinks();
@@ -151,6 +143,27 @@ class MiniMetaFunctions {
 		$options['default']['useselectbox']=false; 
 		$options['default']['notopics']=false;
 		update_option('minimeta_widget_options',$options);
+		//set def. stylesfor default 
+		$styleoptions = get_option('minimeta_widget_styles');
+		$styleoptions['default']['stylename']='default';
+		$styleoptions['default']['ul']='';
+		$styleoptions['default']['li']='';
+		$styleoptions['default']['siteadmin']='';
+		$styleoptions['default']['logout']='color:red;';
+		$styleoptions['default']['adminlinksli']='font-weight:normal;font-style:normal;';
+		$styleoptions['default']['adminlinksselect']='font-size:10px;';
+		$styleoptions['default']['adminlinksoption']='';
+		$styleoptions['default']['adminlinkshref']='';
+		$styleoptions['default']['adminlinksoptgroup']='';
+		$styleoptions['default']['adminlinkslitopic']='font-weight:bold;font-style:italic;';
+		$styleoptions['default']['adminlinksul']='';
+		$styleoptions['default']['login']='';
+		$styleoptions['default']['lostpw']='';
+		$styleoptions['default']['register']='';
+		$styleoptions['default']['rss']='';
+		$styleoptions['default']['commentrss']='';
+		$styleoptions['default']['wporg']='';
+		update_option('minimeta_widget_styles',$styleoptions);
 		if (get_option('widget_minimeta')) MiniMetaFunctions::update(); //Update if option exists
 	}
 	
@@ -218,10 +231,7 @@ class MiniMetaFunctions {
 				add_action('admin_head', array('MiniMetaFunctions', 'admin_head'));
 			}
 		}
-	
-		add_action('wp_head', array('MiniMetaFunctions', 'wp_head'));
 		
-	
 		//Support for Sidbar tyeps
 		if (class_exists('K2SBM'))  { //K2 SBM only
 			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-k2sbm.php');

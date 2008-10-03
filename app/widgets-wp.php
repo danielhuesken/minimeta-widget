@@ -80,7 +80,8 @@ function control($widget_args = 1) {
 				continue;
 			$title = wp_specialchars( $widget_many_instance['title'] );
 			$optionset = wp_specialchars( $widget_many_instance['optionset'] );
-			$options[$widget_number] = array( 'title' => $title, 'optionset' => $optionset );  // Even simple widgets should store stuff in array, rather than in scalar
+			$style = wp_specialchars( $widget_many_instance['style'] );
+			$options[$widget_number] = array( 'title' => $title, 'optionset' => $optionset , 'style' => $style);  // Even simple widgets should store stuff in array, rather than in scalar
 		}
 		
 		update_option('minimeta_widget_wp', $options);
@@ -95,10 +96,12 @@ function control($widget_args = 1) {
 	if ( -1 == $number ) {
 		$title = __('Meta');
 		$optionset='default';
+		$optionset='none';
 		$number='%i%';
 	} else {
 		$title = attribute_escape($options[$number]['title']);
 		$optionset = attribute_escape($options[$number]['optionset']);
+		$style = attribute_escape($options[$number]['style']);
 	}
 	
 	
@@ -128,14 +131,20 @@ function display( $args, $widget_args = 1 ) {
 		return;
 	
 	//Set options to disply
-	
 	$optionset = get_option('minimeta_widget_options');
 	if (isset($optionset[$options[$number]['optionset']])) {
 	  $optionsetname = $options[$number]['optionset'];
 	} else {
 	  $optionsetname = 'default';
-	} 
+	}
 	$optionset[$optionsetname]['title'] = $options[$number]['title'];
+	$styleset = get_option('minimeta_widget_styles');
+	if (isset($styleset[$options[$number]['style']]) and !empty($options[$number]['style'])) {
+	  $style = $options[$number]['style'];
+	} else {
+	  $style = '';
+	} 
+	
 	
 	include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widget.php');
 }

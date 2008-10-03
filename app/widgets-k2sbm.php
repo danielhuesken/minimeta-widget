@@ -19,11 +19,13 @@ class MiniMetaWidgetK2SBM {
 		$options = sbm_get_option('minimeta_widget'); //load Options
 		if ( $_POST['widget-minimeta'][$number]) {
 			$options['optionset'] = wp_specialchars($_POST['widget-minimeta'][$number]['optionset']);
+			$options['style'] = wp_specialchars($_POST['widget-minimeta'][$number]['style']);
 			sbm_update_option('minimeta_widget', $options); //save Options
 		} 
 	
 		//make settings
 		$optionset=$options['optionset'];
+		$style=$options['style'];
 	
 		//displaying options
 		include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widgetcontrol.php'); 
@@ -42,9 +44,15 @@ class MiniMetaWidgetK2SBM {
 			$optionsetname = $options['optionset'];
 		} else {
 			$optionsetname = 'default';
-		} 
+		}
 		$optionset[$optionsetname]['title']=$title;
-
+		$styleset = get_option('minimeta_widget_styles');
+		if (isset($styleset[$options['style']]) and !empty($options['style'])) {
+			$style = $options['style'];
+		} else {
+			$style = '';
+		} 
+		
 		//Includ widget display
 		include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widget.php');
 	}
