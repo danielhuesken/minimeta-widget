@@ -2,37 +2,26 @@
 
 class MiniMetaFunctions {
 	
-	//Js for options page
-	function admin_load_js() 
-	{
-		wp_register_script('jquery', plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/jquery.js'), FALSE, '1.2.6');
-		wp_enqueue_script('jquery.ui.core', plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/ui.core.js'), array('jquery'),'1.5.2');
-		wp_enqueue_script('jquery.ui.tabs', plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/ui.tabs.js'), array('jquery'),'1.5.2');
-		return;
+	//Css for Admin Section
+	function admin_load() {
+		wp_enqueue_style('MiniMeta',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'),'','1.00','screen');
 	}
 
 	//JS Admin Header 
-	function admin_head() { 
+	function admin_head() {
 		?>	
-		<link rel="stylesheet" type="text/css" href="<?php echo(plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'));?>" />
-
 		<script type="text/javascript">
-		jQuery(document).ready(function()  
-		{  
-			jQuery("#minimetaopttabs > ul").tabs();
-			jQuery("#minimetacsstabs > ul").tabs();
-			jQuery("#minimetatabs > ul").tabs();
-		});  
-		</script> 
-
-		<script type="text/javascript">
-		function selectAll_widget_minimeta(selectBox,selectAll) {
-		for (var i = 0; i < selectBox.options.length; i++) selectBox.options[i].selected = selectAll;
-		}
-		</script> 
+		jQuery(document).ready(function() {
+			jQuery('.postbox h3').before('<a class="togbox">+</a> ');
+			jQuery('.postbox h3, .postbox a.togbox').click( function() {
+				jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
+			});
+			jQuery(jQuery('.postbox h3, .postbox a.togbox').parent()).toggleClass('closed');
+		});
+		</script>
 		<?PHP
 	}
-    
+ 
 	//WP-Head hooks high Priority
 	function head_login() {  //copy action login_head to wp-head if login form enabeld for plugin hooks 
 		$test=false;
@@ -227,7 +216,7 @@ class MiniMetaFunctions {
 			if (current_user_can(10))
 				add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
 			if((isset($_GET['page'])) && (stristr($_GET['page'], 'minimeta-options'))!==false) { //only on Option Page
-				add_action('admin_init', array('MiniMetaFunctions', 'admin_load_js'));
+				add_action('admin_init', array('MiniMetaFunctions', 'admin_load'));
 				add_action('admin_head', array('MiniMetaFunctions', 'admin_head'));
 			}
 		}
