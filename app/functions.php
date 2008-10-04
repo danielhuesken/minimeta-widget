@@ -11,13 +11,16 @@ class MiniMetaFunctions {
 	function admin_head() {
 		?>	
 		<script type="text/javascript">
+		//<![CDATA[
 		jQuery(document).ready(function() {
-			jQuery('.postbox h3').before('<a class="togbox">+</a> ');
-			jQuery('.postbox h3, .postbox a.togbox').click( function() {
+			jQuery('.postbox h3').before('<span class="togbox">+<\/span> ');
+			jQuery('.postbox h3, .postbox span.togbox').click( function() {
 				jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
 			});
 			jQuery(jQuery('.postbox h3, .postbox a.togbox').parent()).toggleClass('closed');
+			jQuery('#WidgetOptDelete, #WidgetStyleDelete').remove();
 		});
+		//]]>
 		</script>
 		<?PHP
 	}
