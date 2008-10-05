@@ -89,7 +89,7 @@ class MiniMetaFunctions {
 	
     //delete Otions
 	function uninstall($echo=false) {
-		$option_settings=array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks','minimeta_widget_styles');
+		$option_settings=array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks','minimeta_widget_styles','minimeta_widget_sidebar');
 		foreach($option_settings as $setting) {
 			$delete_setting = delete_option($setting);
 			if ($echo) {
@@ -112,6 +112,7 @@ class MiniMetaFunctions {
 		add_option('minimeta_widget_options');
 		add_option('minimeta_widget_styles');
 		add_option('minimeta_widget_wp');
+		add_option('minimeta_widget_sidebar');
 		add_option('minimeta_adminlinks');
 		MiniMetaFunctions::generate_adminlinks();
 		//set def. options for default 
@@ -234,6 +235,8 @@ class MiniMetaFunctions {
 		}
 		//lod seidbar widgets per function
 		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-sidebar.php');
+		//Widget Displaying
+		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widget-display.php');
 	} 
 	
 }

@@ -28,33 +28,19 @@ class MiniMetaWidgetK2SBM {
 		$style=$options['style'];
 	
 		//displaying options
-		include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widgetcontrol.php'); 
+		MiniMetaWidgetDisplay::control($number,$optionset,$style); 
 	}
 
 	//Display Widget 
 	function display($args) {
 		global $user_identity;	
-		extract($args, EXTR_SKIP );
+		//extract($args, EXTR_SKIP );
+		
 		//load options
 		$options = sbm_get_option('minimeta_widget');
 		
-		//Set options to disply
-		$optionset = get_option('minimeta_widget_options');
-		if (isset($optionset[$options['optionset']])) {
-			$optionsetname = $options['optionset'];
-		} else {
-			$optionsetname = 'default';
-		}
-		$optionset[$optionsetname]['title']=$title;
-		$styleset = get_option('minimeta_widget_styles');
-		if (isset($styleset[$options['style']]) and !empty($options['style'])) {
-			$style = $options['style'];
-		} else {
-			$style = '';
-		} 
-		
 		//Includ widget display
-		include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widget.php');
+		MiniMetaWidgetDisplay::display($args,$options['optionset'],$options['style']);
 	}
 
 

@@ -1,19 +1,44 @@
 <?PHP
-    //Don´t show Wiget if it have no links
-    if ((!is_user_logged_in() and !$optionset[$optionsetname]['loginlink'] and !$optionset[$optionsetname]['loginform'] and !$optionset[$optionsetname]['registerlink'] and !$optionset[$optionsetname]['rememberme'] and !$optionset[$optionsetname]['lostpwlink'] and !$optionset[$optionsetname]['rsslink'] and !$optionset[$optionsetname]['rsscommentlink'] and !$optionset[$optionsetname]['wordpresslink'] and !($optionset[$optionsetname]['showwpmeta'] and has_action('wp_meta')) or
-        (is_user_logged_in() and !$optionset[$optionsetname]['logout'] and !$optionset[$optionsetname]['seiteadmin'] and sizeof($optionset[$optionsetname]['adminlinks'])==0 and !$optionset[$optionsetname]['rsslink'] and !$optionset[$optionsetname]['rsscommentlink'] and !$optionset[$optionsetname]['wordpresslink'] and !($optionset[$optionsetname]['showwpmeta'] and has_action('wp_meta'))))) 
-            return;
-    
-	//create styles 
-	unset($stylesheets);
-	if (!empty($style)) {
-		foreach ($styleset[$style] as $name => $value ) { 
-			if (!empty($value) and $name!='stylename') $stylesheets[$name]=' style="'.$value.'"';
+
+/**
+ * MiniMeta Widgets
+ *
+ * @package MiniMetaWidgetDisplay
+ */
+ 
+ 
+class MiniMetaWidgetDisplay {
+	//Function to show widget
+	function display($args,$optionsetname='default',$stylenumber='') {
+		global $user_identity;
+		extract( $args, EXTR_SKIP );
+		
+		//load options
+		$optionset = get_option('minimeta_widget_options');
+		if (!isset($optionset[$optionsetname])) {  //find out option exists  and load
+			$optionsetname = 'default';
+		} 
+		$optionset[$optionsetname]['title'] = $title;
+		
+		$styleset = get_option('minimeta_widget_styles'); //find out styles exists  and load
+		if (isset($styleset[$stylenumber]) and !empty($options[$stylenumber])) {
+			$stylenumber = '';
+		} 
+		unset($stylesheets);
+		if (!empty($stylenumber)) {
+			foreach ($styleset[$stylenumber] as $name => $value ) { 
+				if (!empty($value) and $name!='stylename') $stylesheets[$name]=' style="'.$value.'"';
+			}
 		}
-	}
+		
+		
+		//Don´t show Wiget if it have no links
+		if ((!is_user_logged_in() and !$optionset[$optionsetname]['loginlink'] and !$optionset[$optionsetname]['loginform'] and !$optionset[$optionsetname]['registerlink'] and !$optionset[$optionsetname]['rememberme'] and !$optionset[$optionsetname]['lostpwlink'] and !$optionset[$optionsetname]['rsslink'] and !$optionset[$optionsetname]['rsscommentlink'] and !$optionset[$optionsetname]['wordpresslink'] and !($optionset[$optionsetname]['showwpmeta'] and has_action('wp_meta')) or
+			(is_user_logged_in() and !$optionset[$optionsetname]['logout'] and !$optionset[$optionsetname]['seiteadmin'] and sizeof($optionset[$optionsetname]['adminlinks'])==0 and !$optionset[$optionsetname]['rsslink'] and !$optionset[$optionsetname]['rsscommentlink'] and !$optionset[$optionsetname]['wordpresslink'] and !($optionset[$optionsetname]['showwpmeta'] and has_action('wp_meta'))))) 
+				return;
 	
-	//Shown part of Widget
-    echo $before_widget;
+		//Shown part of Widget
+		echo $before_widget;
         
         if(is_user_logged_in()) {
             if ($optionset[$optionsetname]['displayidentity'] and !empty($user_identity)) $optionset[$optionsetname]['title']=$user_identity;
@@ -98,4 +123,35 @@
 		if ($endul) 
             echo "</ul>";
 		echo $after_widget;
-?>
+			
+	}
+
+
+
+	function control($number,$optionsetname,$style) {
+		?>
+		<label for="minimeta-optionset-<?php echo $number; ?>" title="<?php _e('Select Widget Option Settings','MiniMetaWidget');?>"><?php _e('Widget Option Setting:','MiniMetaWidget');?> 
+         <select class="widefat" name="widget-minimeta[<?php echo $number; ?>][optionset]" id="minimeta-optionset-<?php echo $number; ?>">
+         <?PHP
+            $options_widgets = get_option('minimeta_widget_options');
+			foreach ($options_widgets as $tabs => $values) {
+			   $check = $tabs==$optionsetname ? ' selected=\"selected\"' : '';
+               echo "<option value=\"".$tabs."\"".$check.">".$values['optionname']."</option>";
+            }        
+         ?>  
+         </select></label><br />
+		 <label for="minimeta-style-<?php echo $number; ?>" title="<?php _e('Select Widget Style Settings','MiniMetaWidget');?>"><?php _e('Widget Style Setting:','MiniMetaWidget');?> 
+		 <select class="widefat" name="widget-minimeta[<?php echo $number; ?>][style]" id="minimeta-style-<?php echo $number; ?>">
+         <?PHP
+		    $check = empty($style) ? ' selected=\"selected\"' : '';
+            echo "<option value=\"\"".$check.">".__('None','MiniMetaWidget')."</option>";
+            $style_widgets = get_option('minimeta_widget_styles');
+			foreach ($style_widgets as $tabs => $values) {
+			   $check = $tabs==$style ? ' selected=\"selected\"' : '';
+               echo "<option value=\"".$tabs."\"".$check.">".$values['stylename']."</option>";
+            }        
+         ?>  
+         </select></label>
+		<?php
+	}
+}

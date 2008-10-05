@@ -111,13 +111,12 @@ function control($widget_args = 1) {
 	//displaying options
 	?>
 	<p><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?><input class="widefat" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" /></label><p>
-	<?php include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widgetcontrol.php'); ?>
+	<?php MiniMetaWidgetDisplay::control($number,$optionset,$style); ?>
 	<input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][submit]" value="1" /><?php 
 }
 
 //Display Widget 
 function display( $args, $widget_args = 1 ) {
-	global $user_identity;
 	
 	extract( $args, EXTR_SKIP );
 	if ( is_numeric($widget_args) )
@@ -131,22 +130,8 @@ function display( $args, $widget_args = 1 ) {
 		return;
 	
 	//Set options to disply
-	$optionset = get_option('minimeta_widget_options');
-	if (isset($optionset[$options[$number]['optionset']])) {
-	  $optionsetname = $options[$number]['optionset'];
-	} else {
-	  $optionsetname = 'default';
-	}
-	$optionset[$optionsetname]['title'] = $options[$number]['title'];
-	$styleset = get_option('minimeta_widget_styles');
-	if (isset($styleset[$options[$number]['style']]) and !empty($options[$number]['style'])) {
-	  $style = $options[$number]['style'];
-	} else {
-	  $style = '';
-	} 
-	
-	
-	include(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/display/widget.php');
+	$args['title']=$options[$number]['title'];
+	MiniMetaWidgetDisplay::display($args,$options[$number]['optionset'],$options[$number]['style']);
 }
 
 
