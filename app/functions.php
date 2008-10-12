@@ -177,6 +177,12 @@ class MiniMetaFunctions {
 		delete_option('widget_minimeta_adminlinks');
 	}
 	
+	function plugins_options_link($action_links) {
+		global $context;
+		//if( 'active' == $context )
+			$action_links[]='<a href="admin.php?page='.WP_MINMETA_PLUGIN_DIR.'/app/minimeta-options.php" title="' . __('Go to Settings Page') . '" class="edit">' . __('Settings') . '</a>';
+		return $action_links;
+	}
 	
 	// add all action and so on only if plugin loaded.
 	function init() {
@@ -217,6 +223,7 @@ class MiniMetaFunctions {
 
 		if (current_user_can('switch_themes')) {
 			add_action('admin_menu', array('MiniMetaFunctions', 'menu_entry'));
+			add_filter('plugin_action_links_'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php', array('MiniMetaFunctions', 'plugins_options_link'));
 			if (current_user_can(10))
 				add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
 			if((isset($_GET['page'])) && (stristr($_GET['page'], 'minimeta-options'))!==false) { //only on Option Page
