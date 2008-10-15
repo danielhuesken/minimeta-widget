@@ -5,24 +5,7 @@ class MiniMetaFunctions {
 	//Css for Admin Section
 	function admin_load() {
 		wp_enqueue_style('MiniMeta',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'),'','1.00','screen');
-	}
-
-	//JS Admin Header 
-	function admin_head() {
-		?>	
-		<script type="text/javascript">
-		//<![CDATA[
-		jQuery(document).ready(function() {
-			jQuery('.postbox h3').before('<span class="togbox">+<\/span> ');
-			jQuery('.postbox h3, .postbox span.togbox').click( function() {
-				jQuery(jQuery(this).parent().get(0)).toggleClass('closed');
-			});
-			jQuery(jQuery('.postbox h3, .postbox a.togbox').parent()).toggleClass('closed');
-			jQuery('#WidgetOptDelete, #WidgetStyleDelete').remove();
-		});
-		//]]>
-		</script>
-		<?PHP
+		wp_enqueue_script('MiniMetaOptions',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/minimeta-options.js'),'jQuery','4.0.0');
 	}
  
 	//WP-Head hooks high Priority
@@ -31,7 +14,7 @@ class MiniMetaFunctions {
 		$options = get_option('minimeta_widget_options');
 		//find out is a ligon form in any MiniMeta Widegt activatet
 		foreach ( (array) $options as $number => $value ) {
-			if($value['loginform']) 
+			if($value['out']['loginform']['active']) 
 				$test=true;
 		}
 		if ($test) do_action('login_head'); //do action from login had	       
@@ -45,6 +28,7 @@ class MiniMetaFunctions {
 		$tempsubmenu=$submenu;
 		//scan the menu
 		foreach ( $tempmenu as $key => $item ) {
+		  if (!empty($item[0])) { //filter out empty menu entrys since WP 2.7
 			$adminlinks[$key]['menu']=wp_specialchars(strip_tags($item[0])); //write Menues
 			if (is_array($tempsubmenu[$item[2]])) { //look if submenu existing to crate submenu on men if they downt exists
 				$menulink=false; unset($lowestkey);
@@ -75,7 +59,8 @@ class MiniMetaFunctions {
 				}
 				if ($adminlinks[$key][$keysub][2]=="edit-comments.php?page=akismet-admin") //Overwrite for Akismet Spam menu without number
 					$adminlinks[$key][$keysub][0] = __('Akismet Spam');
-			}   
+			}
+		  }
 		}
 		update_option('minimeta_adminlinks', $adminlinks);
 	}
@@ -115,27 +100,6 @@ class MiniMetaFunctions {
 		add_option('minimeta_widget_sidebar');
 		add_option('minimeta_adminlinks');
 		MiniMetaFunctions::generate_adminlinks();
-		//set def. options for default 
-		$options = get_option('minimeta_widget_options');
-		$options['default']['optionname']='default';
-		$options['default']['loginlink']=true;
-		$options['default']['loginform']=false;
-		$options['default']['logout']=true; 
-		$options['default']['registerlink']=true;
-		$options['default']['testcookie']=false; 
-		$options['default']['redirect']=false; 
-		$options['default']['seiteadmin']=true; 
-		$options['default']['rememberme']=true; 
-		$options['default']['rsslink']=true; 
-		$options['default']['rsscommentlink']=true; 
-		$options['default']['wordpresslink']=true; 
-		$options['default']['lostpwlink']=false;
-		$options['default']['profilelink']=false; 
-		$options['default']['showwpmeta']=true; 
-		$options['default']['displayidentity']=false; 
-		$options['default']['useselectbox']=false; 
-		$options['default']['notopics']=false;
-		update_option('minimeta_widget_options',$options);
 		//set def. stylesfor default 
 		$styleoptions = get_option('minimeta_widget_styles');
 		$styleoptions['default']['stylename']='default';
@@ -162,17 +126,6 @@ class MiniMetaFunctions {
 	
 	//update from older version
 	function update($optionswpwold) {
-		$options = get_option('minimeta_widget_options');
-		$optionswpwold = get_option('widget_minimeta'); 
-		foreach ($optionswpwold as $number => $value ) { //convert old widget settings to new
-			$options[$number]=$optionswpwold[$number];
-			$options[$number]['optionname']=$value['title'];
-			$optionwpw[$number]['title']=$value['title'];
-			$optionwpw[$number]['optionset']=$number;
-			unset($options[$number]['title']);
-		}
-		update_option('minimeta_widget_options',$options);
-		update_option('minimeta_widget_wp',$optionwpw);
 		delete_option('widget_minimeta');
 		delete_option('widget_minimeta_adminlinks');
 	}
@@ -228,7 +181,6 @@ class MiniMetaFunctions {
 				add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
 			if((isset($_GET['page'])) && (stristr($_GET['page'], 'minimeta-options'))!==false) { //only on Option Page
 				add_action('admin_init', array('MiniMetaFunctions', 'admin_load'));
-				add_action('admin_head', array('MiniMetaFunctions', 'admin_head'));
 			}
 		}
 		
@@ -240,10 +192,12 @@ class MiniMetaFunctions {
 			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-wp.php');
 			add_action('widgets_init', array('MiniMetaWidgetWP', 'register'));
 		}
-		//lod seidbar widgets per function
+		//load seidbar widgets per function
 		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-sidebar.php');
 		//Widget Displaying
 		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widget-display.php');
+		//Widget Parts
+		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widget-parts.php');
 	} 
 	
 }

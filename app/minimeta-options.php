@@ -12,66 +12,26 @@ if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
 	$update_views_queries = array();
 	$update_views_text = array();
 	
-	//Set default to def. options
-	unset($options_widgets['default']);
-	$options_widgets['default']['optionname']='default';
-	$options_widgets['default']['loginlink']=true;
-	$options_widgets['default']['loginform']=false;
-	$options_widgets['default']['logout']=true; 
-	$options_widgets['default']['registerlink']=true;
-	$options_widgets['default']['testcookie']=false; 
-	$options_widgets['default']['redirect']=false; 
-	$options_widgets['default']['seiteadmin']=true; 
-	$options_widgets['default']['rememberme']=true; 
-	$options_widgets['default']['rsslink']=true; 
-	$options_widgets['default']['rsscommentlink']=true; 
-	$options_widgets['default']['wordpresslink']=true; 
-	$options_widgets['default']['lostpwlink']=false;
-	$options_widgets['default']['profilelink']=false; 
-	$options_widgets['default']['showwpmeta']=true; 
-	$options_widgets['default']['displayidentity']=false; 
-	$options_widgets['default']['useselectbox']=false; 
-	$options_widgets['default']['notopics']=false;
 
 	//Option to delete
 	$delnumber=$_POST['widget-options-SidebarDelete'];
 	//write every options tab to optiones
-	foreach ((array)$_POST['widget-options'] as $number => $numbervalues) {
-	  if ($delnumber!=$number and $number!='default'){ //Change only not deleted 
-	    $options_widgets[$number]['optionname'] = htmlentities(stripslashes($numbervalues['optionname']));
-		$options_widgets[$number]['loginlink'] = isset($numbervalues['loginlink']);
-		$options_widgets[$number]['loginform'] = isset($numbervalues['loginform']);
-		$options_widgets[$number]['logout'] = isset($numbervalues['logout']); 
-		$options_widgets[$number]['registerlink'] = isset($numbervalues['registerlink']);
-		$options_widgets[$number]['testcookie'] = isset($numbervalues['testcookie']); 
-		$options_widgets[$number]['redirect'] = isset($numbervalues['redirect']); 
-		$options_widgets[$number]['seiteadmin'] = isset($numbervalues['seiteadmin']); 
-		$options_widgets[$number]['rememberme'] = isset($numbervalues['rememberme']);
-		$options_widgets[$number]['rsslink'] = isset($numbervalues['rsslink']); 
-		$options_widgets[$number]['rsscommentlink'] = isset($numbervalues['rsscommentlink']); 
-		$options_widgets[$number]['wordpresslink'] = isset($numbervalues['wordpresslink']);
-		$options_widgets[$number]['lostpwlink'] = isset($numbervalues['lostpwlink']);
-		$options_widgets[$number]['profilelink'] = isset($numbervalues['profilelink']); 
-		$options_widgets[$number]['showwpmeta'] = isset($numbervalues['showwpmeta']); 
-		$options_widgets[$number]['displayidentity'] = isset($numbervalues['displayidentity']); 
-		$options_widgets[$number]['useselectbox'] = isset($numbervalues['useselectbox']);
-		$options_widgets[$number]['notopics'] = isset($numbervalues['notopics']);
-		unset($options_widgets[$number]['adminlinks']);
-		for ($i=0;$i<sizeof($numbervalues['adminlinks']);$i++) {
-			$options_widgets[$number]['adminlinks'][$i] = $numbervalues['adminlinks'][$i];
+	foreach ((array)$_POST['widget-options'] as $optionname => $optionvalues) {
+	  if ($delnumber!=$optionname){ //Change only not deleted 
+	    $options_widgets[$optionname]['optionname'] = htmlentities(stripslashes($optionvalues['optionname']));
+		$options_widgets[$optionname]['in']['title']['args']=$optionvalues['in']['title']['args'];
+		foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) {
+			if ($partvalues[3]) {
+				$options_widgets[$optionname]['in'][$partname]['active']=isset($optionvalues['in'][$partname]['active']);
+				$options_widgets[$optionname]['in'][$partname]['args']=$optionvalues['in'][$partname]['args'];
+			}
 		}
-		unset($options_widgets[$number]['linksin']);
-		$options_widgets[$number]['linksin']="";
-		for ($i=0;$i<sizeof($numbervalues['linksin']);$i++) {
-			if (isset($numbervalues['linksin'][$i])) $options_widgets[$number]['linksin'] .= $numbervalues['linksin'][$i].",";
+		foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
+			if ($partvalues[4]) {
+				$options_widgets[$optionname]['out'][$partname]['active']=isset($optionvalues['out'][$partname]['active']);
+				$options_widgets[$optionname]['out'][$partname]['args']=$optionvalues['out'][$partname]['args'];
+			}
 		}
-		$options_widgets[$number]['linksin'] = substr($options_widgets[$number]['linksin'], 0, -1);
-		unset($options_widgets[$number]['linksout']);
-		$options_widgets[$number]['linksout']="";
-		for ($i=0;$i<sizeof($numbervalues['linksout']);$i++) {
-			if (isset($numbervalues['linksout'][$i])) $options_widgets[$number]['linksout'] .= $numbervalues['linksout'][$i].",";
-		}
-		$options_widgets[$number]['linksout'] = substr($options_widgets[$number]['linksout'], 0, -1);
 	  }
 	}
 	
@@ -79,23 +39,18 @@ if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
 	if (!empty($_POST['widget-options-SidebarNew'])) {
 	    $newnumber=wp_create_nonce($_POST['widget-options-SidebarNew']);
 		$options_widgets[$newnumber]['optionname']=htmlentities(stripslashes($_POST['widget-options-SidebarNew']));
-		$options_widgets[$newnumber]['loginlink']=true;
-		$options_widgets[$newnumber]['loginform']=false;
-		$options_widgets[$newnumber]['logout']=true; 
-		$options_widgets[$newnumber]['registerlink']=true;
-		$options_widgets[$newnumber]['testcookie']=false; 
-		$options_widgets[$newnumber]['redirect']=false; 
-		$options_widgets[$newnumber]['seiteadmin']=true; 
-		$options_widgets[$newnumber]['rememberme']=true; 
-		$options_widgets[$newnumber]['rsslink']=true; 
-		$options_widgets[$newnumber]['rsscommentlink']=true; 
-		$options_widgets[$newnumber]['wordpresslink']=true; 
-		$options_widgets[$newnumber]['lostpwlink']=false;
-		$options_widgets[$newnumber]['profilelink']=false; 
-		$options_widgets[$newnumber]['showwpmeta']=true; 
-		$options_widgets[$newnumber]['displayidentity']=false; 
-		$options_widgets[$newnumber]['useselectbox']=false; 
-		$options_widgets[$newnumber]['notopics']=false;
+		$options_widgets[$newnumber]['in']['linkloginlogout']['active']=true;
+		$options_widgets[$newnumber]['in']['linkseiteadmin']['active']=true;
+		$options_widgets[$newnumber]['in']['linkrss']['active']=true;
+		$options_widgets[$newnumber]['in']['linkcommentrss']['active']=true;
+		$options_widgets[$newnumber]['in']['linkwordpress']['active']=true;
+		$options_widgets[$newnumber]['in']['actionwpmeta']['active']=true;
+		$options_widgets[$newnumber]['out']['linkloginlogout']['active']=true;
+		$options_widgets[$newnumber]['out']['linkregister']['active']=true;
+		$options_widgets[$newnumber]['out']['linkrss']['active']=true;
+		$options_widgets[$newnumber]['out']['linkcommentrss']['active']=true;
+		$options_widgets[$newnumber]['out']['linkwordpress']['active']=true;
+		$options_widgets[$newnumber]['out']['actionwpmeta']['active']=true;
 	}
 	
 	$update_views_queries[] = update_option('minimeta_widget_options', $options_widgets);
@@ -138,8 +93,8 @@ if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
 	if (!empty($_POST['widget-style-StyleNew'])) {
 	    $newstyle=wp_create_nonce($_POST['widget-style-StyleNew']);
 		$styleoptions[$newstyle]['stylename']=htmlentities(stripslashes($_POST['widget-style-StyleNew']));
-		$styleoptions['default']['ul']='';
-		$styleoptions['default']['li']='';
+		$styleoptions[$newstyle]['ul']='';
+		$styleoptions[$newstyle]['li']='';
 		$styleoptions[$newstyle]['siteadmin']='';
 		$styleoptions[$newstyle]['logout']='color:red;';
 		$styleoptions[$newstyle]['adminlinksli']='font-weight:normal;font-style:normal;';
@@ -232,97 +187,77 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	<input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" />
 	
 	<?php
-	foreach ($options_widgets as $number => $numbervalues) {
+	if (is_array($options_widgets)) {
+	foreach ( $options_widgets as $optionname => $optionvalues) {
 	?>
-	<div class="postbox" id="widget-opt-<?php echo $number; ?>">
+	<div class="minimetabox" id="widget-opt-<?php echo $optionname; ?>">
 	<?PHP
-	if ($number=='default') {
-		echo "<h3>". __('Option:', 'MiniMetaWidget')." <i>".$numbervalues['optionname']."</i></h3>";
-	} else {
-		echo "<h3>". __('Option:', 'MiniMetaWidget')." ".$numbervalues['optionname']."</h3>";
-	}
+		echo "<h3>". __('Option:', 'MiniMetaWidget')." ".$optionvalues['optionname']."</h3>";
 	?>
 	<div class="inside">
-		<?PHP $disabeld = $number == 'default' ? ' disabled="disabled"' : ''; ?>
-		<input type="hidden" name="widget-options[<?php echo $number; ?>][optionname]" value="<?php echo $numbervalues['optionname']; ?>" />
-		<table class="form-table">
-        <tr valign="top"> 
-		<th scope="row"><?php _e('Show when logged out:','MiniMetaWidget');?></th><td>
-         <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['loginform'],true); echo $disabeld; ?> id="minimeta-loginform-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][loginform]" />&nbsp;<?php _e('Login Form with','MiniMetaWidget');?>
-			<input class="checkbox" type="checkbox" <?php echo checked($numbervalues['rememberme'],true); echo $disabeld; ?> id="minimeta-rememberme-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][rememberme]" />&nbsp;<?php _e('Remember me and');?>
-			<input class="checkbox" type="checkbox" <?php echo checked($numbervalues['testcookie'],true); echo $disabeld; ?> id="minimeta-testcookie-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][testcookie]" />&nbsp;<?php _e('Enable WordPress Cookie Test for login Form','MiniMetaWidget');?><br />
-		 <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['loginlink'],true); echo $disabeld; ?> id="minimeta-loginlink-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][loginlink]" />&nbsp;<?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Login');?><br />
-		 <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['lostpwlink'],true); echo $disabeld; ?> id="minimeta-lostpwlink-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][lostpwlink]" />&nbsp;<?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Lost your password?');?><br />
-		 <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['registerlink'],true); echo $disabeld; ?> id="minimeta-registerlink-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][registerlink]" />&nbsp;<?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Register');?><br />    
-		 </td><td>
-		 <?php _e('Select Links to Display:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-linksout-<?php echo $number; ?> > option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-linksout-<?php echo $number; ?> > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
-         <select class="select" style="height:70px;" name="widget-options[<?php echo $number; ?>][linksout][]" id="minimeta-linksout-<?php echo $number; ?>" multiple="multiple"<?php echo $disabeld; ?>>
-         <?PHP
-            $bookmarks=get_bookmarks(array('hide_invisible' => 0,'orderby' =>'name'));
-            (array)$linkidsout=explode(",",$numbervalues['linksout']);
-			foreach ($bookmarks as $links) {
-               $checklinksout = in_array($links->link_id,$linkidsout) ? ' selected="selected"' : '';
-               echo "<option value=\"".$links->link_id."\"".$checklinksout.">". wp_specialchars($links->link_name)."</option>";
-            }        
-         ?>  
-         </select>
-		</td></tr> 
-		<tr valign="top"> 
-		<th scope="row"><?php _e('Show allways:','MiniMetaWidget');?></th><td>
-         <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['rsslink'],true); echo $disabeld; ?> id="minimeta-rsslink-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][rsslink]" />&nbsp;<?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>');?><br />
-		 <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['rsscommentlink'],true); echo $disabeld; ?> id="minimeta-rsscommentlink-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][rsscommentlink]" />&nbsp;<?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>');?><br />
-		 <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['wordpresslink'],true); echo $disabeld; ?> id="minimeta-wordpresslink-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][wordpresslink]" />&nbsp;<?php _e('Link:','MiniMetaWidget');?>&nbsp;WordPress.org<br />
-		</td><td>
-		 <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['redirect'],true); echo $disabeld; ?> id="minimeta-redirect-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function on Login/out','MiniMetaWidget');?><br />
-		 <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['showwpmeta'],true); echo $disabeld; ?> id="minimeta-showwpmeta-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][showwpmeta]" />&nbsp;<?php _e('wp_meta Plugin hooks','MiniMetaWidget');?><br />
-		</td></tr>
-		<tr valign="top"> 
-		<th scope="row"><?php _e('Show when logged in:','MiniMetaWidget');?></th><td>
-		 <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['logout'],true); echo $disabeld; ?> id="minimeta-logout-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][logout]" />&nbsp;<?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Logout');?><br />
-         <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['seiteadmin'],true); echo $disabeld; ?> id="minimeta-seiteadmin-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][seiteadmin]" />&nbsp;<?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Site Admin');?><br />
-		 &nbsp;<br />
-		 <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['displayidentity'],true); echo $disabeld; ?> id="minimeta-displayidentity-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][displayidentity]" />&nbsp;<?php _e('Disply user Identity as title','MiniMetaWidget');?><br />
-         <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['profilelink'],true); echo $disabeld; ?> id="minimeta-profilelink-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][profilelink]" />&nbsp;<?php _e('Link to Your Profile in title','MiniMetaWidget');?><br />
-		 </td><td>
-		 <?php _e('Select Links to Display:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-linksin-<?php echo $number; ?> > option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-linksin-<?php echo $number; ?> > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
-         <select class="select" style="height:70px;" name="widget-options[<?php echo $number; ?>][linksin][]" id="minimeta-linksin-<?php echo $number; ?>" multiple="multiple"<?php echo $disabeld; ?>>
-         <?PHP
-			(array)$linkidsin=explode(",",$numbervalues['linksin']);
-			foreach ($bookmarks as $links) {
-               $checklinksin=in_array($links->link_id,$linkidsin) ? ' selected="selected"' : '';
-               echo "<option value=\"".$links->link_id."\"".$checklinksin.">". wp_specialchars($links->link_name)."</option>";
-            }        
-         ?>  
-         </select>
-		</td></tr>	
-		<tr valign="top"> 
-		<th scope="row"><?php _e('Admin links:','MiniMetaWidget');?></th><td>
- 		 <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['useselectbox'],true); echo $disabeld; ?> id="minimeta-useselectbox-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][useselectbox]" />&nbsp;<?php _e('Use Select Box for Admin Links','MiniMetaWidget');?><br />
-         <input class="checkbox" type="checkbox" <?php echo checked($numbervalues['notopics'],true); echo $disabeld; ?> id="minimeta-notopics-<?php echo $number; ?>" name="widget-options[<?php echo $number; ?>][notopics]" />&nbsp;<?php _e('Do not show Admin Links Topics','MiniMetaWidget');?><br />
-        </td><td>
-		 <?php _e('Select Admin Links:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $number; ?> > optgroup >option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $number; ?> > optgroup > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
-         <select class="select" style="height:120px;" name="widget-options[<?php echo $number; ?>][adminlinks][]" id="minimeta-adminlinks-<?php echo $number; ?>" multiple="multiple"<?php echo $disabeld; ?>>
-         <?PHP
-            foreach ($adminlinks as $menu) {
-             echo "<optgroup label=\"".$menu['menu']."\">";
-             foreach ($menu as $submenu) {
-              if (is_array($submenu)) {
-               $checkadminlinks=in_array($submenu[2],(array)$numbervalues['adminlinks']) ? ' selected="selected"' : '';
-               echo "<option value=\"".$submenu[2]."\"".$checkadminlinks.">".$submenu[0]."</option>";
-              }
-             }
-             echo "</optgroup>";
-            }        
-         ?>  
-         </select>
-		</td></tr>	
-        </table>
-		<?php if ($number != 'default') {?>
-			<p style="width:50%; float:left;"><input type="button" class="button" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-opt-<?php echo $number;?>').remove();" /></p>
-			<p style="width:50%; float:right; text-align:right;"><input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" /></p>
-		<?php } ?>
+		<input type="hidden" name="widget-options[<?php echo $optionname; ?>][optionname]" value="<?php echo $optionvalues['optionname']; ?>" />
+		
+		<?php $loginout='in'; ?>
+		<div class="widget-login">
+			<h4><?php echo _e('Show when Loggt in'); ?></h4>
+			<ul class="widget-login-list">
+				<li class="widget-login-item">
+					<h4 class="widget-login-title"><span><?php echo _e('Title'); ?></span></span><br class="clear" /></h4>
+					<div class="widget-login-control">
+						<input class="checkbox" type="checkbox" <?php echo checked($optionvalues[$loginout]['title']['args']['displayidentity'],true); ?> id="minimeta-displayidentity-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][title][args][displayidentity]" />&nbsp;<?php _e('Disply user Identity as title','MiniMetaWidget');?><br />
+						<input class="checkbox" type="checkbox" <?php echo checked($optionvalues[$loginout]['title']['args']['profilelink'],true); ?> id="minimeta-profilelink-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][title][args][profilelink]" />&nbsp;<?php _e('Link to Your Profile in title','MiniMetaWidget');?><br />
+					</div>
+				</li>
+	<?PHP  	foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
+				if ($partvalues[3]) {?>
+				<li class="widget-login-item">
+					<h4 class="widget-login-title"><span><input class="checkbox" type="checkbox" <?php echo checked($optionvalues[$loginout][$partname]['active'],true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $partname; ?>][active]" /> <?php echo $partvalues[0]; ?></span> <br class="clear" /></h4>
+					<?PHP if ($partvalues[2]) { ?>
+					<div class="widget-login-control">
+						<?php				
+						$options=$optionvalues[$loginout][$partname]['args'];
+						call_user_func($partvalues[2], $options );
+						?>
+					</div>
+					<?PHP } ?>
+				</li>
+		<?PHP  	}
+			} ?>
+			</ul>
+		</div>	
+		
+		<?php $loginout='out'; ?>
+		<div class="widget-logout">
+			<h4><?php echo _e('Show when Loggt out'); ?></h4>
+			<ul class="widget-logout-list">
+				<li class="widget-logout-item">
+					<h4 class="widget-logout-title"><span><?php echo _e('Title'); ?></span><br class="clear" /></h4>
+				</li>
+	<?PHP  	foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
+				if ($partvalues[4]) { ?>
+				<li class="widget-logout-item">
+					<h4 class="widget-logout-title"><span><input class="checkbox" type="checkbox" <?php echo checked($optionvalues[$loginout][$partname]['active'],true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $partname; ?>][active]" /> <?php echo $partvalues[0]; ?></span><br class="clear" /></h4>
+					<?PHP if ($partvalues[2]) {?>
+					<div class="widget-logout-control">
+						<?php				
+						$options=$optionvalues[$loginout][$partname]['args'];
+						call_user_func($partvalues[2], $options );
+						?>
+					</div>
+					<?PHP } ?>
+				</li>
+		<?PHP  	}
+			} ?>
+			</ul>
+		</div><br class="clear" />
+		
+
+		<p style="width:50%; float:left;"><input type="button" class="button" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-opt-<?php echo $optionname;?>').remove();" /></p>
+		<p style="width:50%; float:right; text-align:right;"><input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" /></p>
+		<br class="clear" />
 		</div></div>
-	<?php } ?>
+	<?php } 
+		}?>
 </div>
 
 <div class="wrap"> 
@@ -342,7 +277,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	<?php 
 	foreach ($styles as $number => $numbervalues) {
 	?>
-	<div class="postbox" id="widget-style-<?php echo $number; ?>">
+	<div class="minimetabox" id="widget-style-<?php echo $number; ?>">
 		<?PHP
 		if ($number=='default') {
 			echo "<h3>". __('Stylesheet:', 'MiniMetaWidget')." <i>".$numbervalues['stylename']."</i></h3>";
@@ -357,32 +292,32 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 		<table class="form-table">
         <tr valign="top"> 
 		<th scope="row"><?php _e('Stylesheets:','MiniMetaWidget');?></th><td>
-         <?php _e('General:','MiniMetaWidget');?>&nbsp;&lt;ul&gt;&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['ul'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-ul-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][ul]" /><br />
-		 <?php _e('General:','MiniMetaWidget');?>&nbsp;&lt;li&gt;&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['li'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-li-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][li]" /><br />
+         <?php _e('General:','MiniMetaWidget');?>&nbsp;&lt;ul&gt;&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['ul'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-ul-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][ul]" /><br />
+		 <?php _e('General:','MiniMetaWidget');?>&nbsp;&lt;li&gt;&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['li'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-li-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][li]" /><br />
 		 
-		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Site Admin');?>&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['siteadmin'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-siteadmin-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][siteadmin]" /><br />
-		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Log out');?>&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['logout'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-logout-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][logout]" /><br />
-		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Login','MiniMetaWidget');?>&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['login'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-login-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][login]" /><br />
-		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Lost your password?');?>&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['lostpw'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-lostpw-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][lostpw]" /><br />
-		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Register');?>&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['register'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-register-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][register]" /><br />
-		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>');?>&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['rss'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-rss-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][rss]" /><br />
-		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>');?>&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['commentrss'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-commentrss-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][commentrss]" /><br />
-		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;WordPress.org&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['wporg'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-wporg-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][wporg]" /><br />
+		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Site Admin');?>&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['siteadmin'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-siteadmin-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][siteadmin]" /><br />
+		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Log out');?>&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['logout'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-logout-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][logout]" /><br />
+		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Login','MiniMetaWidget');?>&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['login'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-login-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][login]" /><br />
+		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Lost your password?');?>&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['lostpw'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-lostpw-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][lostpw]" /><br />
+		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Register');?>&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['register'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-register-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][register]" /><br />
+		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Entries <abbr title="Really Simple Syndication">RSS</abbr>');?>&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['rss'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-rss-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][rss]" /><br />
+		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;<?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>');?>&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['commentrss'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-commentrss-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][commentrss]" /><br />
+		 <?php _e('Link:','MiniMetaWidget');?>&nbsp;WordPress.org&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['wporg'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-wporg-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][wporg]" /><br />
 		 
-		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;<?php _e('topic','MiniMetaWidget');?>&nbsp;&lt;li&gt;&nbsp;<input class="text" type="text" size="50" value="<?php echo wp_specialchars($numbervalues['adminlinkslitopic']); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinkslitopic-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinkslitopic]" /><br />
-		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;ul&gt;&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinksul'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinksul-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinksul]" /><br />
-		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;li&gt;&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinksli'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinksli-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinksli]" /><br />
-		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;a href&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinkshref'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinkshref-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinkshref]" /><br />
+		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;<?php _e('topic','MiniMetaWidget');?>&nbsp;&lt;li&gt;&nbsp;<input class="widefat" type="text" size="50" value="<?php echo wp_specialchars($numbervalues['adminlinkslitopic']); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinkslitopic-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinkslitopic]" /><br />
+		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;ul&gt;&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinksul'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinksul-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinksul]" /><br />
+		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;li&gt;&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinksli'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinksli-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinksli]" /><br />
+		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;a href&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinkshref'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinkshref-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinkshref]" /><br />
 		 
-		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;select&gt;&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinksselect'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinksselect-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinksselect]" /><br />
-		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;optiongroup&gt;&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinksoptgroup'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinksoptgroup-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinksoptgroup]" /><br />
-		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;option&gt;&nbsp;<input class="text" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinksoption'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinksoption-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinksoption]" /><br />
+		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;select&gt;&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinksselect'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinksselect-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinksselect]" /><br />
+		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;optiongroup&gt;&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinksoptgroup'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinksoptgroup-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinksoptgroup]" /><br />
+		 <?php _e('Admin Links:','MiniMetaWidget');?>&nbsp;&lt;option&gt;&nbsp;<input class="widefat" type="text" size="50" value="<?php echo htmlentities(stripslashes($numbervalues['adminlinksoption'])); ?>"<?php  echo $disabeld; ?> id="minimetastyle-adminlinksoption-<?php echo $number; ?>" name="widget-minimetastyle[<?php echo $number; ?>][adminlinksoption]" /><br />
 		</td></tr> 
         </table>
 		<?php if ($number != 'default') {?>
 		<p style="width:50%; float:left;"><input type="button" class="button" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-style-<?php echo $number;?>').remove();" /></p>
 		<p style="width:50%; float:right; text-align:right;"><input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" /></p>
-		<?php } ?>
+		<?php } ?><br class="clear" />
 		</div></div>	
 	<?php } ?>
 </div>
@@ -402,7 +337,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	<?php 
 	for ($i=1;$i<=$sidebar_widgets['SidebarMany'];$i++) {
 	?>
-	<div class="postbox" id="widget-seidebar-<?php echo $i; ?>">
+	<div class="minimetabox" id="widget-seidebar-<?php echo $i; ?>">
 		<?php
 		$sidebar_widgets[$i]['title'] = isset($sidebar_widgets[$i]['title']) ? $sidebar_widgets[$i]['title'] : __('Meta');
 		$sidebar_widgets[$i]['before_title'] = isset($sidebar_widgets[$i]['before_title']) ? $sidebar_widgets[$i]['before_title'] : '<h2>';
@@ -433,7 +368,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	
 <div class="wrap"> 
 	<h2><?php _e('MiniMeta Widget', 'MiniMetaWidget'); ?></h2>
-	<div class="postbox">
+	<div class="minimetabox">
 		<h3><?php _e('Usage', 'MiniMetaWidget'); ?></h3>
 		<div class="inside">
 			<table style="width:100%;"><tr><td style="width:50%;padding-right:10px;">
@@ -449,7 +384,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 			</td></tr></table>
 		</div>
 	</div>
-	<div class="postbox">
+	<div class="minimetabox">
 		<h3><?php _e('About', 'MiniMetaWidget'); ?></h3>
 		<div class="inside">
 			<table style="width:100%;"><tr><td style="width:50%;">
@@ -468,7 +403,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 		</div>
 	</div>
 	<?php if(current_user_can('edit_plugins')) {?>
-	<div class="postbox">
+	<div class="minimetabox">
 		<h3><?php _e('Uninstall', 'MiniMetaWidget'); ?></h3>
 		<div class="inside">
 			<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
