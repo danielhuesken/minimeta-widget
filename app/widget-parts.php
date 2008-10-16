@@ -136,7 +136,7 @@ class MiniMetaWidgetParts {
 	//register Link
 	function linkregister_display($args) {
 		extract( (array)$args, EXTR_SKIP );
-		if($get_option('users_can_register')) 
+		if(get_option('users_can_register')) 
 			echo "<li".$stylesheets['li']."><a href=\"".site_url('wp-login.php?action=register', 'login')."\"".$stylesheets['register'].">" . __('Register') . "</a></li>";
 	}		
 

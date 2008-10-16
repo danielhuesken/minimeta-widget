@@ -13,23 +13,25 @@ class MiniMetaFunctions {
 		$test=false;
 		$options = get_option('minimeta_widget_options');
 		//find out is a ligon form in any MiniMeta Widegt activatet
-		foreach ( (array) $options as $number => $value ) {
-			if($value['out']['loginform']['active']) 
-				$test=true;
+		if (is_array($options)) {
+			foreach ( $options as $number => $value ) {
+				if($value['out']['loginform']['active']) 
+					$test=true;
+			}
 		}
 		if ($test) do_action('login_head'); //do action from login had	       
 	}
 
 	//function to generate admin links    
 	function generate_adminlinks() { 
-		global $menu,$submenu;
+		global $menu,$submenu,$parent_file;
 		//let orginal Variables unchanged
 		$tempmenu=$menu;
 		$tempsubmenu=$submenu;
 		//scan the menu
 		foreach ( $tempmenu as $key => $item ) {
 		  if (!empty($item[0])) { //filter out empty menu entrys since WP 2.7
-			$adminlinks[$key]['menu']=wp_specialchars(strip_tags($item[0])); //write Menues
+			$adminlinks[$key]['menu']=strip_tags($item[0]); //write Menues
 			if (is_array($tempsubmenu[$item[2]])) { //look if submenu existing to crate submenu on men if they downt exists
 				$menulink=false; unset($lowestkey);
 				foreach ($tempsubmenu[$item[2]] as $keysub => $itemsub) { // Find submenu wisout an existing menu link
@@ -46,24 +48,22 @@ class MiniMetaFunctions {
 				$tempsubmenu[$item[2]][0] = array($item[0], $item[1], $item[2]); //create submenu
 			}
 			foreach ($tempsubmenu[$item[2]] as $keysub => $itemsub) { //Crate submenus and links
-				$adminlinks[$key][$keysub][0]=wp_specialchars(strip_tags($itemsub[0]));
+				$adminlinks[$key][$keysub][0]=strip_tags($itemsub[0]);
 				$adminlinks[$key][$keysub][1]=$itemsub[1];
 				$menu_hook = get_plugin_page_hook($itemsub[2], $item[2]);       
-				if (file_exists(ABSPATH . PLUGINDIR . "/".$itemsub[2]) || ! empty($menu_hook)) {
-					if (!in_array($item[2],array('index.php','page-new.php','edit.php','themes.php','edit-comments.php','options-general.php','plugins.php','users.php','profile.php')) )
+				if ( file_exists(WP_PLUGIN_DIR . "/{$itemsub[2]}") || ! empty($menu_hook) ) {
+					if ( 'admin.php' == $pagenow || !file_exists(WP_PLUGIN_DIR . "/$parent_file") )
 						$adminlinks[$key][$keysub][2]= "admin.php?page=".$itemsub[2];
 					else
 						$adminlinks[$key][$keysub][2]= $item[2]."?page=".$itemsub[2];
 				} else {
 					$adminlinks[$key][$keysub][2]= $itemsub[2];
 				}
-				if ($adminlinks[$key][$keysub][2]=="edit-comments.php?page=akismet-admin") //Overwrite for Akismet Spam menu without number
-					$adminlinks[$key][$keysub][0] = __('Akismet Spam');
 			}
 		  }
 		}
 		update_option('minimeta_adminlinks', $adminlinks);
-	}
+ 	}
 
 	//Thems Option  menu entry
 	function menu_entry() {
@@ -177,9 +177,9 @@ class MiniMetaFunctions {
 		if (current_user_can('switch_themes')) {
 			add_action('admin_menu', array('MiniMetaFunctions', 'menu_entry'));
 			add_filter('plugin_action_links_'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php', array('MiniMetaFunctions', 'plugins_options_link'));
-			if (current_user_can(10))
-				add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
 			if((isset($_GET['page'])) && (stristr($_GET['page'], 'minimeta-options'))!==false) { //only on Option Page
+				if (current_user_can(10))
+					add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
 				add_action('admin_init', array('MiniMetaFunctions', 'admin_load'));
 			}
 		}
