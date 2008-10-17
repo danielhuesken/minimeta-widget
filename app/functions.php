@@ -6,6 +6,7 @@ class MiniMetaFunctions {
 	function admin_load() {
 		wp_enqueue_style('MiniMeta',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'),'','1.00','screen');
 		wp_enqueue_script('MiniMetaOptions',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/minimeta-options.js'),'jQuery','4.0.0');
+		wp_localize_script('MiniMetaOptions','MiniMetaL10n',array('edit'=>__('Edit')));
 	}
  
 	//WP-Head hooks high Priority
