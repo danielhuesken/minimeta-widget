@@ -179,8 +179,10 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	<span id="WidgetOptDelete"><?php _e('Delete:', 'MiniMetaWidget'); ?><select id="widget-options-SidebarDelete" name="widget-options-SidebarDelete" size="1">
 	<option value=""><?php _e('none', 'MiniMetaWidget'); ?></option>
 	<?PHP 
-	foreach ($options_widgets as $number => $values) {
-		if ($number!="default") echo "<option value=\"".$number."\">".$values['optionname']."</option>";
+	if (is_array($options_widgets)) {
+		foreach ($options_widgets as $number => $values) {
+			echo "<option value=\"".$number."\">".$values['optionname']."</option>";
+		}
 	}
 	?>
 	</select></span>
@@ -197,12 +199,37 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	<div class="inside">
 		<input type="hidden" name="widget-options[<?php echo $optionname; ?>][optionname]" value="<?php echo $optionvalues['optionname']; ?>" />
 		
+		<?php $loginout='out'; ?>
+		<div class="widget-logout">
+			<h4 style="text-align:center;"><?php echo _e('Show when Loggt out:'); ?></h4>
+			<ul class="widget-logout-list">
+				<li class="widget-logout-item">
+					<h4 class="widget-logout-title"><span><?php echo _e('Title'); ?></span><br class="clear" /></h4>
+				</li>
+	<?PHP  	foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
+				if ($partvalues[4]) { ?>
+				<li class="widget-logout-item">
+					<h4 class="widget-logout-title"><span><input class="checkbox" type="checkbox" <?php echo checked($optionvalues[$loginout][$partname]['active'],true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $partname; ?>][active]" /> <?php echo $partvalues[0]; ?></span><br class="clear" /></h4>
+					<?PHP if ($partvalues[2]) {?>
+					<div class="widget-logout-control">
+						<?php				
+						$options=$optionvalues[$loginout][$partname]['args'];
+						call_user_func($partvalues[2], $options );
+						?>
+					</div>
+					<?PHP } ?>
+				</li>
+		<?PHP  	}
+			} ?>
+			</ul>
+		</div>
+		
 		<?php $loginout='in'; ?>
 		<div class="widget-login">
-			<h4><?php echo _e('Show when Loggt in'); ?></h4>
+			<h4 style="text-align:center;"><?php echo _e('Show when Loggt in:'); ?></h4>
 			<ul class="widget-login-list">
 				<li class="widget-login-item">
-					<h4 class="widget-login-title"><span><?php echo _e('Title'); ?></span></span><br class="clear" /></h4>
+					<h4 class="widget-login-title"><span><?php echo _e('Title'); ?></span><br class="clear" /></h4>
 					<div class="widget-login-control">
 						<input class="checkbox" type="checkbox" <?php echo checked($optionvalues[$loginout]['title']['args']['displayidentity'],true); ?> id="minimeta-displayidentity-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][title][args][displayidentity]" />&nbsp;<?php _e('Disply user Identity as title','MiniMetaWidget');?><br />
 						<input class="checkbox" type="checkbox" <?php echo checked($optionvalues[$loginout]['title']['args']['profilelink'],true); ?> id="minimeta-profilelink-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][title][args][profilelink]" />&nbsp;<?php _e('Link to Your Profile in title','MiniMetaWidget');?><br />
@@ -224,34 +251,8 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 		<?PHP  	}
 			} ?>
 			</ul>
-		</div>	
+		</div><br class="clear" />	
 		
-		<?php $loginout='out'; ?>
-		<div class="widget-logout">
-			<h4><?php echo _e('Show when Loggt out'); ?></h4>
-			<ul class="widget-logout-list">
-				<li class="widget-logout-item">
-					<h4 class="widget-logout-title"><span><?php echo _e('Title'); ?></span><br class="clear" /></h4>
-				</li>
-	<?PHP  	foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
-				if ($partvalues[4]) { ?>
-				<li class="widget-logout-item">
-					<h4 class="widget-logout-title"><span><input class="checkbox" type="checkbox" <?php echo checked($optionvalues[$loginout][$partname]['active'],true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $partname; ?>][active]" /> <?php echo $partvalues[0]; ?></span><br class="clear" /></h4>
-					<?PHP if ($partvalues[2]) {?>
-					<div class="widget-logout-control">
-						<?php				
-						$options=$optionvalues[$loginout][$partname]['args'];
-						call_user_func($partvalues[2], $options );
-						?>
-					</div>
-					<?PHP } ?>
-				</li>
-		<?PHP  	}
-			} ?>
-			</ul>
-		</div><br class="clear" />
-		
-
 		<p style="width:50%; float:left;"><input type="button" class="button" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-opt-<?php echo $optionname;?>').remove();" /></p>
 		<p style="width:50%; float:right; text-align:right;"><input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" /></p>
 		<br class="clear" />
@@ -323,7 +324,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 </div>
 
 <div class="wrap"> 
-	<h2><?php _e('MiniMeta Seidbar Widgets', 'MiniMetaWidget'); ?></h2>
+	<h2><?php _e('MiniMeta Seidbar Widgets (PHP function)', 'MiniMetaWidget'); ?></h2>
 	
 	<?php _e('How many:', 'MiniMetaWidget'); ?><select class="select" id="widget-minimeta-SidebarMany" name="widget-minimeta-SidebarMany" size="1">	
 	<?php
@@ -372,15 +373,16 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 		<h3><?php _e('Usage', 'MiniMetaWidget'); ?></h3>
 		<div class="inside">
 			<table style="width:100%;"><tr><td style="width:50%;padding-right:10px;">
-				1. Create a otion set above.<br />
-				2. Place a widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a option set.<br />
-				3. redy.<br />
+				<?php _e('1. Create a Option above.', 'MiniMetaWidget'); ?><br />
+				<?php _e('2. Create a c above.', 'MiniMetaWidget'); ?><br />
+				<?php _e('3. Place a widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a option und Stylesheet.', 'MiniMetaWidget'); ?><br />
+				<?php _e('4. Redy.', 'MiniMetaWidget'); ?><br />
 				&nbsp;<br />
-				<strong>Code too place a Widget via PHP:</strong><br />
+				<strong><?php _e('Code too place a Widget via PHP:', 'MiniMetaWidget'); ?></strong><br />
 				<code> &lt;?PHP if (function_exists('MiniMetaWidgetSidebar')) MiniMetaWidgetSidebar(SeidbarWidgetNumber); ?&gt; </code><br />
 				&nbsp;<br />
 			</td><td style="border-left-width:1px;border-left-style:solid;border-left-color:#ccc;text-align:left;width:50%;padding-left:15px;">
-				<strong>SeidbarWidgetNumber</strong> = Number of a Widget above <br />
+				<strong>SeidbarWidgetNumber</strong> <?php _e('= Number of a Widget above', 'MiniMetaWidget'); ?><br />
 			</td></tr></table>
 		</div>
 	</div>

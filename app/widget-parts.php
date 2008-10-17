@@ -108,7 +108,7 @@ class MiniMetaWidgetParts {
          <input class="checkbox" type="checkbox" <?php echo checked($notopics,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][adminlinks][args][notopics]" />&nbsp;<?php _e('Do not show Admin Links Topics','MiniMetaWidget');?><br />
 		 
 		 <?php _e('Select Admin Links:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $number; ?> > optgroup >option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $number; ?> > optgroup > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
-         <select class="select" style="height:120px;width:90%"" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][adminlinks][args][adminlinks][]" id="minimeta-adminlinks-<?php echo $number; ?>" multiple="multiple">
+         <select class="select" style="height:120px;width:90%" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][adminlinks][args][adminlinks][]" id="minimeta-adminlinks-<?php echo $number; ?>" multiple="multiple">
          <?PHP
 			$minimeta_adminlinks=get_option('minimeta_adminlinks');
             foreach ($minimeta_adminlinks as $menu) {
@@ -156,7 +156,7 @@ class MiniMetaWidgetParts {
          <?PHP
             $bookmarks=get_bookmarks(array('hide_invisible' => 0,'orderby' =>'name'));
 			foreach ($bookmarks as $linksdisplay) {
-               $checklinksout = in_array($linksdisplay->link_id,$links) ? ' selected="selected"' : '';
+               $checklinksout = in_array($linksdisplay->link_id,(array)$links) ? ' selected="selected"' : '';
                echo "<option value=\"".$linksdisplay->link_id."\"".$checklinksout.">". wp_specialchars($linksdisplay->link_name)."</option>";
             }        
          ?>  
