@@ -65,20 +65,21 @@ class MiniMetaWidgetDisplay {
 		echo $before_widget;
  		
 		$parts=MiniMetaWidgetParts::parts();
+		$stylegeneralul=!empty($options['general']['php']['style']['ul'])?' style="'.$options['general']['php']['style']['ul'].'"':'';
 		
         if(is_user_logged_in()) { //When loggt in
 			$ulopen=false;
 			for ($i=0;$i<=sizeof($options['in']);$i++) { 
 				if ($parts[$options['in'][$i]['part']][3]) {
 					if ($parts[$options['in'][$i]['part']][5] and !$ulopen) {
-						echo '<ul>';
+						echo '<ul'.$stylegeneralul.'>';
 						$ulopen=true;
 					}	
 					if (!$parts[$options['in'][$i]['part']][5] and $ulopen) {
 						echo '</ul>';
 						$ulopen=false;
 					}
-					$options['in'][$partname]['args']['stylesheets']=$stylesheets;
+					$options['in'][$partname]['args']['stylegeneralli']==!empty($options['general']['php']['style']['li'])?' style="'.$options['general']['php']['style']['li'].'"':'';
 					call_user_func($parts[$options['in'][$i]['part']][1], $options['in'][$i]['args'] );
 				}
 			}
@@ -89,14 +90,14 @@ class MiniMetaWidgetDisplay {
 			for ($i=0;$i<=sizeof($options['out']);$i++) { 
 				if ($parts[$options['out'][$i]['part']][4]) {
 					if ($parts[$options['out'][$i]['part']][5] and !$ulopen) {
-						echo '<ul>';
+						echo '<ul'.$stylegeneralul.'>';
 						$ulopen=true;
 					}	
 					if (!$parts[$options['out'][$i]['part']][5] and $ulopen) {
 						echo '</ul>';
 						$ulopen=false;
 					}
-					$options['out'][$partname]['args']['stylesheets']=$stylesheets;
+					$options['out'][$partname]['args']['stylegeneralli']==!empty($options['general']['php']['style']['li'])?' style="'.$options['general']['php']['style']['li'].'"':'';
 					call_user_func($parts[$options['out'][$i]['part']][1], $options['out'][$i]['args'] );
 				}
 			}

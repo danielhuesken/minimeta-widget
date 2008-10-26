@@ -66,7 +66,7 @@ class MiniMetaWidgetParts {
 	function seiteadmin_display($args) {
 		extract( (array)$args, EXTR_SKIP );
 		$styleseiteadmin=!empty($styleseiteadmin)?' style="'.$styleseiteadmin.'"':'';
-		echo "<li".$stylesheets['li']."><a href=\"".admin_url()."\"".$styleseiteadmin.">".__('Site Admin')."</a></li>";
+		echo "<li".$stylegeneralli."><a href=\"".admin_url()."\"".$styleseiteadmin.">".__('Site Admin')."</a></li>";
 	}
 
 	function seiteadmin_options($args) {
@@ -82,11 +82,11 @@ class MiniMetaWidgetParts {
 		extract( (array)$args, EXTR_SKIP );
 		$styleloginout=!empty($styleloginout)?' style="'.$styleloginout.'"':'';
 		if(is_user_logged_in()) {
-			if($redirect) echo "<li".$stylesheets['li']."><a href=\"".wp_nonce_url(site_url('wp-login.php?action=logout&amp;redirect_to='.$_SERVER['REQUEST_URI'], 'login'), 'log-out')."\"".$styleloginout.">".__('Log out')."</a></li>"; 
-            if(!$redirect) echo "<li".$stylesheets['li']."><a href=\"".wp_nonce_url(site_url('wp-login.php?action=logout', 'login'), 'log-out')."\"".$styleloginout.">".__('Log out')."</a></li>"; 
+			if($redirect) echo "<li".$stylegeneralli."><a href=\"".wp_nonce_url(site_url('wp-login.php?action=logout&amp;redirect_to='.$_SERVER['REQUEST_URI'], 'login'), 'log-out')."\"".$styleloginout.">".__('Log out')."</a></li>"; 
+            if(!$redirect) echo "<li".$stylegeneralli."><a href=\"".wp_nonce_url(site_url('wp-login.php?action=logout', 'login'), 'log-out')."\"".$styleloginout.">".__('Log out')."</a></li>"; 
 		} else {
-			if($redirect) echo "<li".$stylesheets['li']."><a href=\"".wp_nonce_url(site_url('wp-login.php?action=login&amp;redirect_to='.$_SERVER['REQUEST_URI'], 'login'), 'login')."\"".$styleloginout.">".__('Log in')."</a></li>";
-			if(!$redirect) echo "<li".$stylesheets['li']."><a href=\"".wp_nonce_url(site_url('wp-login.php', 'login'), 'login')."\"".$styleloginout.">".__('Log in')."</a></li>";		
+			if($redirect) echo "<li".$stylegeneralli."><a href=\"".wp_nonce_url(site_url('wp-login.php?action=login&amp;redirect_to='.$_SERVER['REQUEST_URI'], 'login'), 'login')."\"".$styleloginout.">".__('Log in')."</a></li>";
+			if(!$redirect) echo "<li".$stylegeneralli."><a href=\"".wp_nonce_url(site_url('wp-login.php', 'login'), 'login')."\"".$styleloginout.">".__('Log in')."</a></li>";		
 		}
 
 	}
@@ -179,7 +179,7 @@ class MiniMetaWidgetParts {
 		$styleadminlinksoption=!empty($styleadminlinksoption)?' style="'.$styleadminlinksoption.'"':'';
 		
         if (sizeof($adminlinks)>0) { //show only if a Admin Link is selectesd
-            echo "<li".$stylesheets['li']."><select onchange=\"document.location.href=this.options[this.selectedIndex].value;\"".$styleadminlinksselect."><option selected=\"selected\"".$styleadminlinksoption.">".__('Please select:','MiniMetaWidget')."</option>";
+            echo "<li".$stylegeneralli."><select onchange=\"document.location.href=this.options[this.selectedIndex].value;\"".$styleadminlinksselect."><option selected=\"selected\"".$styleadminlinksoption.">".__('Please select:','MiniMetaWidget')."</option>";
 			$minimeta_adminlinks=get_option('minimeta_adminlinks'); 
             foreach ($minimeta_adminlinks as $menu) {
             $output="";
@@ -239,7 +239,7 @@ class MiniMetaWidgetParts {
 	function linklostpw_display($args) {
 		extract( (array)$args, EXTR_SKIP );
 		$stylelinklostpw=!empty($stylelinklostpw)?' style="'.$stylelinklostpw.'"':'';
-		echo "<li".$stylesheets['li']."><a href=\"".site_url('wp-login.php?action=lostpassword', 'login')."\" title=\"".__('Password Lost and Found')."\"".$styleslinklostpw.">".__('Lost your password?')."</a></li>";
+		echo "<li".$stylegeneralli."><a href=\"".site_url('wp-login.php?action=lostpassword', 'login')."\" title=\"".__('Password Lost and Found')."\"".$styleslinklostpw.">".__('Lost your password?')."</a></li>";
 	}	
 	
 	function linklostpw_options($args) {
@@ -255,7 +255,7 @@ class MiniMetaWidgetParts {
 		extract( (array)$args, EXTR_SKIP );
 		$stylelinkregister=!empty($stylelinkregister)?' style="'.$stylelinkregister.'"':'';
 		if(get_option('users_can_register')) 
-			echo "<li".$stylesheets['li']."><a href=\"".site_url('wp-login.php?action=register', 'login')."\"".$stylelinkregister.">" . __('Register') . "</a></li>";
+			echo "<li".$stylegeneralli."><a href=\"".site_url('wp-login.php?action=register', 'login')."\"".$stylelinkregister.">" . __('Register') . "</a></li>";
 	}		
 
 	function linkregister_options($args) {
@@ -270,7 +270,7 @@ class MiniMetaWidgetParts {
 	function bookmarks_display($args) {
 		extract( (array)$args, EXTR_SKIP );
 		if (is_array($links))
-			wp_list_bookmarks('echo=1&title_li=&before=<li'.$stylesheets['li'].'>&categorize=0&show_images=0&show_private=1&hide_invisible=0&orderby=name&include='.implode(',',$links));
+			wp_list_bookmarks('echo=1&title_li=&before=<li'.$stylegeneralli.'>&categorize=0&show_images=0&show_private=1&hide_invisible=0&orderby=name&include='.implode(',',$links));
 	}		
 	
 	function bookmarks_options($args) {
@@ -293,7 +293,7 @@ class MiniMetaWidgetParts {
 	function linkrss_display($args) {
 		extract( (array)$args, EXTR_SKIP );
 		$stylelinkrss=!empty($stylelinkrss)?' style="'.$stylelinkrss.'"':'';
-		echo "<li".$stylesheets['li']."><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\"".$stylelinkrss.">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		echo "<li".$stylegeneralli."><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\"".$stylelinkrss.">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
 	}			
 	
 	function linkrss_options($args) {
@@ -308,7 +308,7 @@ class MiniMetaWidgetParts {
 	function linkcommentrss_display($args) {
 		extract( (array)$args, EXTR_SKIP );
 		$stylelinkcommentrss=!empty($stylelinkcommentrss)?' style="'.$stylelinkcommentrss.'"':'';
-		echo "<li".$stylesheets['li']."><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\"".$stylelinkcommentrss.">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		echo "<li".$stylegeneralli."><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\"".$stylelinkcommentrss.">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
 	}	
 	
 	function linkcommentrss_options($args) {
@@ -323,7 +323,7 @@ class MiniMetaWidgetParts {
 	function linkwordpress_display($args) {
 		extract( (array)$args, EXTR_SKIP );
 		$stylelinkwordpress=!empty($stylelinkwordpress)?' style="'.$stylelinkwordpress.'"':'';
-		echo "<li".$stylesheets['li']."><a href=\"http://wordpress.org/\" title=\"".attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.'))."\"".$stylelinkwordpress.">WordPress.org</a></li>";
+		echo "<li".$stylegeneralli."><a href=\"http://wordpress.org/\" title=\"".attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.'))."\"".$stylelinkwordpress.">WordPress.org</a></li>";
 	}
 	
 	function linkwordpress_options($args) {

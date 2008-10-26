@@ -22,7 +22,7 @@ if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
 	  if ($delnumber!=$optionname){ //Change only not deleted 
 	    $options_widgets[$optionname]['optionname'] = htmlentities(stripslashes($optionvalues['optionname']));
 		//Save general options
-		$options_widgets[$optionname]['general']['style']['li'] = $optionvalues['general']['style']['li'];
+		$options_widgets[$optionname]['general']['style']['ul'] = $optionvalues['general']['style']['ul'];
 		$options_widgets[$optionname]['general']['style']['li'] = $optionvalues['general']['style']['li'];
 		$options_widgets[$optionname]['general']['php']['title'] = $optionvalues['general']['php']['title'];
 		$options_widgets[$optionname]['general']['php']['before_title'] = $optionvalues['general']['php']['before_title'];
