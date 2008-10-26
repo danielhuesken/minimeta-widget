@@ -118,7 +118,8 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 
 <div class="wrap"> 
 	<h2><?php _e('MiniMeta Widget Options', 'MiniMetaWidget'); ?></h2>
-
+	
+	<div class="tablenav"><div class="alignleft actions">
 	<?php _e('New:', 'MiniMetaWidget'); ?><input type="text" id="widget-options-SidebarNew" name="widget-options-SidebarNew" size="10" />
 	<span id="WidgetOptDelete"><?php _e('Delete:', 'MiniMetaWidget'); ?><select id="widget-options-SidebarDelete" name="widget-options-SidebarDelete" size="1">
 	<option value=""><?php _e('none', 'MiniMetaWidget'); ?></option>
@@ -131,6 +132,9 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 	?>
 	</select></span>
 	<input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" />
+	</div>
+	<br class="clear" /> 
+	</div> 
 	
 	<?php
 	if (is_array($options_widgets)) {
@@ -184,7 +188,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 				}
 				if ($partvalues[3]) {?>
 				<li class="widget-login-item">
-					<h4 class="widget-login-title"><span><input class="checkbox" type="checkbox" <?php echo checked($optionvalues[$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span> <br class="clear" /></h4>
+					<h4 class="widget-login-title"><span><input class="checkbox-active" type="checkbox" <?php echo checked($optionvalues[$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span> <br class="clear" /></h4>
 					<input type="hidden" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
 					<?PHP if ($partvalues[2]) { ?>
 					<div class="widget-login-control">
@@ -242,7 +246,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 		</div>
 		
 		<p style="width:50%; float:left;"><input type="button" class="button" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-opt-<?php echo $optionname;?>').remove();" /></p>
-		<p style="width:50%; float:right; text-align:right;"><input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" /></p>
+		<p style="width:50%; float:right; text-align:right;"><input type="submit" name="Submit" class="button" value="<?php _e('Save Changes'); ?>" /></p>
 		<br class="clear" />
 		</div></div>
 	<?php } 

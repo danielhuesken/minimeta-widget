@@ -9,7 +9,7 @@
 
 .wrap .minimetabox {
 	padding: 2px;
-	margin-bottom: 20px;
+	margin-bottom: 5px;
 	border-width: 1px;
 	border-style: solid;
 	border-color: #ebebeb;
@@ -19,7 +19,9 @@
 
 .wrap .inside {
 	font-size: 11px;
-	margin: 0 12px 12px;
+	margin: 0 3px 3px;
+	padding: 5px;
+	background-color: #eee;
 }
 
 .wrap .closed .inside {
@@ -90,7 +92,7 @@
 	float: left;
 }
 
-.widget-edit-item {
+.widget-edit-item, .widget-general-edit-item {
 	color: white;
 	font-size: 9px;
 	float: right;
