@@ -103,11 +103,11 @@ Change log:
 define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
 //Load fuction file
 require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
-//Plugin int 	
+//Plugin init	
 add_action('init', array('MiniMetaFunctions', 'init'),1); //must set to 1 for widget support
 //install
 register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
-//uninstall from 2.7
+//uninstall four 2.7
 if ( function_exists('register_uninstall_hook') )
 	register_uninstall_hook(__FILE__, array('MiniMetaFunctions', 'uninstall'));
 ?>

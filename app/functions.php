@@ -16,8 +16,11 @@ class MiniMetaFunctions {
 		//find out is a ligon form in any MiniMeta Widegt activatet
 		if (is_array($options)) {
 			foreach ( $options as $number => $value ) {
-				if($value['out']['loginform']['active']) 
-					$test=true;
+				for ($i=1;$i<=sizeof($value['out']);$i++) {
+					if($value['out'][$i]['part']=='loginform') 
+						$test=true;
+						break 2;
+				}
 			}
 		}
 		if ($test) do_action('login_head'); //do action from login had	       
@@ -31,6 +34,10 @@ class MiniMetaFunctions {
 		$tempsubmenu=$submenu;
 		//scan the menu
 		foreach ( $tempmenu as $key => $item ) {
+			if ($item[2]=="edit-comments.php") //Overwrite for Comments menu without number since wp 2.5
+				$item[0] = sprintf( __('Comments %s'), "" );
+			if ($item[2]=="plugins.php") //Overwrite for Plugins menu without number since wp 2.6
+				$item[0] = sprintf( __('Plugins %s'), "" );
 		  if (!empty($item[0])) { //filter out empty menu entrys since WP 2.7
 			$adminlinks[$key]['menu']=strip_tags($item[0]); //write Menues
 			if (is_array($tempsubmenu[$item[2]])) { //look if submenu existing to crate submenu on men if they downt exists
@@ -75,7 +82,7 @@ class MiniMetaFunctions {
 	
     //delete Otions
 	function uninstall($echo=false) {
-		$option_settings=array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks','minimeta_widget_styles','minimeta_widget_sidebar');
+		$option_settings=array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks');
 		foreach($option_settings as $setting) {
 			$delete_setting = delete_option($setting);
 			if ($echo) {
@@ -92,36 +99,12 @@ class MiniMetaFunctions {
 		}
 	}
 	
-		
 	//Set start Options
 	function install() {
 		add_option('minimeta_widget_options');
-		add_option('minimeta_widget_styles');
 		add_option('minimeta_widget_wp');
-		add_option('minimeta_widget_sidebar');
 		add_option('minimeta_adminlinks');
 		MiniMetaFunctions::generate_adminlinks();
-		//set def. stylesfor default 
-		$styleoptions = get_option('minimeta_widget_styles');
-		$styleoptions['default']['stylename']='default';
-		$styleoptions['default']['ul']='';
-		$styleoptions['default']['li']='';
-		$styleoptions['default']['siteadmin']='';
-		$styleoptions['default']['logout']='color:red;';
-		$styleoptions['default']['adminlinksli']='font-weight:normal;font-style:normal;';
-		$styleoptions['default']['adminlinksselect']='font-size:10px;';
-		$styleoptions['default']['adminlinksoption']='';
-		$styleoptions['default']['adminlinkshref']='';
-		$styleoptions['default']['adminlinksoptgroup']='';
-		$styleoptions['default']['adminlinkslitopic']='font-weight:bold;font-style:italic;';
-		$styleoptions['default']['adminlinksul']='';
-		$styleoptions['default']['login']='';
-		$styleoptions['default']['lostpw']='';
-		$styleoptions['default']['register']='';
-		$styleoptions['default']['rss']='';
-		$styleoptions['default']['commentrss']='';
-		$styleoptions['default']['wporg']='';
-		update_option('minimeta_widget_styles',$styleoptions);
 		if (get_option('widget_minimeta')) MiniMetaFunctions::update(); //Update if option exists
 	}
 	
@@ -131,11 +114,10 @@ class MiniMetaFunctions {
 		delete_option('widget_minimeta_adminlinks');
 	}
 	
+	//add edit setting to plugins page
 	function plugins_options_link($action_links) {
-		global $context;
-		//if( 'active' == $context )
-			$action_links[]='<a href="admin.php?page='.WP_MINMETA_PLUGIN_DIR.'/app/minimeta-options.php" title="' . __('Go to Settings Page') . '" class="edit">' . __('Settings') . '</a>';
-		return $action_links;
+		$edit_link='<a href="admin.php?page='.WP_MINMETA_PLUGIN_DIR.'/app/minimeta-options.php" title="' . __('Go to Settings Page') . '" class="edit">' . __('Settings') . '</a>';
+		return array_merge( array($edit_link), $action_links);
 	}
 	
 	// add all action and so on only if plugin loaded.
@@ -150,6 +132,7 @@ class MiniMetaFunctions {
 			return;
 		} elseif (version_compare($wp_version, '2.6', '<')) {   // Pre-2.6 compatibility
 			define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
+			define( 'WP_PLUGIN_URL', get_option( 'siteurl' ) . 'wp-content/plugins' );
 			if (!function_exists('site_url')) {
 				function site_url($path = '', $scheme = null) { 
 					return get_bloginfo('wpurl').'/'.$path;
@@ -199,8 +182,7 @@ class MiniMetaFunctions {
 		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widget-display.php');
 		//Widget Parts
 		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widget-parts.php');
-	} 
-	
+	} 	
 }
 
 ?>

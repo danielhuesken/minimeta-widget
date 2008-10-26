@@ -80,8 +80,7 @@ function control($widget_args = 1) {
 				continue;
 			$title = wp_specialchars( $widget_many_instance['title'] );
 			$optionset = wp_specialchars( $widget_many_instance['optionset'] );
-			$style = wp_specialchars( $widget_many_instance['style'] );
-			$options[$widget_number] = array( 'title' => $title, 'optionset' => $optionset , 'style' => $style);  // Even simple widgets should store stuff in array, rather than in scalar
+			$options[$widget_number] = array( 'title' => $title, 'optionset' => $optionset );  // Even simple widgets should store stuff in array, rather than in scalar
 		}
 		
 		update_option('minimeta_widget_wp', $options);
@@ -95,13 +94,11 @@ function control($widget_args = 1) {
 	// We echo out a template for a form which can be converted to a specific form later via JS
 	if ( -1 == $number ) {
 		$title = __('Meta');
-		$optionset='default';
 		$optionset='none';
 		$number='%i%';
 	} else {
 		$title = attribute_escape($options[$number]['title']);
 		$optionset = attribute_escape($options[$number]['optionset']);
-		$style = attribute_escape($options[$number]['style']);
 	}
 	
 	
@@ -111,7 +108,7 @@ function control($widget_args = 1) {
 	//displaying options
 	?>
 	<p><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?><input class="widefat" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" /></label><p>
-	<?php MiniMetaWidgetDisplay::control($number,$optionset,$style); ?>
+	<?php MiniMetaWidgetDisplay::control($number,$optionset); ?>
 	<input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][submit]" value="1" /><?php 
 }
 
@@ -131,7 +128,7 @@ function display( $args, $widget_args = 1 ) {
 	
 	//Set options to disply
 	$args['title']=$options[$number]['title'];
-	MiniMetaWidgetDisplay::display($args,$options[$number]['optionset'],$options[$number]['style']);
+	MiniMetaWidgetDisplay::display($options[$number]['optionset'],$args);
 }
 
 

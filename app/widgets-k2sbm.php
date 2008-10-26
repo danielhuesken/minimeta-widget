@@ -19,16 +19,14 @@ class MiniMetaWidgetK2SBM {
 		$options = sbm_get_option('minimeta_widget'); //load Options
 		if ( $_POST['widget-minimeta'][$number]) {
 			$options['optionset'] = wp_specialchars($_POST['widget-minimeta'][$number]['optionset']);
-			$options['style'] = wp_specialchars($_POST['widget-minimeta'][$number]['style']);
 			sbm_update_option('minimeta_widget', $options); //save Options
 		} 
 	
 		//make settings
 		$optionset=$options['optionset'];
-		$style=$options['style'];
 	
 		//displaying options
-		MiniMetaWidgetDisplay::control($number,$optionset,$style); 
+		MiniMetaWidgetDisplay::control($number,$optionset); 
 	}
 
 	//Display Widget 
@@ -40,7 +38,7 @@ class MiniMetaWidgetK2SBM {
 		$options = sbm_get_option('minimeta_widget');
 		
 		//Includ widget display
-		MiniMetaWidgetDisplay::display($args,$options['optionset'],$options['style']);
+		MiniMetaWidgetDisplay::display($options['optionset'],$args);
 	}
 
 

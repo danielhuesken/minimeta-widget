@@ -9,88 +9,95 @@
  
 class MiniMetaWidgetDisplay {
 	//Function to show widget
-	function display($args,$optionsetname='default',$stylenumber='') {
-		global $user_identity;
+	function display($optionsetname='',$args) {
 		extract( $args, EXTR_SKIP );
 		
 		//load options
 		$optionset = get_option('minimeta_widget_options');
 		if (!isset($optionset[$optionsetname])) {  //find out option exists  and load
-			//def options
-			$options['in']['linkloginlogout']['active']=true;
-			$options['in']['linkseiteadmin']['active']=true;
-			$options['in']['linkrss']['active']=true;
-			$options['in']['linkcommentrss']['active']=true;
-			$options['in']['linkwordpress']['active']=true;
-			$options['in']['actionwpmeta']['active']=true;
-			$options['out']['linkloginlogout']['active']=true;
-			$options['out']['linkregister']['active']=true;
-			$options['out']['linkrss']['active']=true;
-			$options['out']['linkcommentrss']['active']=true;
-			$options['out']['linkwordpress']['active']=true;
-			$options['out']['actionwpmeta']['active']=true;
+			//def options			
+			$options['general']['php']['title']=__('Meta');
+			$options['general']['php']['before_title']='<h2>';
+			$options['general']['php']['after_title']='</h2>';
+			$options['general']['php']['before_widget']='<div class="MiniMetaWidgetSiedbar">';
+			$options['general']['php']['after_widget']='</div>';
+			$options['in'][0]['part']='title';
+			$options['in'][0]['args']['title']=$title;
+			$options['in'][0]['args']['before_title']=$before_title;
+			$options['in'][0]['args']['after_title']=$after_title;
+			$options['in'][1]['part']='linkseiteadmin';
+			$options['in'][2]['part']='linkloginlogout';
+			$options['in'][3]['part']='linkrss';
+			$options['in'][4]['part']='linkcommentrss';
+			$options['in'][5]['part']='linkwordpress';
+			$options['in'][6]['part']='actionwpmeta';
+			$options['out'][0]['part']='title';
+			$options['out'][1]['part']='linkregister';
+			$options['out'][2]['part']='linkloginlogout';
+			$options['out'][3]['part']='linkrss';
+			$options['out'][4]['part']='linkcommentrss';
+			$options['out'][5]['part']='linkwordpress';
+			$options['out'][6]['part']='actionwpmeta';
 		} else {
 			$options=$optionset[$optionsetname];
+			$options['in'][0]['args']['title']=$title;
+			$options['in'][0]['args']['before_title']=$before_title;
+			$options['in'][0]['args']['after_title']=$after_title;
+			$options['out'][0]['args']['title']=$title;
+			$options['out'][0]['args']['before_title']=$before_title;
+			$options['out'][0]['args']['after_title']=$after_title;
 		}
 		
-		//find out styles exists  and load
-		$styleset = get_option('minimeta_widget_styles'); 
-		if (isset($styleset[$stylenumber]) and !empty($options[$stylenumber])) {
-			$stylenumber = '';
-		} 
-		unset($stylesheets);
-		if (!empty($stylenumber)) {
-			foreach ($styleset[$stylenumber] as $name => $value ) { 
-				if (!empty($value) and $name!='stylename') $stylesheets[$name]=' style="'.$value.'"';
-			}
+		//Overwrite vars if Seidbar Widget
+		if ($type=="PHP") {
+			$options['in'][0]['args']['title'] = $options['general']['php']['title'];
+			$options['out'][0]['args']['title'] = $options['general']['php']['title'];
+			$options['in'][0]['args']['before_title'] = $options['general']['php']['before_title'];
+			$options['out'][0]['args']['before_title'] = $options['general']['php']['before_title'];
+			$options['in'][0]['args']['after_title'] = $options['general']['php']['after_title'];
+			$options['out'][0]['args']['after_title'] = $options['general']['php']['after_title'];
+			$before_widget = $options['general']['php']['before_widget'];
+			$after_widget = $options['general']['php']['after_widget'];
 		}
 		
 	
 		//Shown part of Widget
 		echo $before_widget;
-        
+ 		
+		$parts=MiniMetaWidgetParts::parts();
+		
         if(is_user_logged_in()) { //When loggt in
-            //Display Title
-			if ($options['in']['title']['args']['displayidentity'] and !empty($user_identity)) $title=$user_identity;
-            if ($options['in']['title']['args']['profilelink'] and current_user_can('read')) {
-                echo $before_title ."<a href=\"".admin_url("/profile.php")."\" title=\"".__('Your Profile')."\">". $title ."</a>". $after_title; 
-            } else {
-				echo $before_title . $title . $after_title; 
-            }
 			$ulopen=false;
-			foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
-				if ($partvalues[3] and $options['in'][$partname]['active']) {
-					if ($partvalues[5] and !$ulopen) {
+			for ($i=0;$i<=sizeof($options['in']);$i++) { 
+				if ($parts[$options['in'][$i]['part']][3]) {
+					if ($parts[$options['in'][$i]['part']][5] and !$ulopen) {
 						echo '<ul>';
 						$ulopen=true;
 					}	
-					if (!$partvalues[5] and $ulopen) {
+					if (!$parts[$options['in'][$i]['part']][5] and $ulopen) {
 						echo '</ul>';
 						$ulopen=false;
 					}
 					$options['in'][$partname]['args']['stylesheets']=$stylesheets;
-					call_user_func($partvalues[1], $options['in'][$partname]['args'] );
+					call_user_func($parts[$options['in'][$i]['part']][1], $options['in'][$i]['args'] );
 				}
 			}
 			if ($ulopen)
 				echo '</ul>';			
 		} else { //When loggt out
-			//Display Title
-			echo $before_title . $title . $after_title;
 			$ulopen=false;
-			foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
-				if ($partvalues[4] and $options['out'][$partname]['active']) {
-					if ($partvalues[5] and !$ulopen) {
+			for ($i=0;$i<=sizeof($options['out']);$i++) { 
+				if ($parts[$options['out'][$i]['part']][4]) {
+					if ($parts[$options['out'][$i]['part']][5] and !$ulopen) {
 						echo '<ul>';
 						$ulopen=true;
 					}	
-					if (!$partvalues[5] and $ulopen) {
+					if (!$parts[$options['out'][$i]['part']][5] and $ulopen) {
 						echo '</ul>';
 						$ulopen=false;
 					}
-					//call functions to display
 					$options['out'][$partname]['args']['stylesheets']=$stylesheets;
-					call_user_func($partvalues[1], $options['out'][$partname]['args'] );
+					call_user_func($parts[$options['out'][$i]['part']][1], $options['out'][$i]['args'] );
 				}
 			}
 			if ($ulopen)
@@ -101,7 +108,7 @@ class MiniMetaWidgetDisplay {
 	}
 
 
-	function control($number,$optionsetname,$style) {
+	function control($number,$optionsetname) {
 		?>
 		<label for="minimeta-optionset-<?php echo $number; ?>" title="<?php _e('Select Widget Option Settings','MiniMetaWidget');?>"><?php _e('Widget Option Setting:','MiniMetaWidget');?> 
          <select class="widefat" name="widget-minimeta[<?php echo $number; ?>][optionset]" id="minimeta-optionset-<?php echo $number; ?>">
@@ -115,18 +122,6 @@ class MiniMetaWidgetDisplay {
             }        
          ?>  
          </select></label><br />
-		 <label for="minimeta-style-<?php echo $number; ?>" title="<?php _e('Select Widget Style Settings','MiniMetaWidget');?>"><?php _e('Widget Style Setting:','MiniMetaWidget');?> 
-		 <select class="widefat" name="widget-minimeta[<?php echo $number; ?>][style]" id="minimeta-style-<?php echo $number; ?>">
-         <?PHP
-		    $check = empty($style) ? ' selected=\"selected\"' : '';
-            echo "<option value=\"\"".$check.">".__('None','MiniMetaWidget')."</option>";
-            $style_widgets = get_option('minimeta_widget_styles');
-			foreach ($style_widgets as $tabs => $values) {
-			   $check = $tabs==$style ? ' selected=\"selected\"' : '';
-               echo "<option value=\"".$tabs."\"".$check.">".$values['stylename']."</option>";
-            }        
-         ?>  
-         </select></label>
 		<?php
 	}
 }
