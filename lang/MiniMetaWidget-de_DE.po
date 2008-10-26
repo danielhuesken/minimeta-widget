@@ -1,162 +1,407 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: MiniMeta Widget 4.0.0\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: 2008-10-26 16:02+0100\n"
-"Last-Translator: Daniel Hüsken <daniel@huesken-net.de>\n"
-"Language-Team: \n"
+"Project-Id-Version: MiniMetaWidget 4.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-26 16:45+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Daniel Hüsken <mail@danielhuesken.de>\n"
+"Language-Team: MiniMetaWidget <mail@danielhuesken.de>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: german\n"
+"X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __\n"
-"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: C:\\webserver\\htdocs\\Devwp\\wp-content\\plugins\\minimeta-widget\n"
 "X-Poedit-SearchPath-0: C:\\webserver\\htdocs\\Devwp\\wp-content\\plugins\\minimeta-widget\n"
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:9
-msgid "Edit"
-msgstr "Bearbeiten"
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:38
-#, php-format
-msgid "Comments %s"
-msgstr "Kommentare %s"
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:40
-#, php-format
-msgid "Plugins %s"
-msgstr "Plugins %s"
+"X-Poedit-SearchPath-1: C:\\webserver\\htdocs\\Devwp\\wp-content\\plugins\\minimeta-widget\\app\n"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:79
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:258
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widgets-wp.php:20
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:79
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:258
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widgets-wp.php:20
 msgid "MiniMeta Widget"
 msgstr "MiniMeta Widget"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:91
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:91
 #, php-format
 msgid "Setting Key '%s' has been deleted."
-msgstr ""
+msgstr "Einstellungsschlüssel '%s' wurde gelöscht."
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:95
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:95
 #, php-format
 msgid "Error deleting Setting Key '%s'."
-msgstr "Fehler beim löschen des schlüssels '%s'."
+msgstr "Fehler bei löschen des Einstellungsschlüssels '%s'."
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:119
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:119
 msgid "Go to Settings Page"
-msgstr "Gehe zur einstellns Seite"
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:119
-msgid "Settings"
-msgstr "Einstellungen"
+msgstr "Gehe zue Einstellungs Seite"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:131
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:131
 msgid "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
-msgstr "Entschuldigug MiniMeta Widget funktioniert nur mit WordPress 2.5 oder Höher"
+msgstr "Entschuldigung, MiniMeta Widget ünterstützt nur WordPress 2.6 oder höher"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:73
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:120
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:73
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:120
 msgid "MiniMeta Widget Options"
 msgstr "MiniMeta Widget Einstellungen"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:80
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:80
 msgid "Updated"
 msgstr "Aktualisiert"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:85
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:85
 msgid "No MiniMeta Widget Option Updated"
-msgstr "Keine MiniMeta Widget Einstellungen aktualiesiert"
+msgstr "Keine  MiniMeta Widget Einstellungen aktualisiert"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:103
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:103
 msgid "Uninstall MiniMeta Widget"
-msgstr "MiniMeta Widget Deinstalliren"
+msgstr "MiniMeta Widget deinstalliren"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:104
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:104
 #, php-format
 msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And MiniMeta Widget Will Be Deactivated Automatically."
-msgstr "<a href=\"%s\">Hier klicken</a> um die deinstallation fertig zu stellen und  MiniMeta Widget wird automatisch deaktiviert."
+msgstr "<a href=\"%s\">Hier klicken</a> um die Deinstallation abzuschliessen und das MiniMeta Widget zu deaktiviren."
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:123
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:123
+msgid "New:"
+msgstr "Neu:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:124
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:124
+msgid "Delete:"
+msgstr "Löschen:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:125
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:125
+msgid "none"
+msgstr "keine"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:145
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:145
 msgid "Option:"
 msgstr "Einstellung:"
 
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:225
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-display.php:19
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widgets-wp.php:96
-msgid "Meta"
-msgstr "Meta"
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:152
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:152
+msgid "Show when Loggt out:"
+msgstr "Zeige wenn ausgeloggt:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:181
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:181
+msgid "Show when Loggt in:"
+msgstr "Zeige wenn eingeloggt:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:210
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:210
+msgid "Generel Settings:"
+msgstr "Generelle Einstellungen:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:213
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:213
+msgid "Stylesheet"
+msgstr "Stylesheet"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:222
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:222
+msgid "Seidbar Widget Settings (PHP Function)"
+msgstr "Seidbar Widget Settings (PHP Funktion)"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:231
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widgets-wp.php:110
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:231
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widgets-wp.php:110
+msgid "Title:"
+msgstr "Title:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:233
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:233
+msgid "Before Title:"
+msgstr "Vorm Title:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:235
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:235
+msgid "After Title:"
+msgstr "Hinterm Title:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:237
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:237
+msgid "Before Widget:"
+msgstr "Vorm Widget:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:239
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:239
+msgid "After Widget:"
+msgstr "Hinterm Widget"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:248
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:248
+msgid "Remove"
+msgstr "Löschen"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:260
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:260
+msgid "Usage"
+msgstr "Benutzen"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:263
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:263
+msgid "1. Create a Option Setting above."
+msgstr "1. Erstelle oben  Einstellungen"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:264
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:264
+msgid "2. Place a widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a option und Stylesheet."
+msgstr "2. Platzire ein Widget von den WordPress Wigets, K2 Seidbar Modules or direkt im Theme mit PHP und wähle eine Einstellung."
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:265
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:265
+msgid "3. Redy."
+msgstr "3. Fertig"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:267
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:267
+msgid "Code too place a Widget via PHP:"
+msgstr "Code zum platziren des Widgets via PHP:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:271
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:271
+msgid "= Name of Widget Setting above"
+msgstr "= Name einer der obern Einstellungen"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:276
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:276
+msgid "About"
+msgstr "Über"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:280
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:280
+msgid "Plugin Name:"
+msgstr "Plugin Name:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:281
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:281
+msgid "Plugin Version:"
+msgstr "Plugin Version:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:282
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:282
+msgid "Author:"
+msgstr "Author:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:283
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:283
+msgid "Author Webseite:"
+msgstr "Author Webseite:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:284
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:284
+msgid "Plugin Webseite:"
+msgstr "Plugin Webseite:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:285
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:285
+msgid "Plugin on WordPress:"
+msgstr "Plugin bei WordPress:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:286
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:286
+msgid "Description:"
+msgstr "Beschreibung:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:288
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:288
+msgid "If you find it useful, please consider donating."
+msgstr "Wenn du es hilfreich findest, bitte unterstütze es."
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:295
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:295
+msgid "Uninstall"
+msgstr "Deinstalliren"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:300
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:300
+msgid "Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here."
+msgstr "Das deaktiviren des Plugin wird keine daten löschen die erstellt wurden. Um es komplett zu entfernen, kannst du es hier deinstalliren."
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:303
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:303
+msgid "WARNING:"
+msgstr "WARNUNG:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:304
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:304
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "Einmal deinstalliert, kann es nicht rückgängig gemacht werden. Du solltest eine Datenbank Plugin benutzen um deine Datenbank vorher zu sichern."
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:307
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:307
+msgid "The following WordPress Options will be DELETED:"
+msgstr "Die folgenden WordPress Einstellungen werden GELÖSCHT:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:312
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:312
+msgid "WordPress Options"
+msgstr "WordPress Einstellungen"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:329
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:329
+msgid "Yes"
+msgstr "Ja"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:330
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:330
+msgid "UNINSTALL MiniMeta Widget"
+msgstr "DEINSTALLIREN des MiniMEta Widgets"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:330
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:330
+msgid ""
+"You Are About To Uninstall MiniMeta Widget From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"Sind sie sicher das sie das MiniMeta Widget von WordPress deinstalliren wollen.\\n"
+"Diese Aktion kann nicht rückgängig gemacht werden.\\n"
+"\\n"
+" Wähle [Abbrechen] zum abbrechen, [OK] zum deinstalliren."
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-display.php:114
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-display.php:114
+msgid "Select Widget Option Settings"
+msgstr "Wähle eine Widget Einstellung"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-display.php:114
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-display.php:114
+msgid "Widget Option Setting:"
+msgstr "Widget Einstellung:"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-display.php:119
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:139
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:207
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:279
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-display.php:119
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:139
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:207
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:279
 msgid "None"
 msgstr "Keine"
 
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:11
-msgid "Your Profile"
-msgstr "Dein Profiel"
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:25
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:25
+msgid "Disply user Identity as title"
+msgstr "Zeige die Benutzer Identität im Title"
 
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:69
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:347
-msgid "Site Admin"
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:26
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:26
+msgid "Link to Your Profile in title"
+msgstr "Link zum deinem Profile im Title"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:45
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:45
+msgid "Remember Me"
+msgstr "Erinnere dich an mich"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:59
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:59
+msgid "Remember me"
+msgstr "Erinnere dich an mich"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:60
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:98
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:60
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:98
+msgid "Enable WordPress redirect function"
+msgstr "Schalte die WordPress redirekt funktion ein"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:61
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:61
+msgid "Enable WordPress Cookie Test for login Form"
+msgstr "Schalte den WorPress Cookie test für das Login Form ein"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:75
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:101
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:161
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:227
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:248
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:264
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:302
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:317
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:332
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:75
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:101
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:161
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:227
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:248
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:264
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:302
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:317
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:332
+msgid "Stylesheet:"
+msgstr "Stylesheet:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:137
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:205
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:137
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:205
+msgid "Do not show Admin Links Topics"
+msgstr "Zeige keine Admin Links Überschriften"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:139
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:207
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:139
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:207
+msgid "Select Admin Links:"
 msgstr ""
 
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:85
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:86
-msgid "Log out"
-msgstr "Abmelden"
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:139
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:207
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:279
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:139
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:207
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:279
+msgid "All"
+msgstr ""
 
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:88
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:89
-msgid "Log in"
-msgstr "Login"
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:162
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:162
+msgid "topic"
+msgstr ""
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:182
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:182
 msgid "Please select:"
-msgstr "Bitte auswählen:"
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:242
-msgid "Password Lost and Found"
 msgstr ""
 
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:242
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:352
-msgid "Lost your password?"
-msgstr ""
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:258
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:348
-msgid "Register"
-msgstr ""
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:296
-msgid "Syndicate this site using RSS 2.0"
-msgstr ""
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:296
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:354
-msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
-msgstr ""
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:311
-msgid "The latest comments to all posts in RSS"
-msgstr ""
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:311
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:355
-msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
-msgstr ""
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:326
-msgid "Powered by WordPress, state-of-the-art semantic personal publishing platform."
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:279
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:279
+msgid "Select Links to Display:"
 msgstr ""
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:345
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:345
 msgid "Title"
-msgstr ""
+msgstr "Title"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:346
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:346
 msgid "Login Form"
-msgstr ""
+msgstr "Login Form"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:347
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:348
@@ -164,30 +409,42 @@ msgstr ""
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:354
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:355
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:356
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:347
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:348
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:352
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:354
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:355
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:356
 msgid "Link:"
-msgstr ""
+msgstr "Link:"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:349
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:349
 msgid "Link: Login/Logout"
-msgstr ""
+msgstr "Link: Login/Logout"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:350
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:350
 msgid "Adminlinks as Links"
-msgstr "Adminlinks als Links"
+msgstr "Admin Links als Links"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:351
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:351
 msgid "Adminlinks as Selectbox"
-msgstr "Adminlinks als Auswahlbox"
+msgstr "Admin Links als auswahlbox"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:353
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:353
 msgid "Blog Links"
-msgstr ""
+msgstr "Blog Links"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:357
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:357
 msgid "Do Action:"
-msgstr "Aktion ausführen:"
+msgstr "Do Action:"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widgets-wp.php:17
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widgets-wp.php:17
 msgid "Displaying Meta links, Login Form and Admin Links"
-msgstr "Stellt Meta Links, Login Form und Admin Links dar"
+msgstr "Zeigt Meta Links, Login Form und Admin Links"
 
