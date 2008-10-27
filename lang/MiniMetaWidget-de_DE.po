@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MiniMetaWidget 4.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-26 16:45+0100\n"
+"POT-Creation-Date: 2008-10-27 19:48+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Daniel Hüsken <mail@danielhuesken.de>\n"
 "Language-Team: MiniMetaWidget <mail@danielhuesken.de>\n"
@@ -16,6 +16,23 @@ msgstr ""
 "X-Poedit-Basepath: C:\\webserver\\htdocs\\Devwp\\wp-content\\plugins\\minimeta-widget\n"
 "X-Poedit-SearchPath-0: C:\\webserver\\htdocs\\Devwp\\wp-content\\plugins\\minimeta-widget\n"
 "X-Poedit-SearchPath-1: C:\\webserver\\htdocs\\Devwp\\wp-content\\plugins\\minimeta-widget\\app\n"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:9
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:9
+msgid "Edit"
+msgstr ""
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:38
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:38
+#, php-format
+msgid "Comments %s"
+msgstr ""
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:40
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:40
+#, php-format
+msgid "Plugins %s"
+msgstr "Plugins %s"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:79
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:258
@@ -42,6 +59,11 @@ msgstr "Fehler bei löschen des Einstellungsschlüssels '%s'."
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:119
 msgid "Go to Settings Page"
 msgstr "Gehe zue Einstellungs Seite"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:119
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:119
+msgid "Settings"
+msgstr "Einstellungen"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:131
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:131
@@ -91,6 +113,13 @@ msgstr "Löschen:"
 msgid "none"
 msgstr "keine"
 
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:134
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:249
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:134
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:249
+msgid "Save Changes"
+msgstr ""
+
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:145
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:145
 msgid "Option:"
@@ -120,6 +149,15 @@ msgstr "Stylesheet"
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:222
 msgid "Seidbar Widget Settings (PHP Function)"
 msgstr "Seidbar Widget Settings (PHP Funktion)"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:225
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-display.php:19
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widgets-wp.php:96
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:225
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-display.php:19
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widgets-wp.php:96
+msgid "Meta"
+msgstr ""
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:231
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widgets-wp.php:110
@@ -165,7 +203,7 @@ msgstr "1. Erstelle oben  Einstellungen"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:264
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:264
-msgid "2. Place a widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a option und Stylesheet."
+msgid "2. Place a widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a option."
 msgstr "2. Platzire ein Widget von den WordPress Wigets, K2 Seidbar Modules or direkt im Theme mit PHP und wähle eine Einstellung."
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:265
@@ -302,6 +340,11 @@ msgstr "Widget Einstellung:"
 msgid "None"
 msgstr "Keine"
 
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:11
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:11
+msgid "Your Profile"
+msgstr ""
+
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:25
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:25
 msgid "Disply user Identity as title"
@@ -312,15 +355,31 @@ msgstr "Zeige die Benutzer Identität im Title"
 msgid "Link to Your Profile in title"
 msgstr "Link zum deinem Profile im Title"
 
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:37
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:37
+msgid "Username"
+msgstr "Benutzername"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:41
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:41
+msgid "Password"
+msgstr ""
+
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:45
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:59
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:45
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:59
 msgid "Remember Me"
 msgstr "Erinnere dich an mich"
 
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:59
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:59
-msgid "Remember me"
-msgstr "Erinnere dich an mich"
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:47
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:88
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:89
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:47
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:88
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:89
+msgid "Log in"
+msgstr "Login"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:60
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:98
@@ -333,6 +392,13 @@ msgstr "Schalte die WordPress redirekt funktion ein"
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:61
 msgid "Enable WordPress Cookie Test for login Form"
 msgstr "Schalte den WorPress Cookie test für das Login Form ein"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:69
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:347
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:69
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:347
+msgid "Site Admin"
+msgstr ""
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:75
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:101
@@ -354,6 +420,13 @@ msgstr "Schalte den WorPress Cookie test für das Login Form ein"
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:332
 msgid "Stylesheet:"
 msgstr "Stylesheet:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:85
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:86
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:85
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:86
+msgid "Log out"
+msgstr ""
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:137
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:205
@@ -388,10 +461,58 @@ msgstr "Überschrift"
 msgid "Please select:"
 msgstr "Bitte auswählen:"
 
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:242
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:242
+msgid "Password Lost and Found"
+msgstr ""
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:242
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:352
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:242
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:352
+msgid "Lost your password?"
+msgstr ""
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:258
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:348
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:258
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:348
+msgid "Register"
+msgstr ""
+
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:279
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:279
 msgid "Select Links to Display:"
 msgstr "Wähle Links die angezeigt werden:"
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:296
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:296
+msgid "Syndicate this site using RSS 2.0"
+msgstr ""
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:296
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:354
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:296
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:354
+msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr ""
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:311
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:311
+msgid "The latest comments to all posts in RSS"
+msgstr ""
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:311
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:355
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:311
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:355
+msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr ""
+
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:326
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:326
+msgid "Powered by WordPress, state-of-the-art semantic personal publishing platform."
+msgstr ""
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:345
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:345
@@ -447,4 +568,7 @@ msgstr "Do Action:"
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widgets-wp.php:17
 msgid "Displaying Meta links, Login Form and Admin Links"
 msgstr "Zeigt Meta Links, Login Form und Admin Links"
+
+#~ msgid "Remember me"
+#~ msgstr "Erinnere dich an mich"
 

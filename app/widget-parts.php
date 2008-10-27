@@ -56,7 +56,7 @@ class MiniMetaWidgetParts {
 		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		?>
-			<input class="checkbox" type="checkbox" <?php echo checked($rememberme,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][rememberme]" />&nbsp;<?php _e('Remember me');?><br />
+			<input class="checkbox" type="checkbox" <?php echo checked($rememberme,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][rememberme]" />&nbsp;<?php _e('Remember Me');?><br />
 			<input class="checkbox" type="checkbox" <?php echo checked($redirect,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function','MiniMetaWidget');?><br />
 			<input class="checkbox" type="checkbox" <?php echo checked($testcookie,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][testcookie]" />&nbsp;<?php _e('Enable WordPress Cookie Test for login Form','MiniMetaWidget');?><br />
 		<?PHP
@@ -282,7 +282,7 @@ class MiniMetaWidgetParts {
         $bookmarks=get_bookmarks(array('hide_invisible' => 0,'orderby' =>'name'));
 		foreach ($bookmarks as $linksdisplay) {
             $checklinksout = in_array($linksdisplay->link_id,(array)$links) ? ' selected="selected"' : '';
-            echo "<option value=\"".$linksdisplay->link_id."\"".$checklinksout.">". wp_specialchars($linksdisplay->link_name)."</option>";
+            echo "<option value=\"".$linksdisplay->link_id."\"".$checklinksout.">". wp_specialchars($linksdisplay->link_name)." - ".wp_specialchars($linksdisplay->link_url)."</option>";
         }        
         ?>  
         </select>
@@ -343,14 +343,14 @@ class MiniMetaWidgetParts {
 	function parts() {
 		//$MiniMetaWidgetParts['name']=array('name','function to display','function to control','logtin','logtout','ul')
 		$MiniMetaWidgetParts['title']=array(__('Title'),array('MiniMetaWidgetParts','title_display'),array('MiniMetaWidgetParts','title_options'),true,true,false);
-		$MiniMetaWidgetParts['loginform']=array(__('Login Form'),array('MiniMetaWidgetParts','loginform_display'),array('MiniMetaWidgetParts','loginform_options'),false,true,false);
+		$MiniMetaWidgetParts['loginform']=array(__('Login Form','MiniMetaWidget'),array('MiniMetaWidgetParts','loginform_display'),array('MiniMetaWidgetParts','loginform_options'),false,true,false);
 		$MiniMetaWidgetParts['linkseiteadmin']=array(__('Link:','MiniMetaWidget').' '.__('Site Admin'),array('MiniMetaWidgetParts','seiteadmin_display'),array('MiniMetaWidgetParts','seiteadmin_options'),true,false,true);
 		$MiniMetaWidgetParts['linkregister']=array(__('Link:','MiniMetaWidget').' '.__('Register'),array('MiniMetaWidgetParts','linkregister_display'),array('MiniMetaWidgetParts','linkregister_options'),false,true,true);
-		$MiniMetaWidgetParts['linkloginlogout']=array(__('Link: Login/Logout'),array('MiniMetaWidgetParts','linkloginout_display'),array('MiniMetaWidgetParts','linkloginout_options'),true,true,true);
-		$MiniMetaWidgetParts['adminlinks']=array(__('Adminlinks as Links'),array('MiniMetaWidgetParts','adminlinks_display'),array('MiniMetaWidgetParts','adminlinks_options'),true,false,true);
-		$MiniMetaWidgetParts['adminselect']=array(__('Adminlinks as Selectbox'),array('MiniMetaWidgetParts','adminselect_display'),array('MiniMetaWidgetParts','adminselect_options'),true,false,true);
+		$MiniMetaWidgetParts['linkloginlogout']=array(__('Link: Login/Logout','MiniMetaWidget'),array('MiniMetaWidgetParts','linkloginout_display'),array('MiniMetaWidgetParts','linkloginout_options'),true,true,true);
+		$MiniMetaWidgetParts['adminlinks']=array(__('Adminlinks as Links','MiniMetaWidget'),array('MiniMetaWidgetParts','adminlinks_display'),array('MiniMetaWidgetParts','adminlinks_options'),true,false,true);
+		$MiniMetaWidgetParts['adminselect']=array(__('Adminlinks as Selectbox','MiniMetaWidget'),array('MiniMetaWidgetParts','adminselect_display'),array('MiniMetaWidgetParts','adminselect_options'),true,false,true);
 		$MiniMetaWidgetParts['linklostpw']=array(__('Link:','MiniMetaWidget').' '.__('Lost your password?'),array('MiniMetaWidgetParts','linklostpw_display'),array('MiniMetaWidgetParts','linklostpw_options'),false,true,true);
-		$MiniMetaWidgetParts['bookmarks']=array(__('Blog Links'),array('MiniMetaWidgetParts','bookmarks_display'),array('MiniMetaWidgetParts','bookmarks_options'),true,true,true);
+		$MiniMetaWidgetParts['bookmarks']=array(__('Blog Links','MiniMetaWidget'),array('MiniMetaWidgetParts','bookmarks_display'),array('MiniMetaWidgetParts','bookmarks_options'),true,true,true);
 		$MiniMetaWidgetParts['linkrss']=array(__('Link:','MiniMetaWidget').' '.__('Entries <abbr title="Really Simple Syndication">RSS</abbr>'),array('MiniMetaWidgetParts','linkrss_display'),array('MiniMetaWidgetParts','linkrss_options'),true,true,true);
 		$MiniMetaWidgetParts['linkcommentrss']=array(__('Link:','MiniMetaWidget').' '.__('Comments <abbr title="Really Simple Syndication">RSS</abbr>'),array('MiniMetaWidgetParts','linkcommentrss_display'),array('MiniMetaWidgetParts','linkcommentrss_options'),true,true,true);
 		$MiniMetaWidgetParts['linkwordpress']=array(__('Link:','MiniMetaWidget').' WordPress.org',array('MiniMetaWidgetParts','linkwordpress_display'),array('MiniMetaWidgetParts','linkwordpress_options'),true,true,true);

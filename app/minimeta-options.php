@@ -111,7 +111,7 @@ $options_widgets = get_option('minimeta_widget_options');
 $styles = get_option('minimeta_widget_styles');
 $sidebar_widgets = get_option('minimeta_widget_sidebar');
 	
-if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
+if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 <?php wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
@@ -261,7 +261,7 @@ if(!empty($text)) { echo '<!-- Last Action --><div id="message" class="updated f
 		<div class="inside">
 			<table style="width:100%;"><tr><td style="width:50%;padding-right:10px;">
 				<?php _e('1. Create a Option Setting above.', 'MiniMetaWidget'); ?><br />
-				<?php _e('2. Place a widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a option und Stylesheet.', 'MiniMetaWidget'); ?><br />
+				<?php _e('2. Place a widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a option.', 'MiniMetaWidget'); ?><br />
 				<?php _e('3. Redy.', 'MiniMetaWidget'); ?><br />
 				&nbsp;<br />
 				<strong><?php _e('Code too place a Widget via PHP:', 'MiniMetaWidget'); ?></strong><br />
