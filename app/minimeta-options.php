@@ -116,7 +116,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 <?php wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
 
-<div class="wrap"> 
+<div class="wrap metabox-holder"> 
 	<h2><?php _e('MiniMeta Widget Options', 'MiniMetaWidget'); ?></h2>
 	
 	<div class="tablenav"><div class="alignleft actions">
@@ -140,9 +140,9 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 	if (is_array($options_widgets)) {
 	foreach ( $options_widgets as $optionname => $optionvalues) {
 	?>
-	<div class="minimetabox if-js-closed" id="widget-opt-<?php echo $optionname; ?>">
+	<div class="postbox if-js-closed" id="widget-opt-<?php echo $optionname; ?>">
 	<?PHP
-		echo "<h3>". __('Option:', 'MiniMetaWidget')." ".$optionvalues['optionname']."</h3>";
+		echo "<h3 class=\"hndle\">". __('Option:', 'MiniMetaWidget')." ".$optionvalues['optionname']."</h3>";
 	?>
 	<div class="inside">
 		<input type="hidden" name="widget-options[<?php echo $optionname; ?>][optionname]" value="<?php echo $optionvalues['optionname']; ?>" />
@@ -254,10 +254,10 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 </div>
 </form> 
 	
-<div class="wrap"> 
+<div class="wrap metabox-holder"> 
 	<h2><?php _e('MiniMeta Widget', 'MiniMetaWidget'); ?></h2>
-	<div class="minimetabox if-js-closed">
-		<h3><?php _e('Usage', 'MiniMetaWidget'); ?></h3>
+	<div class="postbox if-js-closed">
+		<h3 class="hndle"><span><?php _e('Usage', 'MiniMetaWidget'); ?></span></h3>
 		<div class="inside">
 			<table style="width:100%;"><tr><td style="width:50%;padding-right:10px;">
 				<?php _e('1. Create a Option Setting above.', 'MiniMetaWidget'); ?><br />
@@ -272,8 +272,8 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 			</td></tr></table>
 		</div>
 	</div>
-	<div class="minimetabox if-js-closed">
-		<h3><?php _e('About', 'MiniMetaWidget'); ?></h3>
+	<div class="postbox if-js-closed">
+		<h3 class="hndle"><span><?php _e('About', 'MiniMetaWidget'); ?></span></h3>
 		<div class="inside">
 			<table style="width:100%;"><tr><td style="width:50%;">
 				<?PHP $plugin_data=get_plugin_data(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php'); ?>
@@ -291,8 +291,8 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 		</div>
 	</div>
 	<?php if(current_user_can('edit_plugins')) {?>
-	<div class="minimetabox if-js-closed">
-		<h3><?php _e('Uninstall', 'MiniMetaWidget'); ?></h3>
+	<div class="postbox if-js-closed">
+		<h3 class="hndle"><span><?php _e('Uninstall', 'MiniMetaWidget'); ?></span></h3>
 		<div class="inside">
 			<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 			<?php wp_nonce_field('MiniMeta-delete','wpnoncemmui'); ?>

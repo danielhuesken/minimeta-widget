@@ -1,6 +1,6 @@
 jQuery(document).ready(function() {
 	//switsh style for Minimta boxes
-	jQuery('.minimetabox h3').click( function() {
+	jQuery('.postbox h3').click( function() {
 		jQuery(jQuery(this).parent()).toggleClass('closed');
 	});
 	// close postboxes that should be closed

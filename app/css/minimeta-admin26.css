@@ -1,5 +1,34 @@
+.wrap h3 {
+	font-size: 14px;
+	font-weight: bold;
+	padding: 7px;
+	margin: 0 0 10px;
+	cursor: pointer;
+	background-color: #eaf3fa;
+}
+
+.wrap .postbox {
+	padding: 2px;
+	margin-bottom: 5px;
+	margin-top: 11px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ebebeb;
+	border-right-color: #ccc;
+	border-bottom-color: #ccc;
+}
+
 .wrap .inside {
 	padding: 5px;
+}
+
+.wrap .closed .inside {
+	display: none;
+}
+
+.wrap .closed h3 {
+	margin: 0;
+	cursor: pointer;
 }
 
 .widget-login-control, .widget-logout-control , .widget-general-control{
@@ -74,7 +103,7 @@
 
 .widget-login-item, .widget-logout-item, .widget-general-item {
 	display: inline;
-	font-size:11px;
+	font-size: 11px;
 }
 
 .widget-login {
