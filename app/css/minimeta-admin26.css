@@ -107,21 +107,17 @@
 }
 
 .widget-login {
-	width:40%;
+	width:45%;
 	float: left;
 }
 
 .widget-logout {
-	width:40%;
+	width:45%;
 	float: left;
 }
 
 .widget-general {
-	width:40%;
-}
-
-.clear {
-	clear:none;
+	width:45%;
 }
 
 .widget-logout-control .textinput, .widget-login-control .textinput, .widget-general-control .textinput {

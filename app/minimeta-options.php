@@ -244,10 +244,11 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 				
 			</ul>
 		</div>
-		
-		<p style="width:50%; float:left;"><input type="button" class="button" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-opt-<?php echo $optionname;?>').remove();" /></p>
-		<p style="width:50%; float:right; text-align:right;"><input type="submit" name="Submit" class="button" value="<?php _e('Save Changes'); ?>" /></p>
+		<p> 
+		<input type="button" class="button alignlef" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-opt-<?php echo $optionname;?>').remove();" />
+		<input type="submit" name="Submit" class="button button-highlighted alignright" value="<?php _e('Save Changes'); ?>" />
 		<br class="clear" />
+		</p>
 		</div></div>
 	<?php } 
 		}?>
