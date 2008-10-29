@@ -96,6 +96,7 @@ Change log:
 		       Unistall function as form and for WP 2.7
 	                  Best K2SBM detection
 		       Display own Links from Blog Links
+		       Complete new Optionspage
  */
 
 
