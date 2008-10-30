@@ -4,18 +4,14 @@ class MiniMetaFunctions {
 	
 	//Css for Admin Section
 	function admin_load() {
+		global $wp_version;
+		if (version_compare($wp_version, '2.7-almost-beta-9417', '<'))
+			wp_enqueue_style('MiniMeta26',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin26.css'),'','4.0.0','screen');
 		wp_enqueue_style('MiniMeta',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'),'','4.0.0','screen');
 		wp_enqueue_script('MiniMetaOptions',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/minimeta-options.js'),'jQuery','4.0.0');
 		wp_localize_script('MiniMetaOptions','MiniMetaL10n',array('edit'=>__('Edit')));
 	}
  	
-	//Css for Admin Section WP 2.6
-	function admin_load26() {
-		wp_enqueue_style('MiniMeta',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin26.css'),'','4.0.0','screen');
-		wp_enqueue_script('MiniMetaOptions',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/minimeta-options.js'),'jQuery','4.0.0');
-		wp_localize_script('MiniMetaOptions','MiniMetaL10n',array('edit'=>__('Edit')));
-	}
-	
 	//WP-Head hooks high Priority
 	function head_login() {  //copy action login_head to wp-head if login form enabeld for plugin hooks 
 		$test=false;
@@ -171,11 +167,7 @@ class MiniMetaFunctions {
 			if((isset($_GET['page'])) && (stristr($_GET['page'], 'minimeta-options'))!==false) { //only on Option Page
 				if (current_user_can(10))
 					add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
-				if (version_compare($wp_version, '2.7-almost-beta-9300', '<')) {
-					add_action('admin_init', array('MiniMetaFunctions', 'admin_load26'));
-				} else {
-					add_action('admin_init', array('MiniMetaFunctions', 'admin_load'));
-				}
+				add_action('admin_init', array('MiniMetaFunctions', 'admin_load'));
 			}
 		}
 		

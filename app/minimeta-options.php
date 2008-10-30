@@ -119,21 +119,22 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 <div class="wrap metabox-holder"> 
 	<h2><?php _e('MiniMeta Widget Options', 'MiniMetaWidget'); ?></h2>
 	
-	<div class="tablenav"><div class="alignleft actions">
-	<?php _e('New:', 'MiniMetaWidget'); ?><input type="text" id="widget-options-SidebarNew" name="widget-options-SidebarNew" size="10" />
-	<span id="WidgetOptDelete"><?php _e('Delete:', 'MiniMetaWidget'); ?><select id="widget-options-SidebarDelete" name="widget-options-SidebarDelete" size="1">
-	<option value=""><?php _e('none', 'MiniMetaWidget'); ?></option>
-	<?PHP 
-	if (is_array($options_widgets)) {
-		foreach ($options_widgets as $number => $values) {
-			echo "<option value=\"".$number."\">".$values['optionname']."</option>";
-		}
-	}
-	?>
-	</select></span>
-	<input type="submit" name="Submit" class="button" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" />
-	</div>
-	<br class="clear" /> 
+	<div class="tablenav">
+		<div class="alignleft actions">
+			<?php _e('New:', 'MiniMetaWidget'); ?><input type="text" id="widget-options-SidebarNew" name="widget-options-SidebarNew" size="10" />
+			<span id="WidgetOptDelete"><?php _e('Delete:', 'MiniMetaWidget'); ?><select id="widget-options-SidebarDelete" name="widget-options-SidebarDelete">
+			<option value=""><?php _e('none', 'MiniMetaWidget'); ?></option>
+			<?PHP 
+			if (is_array($options_widgets)) {
+				foreach ($options_widgets as $number => $values) {
+					echo "<option value=\"".$number."\">".$values['optionname']."</option>";
+				}
+			}
+			?>
+			</select></span>
+			<input type="submit" name="Submit" class="button-secondary" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" />
+		</div>
+		<br class="clear" /> 
 	</div> 
 	
 	<?php
@@ -240,12 +241,10 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 						<input class="textinput" type="text" name="widget-options[<?php echo $optionname; ?>][general][php][after_widget]" value="<?php echo htmlentities(stripslashes($optionvalues['general']['php']['after_widget'])); ?>" /><br />
 					</div>
 				</li>				
-				
-				
 			</ul>
 		</div>
 		<p> 
-		<input type="button" class="button alignlef" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-opt-<?php echo $optionname;?>').remove();" />
+		<input type="button" class="button alignleft" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-opt-<?php echo $optionname;?>').remove();" />
 		<input type="submit" name="Submit" class="button button-highlighted alignright" value="<?php _e('Save Changes'); ?>" />
 		<br class="clear" />
 		</p>

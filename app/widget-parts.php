@@ -355,7 +355,7 @@ class MiniMetaWidgetParts {
 		$MiniMetaWidgetParts['linkcommentrss']=array(__('Link:','MiniMetaWidget').' '.__('Comments <abbr title="Really Simple Syndication">RSS</abbr>'),array('MiniMetaWidgetParts','linkcommentrss_display'),array('MiniMetaWidgetParts','linkcommentrss_options'),true,true,true);
 		$MiniMetaWidgetParts['linkwordpress']=array(__('Link:','MiniMetaWidget').' WordPress.org',array('MiniMetaWidgetParts','linkwordpress_display'),array('MiniMetaWidgetParts','linkwordpress_options'),true,true,true);
 		$MiniMetaWidgetParts['actionwpmeta']=array(__('Do Action:','MiniMetaWidget').' wp_meta',array('MiniMetaWidgetParts','actionwpmeta_display'),'',true,true,true);
-		return $MiniMetaWidgetParts;
+		return apply_filters('MiniMetaWidget_parts',$MiniMetaWidgetParts);
 	}
 	
 }

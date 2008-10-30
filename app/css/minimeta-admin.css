@@ -2,12 +2,13 @@
 	padding: 5px;
 }
 
-.widget-login-control, .widget-logout-control , .widget-general-control{
+.widget-login-control, .widget-logout-control , .widget-general-control {
 	display: block;
 	padding-left: 10px;
 	padding-top: 5px;
-	margin-top:0px;
+	margin-top: 0px;
 	background-color: #c3c3c3;
+	margin-bottom: 5px;
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;
 	-khtml-border-bottom-right-radius: 3px;
@@ -15,20 +16,18 @@
 	-webkit-border-bottom-right-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
 	-moz-border-radius: 0px 0px 3px 3px;
-	margin-bottom: 5px;
-
 }
 
-.closed .widget-login-control, .closed .widget-logout-control, .closed .widget-general-control{
+.closed .widget-login-control, .closed .widget-logout-control, .closed .widget-general-control {
 	display: none;
 }
 
-.widget-login-title, .widget-logout-title , .widget-general-title{
+.widget-login-title, .widget-logout-title , .widget-general-title {
 	background-color: #2583ad;
-	margin:0px;
-	padding:3px;
-	color:white;
-	font-size:11px;
+	margin: 0px;
+	padding: 3px;
+	color: white;
+	font-size: 11px;
 	-moz-border-radius: 3px 3px 0px 0px;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-top-right-radius: 3px;
@@ -38,12 +37,13 @@
 	border-top-right-radius: 3px;
 }
 
-.closed .widget-login-title, .closed  .widget-logout-title, .closed .widget-general-title{
+.closed .widget-login-title, .closed  .widget-logout-title, .closed  .widget-general-title {
 	background-color: #2583ad;
-	margin-top:0px;
-	padding:3px;
-	color:white;
-	font-size:11px;
+	margin-top: 0px;
+	padding: 3px;
+	color: white;
+	font-size: 11px;
+	margin-bottom: 5px;
 	-moz-border-radius: 3px 3px 3px 3px;
 	-webkit-border-top-left-radius: 3px;
 	-webkit-border-bottom-left-radius: 3px;
@@ -57,8 +57,8 @@
 	border-bottom-left-radius: 3px;
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;
-	margin-bottom: 5px;
 }
+
 .widget-login-title span, .widget-logout-title  span, .widget-general-title span{
 	float: left;
 }
@@ -79,7 +79,7 @@
 
 .widget-login {
 	width:45%;
-	float: left;
+	float: right;
 }
 
 .widget-logout {
@@ -89,6 +89,8 @@
 
 .widget-general {
 	width:45%;
+	margin-left:auto;
+	margin-right:auto;
 }
 
 .widget-logout-control .textinput, .widget-login-control .textinput, .widget-general-control .textinput {
@@ -102,5 +104,7 @@
 }
 
 .widget-logout-control hr, .widget-login-control hr , .widget-general-control hr{
-	width: 90%;
+	width: 80%;
+	margin-left:auto;
+	margin-right:auto;
 }

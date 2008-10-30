@@ -123,6 +123,7 @@ class MiniMetaWidgetDisplay {
             }        
          ?>  
          </select></label><br />
+		 <span><?php _e('To make Option Settings go to MiniMeta Widget tab','MiniMetaWidget'); ?></span>
 		<?php
 	}
 }
