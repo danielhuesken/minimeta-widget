@@ -159,7 +159,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 					if ($partname==$optionvalues[$loginout][$i]['part']) $optionsnumber=$i;
 				}
 				if ($partvalues[4]) { ?>
-				<li class="widget-logout-item">
+				<li class="widget-logout-item if-js-closed">
 					<h4 class="widget-logout-title"><span><input class="checkbox-active" type="checkbox" <?php echo checked($optionvalues[$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span><br class="clear" /></h4>
 					<input type="hidden"  name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
 					<?PHP if ($partvalues[2]) {?>
@@ -188,7 +188,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 					if ($partname==$optionvalues[$loginout][$i]['part']) $optionsnumber=$i;
 				}
 				if ($partvalues[3]) {?>
-				<li class="widget-login-item">
+				<li class="widget-login-item if-js-closed">
 					<h4 class="widget-login-title"><span><input class="checkbox-active" type="checkbox" <?php echo checked($optionvalues[$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span> <br class="clear" /></h4>
 					<input type="hidden" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
 					<?PHP if ($partvalues[2]) { ?>
@@ -210,7 +210,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 		<div class="widget-general">
 			<h4 style="text-align:center;"><?php echo _e('Generel Settings:'); ?></h4>
 			<ul class="widget-general-list">
-				<li class="widget-general-item">
+				<li class="widget-general-item if-js-closed">
 					<h4 class="widget-general-title"><span><?php echo _e('Stylesheet','MiniMetaWidget') ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
 						&lt;ul&gt;
@@ -219,7 +219,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 						<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($optionvalues['general']['style']['li'])); ?>" name="widget-options[<?php echo $optionname; ?>][general][style][li]" /><br />
 					</div>
 				</li>
-				<li class="widget-general-item">
+				<li class="widget-general-item if-js-closed">
 					<h4 class="widget-general-title"><span><?php echo _e('Seidbar Widget Settings (PHP Function)','MiniMetaWidget') ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
 						<?php 
