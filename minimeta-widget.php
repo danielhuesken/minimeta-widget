@@ -2,7 +2,7 @@
 /*
 Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/portfolio/minimeta/
-Description: Mini Version of the WP Meta Widget with different logon types and some additional admin links.
+Description: WordPress (Mini)Meta Widget with different logon types (form,links) and additional admin links. All links can enabeld/disabeld.
 Author: Daniel H&uuml;sken
 Version: 4.0.0
 Author URI: http://danielhuesken.de
@@ -108,7 +108,7 @@ require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
 add_action('init', array('MiniMetaFunctions', 'init'),1); //must set to 1 for widget support
 //install
 register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
-//uninstall four 2.7
+//uninstall for 2.7
 if ( function_exists('register_uninstall_hook') )
 	register_uninstall_hook(__FILE__, array('MiniMetaFunctions', 'uninstall'));
 ?>

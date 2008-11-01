@@ -141,7 +141,8 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 	if (is_array($options_widgets)) {
 	foreach ( $options_widgets as $optionname => $optionvalues) {
 	?>
-	<div class="postbox if-js-closed" id="widget-opt-<?php echo $optionname; ?>">
+	<div class="postbox<?PHP if ($_POST['minimeta-jsopen-'.$optionname]!=1) echo " if-js-closed";?>" id="widget-opt-<?php echo $optionname; ?>">
+	<input type="hidden" name="minimeta-jsopen-<?php echo $optionname; ?>" value="<?PHP echo $_POST['minimeta-jsopen-'.$optionname];?>" />
 	<?PHP
 		echo "<h3 class=\"hndle\">". __('Option:', 'MiniMetaWidget')." ".$optionvalues['optionname']."</h3>";
 	?>
@@ -151,7 +152,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 		<?php $loginout='out'; ?>
 		<div class="widget-logout">
 			<h4 style="text-align:center;"><?php echo _e('Show when Loggt out:'); ?></h4>
-			<ul class="widget-logout-list">
+			<div class="widget-logout-list">
 	<?PHP  	$ordering=0;
 			foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) {
 				$optionsnumber='';
@@ -159,7 +160,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 					if ($partname==$optionvalues[$loginout][$i]['part']) $optionsnumber=$i;
 				}
 				if ($partvalues[4]) { ?>
-				<li class="widget-logout-item if-js-closed">
+				<div class="widget-logout-item if-js-closed">
 					<h4 class="widget-logout-title"><span><input class="checkbox-active" type="checkbox" <?php echo checked($optionvalues[$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span><br class="clear" /></h4>
 					<input type="hidden"  name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
 					<?PHP if ($partvalues[2]) {?>
@@ -170,17 +171,17 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 						?>
 					</div>
 					<?PHP } ?>
-				</li>
+				</div>
 		<?PHP  	$ordering++;
 				}
 			} ?>
-			</ul>
+			</div>
 		</div>
 		
 		<?php $loginout='in'; ?>
 		<div class="widget-login">
 			<h4 style="text-align:center;"><?php echo _e('Show when Loggt in:'); ?></h4>
-			<ul class="widget-login-list">
+			<div class="widget-login-list">
 	<?PHP  	$ordering=0;
 			foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
 				$optionsnumber='';
@@ -188,7 +189,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 					if ($partname==$optionvalues[$loginout][$i]['part']) $optionsnumber=$i;
 				}
 				if ($partvalues[3]) {?>
-				<li class="widget-login-item if-js-closed">
+				<div class="widget-login-item if-js-closed">
 					<h4 class="widget-login-title"><span><input class="checkbox-active" type="checkbox" <?php echo checked($optionvalues[$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span> <br class="clear" /></h4>
 					<input type="hidden" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
 					<?PHP if ($partvalues[2]) { ?>
@@ -199,18 +200,18 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 						?>
 					</div>
 					<?PHP } ?>
-				</li>
+				</div>
 		<?PHP  	$ordering++;
 				}
 			} ?>
-			</ul>
+			</div>
 		</div>	
 		<br class="clear" />	
 
 		<div class="widget-general">
 			<h4 style="text-align:center;"><?php echo _e('Generel Settings:'); ?></h4>
-			<ul class="widget-general-list">
-				<li class="widget-general-item if-js-closed">
+			<div class="widget-general-list">
+				<div class="widget-general-item if-js-closed">
 					<h4 class="widget-general-title"><span><?php echo _e('Stylesheet','MiniMetaWidget') ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
 						&lt;ul&gt;
@@ -218,8 +219,8 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 						&lt;li&gt;
 						<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($optionvalues['general']['style']['li'])); ?>" name="widget-options[<?php echo $optionname; ?>][general][style][li]" /><br />
 					</div>
-				</li>
-				<li class="widget-general-item if-js-closed">
+				</div>
+				<div class="widget-general-item if-js-closed">
 					<h4 class="widget-general-title"><span><?php echo _e('Seidbar Widget Settings (PHP Function)','MiniMetaWidget') ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
 						<?php 
@@ -240,8 +241,8 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 						<?php _e('After Widget:'); ?>
 						<input class="textinput" type="text" name="widget-options[<?php echo $optionname; ?>][general][php][after_widget]" value="<?php echo htmlentities(stripslashes($optionvalues['general']['php']['after_widget'])); ?>" /><br />
 					</div>
-				</li>				
-			</ul>
+				</div>				
+			</div>
 		</div>
 		<p> 
 		<input type="button" class="button alignleft" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-opt-<?php echo $optionname;?>').remove();" />
@@ -267,7 +268,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 				<strong><?php _e('Code too place a Widget via PHP:', 'MiniMetaWidget'); ?></strong><br />
 				<code> &lt;?PHP if (function_exists('MiniMetaWidgetSidebar')) MiniMetaWidgetSidebar(OptionName); ?&gt; </code><br />
 				&nbsp;<br />
-			</td><td style="border-left-width:1px;border-left-style:solid;border-left-color:#ccc;text-align:left;width:50%;padding-left:15px;">
+			</td><td class="tablehalf">
 				<strong>OptionName</strong> <?php _e('= Name of Widget Setting above', 'MiniMetaWidget'); ?><br />
 			</td></tr></table>
 		</div>
@@ -284,7 +285,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 				<strong><?php _e('Plugin Webseite:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<a href="<?PHP echo $plugin_data['PluginURI'] ?>" target="_blank"><?PHP echo $plugin_data['PluginURI'] ?></a><br />
 				<strong><?php _e('Plugin on WordPress:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<a href="http://wordpress.org/extend/plugins/minimeta-widget/" target="_blank">http://wordpress.org/extend/plugins/minimeta-widget/</a><br />
 				<strong><?php _e('Description:', 'MiniMetaWidget'); ?></strong><br /><?PHP echo $plugin_data['Description'] ?><br />
-			</td><td style="border-left-width:1px;border-left-style:solid;border-left-color:#ccc;text-align:center;width:50%;">
+			</td><td class="tablehalf">
 				<?php _e('If you find it useful, please consider donating.', 'MiniMetaWidget'); ?><br />&nbsp;<br />
 				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=daniel%40huesken-net%2ede&amp;item_name=MiniMeta%20Widget%20Plugin%20for%20WordPress&amp;no_shipping=1&amp;no_note=1&amp;tax=0&amp;currency_code=EUR&amp;lc=LV&amp;bn=PP%2dDonationsBF&amp;charset=UTF%2d8" target="_blank"><img alt="Donate" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" /></a>
 			</td></tr></table>

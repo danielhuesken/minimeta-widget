@@ -44,7 +44,7 @@
 	display: none;
 }
 
-.widget-login-title span, .widget-logout-title  span, .widget-general-title span{
+.widget-login-title span, .widget-logout-title  span, .widget-general-title span {
 	float: left;
 }
 
@@ -65,11 +65,13 @@
 .widget-login {
 	width: 45%;
 	float: right;
+	margin-right: 20px;
 }
 
 .widget-logout {
 	width: 45%;
 	float: left;
+	margin-left: 20px;
 }
 
 .widget-general {
@@ -101,4 +103,13 @@
 	width: 13px; /* for IE */
 	height: 13px; /* for IE */
 	padding: 0;
+}
+
+.tablehalf {
+	border-left-width:1px;
+	border-left-style:solid;
+	border-left-color:#ccc;
+	text-align:center;
+	vertical-align:middle;
+	width:50%;
 }

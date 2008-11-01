@@ -15,7 +15,6 @@ function register() {
 		$options = array();
 
 	$widget_ops = array('description' => __('Displaying Meta links, Login Form and Admin Links','MiniMetaWidget'));
-	//$control_ops = array('width' => 300, 'height' => 300, 'id_base' => 'minimeta');
 	$control_ops = array('id_base' => 'minimeta');
 	$name = __('MiniMeta Widget');
 
