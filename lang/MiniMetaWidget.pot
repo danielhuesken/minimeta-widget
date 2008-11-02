@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/minimeta-widget\n"
-"POT-Creation-Date: 2008-11-02 11:38+0000\n"
+"POT-Creation-Date: 2008-11-02 12:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,11 +80,11 @@ msgid ""
 msgstr ""
 
 #: app/minimeta-options.php:130
-msgid "New:"
+msgid "New Widget Option:"
 msgstr ""
 
 #: app/minimeta-options.php:131
-msgid "Delete:"
+msgid "Delete Widget Option:"
 msgstr ""
 
 #: app/minimeta-options.php:132
@@ -95,8 +95,8 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: app/minimeta-options.php:153
-msgid "Option:"
+#: app/minimeta-options.php:153 app/widget-display.php:131
+msgid "Widget Option:"
 msgstr ""
 
 #: app/minimeta-options.php:160
@@ -185,13 +185,13 @@ msgid "Usage"
 msgstr ""
 
 #: app/minimeta-options.php:284
-msgid "1. Create a Option Setting above."
+msgid "1. Create a Widget Option above."
 msgstr ""
 
 #: app/minimeta-options.php:285
 msgid ""
-"2. Place a widget from WordPress Wigets, K2 Seidbar Modules or in Theme via "
-"PHP and select a option."
+"2. Place a Widget from WordPress Wigets, K2 Seidbar Modules or in Theme via "
+"PHP and select a Widget Option."
 msgstr ""
 
 #: app/minimeta-options.php:286
@@ -285,11 +285,7 @@ msgid ""
 msgstr ""
 
 #: app/widget-display.php:131
-msgid "Select Widget Option Settings"
-msgstr ""
-
-#: app/widget-display.php:131
-msgid "Widget Option Setting:"
+msgid "Select a Widget Option"
 msgstr ""
 
 #: app/widget-display.php:136 app/widget-parts.php:139
@@ -298,7 +294,7 @@ msgid "None"
 msgstr ""
 
 #: app/widget-display.php:143
-msgid "To make Option Settings go to MiniMeta Widget tab"
+msgid "To make a Widget Option go to MiniMeta Widget tab"
 msgstr ""
 
 #: app/widget-parts.php:11
@@ -445,3 +441,24 @@ msgstr ""
 msgid "Displaying Meta links, Login Form and Admin Links"
 msgstr ""
 
+#. Plugin Name of an extension
+msgid "MiniMeta Widget"
+msgstr ""
+
+#. Plugin URI of an extension
+msgid "http://danielhuesken.de/portfolio/minimeta/"
+msgstr ""
+
+#. Description of an extension
+msgid ""
+"WordPress (Mini)Meta Widget with different logon types (form,links) and "
+"additional admin links. All links can enabeld/disabeld."
+msgstr ""
+
+#. Author of an extension
+msgid "Daniel H&uuml;sken"
+msgstr ""
+
+#. Author URI of an extension
+msgid "http://danielhuesken.de"
+msgstr ""
