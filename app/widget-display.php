@@ -10,6 +10,7 @@
 class MiniMetaWidgetDisplay {
 	//Function to show widget
 	function display($optionsetname='',$args) {
+		global $post;
 		extract( $args, EXTR_SKIP );
 		
 		//load options
@@ -60,12 +61,28 @@ class MiniMetaWidgetDisplay {
 			$after_widget = $options['general']['php']['after_widget'];
 		}
 		
-	
-		//Shown part of Widget
-		echo $before_widget;
- 		
+		//Not display Widget
+		if(is_user_logged_in()) {
+			if (sizeof($options['in'])<1) return; //Disolay widget only if parts are active
+			if (is_home() and $options['general']['pagesnot']['in']['home']) return;
+			if (is_single() and $options['general']['pagesnot']['in']['singlepost']) return;
+			if (is_search() and $options['general']['pagesnot']['in']['search']) return;
+			if (is_404() and $options['general']['pagesnot']['in']['errorpages']) return;
+			if (is_page($post->ID) and $options['general']['pagesnot']['in'][$post->ID]) return;
+		} else {
+			if (sizeof($options['out'])<1) return; //Disolay widget only if parts are active
+			if (is_home() and $options['general']['pagesnot']['out']['home']) return;
+			if (is_single() and $options['general']['pagesnot']['out']['singlepost']) return;
+			if (is_search() and $options['general']['pagesnot']['out']['search']) return;
+			if (is_404() and $options['general']['pagesnot']['out']['errorpages']) return;
+			if (is_page($post->ID) and $options['general']['pagesnot']['out'][$post->ID]) return;			
+		}
+		
 		$parts=MiniMetaWidgetParts::parts();
 		$stylegeneralul=!empty($options['general']['php']['style']['ul'])?' style="'.$options['general']['php']['style']['ul'].'"':'';
+		
+		//Shown part of Widget
+		echo $before_widget;
 		
         if(is_user_logged_in()) { //When loggt in
 			$ulopen=false;

@@ -29,6 +29,12 @@ if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
 		$options_widgets[$optionname]['general']['php']['after_title'] = $optionvalues['general']['php']['after_title'];
 		$options_widgets[$optionname]['general']['php']['before_widget'] = $optionvalues['general']['php']['before_widget'];
 		$options_widgets[$optionname]['general']['php']['after_widget'] = $optionvalues['general']['php']['after_widget'];
+		foreach ((array)$_POST['widget-options']['general']['pagesnot']['in'] as $page => $pagevalue) {
+			$options_widgets[$optionname]['general']['pagesnot']['in'][$page] = isset($pagevalue);
+		}
+		foreach ((array)$_POST['widget-options']['general']['pagesnot']['out'] as $page => $pagevalue) {
+			$options_widgets[$optionname]['general']['pagesnot']['out'][$page] = isset($pagevalue);
+		}
 		//Save option for in and out
 		$ordering=0;
 		for ($i=0; $i<=sizeof($optionvalues['in']);$i++) {
@@ -212,7 +218,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 			<h4 style="text-align:center;"><?php echo _e('Generel Settings:'); ?></h4>
 			<div class="widget-general-list">
 				<div class="widget-general-item if-js-closed">
-					<h4 class="widget-general-title"><span><?php echo _e('Stylesheet','MiniMetaWidget') ?></span> <br class="clear" /></h4>
+					<h4 class="widget-general-title"><span><?php _e('Stylesheet','MiniMetaWidget'); ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
 						&lt;ul&gt;
 						<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($optionvalues['general']['style']['ul'])); ?>" name="widget-options[<?php echo $optionname; ?>][general][style][ul]" /><br />
@@ -221,7 +227,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 					</div>
 				</div>
 				<div class="widget-general-item if-js-closed">
-					<h4 class="widget-general-title"><span><?php echo _e('Seidbar Widget Settings (PHP Function)','MiniMetaWidget') ?></span> <br class="clear" /></h4>
+					<h4 class="widget-general-title"><span><?php _e('Seidbar Widget Settings (PHP Function)','MiniMetaWidget'); ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
 						<?php 
 						if (!isset($optionvalues['general']['php']['title'])) $optionvalues['general']['php']['title']=__('Meta'); //def. Options
@@ -241,7 +247,21 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 						<?php _e('After Widget:'); ?>
 						<input class="textinput" type="text" name="widget-options[<?php echo $optionname; ?>][general][php][after_widget]" value="<?php echo htmlentities(stripslashes($optionvalues['general']['php']['after_widget'])); ?>" /><br />
 					</div>
-				</div>				
+				</div>
+				<div class="widget-general-item if-js-closed">
+					<h4 class="widget-general-title"><span><?php _e('Do not Display on Pages','MiniMetaWidget'); ?></span> <br class="clear" /></h4>
+					<div class="widget-general-control">
+						<b><?php _e('out','MiniMetaWidget'); ?>&nbsp;&nbsp;<?php _e('in','MiniMetaWidget'); ?>&nbsp;&nbsp;&nbsp;<?php _e('Pages','MiniMetaWidget'); ?></b><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['home'],true); ?> name="widget-options[general][pagesnot][out][home]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['home'],true); ?> name="widget-options[general][pagesnot][in][home]" />&nbsp;&nbsp;<?php _e('Homepage','MiniMetaWidget');?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['singlepost'],true); ?> name="widget-options[general][pagesnot][out][singlepost]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['singlepost'],true); ?> name="widget-options[general][pagesnot][in][singlepost]" />&nbsp;&nbsp;<?php _e('Single Post','MiniMetaWidget');?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['search'],true); ?> name="widget-options[general][pagesnot][out][search]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['search'],true); ?> name="widget-options[general][pagesnot][in][search]" />&nbsp;&nbsp;<?php _e('Search Page','MiniMetaWidget');?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['errorpages'],true); ?> name="widget-options[general][pagesnot][out][errorpages]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['errorpages'],true); ?> name="widget-options[general][pagesnot][in][errorpages]" />&nbsp;&nbsp;<?php _e('Error Page','MiniMetaWidget');?><br />
+				<?php 	$pages = get_pages('sort_column=menu_order&hierarchical=1'); 
+						foreach ($pages as $pagg) { ?>
+							&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out'][$pagg->ID],true); ?> name="widget-options[general][pagesnot][out][<?php echo $pagg->ID;?>]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in'][$pagg->ID],true); ?> name="widget-options[general][pagesnot][in][<?php echo $pagg->ID;?>]" />&nbsp;&nbsp;<?php echo $pagg->post_title;?><br />
+				<?PHP	} ?>
+					</div>
+				</div>			
 			</div>
 		</div>
 		<p> 
