@@ -138,7 +138,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 			}
 			?>
 			</select></span>
-			<input type="submit" name="Submit" class="button-secondary" value="<?php _e('Save Changes', 'MiniMetaWidget'); ?>" />
+			<input type="submit" name="Submit" class="button-secondary" value="<?php _e('Save Changes'); ?>" />
 		</div>
 		<br class="clear" /> 
 	</div> 
