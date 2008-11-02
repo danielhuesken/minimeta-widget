@@ -128,7 +128,7 @@ class MiniMetaWidgetDisplay {
 
 	function control($number,$optionsetname) {
 		?>
-		<label for="minimeta-optionset-<?php echo $number; ?>" title="<?php _e('Select Widget Option Settings','MiniMetaWidget');?>"><?php _e('Widget Option Setting:','MiniMetaWidget');?> 
+		<label for="minimeta-optionset-<?php echo $number; ?>" title="<?php _e('Select a Widget Option','MiniMetaWidget');?>"><?php _e('Widget Option:','MiniMetaWidget');?> 
          <select class="widefat" name="widget-minimeta[<?php echo $number; ?>][optionset]" id="minimeta-optionset-<?php echo $number; ?>">
          <?PHP
             $options_widgets = get_option('minimeta_widget_options');
@@ -140,7 +140,7 @@ class MiniMetaWidgetDisplay {
             }        
          ?>  
          </select></label><br />
-		 <span><?php _e('To make Option Settings go to MiniMeta Widget tab','MiniMetaWidget'); ?></span>
+		 <span><?php _e('To make a Widget Option go to MiniMeta Widget tab','MiniMetaWidget'); ?></span>
 		<?php
 	}
 }

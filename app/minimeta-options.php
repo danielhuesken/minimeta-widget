@@ -127,8 +127,8 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 	
 	<div class="tablenav">
 		<div class="alignleft actions">
-			<?php _e('New:', 'MiniMetaWidget'); ?><input type="text" id="widget-options-SidebarNew" name="widget-options-SidebarNew" size="10" />
-			<span id="WidgetOptDelete"><?php _e('Delete:', 'MiniMetaWidget'); ?><select id="widget-options-SidebarDelete" name="widget-options-SidebarDelete">
+			<?php _e('New Widget Option:', 'MiniMetaWidget'); ?><input type="text" id="widget-options-SidebarNew" name="widget-options-SidebarNew" size="10" />
+			<span id="WidgetOptDelete"><?php _e('Delete Widget Option:', 'MiniMetaWidget'); ?><select id="widget-options-SidebarDelete" name="widget-options-SidebarDelete">
 			<option value=""><?php _e('none', 'MiniMetaWidget'); ?></option>
 			<?PHP 
 			if (is_array($options_widgets)) {
@@ -150,7 +150,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 	<div class="postbox<?PHP if ($_POST['minimeta-jsopen-'.$optionname]!=1) echo " if-js-closed";?>" id="widget-opt-<?php echo $optionname; ?>">
 	<input type="hidden" name="minimeta-jsopen-<?php echo $optionname; ?>" value="<?PHP echo $_POST['minimeta-jsopen-'.$optionname];?>" />
 	<?PHP
-		echo "<h3 class=\"hndle\">". __('Option:', 'MiniMetaWidget')." ".$optionvalues['optionname']."</h3>";
+		echo "<h3 class=\"hndle\">". __('Widget Option:', 'MiniMetaWidget')." ".$optionvalues['optionname']."</h3>";
 	?>
 	<div class="inside">
 		<input type="hidden" name="widget-options[<?php echo $optionname; ?>][optionname]" value="<?php echo $optionvalues['optionname']; ?>" />
@@ -281,15 +281,15 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 		<h3 class="hndle"><span><?php _e('Usage', 'MiniMetaWidget'); ?></span></h3>
 		<div class="inside">
 			<table style="width:100%;"><tr><td style="width:50%;padding-right:10px;">
-				<?php _e('1. Create a Option Setting above.', 'MiniMetaWidget'); ?><br />
-				<?php _e('2. Place a widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a option.', 'MiniMetaWidget'); ?><br />
+				<?php _e('1. Create a Widget Option above.', 'MiniMetaWidget'); ?><br />
+				<?php _e('2. Place a Widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a Widget Option.', 'MiniMetaWidget'); ?><br />
 				<?php _e('3. Redy.', 'MiniMetaWidget'); ?><br />
 				&nbsp;<br />
 				<strong><?php _e('Code too place a Widget via PHP:', 'MiniMetaWidget'); ?></strong><br />
-				<code> &lt;?PHP if (function_exists('MiniMetaWidgetSidebar')) MiniMetaWidgetSidebar(OptionName); ?&gt; </code><br />
+				<code> &lt;?PHP if (function_exists('MiniMetaWidgetSidebar')) MiniMetaWidgetSidebar(WidgetOptionName); ?&gt; </code><br />
 				&nbsp;<br />
 			</td><td class="tablehalf">
-				<strong>OptionName</strong> <?php _e('= Name of Widget Setting above', 'MiniMetaWidget'); ?><br />
+				<strong>WidgetOptionName</strong> <?php _e('= Name of Widget Setting above', 'MiniMetaWidget'); ?><br />
 			</td></tr></table>
 		</div>
 	</div>

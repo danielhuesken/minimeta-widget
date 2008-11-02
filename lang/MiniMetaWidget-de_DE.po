@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MiniMetaWidget 4.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-02 12:14+0100\n"
+"POT-Creation-Date: 2008-11-02 13:44+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Daniel Hüsken <mail@danielhuesken.de>\n"
 "Language-Team: MiniMetaWidget <mail@danielhuesken.de>\n"
@@ -100,13 +100,13 @@ msgstr "<a href=\"%s\">Hier klicken</a> um die Deinstallation abzuschliessen und
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:130
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:130
-msgid "New:"
-msgstr "Neu:"
+msgid "New Widget Option:"
+msgstr "Neue Widget Einstellung:"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:131
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:131
-msgid "Delete:"
-msgstr "Löschen:"
+msgid "Delete Widget Option:"
+msgstr "Widget Einstellung Löschen:"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:132
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:132
@@ -121,9 +121,11 @@ msgid "Save Changes"
 msgstr "Änderungen Speichern"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:153
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-display.php:131
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:153
-msgid "Option:"
-msgstr "Einstellung:"
+#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-display.php:131
+msgid "Widget Option:"
+msgstr "Widget Einstellung:"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:160
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:160
@@ -238,13 +240,13 @@ msgstr "Benutzen"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:284
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:284
-msgid "1. Create a Option Setting above."
-msgstr "1. Erstelle oben Options  Einstellungen"
+msgid "1. Create a Widget Option above."
+msgstr "1. Erstelle oben eine Widget  Einstellung."
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:285
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:285
-msgid "2. Place a widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a option."
-msgstr "2. Platzire ein Widget von den WordPress Wigets, K2 Seidbar Modules or direkt im Theme mit PHP und wähle eine Einstellung."
+msgid "2. Place a Widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a Widget Option."
+msgstr "2. Platzire ein Widget von den WordPress Wigets, K2 Seidbar Modules or direkt im Theme mit PHP und wähle eine Widget Einstellung."
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/minimeta-options.php:286
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/minimeta-options.php:286
@@ -361,13 +363,8 @@ msgstr ""
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-display.php:131
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-display.php:131
-msgid "Select Widget Option Settings"
-msgstr "Wähle eine Widget Options Einstellung"
-
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-display.php:131
-#: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-display.php:131
-msgid "Widget Option Setting:"
-msgstr "Widget Einstellung:"
+msgid "Select a Widget Option"
+msgstr "Wähle eine Widget Einstellung"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-display.php:136
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:139
@@ -382,8 +379,8 @@ msgstr "Keine"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-display.php:143
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-display.php:143
-msgid "To make Option Settings go to MiniMeta Widget tab"
-msgstr "Um Options Einstellungen zu erstellen gehe unter MiniMeta Widget"
+msgid "To make a Widget Option go to MiniMeta Widget tab"
+msgstr "Um Widget Einstellungen zu erstellen gehe unter MiniMeta Widget"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:11
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:11
@@ -509,14 +506,14 @@ msgstr "Bitte auswählen:"
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:242
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:242
 msgid "Password Lost and Found"
-msgstr ""
+msgstr "Passwort Fundbüro"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:242
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:352
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:242
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:352
 msgid "Lost your password?"
-msgstr ""
+msgstr "Ihr Passwort verloren?"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:258
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:348
@@ -552,7 +549,7 @@ msgstr ""
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:311
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:355
 msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
-msgstr ""
+msgstr "Kommentar <abbr title=\"Really Simple Syndication\">RSS</abbr>"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:326
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:326
@@ -614,6 +611,12 @@ msgstr "Do Action:"
 msgid "Displaying Meta links, Login Form and Admin Links"
 msgstr "Zeigt Meta Links, Login Form und Admin Links"
 
+#~ msgid "New:"
+#~ msgstr "Neu:"
+#~ msgid "Delete:"
+#~ msgstr "Löschen:"
+#~ msgid "Option:"
+#~ msgstr "Einstellung:"
 #~ msgid "Remember me"
 #~ msgstr "Erinnere dich an mich"
 

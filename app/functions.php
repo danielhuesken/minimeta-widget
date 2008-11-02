@@ -125,7 +125,7 @@ class MiniMetaFunctions {
 	
 	// add all action and so on only if plugin loaded.
 	function init() {
-		global $wp_version;
+		global $wp_version,$pagenow;
 	  
 		//Version checks
 		if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPress Version 2.5 or heiger
@@ -166,11 +166,14 @@ class MiniMetaFunctions {
 			add_filter('plugin_action_links_'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php', array('MiniMetaFunctions', 'plugins_options_link'));
 			if((isset($_GET['page'])) && (stristr($_GET['page'], 'minimeta-options'))!==false) { //only on Option Page
 				if (current_user_can(10))
-					add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1);
+					add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinks
 				add_action('admin_init', array('MiniMetaFunctions', 'admin_load'));
 			}
 		}
-		
+		//Generate Adminlinks on plugin page
+		if (current_user_can(10) and $pagenow=="plugins.php") 
+			add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinks
+			
 		//Support for Sidbar tyeps
 		if (class_exists('K2SBM'))  { //K2 SBM only
 			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-k2sbm.php');
