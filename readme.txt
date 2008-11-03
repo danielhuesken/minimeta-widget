@@ -6,7 +6,7 @@ Requires at least: 2.5
 Tested up to: 2.7
 Stable tag: 3.5.9
 
-"Mini" Version of the WordPress Meta Widget with differnt logon types (Form,LinkS) and additional Admin Links and Blog Links. All Links can all enabeld or disabeld. 
+"Mini" Version of the WordPress Meta Widget with differnt logon types (Form,Link) and additional Admin Links and Blog Links. All Links can all enabeld or disabeld. 
 
 == Description ==
 

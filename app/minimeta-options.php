@@ -29,10 +29,10 @@ if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
 		$options_widgets[$optionname]['general']['php']['after_title'] = $optionvalues['general']['php']['after_title'];
 		$options_widgets[$optionname]['general']['php']['before_widget'] = $optionvalues['general']['php']['before_widget'];
 		$options_widgets[$optionname]['general']['php']['after_widget'] = $optionvalues['general']['php']['after_widget'];
-		foreach ((array)$_POST['widget-options']['general']['pagesnot']['in'] as $page => $pagevalue) {
+		foreach ((array)$optionvalues['general']['pagesnot']['in'] as $page => $pagevalue) {
 			$options_widgets[$optionname]['general']['pagesnot']['in'][$page] = isset($pagevalue);
 		}
-		foreach ((array)$_POST['widget-options']['general']['pagesnot']['out'] as $page => $pagevalue) {
+		foreach ((array)$optionvalues['general']['pagesnot']['out'] as $page => $pagevalue) {
 			$options_widgets[$optionname]['general']['pagesnot']['out'][$page] = isset($pagevalue);
 		}
 		//Save option for in and out
@@ -252,13 +252,22 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 					<h4 class="widget-general-title"><span><?php _e('Do not Display on Pages','MiniMetaWidget'); ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
 						<b><?php _e('out','MiniMetaWidget'); ?>&nbsp;&nbsp;<?php _e('in','MiniMetaWidget'); ?>&nbsp;&nbsp;&nbsp;<?php _e('Pages','MiniMetaWidget'); ?></b><br />
-						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['home'],true); ?> name="widget-options[general][pagesnot][out][home]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['home'],true); ?> name="widget-options[general][pagesnot][in][home]" />&nbsp;&nbsp;<?php _e('Homepage','MiniMetaWidget');?><br />
-						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['singlepost'],true); ?> name="widget-options[general][pagesnot][out][singlepost]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['singlepost'],true); ?> name="widget-options[general][pagesnot][in][singlepost]" />&nbsp;&nbsp;<?php _e('Single Post','MiniMetaWidget');?><br />
-						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['search'],true); ?> name="widget-options[general][pagesnot][out][search]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['search'],true); ?> name="widget-options[general][pagesnot][in][search]" />&nbsp;&nbsp;<?php _e('Search Page','MiniMetaWidget');?><br />
-						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['errorpages'],true); ?> name="widget-options[general][pagesnot][out][errorpages]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['errorpages'],true); ?> name="widget-options[general][pagesnot][in][errorpages]" />&nbsp;&nbsp;<?php _e('Error Page','MiniMetaWidget');?><br />
-				<?php 	$pages = get_pages('sort_column=menu_order&hierarchical=1'); 
-						foreach ($pages as $pagg) { ?>
-							&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out'][$pagg->ID],true); ?> name="widget-options[general][pagesnot][out][<?php echo $pagg->ID;?>]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in'][$pagg->ID],true); ?> name="widget-options[general][pagesnot][in][<?php echo $pagg->ID;?>]" />&nbsp;&nbsp;<?php echo $pagg->post_title;?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['home'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][out][home]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['home'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][in][home]" />&nbsp;&nbsp;<?php _e('Homepage','MiniMetaWidget');?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['singlepost'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][out][singlepost]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['singlepost'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][in][singlepost]" />&nbsp;&nbsp;<?php _e('Single Post','MiniMetaWidget');?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['search'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][out][search]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['search'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][in][search]" />&nbsp;&nbsp;<?php _e('Search Page','MiniMetaWidget');?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['errorpages'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][out][errorpages]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['errorpages'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][in][errorpages]" />&nbsp;&nbsp;<?php _e('Error Page','MiniMetaWidget');?><br />
+				<?php 	function _subpagecharakter($pages,$pageid) {
+							foreach ($pages as $page) {
+								if ($page->post_parent!=0 and $page->ID==$pageid) {
+									_subpagecharakter($pages,$page->post_parent);
+									echo '&#8212; ';
+								}
+							}
+						}
+						$pages = get_pages('sort_column=menu_order&hierarchical=1'); 
+						//print_r($pages);
+						foreach ($pages as $page) { ?>
+							&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out'][$page->ID],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][out][<?php echo $page->ID;?>]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in'][$page->ID],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][in][<?php echo $page->ID;?>]" />&nbsp;&nbsp;<?php _subpagecharakter($pages,$page->ID); echo $page->post_title; ?><br />
 				<?PHP	} ?>
 					</div>
 				</div>			
