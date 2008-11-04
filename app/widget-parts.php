@@ -112,12 +112,12 @@ class MiniMetaWidgetParts {
 		$styleadminlinksli=!empty($styleadminlinksli)?' style="'.$styleadminlinksli.'"':'';
 		$styleadminlinkshref=!empty($styleadminlinkshref)?' style="'.$styleadminlinkshref.'"':'';
 		
-        if (sizeof($adminlinks)>0) { //show only if a Admin Link is selectesd
+        if (sizeof($adminlinks)>0 or $notselected) { //show only if a Admin Link is selectesd
 			$minimeta_adminlinks=get_option('minimeta_adminlinks'); 
 			foreach ($minimeta_adminlinks as $menu) {
 				$output="";
 				foreach ($menu as $submenu) {
-					if(current_user_can($submenu[1]) and is_array($submenu) and in_array(wp_specialchars($submenu[2]),$adminlinks)) {
+					if(current_user_can($submenu[1]) and is_array($submenu) and ((!$notselected and in_array(wp_specialchars($submenu[2]),$adminlinks)) or ($notselected and !in_array(wp_specialchars($submenu[2]),$adminlinks)))) {
 						$output.= "<li".$styleadminlinksli."><a href=\"".admin_url("/".$submenu[2])."\" title=\"".$submenu[0]."\"".$styleadminlinkshref.">".$submenu[0]."</a></li>";
 					}
 				}
@@ -135,9 +135,9 @@ class MiniMetaWidgetParts {
 		extract( (array)$args, EXTR_SKIP );
 		?>
         <input class="checkbox" type="checkbox" <?php echo checked($notopics,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notopics]" />&nbsp;<?php _e('Do not show Admin Links Topics','MiniMetaWidget');?><br />
-		 
+		<input class="checkbox" type="checkbox" <?php echo checked($notselected,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notselected]" />&nbsp;<?php _e('Display <b>not</b> selected Admin Links','MiniMetaWidget');?><br />
 		 <?php _e('Select Admin Links:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > optgroup >option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > optgroup > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
-         <select style="height:120px" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][adminlinks][]" id="minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?>" multiple="multiple">
+         <select style="height:120px;font-size:11px;" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][adminlinks][]" id="minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?>" multiple="multiple">
          <?PHP
 			$minimeta_adminlinks=get_option('minimeta_adminlinks');
             foreach ($minimeta_adminlinks as $menu) {
@@ -178,13 +178,13 @@ class MiniMetaWidgetParts {
 		$styleadminlinksoptgroup=!empty($styleadminlinksoptgroup)?' style="'.$styleadminlinksoptgroup.'"':'';
 		$styleadminlinksoption=!empty($styleadminlinksoption)?' style="'.$styleadminlinksoption.'"':'';
 		
-        if (sizeof($adminlinks)>0) { //show only if a Admin Link is selectesd
+        if (sizeof($adminlinks)>0 or $notselected) { //show only if a Admin Link is selectesd
             echo "<li".$stylegeneralli."><select onchange=\"document.location.href=this.options[this.selectedIndex].value;\"".$styleadminlinksselect."><option selected=\"selected\"".$styleadminlinksoption.">".__('Please select:','MiniMetaWidget')."</option>";
 			$minimeta_adminlinks=get_option('minimeta_adminlinks'); 
             foreach ($minimeta_adminlinks as $menu) {
             $output="";
                 foreach ($menu as $submenu) {
-                    if(current_user_can($submenu[1]) and is_array($submenu) and in_array(wp_specialchars($submenu[2]),$adminlinks)) {
+					if(current_user_can($submenu[1]) and is_array($submenu) and ((!$notselected and in_array(wp_specialchars($submenu[2]),$adminlinks)) or ($notselected and !in_array(wp_specialchars($submenu[2]),$adminlinks)))) {
 						$output.= "<option value=\"".admin_url("/".$submenu[2])."\"".$styleadminlinksoption.">".$submenu[0]."</option>";
                     }
                 }
@@ -203,9 +203,9 @@ class MiniMetaWidgetParts {
 		extract( (array)$args, EXTR_SKIP );
 		?>
          <input class="checkbox" type="checkbox" <?php echo checked($notopics,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notopics]" />&nbsp;<?php _e('Do not show Admin Links Topics','MiniMetaWidget');?><br />
-		 
+		 <input class="checkbox" type="checkbox" <?php echo checked($notselected,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notselected]" />&nbsp;<?php _e('Display <b>not</b> selected Admin Links','MiniMetaWidget');?><br />
 		 <?php _e('Select Admin Links:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > optgroup >option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > optgroup > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
-         <select style="height:120px" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][adminlinks][]" id="minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?>" multiple="multiple">
+         <select style="height:120px;font-size:11px;" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][adminlinks][]" id="minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?>" multiple="multiple">
          <?PHP
 			$minimeta_adminlinks=get_option('minimeta_adminlinks');
             foreach ($minimeta_adminlinks as $menu) {
@@ -277,7 +277,7 @@ class MiniMetaWidgetParts {
 		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		 _e('Select Links to Display:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-links<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-links<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
-        <select style="height:70px;" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][links][]" id="minimeta-links<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?>" multiple="multiple">
+        <select style="height:70px;font-size:11px;" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][links][]" id="minimeta-links<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?>" multiple="multiple">
         <?PHP
         $bookmarks=get_bookmarks(array('hide_invisible' => 0,'orderby' =>'name'));
 		foreach ($bookmarks as $linksdisplay) {

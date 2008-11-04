@@ -39,6 +39,7 @@ class MiniMetaWidgetDisplay {
 			$options['out'][4]['part']='linkcommentrss';
 			$options['out'][5]['part']='linkwordpress';
 			$options['out'][6]['part']='actionwpmeta';
+			$options['general']['pagesnot']['notselected']=true;
 		} else {
 			$options=$optionset[$optionsetname];
 			$options['in'][0]['args']['title']=$title;
@@ -64,18 +65,24 @@ class MiniMetaWidgetDisplay {
 		//Not display Widget
 		if(is_user_logged_in()) {
 			if (sizeof($options['in'])<1) return; //Disolay widget only if parts are active
-			if (is_home() and $options['general']['pagesnot']['in']['home']) return;
-			if (is_single() and $options['general']['pagesnot']['in']['singlepost']) return;
-			if (is_search() and $options['general']['pagesnot']['in']['search']) return;
-			if (is_404() and $options['general']['pagesnot']['in']['errorpages']) return;
-			if (is_page($post->ID) and $options['general']['pagesnot']['in'][$post->ID]) return;
+			$diplay=false;
+			if (is_home() and $options['general']['pagesnot']['in']['home']) $diplay=true;
+			if (is_single() and $options['general']['pagesnot']['in']['singlepost']) $diplay=true;
+			if (is_search() and $options['general']['pagesnot']['in']['search']) $diplay=true;
+			if (is_404() and $options['general']['pagesnot']['in']['errorpages']) $diplay=true;
+			if (is_page($post->ID) and $options['general']['pagesnot']['in'][$post->ID]) $diplay=true;
+			if ($diplay==false and !$options['general']['pagesnot']['notselected']) return;
+			if ($diplay==true and $options['general']['pagesnot']['notselected']) return;
 		} else {
 			if (sizeof($options['out'])<1) return; //Disolay widget only if parts are active
-			if (is_home() and $options['general']['pagesnot']['out']['home']) return;
-			if (is_single() and $options['general']['pagesnot']['out']['singlepost']) return;
-			if (is_search() and $options['general']['pagesnot']['out']['search']) return;
-			if (is_404() and $options['general']['pagesnot']['out']['errorpages']) return;
-			if (is_page($post->ID) and $options['general']['pagesnot']['out'][$post->ID]) return;			
+			$diplay=false;
+			if (is_home() and $options['general']['pagesnot']['out']['home']) $diplay=true;
+			if (is_single() and $options['general']['pagesnot']['out']['singlepost']) $diplay=true;
+			if (is_search() and $options['general']['pagesnot']['out']['search']) $diplay=true;
+			if (is_404() and $options['general']['pagesnot']['out']['errorpages']) $diplay=true;
+			if (is_page($post->ID) and $options['general']['pagesnot']['out'][$post->ID]) $diplay=true;
+			if ($diplay==false and !$options['general']['pagesnot']['notselected']) return;
+			if ($diplay==true and $options['general']['pagesnot']['notselected']) return;
 		}
 		
 		$parts=MiniMetaWidgetParts::parts();
