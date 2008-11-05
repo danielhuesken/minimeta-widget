@@ -102,13 +102,44 @@ Change log:
 
 //Set plugin dirname
 define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
-//Load fuction file
-require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
-//Plugin init	
-add_action('init', array('MiniMetaFunctions', 'init')); //must set to 1 for widget support
-//install
-register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
-//uninstall for 2.7
-if ( function_exists('register_uninstall_hook') )
-	register_uninstall_hook(__FILE__, array('MiniMetaFunctions', 'uninstall'));
+
+$minimeta_plugin_load=true;
+//Version checks
+if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPress Version 2.5 or heiger
+	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, MiniMeta Widget works only under WordPress 2.5 or higher',"MiniMetaWidget") . '</strong></p></div>\';'));
+	$minimeta_plugin_load=false;
+} elseif (version_compare($wp_version, '2.6', '<')) {   // Pre-2.6 compatibility
+	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
+	define( 'WP_PLUGIN_URL', get_option( 'siteurl' ) . 'wp-content/plugins' );
+	if (!function_exists('site_url')) {
+		function site_url($path = '', $scheme = null) { 
+			return get_bloginfo('wpurl').'/'.$path;
+		}
+	}
+	if (!function_exists('admin_url')) {
+		function admin_url($path = '') {
+			return get_bloginfo('wpurl').'/wp-admin/'.$path;
+		}
+	}
+	if (!function_exists('plugins_url')) {
+		function plugins_url($path = '') { 
+			return get_option('siteurl') . '/wp-content/plugins/'.$path;
+		}
+	}
+} 
+
+if ($minimeta_plugin_load) {
+	//Load fuction file
+	require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
+
+	//Plugin init	
+	add_action('init', array('MiniMetaFunctions', 'init'),1); //must set to 1 for Widgets
+	add_action('init', array('MiniMetaFunctions', 'plugins_textdomain')); //must set to 1 for Widgets
+
+	//install
+	register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
+	//uninstall for 2.7
+	if ( function_exists('register_uninstall_hook') )
+		register_uninstall_hook(__FILE__, array('MiniMetaFunctions', 'uninstall'));
+}
 ?>
