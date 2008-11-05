@@ -79,9 +79,18 @@ class MiniMetaFunctions {
 	//Thems Option  menu entry
 	function menu_entry() {
 		if (function_exists('add_theme_page')) {
-			add_theme_page(__('MiniMeta Widget','MiniMetaWidget'), __('MiniMeta Widget','MiniMetaWidget'), 'switch_themes', WP_MINMETA_PLUGIN_DIR.'/app/minimeta-options.php') ;
+			$hook = add_theme_page(__('MiniMeta Widget','MiniMetaWidget'), __('MiniMeta Widget','MiniMetaWidget'), 'switch_themes', 'minimeta-widget',array('MiniMetaFunctions', 'options_page')) ;
 		}
+		add_action('load-'.$hook, array('MiniMetaFunctions', 'admin_load'));
+		if (current_user_can(10))
+			add_action('load-'.$hook,array('MiniMetaFunctions', 'generate_adminlinks')); //Generate Adminlinks
+	}	
+	
+	//Options Page
+	function options_page() {
+		require_once('../'.PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/minimeta-options.php');
 	}
+	
 	
     //delete Otions
 	function uninstall($echo=false) {
@@ -119,60 +128,34 @@ class MiniMetaFunctions {
 	
 	//add edit setting to plugins page
 	function plugins_options_link($action_links) {
-		$edit_link='<a href="admin.php?page='.WP_MINMETA_PLUGIN_DIR.'/app/minimeta-options.php" title="' . __('Go to Settings Page') . '" class="edit">' . __('Settings') . '</a>';
+		$edit_link='<a href="admin.php?page=minimeta-widget" title="' . __('Go to Settings Page') . '" class="edit">' . __('Settings') . '</a>';
 		return array_merge( array($edit_link), $action_links);
+	}
+
+	//add edit setting to plugins page
+	function plugins_textdomain() {
+		if (!function_exists('wp_print_styles')) {
+			load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/lang');	
+		} else {
+			load_plugin_textdomain('MiniMetaWidget', false, WP_MINMETA_PLUGIN_DIR.'/lang');	 //TextDomain for WP 2.6 and heiger
+		}
 	}
 	
 	// add all action and so on only if plugin loaded.
 	function init() {
-		global $wp_version,$pagenow;
+		global $pagenow;
 	  
-		//Version checks
-		if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPress Version 2.5 or heiger
-			//Loads language files
-			load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/lang');	
-			add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, MiniMeta Widget works only under WordPress 2.5 or higher',"MiniMetaWidget") . '</strong></p></div>\';'));
-			return;
-		} elseif (version_compare($wp_version, '2.6', '<')) {   // Pre-2.6 compatibility
-			define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
-			define( 'WP_PLUGIN_URL', get_option( 'siteurl' ) . 'wp-content/plugins' );
-			if (!function_exists('site_url')) {
-				function site_url($path = '', $scheme = null) { 
-					return get_bloginfo('wpurl').'/'.$path;
-				}
-			}
-			if (!function_exists('admin_url')) {
-				function admin_url($path = '') {
-					return get_bloginfo('wpurl').'/wp-admin/'.$path;
-				}
-			}
-			if (!function_exists('plugins_url')) {
-				function plugins_url($path = '') { 
-					return get_option('siteurl') . '/wp-content/plugins/'.$path;
-				}
-			}
-			//Loads language files
-			load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/lang');
-		} else { //hieger than WP 2.6
-			//Loads language files
-			load_plugin_textdomain('MiniMetaWidget', false, WP_MINMETA_PLUGIN_DIR.'/lang');	
-		}
-
 		if (has_action('login_head') and !is_user_logged_in())
 			add_action('wp_head', array('MiniMetaFunctions', 'head_login'),1);
 
-		if (current_user_can('switch_themes')) {
-			add_action('admin_menu', array('MiniMetaFunctions', 'menu_entry'));
+		add_action('admin_menu', array('MiniMetaFunctions', 'menu_entry'));
+		
+		if (current_user_can('switch_themes')) 
 			add_filter('plugin_action_links_'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php', array('MiniMetaFunctions', 'plugins_options_link'));
-			if((isset($_GET['page'])) && (stristr($_GET['page'], 'minimeta-options'))!==false) { //only on Option Page
-				if (current_user_can(10))
-					add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinks
-				add_action('admin_init', array('MiniMetaFunctions', 'admin_load'));
-			}
-		}
+		
 		//Generate Adminlinks on plugin page
 		if (current_user_can(10) and $pagenow=="plugins.php") 
-			add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinks
+			add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinkson plugins page
 			
 		//Support for Sidbar tyeps
 		if (class_exists('K2SBM'))  { //K2 SBM only
