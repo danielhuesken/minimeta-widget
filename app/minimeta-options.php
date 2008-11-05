@@ -1,9 +1,4 @@
 <?php
-//Variables Variables Variables
-$id = intval($_GET['id']);
-$mode = trim($_GET['mode']);
-$views_settings = array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks');
-
 function _subpagecharakter($pages,$pageid) { //functon for subpages char
 	foreach ($pages as $page) {
 		if ($page->post_parent!=0 and $page->ID==$pageid) {
@@ -21,12 +16,11 @@ if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
 	$update_views_queries = array();
 	$update_views_text = array();
 	
-
 	//Option to delete
 	$delnumber=$_POST['widget-options-SidebarDelete'];
 	//write every options tab to optiones
 	foreach ((array)$_POST['widget-options'] as $optionname => $optionvalues) {
-	  if ($delnumber!=$optionname){ //Change only not deleted 
+	  if ($delnumber!=$optionname and !empty($optionvalues['optionname'])){ //Change only not deleted 
 	    $options_widgets[$optionname]['optionname'] = htmlentities(stripslashes($optionvalues['optionname']));
 		//Save general options
 		$options_widgets[$optionname]['general']['style']['ul'] = $optionvalues['general']['style']['ul'];
@@ -123,12 +117,10 @@ if(trim($_POST['uninstall_MiniMeta_yes']) == 'yes' and current_user_can('edit_pl
 
 $adminlinks=get_option('minimeta_adminlinks');
 $options_widgets = get_option('minimeta_widget_options');
-$styles = get_option('minimeta_widget_styles');
-$sidebar_widgets = get_option('minimeta_widget_sidebar');
-	
+
 if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 
-<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+<form method="post"> 
 <?php wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
 
 <div class="wrap metabox-holder"> 
@@ -327,7 +319,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 	<div class="postbox if-js-closed">
 		<h3 class="hndle"><span><?php _e('Uninstall', 'MiniMetaWidget'); ?></span></h3>
 		<div class="inside">
-			<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
+			<form method="post"> 
 			<?php wp_nonce_field('MiniMeta-delete','wpnoncemmui'); ?>
 			<p style="text-align: left;">
 				<?php _e('Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here.', 'MiniMetaWidget'); ?>
@@ -349,7 +341,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 					<td valign="top">
 						<ol>
 						<?php
-							foreach($views_settings as $settings) {
+							foreach(array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks') as $settings) {
 								echo '<li>'.$settings.'</li>'."\n";
 							}
 						?>
