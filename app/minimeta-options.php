@@ -16,7 +16,7 @@ function _subpagecharakter($pages,$pageid) { //functon for subpages char
 // Form Processing
 // Update Options
 if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
-	check_admin_referer('MiniMeta-options','wpnoncemm');
+	//check_admin_referer('MiniMeta-options','wpnoncemm');
 	
 	$update_views_queries = array();
 	$update_views_text = array();
@@ -103,7 +103,7 @@ if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
 
 // Determines Which Mode It Is
 if(trim($_POST['uninstall_MiniMeta_yes']) == 'yes' and current_user_can('edit_plugins')) {
-	check_admin_referer('MiniMeta-delete','wpnoncemmui');
+	//check_admin_referer('MiniMeta-delete','wpnoncemmui');
 	// Uninstall MiniMeta Widget
 	echo '<div id="message" class="updated fade">';
 	echo '<p>';
@@ -129,7 +129,7 @@ $sidebar_widgets = get_option('minimeta_widget_sidebar');
 if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p></div>'; } ?>
 
 <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
-<?php wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
+<?php //wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
 
 <div class="wrap metabox-holder"> 
 	<h2><?php _e('MiniMeta Widget Options', 'MiniMetaWidget'); ?></h2>
@@ -328,7 +328,7 @@ if(!empty($text)) { echo '<div id="message" class="updated fade"><p>'.$text.'</p
 		<h3 class="hndle"><span><?php _e('Uninstall', 'MiniMetaWidget'); ?></span></h3>
 		<div class="inside">
 			<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
-			<?php wp_nonce_field('MiniMeta-delete','wpnoncemmui'); ?>
+			<?php //wp_nonce_field('MiniMeta-delete','wpnoncemmui'); ?>
 			<p style="text-align: left;">
 				<?php _e('Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here.', 'MiniMetaWidget'); ?>
 			</p>
