@@ -137,7 +137,7 @@ if ($minimeta_plugin_load) {
 	add_action('plugins_loaded', array('MiniMetaFunctions', 'init'));
 	
 	//install
-	register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
+	//register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
 	//uninstall for 2.7
 	if ( function_exists('register_uninstall_hook') )
 		register_uninstall_hook(__FILE__, array('MiniMetaFunctions', 'uninstall'));
