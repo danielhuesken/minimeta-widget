@@ -70,7 +70,10 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 					<div class="widget-logout-control">
 						<?php				
 						$options=$optionvalues[$loginout][$optionsnumber]['args'];
-						call_user_func($partvalues[2], $options );
+						$options['ordering']=$ordering;
+						$options['loginout']=$loginout;
+						$options['optionname']=$optionname;
+						call_user_func($partvalues[2], $options);
 						?>
 					</div>
 					<?PHP } ?>
@@ -99,7 +102,10 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 					<div class="widget-login-control">
 						<?php				
 						$options=$optionvalues[$loginout][$optionsnumber]['args'];
-						call_user_func($partvalues[2], $options );
+						$options['ordering']=$ordering;
+						$options['loginout']=$loginout;
+						$options['optionname']=$optionname;
+						call_user_func($partvalues[2], $options);
 						?>
 					</div>
 					<?PHP } ?>
