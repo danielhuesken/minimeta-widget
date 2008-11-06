@@ -2,7 +2,7 @@
 
 // Form Processing
 // Update Options
-if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
+if(!empty($_POST['Submit'])) {
 	check_admin_referer('MiniMeta-options','wpnoncemm');
 	
 	$update_views_queries = array();
@@ -34,7 +34,9 @@ if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
 		for ($i=0; $i<=sizeof($optionvalues['in']);$i++) {
 			if(isset($optionvalues['in'][$i]['active'])) {
 				$options_widgets[$optionname]['in'][$ordering]['part']=$optionvalues['in'][$i]['part'];
-				$options_widgets[$optionname]['in'][$ordering]['args']=$optionvalues['in'][$i]['args'];
+				foreach ((array)$optionvalues['in'][$i]['args'] as $args => $argsvalue) {
+					$options_widgets[$optionname]['in'][$ordering]['args'][$args] = $argsvalue;
+				}
 				$ordering++;
 			}
 		}
@@ -42,7 +44,9 @@ if(!empty($_POST['Submit']) and current_user_can('switch_themes')) {
 		for ($i=0; $i<=sizeof($optionvalues['out']);$i++) {
 			if(isset($optionvalues['out'][$i]['active'])) {
 				$options_widgets[$optionname]['out'][$ordering]['part']=$optionvalues['out'][$i]['part'];
-				$options_widgets[$optionname]['out'][$ordering]['args']=$optionvalues['out'][$i]['args'];
+				foreach ((array)$optionvalues['out'][$i]['args'] as $args => $argsvalue) {
+					$options_widgets[$optionname]['out'][$ordering]['args'][$args] = $argsvalue;
+				}
 				$ordering++;
 			}
 		}

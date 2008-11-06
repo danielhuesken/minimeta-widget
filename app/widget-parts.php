@@ -18,7 +18,6 @@ class MiniMetaWidgetParts {
 	}
 	
 	function title_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );	
 		if ($loginout=='in') {
 			?>
@@ -31,18 +30,21 @@ class MiniMetaWidgetParts {
 	//Loginform
 	function loginform_display($args) {
 		extract( (array)$args, EXTR_SKIP );
+		$stylelogin=!empty($stylelogin)?' style="'.$stylelogin.'"':'';
+		$stylepassword=!empty($stylepassword)?' style="'.$stylepassword.'"':'';
+		$stylerememberme=!empty($stylerememberme)?' style="'.$stylerememberme.'"':'';
 		?>
 				<form name="loginform" id="loginform" action="<?php echo site_url('wp-login.php', 'login_post') ?>" method="post">
                     <p>
                         <label><?php _e('Username') ?><br />
-                        <input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10" /></label>
+                        <input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10"<?php echo $stylelogin; ?> /></label>
                     </p>
                     <p>
                         <label><?php _e('Password') ?><br />
-                        <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /></label>
+                        <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20"<?php echo $stylepassword; ?> /></label>
                     </p>
                     <?php do_action('login_form'); ?>
-                    <?php if($rememberme) {?><p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90" /> <?php _e('Remember Me'); ?></label></p><?php } ?>
+                    <?php if($rememberme) {?><p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90"<?php echo $stylerememberme; ?> /> <?php _e('Remember Me'); ?></label></p><?php } ?>
                     <p class="submit">
                         <input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Log in'); ?>" tabindex="100" />
                         <?php if($redirect) {?><input type="hidden" name="redirect_to" value="<?php echo attribute_escape($_SERVER['REQUEST_URI']); ?>" /><?php } ?>
@@ -53,12 +55,20 @@ class MiniMetaWidgetParts {
 	}
 	
 	function loginform_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		?>
 			<input class="checkbox" type="checkbox" <?php echo checked($rememberme,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][rememberme]" />&nbsp;<?php _e('Remember Me');?><br />
 			<input class="checkbox" type="checkbox" <?php echo checked($redirect,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function','MiniMetaWidget');?><br />
 			<input class="checkbox" type="checkbox" <?php echo checked($testcookie,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][testcookie]" />&nbsp;<?php _e('Enable WordPress Cookie Test for login Form','MiniMetaWidget');?><br />
+			<hr />
+		<?php 
+		 _e('Stylesheet:','MiniMetaWidget');?><br /> 
+		&lt;input type="text" (<?php _e('Username') ?>)
+		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelogin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelogin]" /><br />
+		&lt;input type="password" (<?php _e('Password') ?>)
+		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylepassword)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylepassword]" /><br />
+		&lt;input type="checkbox" (<?php _e('Remember Me') ?>)
+		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylerememberme)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylerememberme]" /><br />
 		<?PHP
 	}
 	
@@ -70,7 +80,6 @@ class MiniMetaWidgetParts {
 	}
 
 	function seiteadmin_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
 		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleseiteadmin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleseiteadmin]" /><br />
@@ -92,7 +101,6 @@ class MiniMetaWidgetParts {
 	}
 	
 	function linkloginout_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		?>
 		<input class="checkbox" type="checkbox" <?php echo checked($redirect,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function','MiniMetaWidget');?><br />
@@ -131,7 +139,6 @@ class MiniMetaWidgetParts {
 	}	
 	
 	function adminlinks_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		?>
         <input class="checkbox" type="checkbox" <?php echo checked($notopics,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notopics]" />&nbsp;<?php _e('Do not show Admin Links Topics','MiniMetaWidget');?><br />
@@ -199,7 +206,6 @@ class MiniMetaWidgetParts {
 	}	
 	
 	function adminselect_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		?>
          <input class="checkbox" type="checkbox" <?php echo checked($notopics,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notopics]" />&nbsp;<?php _e('Do not show Admin Links Topics','MiniMetaWidget');?><br />
@@ -243,7 +249,6 @@ class MiniMetaWidgetParts {
 	}	
 	
 	function linklostpw_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
 		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinklostpw)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinklostpw]" /><br />
@@ -259,7 +264,6 @@ class MiniMetaWidgetParts {
 	}		
 
 	function linkregister_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
 		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkregister)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkregister]" /><br />
@@ -274,7 +278,6 @@ class MiniMetaWidgetParts {
 	}		
 	
 	function bookmarks_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		 _e('Select Links to Display:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-links<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-links<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
         <select style="height:70px;font-size:11px;" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][links][]" id="minimeta-links<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?>" multiple="multiple">
@@ -297,7 +300,6 @@ class MiniMetaWidgetParts {
 	}			
 	
 	function linkrss_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
 		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkrss)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkrss]" /><br />
@@ -312,7 +314,6 @@ class MiniMetaWidgetParts {
 	}	
 	
 	function linkcommentrss_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
 		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkcommentrss)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkcommentrss]" /><br />
@@ -327,7 +328,6 @@ class MiniMetaWidgetParts {
 	}
 	
 	function linkwordpress_options($args) {
-		global $optionname,$loginout,$ordering;
 		extract( (array)$args, EXTR_SKIP );
 		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
 		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkwordpress)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkwordpress]" /><br />

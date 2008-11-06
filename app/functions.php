@@ -78,7 +78,7 @@ class MiniMetaFunctions {
 	
 	//Options Page
 	function options_form() {
-		global $minimeta_options_text;
+		global $minimeta_options_text,$user_identity;
 		
 		//If uninstall checked
 		if(trim($_POST['uninstall_MiniMeta_yes']) == 'yes' and current_user_can('edit_plugins')) {
