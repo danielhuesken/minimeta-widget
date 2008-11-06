@@ -133,9 +133,9 @@ if ($minimeta_plugin_load) {
 	require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
 
 	//Plugin init	
-	add_action('init', array('MiniMetaFunctions', 'init'),1); //must set to 1 for Widgets
-	add_action('init', array('MiniMetaFunctions', 'plugins_textdomain')); //must set to 1 for Widgets
-
+	add_action('plugins_loaded', array('MiniMetaFunctions', 'plugins_textdomain'),9); //lod bevor init
+	add_action('plugins_loaded', array('MiniMetaFunctions', 'init'));
+	
 	//install
 	register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
 	//uninstall for 2.7
