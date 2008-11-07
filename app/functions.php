@@ -73,13 +73,12 @@ class MiniMetaFunctions {
 		}
 		add_action('load-'.$hook, array('MiniMetaFunctions', 'options_load'));
 		if (current_user_can(10))
-			add_action('load-'.$hook,array('MiniMetaFunctions', 'generate_adminlinks')); //Generate Adminlinks
+			add_action('load-'.$hook,array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinks
 	}	
 	
 	//Options Page
 	function options_form() {
-		global $minimeta_options_text,$user_identity;
-		
+		global $minimeta_options_text;
 		//If uninstall checked
 		if(trim($_POST['uninstall_MiniMeta_yes']) == 'yes' and current_user_can('edit_plugins')) {
 			check_admin_referer('MiniMeta-delete','wpnoncemmui');
@@ -96,7 +95,7 @@ class MiniMetaFunctions {
 			echo '<p><strong>'.sprintf(__('<a href="%s">Click Here</a> To Finish The Uninstallation And MiniMeta Widget Will Be Deactivated Automatically.', 'MiniMetaWidget'), $deactivate_url).'</strong></p>';
 			echo '</div>';
 		} else {
-			require_once('../'.PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/options-form.php');
+			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/options-form.php');
 		}
 	}
 	
@@ -110,7 +109,7 @@ class MiniMetaFunctions {
 		wp_enqueue_script('MiniMetaOptions',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/minimeta-options.js'),'jQuery','4.0.0');
 		wp_localize_script('MiniMetaOptions','MiniMetaL10n',array('edit'=>__('Edit')));
 		//For save Options
-		require_once('../'.PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/options-save.php');
+		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/options-save.php');
 	}
 	
 	
@@ -176,8 +175,8 @@ class MiniMetaFunctions {
 			add_filter('plugin_action_links_'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php', array('MiniMetaFunctions', 'plugins_options_link'));
 		
 		//Generate Adminlinks on plugin page
-		if (current_user_can(10) and $pagenow=="plugins.php") 
-			add_action('admin_init',array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinkson plugins page
+		if (current_user_can(10)) 
+			add_action('load-plugins.php',array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinkson plugins page
 			
 		//Support for Sidbar tyeps
 		if (class_exists('K2SBM'))  { //K2 SBM only

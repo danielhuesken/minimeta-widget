@@ -204,16 +204,32 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 		<div class="inside">
 			<table style="width:100%;"><tr><td style="width:50%;">
 				<?PHP $plugin_data=get_plugin_data(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php'); ?>
-				<strong><?php _e('Plugin Name:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<?PHP echo $plugin_data['Name'] ?><br />
-				<strong><?php _e('Plugin Version:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<?PHP echo $plugin_data['Version'] ?><br />
+				<strong><?php _e('Name:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<?PHP echo $plugin_data['Name'] ?><br />
+				<strong><?php _e('Version:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<?PHP echo $plugin_data['Version'] ?><br />
 				<strong><?php _e('Author:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<?PHP echo $plugin_data['Author'] ?><br />
 				<strong><?php _e('Author Webseite:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<a href="<?PHP echo $plugin_data['AuthorURI'] ?>" target="_blank"><?PHP echo $plugin_data['AuthorURI'] ?></a><br />
 				<strong><?php _e('Plugin Webseite:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<a href="<?PHP echo $plugin_data['PluginURI'] ?>" target="_blank"><?PHP echo $plugin_data['PluginURI'] ?></a><br />
 				<strong><?php _e('Plugin on WordPress:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<a href="http://wordpress.org/extend/plugins/minimeta-widget/" target="_blank">http://wordpress.org/extend/plugins/minimeta-widget/</a><br />
 				<strong><?php _e('Description:', 'MiniMetaWidget'); ?></strong><br /><?PHP echo $plugin_data['Description'] ?><br />
 			</td><td class="tablehalf">
-				<?php _e('If you find it useful, please consider donating.', 'MiniMetaWidget'); ?><br />&nbsp;<br />
-				<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=daniel%40huesken-net%2ede&amp;item_name=MiniMeta%20Widget%20Plugin%20for%20WordPress&amp;no_shipping=1&amp;no_note=1&amp;tax=0&amp;currency_code=EUR&amp;lc=LV&amp;bn=PP%2dDonationsBF&amp;charset=UTF%2d8" target="_blank"><img alt="Donate" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" /></a>
+				<?php _e("If you find this plugin helpful, please consider donating a few Euros to help support this plugin's development. Thanks!", 'MiniMetaWidget'); ?><br />&nbsp;<br />
+				<form action="https://www.paypal.com/cgi-bin/webscr" method="post"> 
+					<input type="hidden" name="cmd" value="_donations" /> 
+					<input type="hidden" name="business" value="daniel@huesken-net.de" /> 
+					<input type="hidden" name="item_name" value="Daniel Hüsken Plugin Donation" /> 
+					<input type="hidden" name="item_number" value="MiniMeta Widget" /> 
+					<input type="hidden" name="page_style" value="Primary" /> 
+					<input type="hidden" name="no_shipping" value="1" /> 
+					<input type="hidden" name="currency_code" value="EUR" /> 
+					<input type="hidden" name="tax" value="0" /> 
+					<input type="hidden" name="cn" value="Message / Note" /> 
+					<input type="hidden" name="lc" value="DE" /> 
+					<input type="hidden" name="bn" value="PP-DonationsBF" /> 
+					<?php _e('Amount:', 'MiniMetaWidget'); ?><input type="text" name="amount" value="2" style="width:50px;" />&euro;<br /> 
+					<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /> 
+					<br /> 
+					<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" style="clear:both;" /> 
+				</form> 
 			</td></tr></table>
 		</div>
 	</div>
