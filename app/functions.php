@@ -153,19 +153,18 @@ class MiniMetaFunctions {
 		return array_merge( array($edit_link), $action_links);
 	}
 
-	//add edit setting to plugins page
-	function plugins_textdomain() {
+
+	// add all action and so on only if plugin loaded.
+	function init() {
+		global $pagenow;
+		
+		//load Text Domain
 		if (!function_exists('wp_print_styles')) {
 			load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/lang');	
 		} else {
 			load_plugin_textdomain('MiniMetaWidget', false, WP_MINMETA_PLUGIN_DIR.'/lang');	 //TextDomain for WP 2.6 and heiger
-		}
-	}
-	
-	// add all action and so on only if plugin loaded.
-	function init() {
-		global $pagenow;
-	  
+		}		
+		
 		if (has_action('login_head') and !is_user_logged_in())
 			add_action('wp_head', array('MiniMetaFunctions', 'head_login'),1);
 
