@@ -11,7 +11,8 @@ if(!empty($_POST['Submit'])) {
 	//Option to delete
 	$delnumber=$_POST['widget-options-SidebarDelete'];
 	//write every options tab to optiones
-	foreach ((array)$_POST['widget-options'] as $optionname => $optionvalues) {
+	if (is_array($_POST['widget-options'])) {
+	 foreach ($_POST['widget-options'] as $optionname => $optionvalues) {
 	  if ($delnumber!=$optionname and !empty($optionvalues['optionname'])){ //Change only not deleted 
 	    $options_widgets[$optionname]['optionname'] = htmlentities(stripslashes($optionvalues['optionname']));
 		//Save general options
@@ -23,20 +24,22 @@ if(!empty($_POST['Submit'])) {
 		$options_widgets[$optionname]['general']['php']['before_widget'] = $optionvalues['general']['php']['before_widget'];
 		$options_widgets[$optionname]['general']['php']['after_widget'] = $optionvalues['general']['php']['after_widget'];
 		$options_widgets[$optionname]['general']['pagesnot']['notselected'] = $optionvalues['general']['pagesnot']['notselected'];
-		foreach ((array)$optionvalues['general']['pagesnot']['in'] as $page => $pagevalue) {
-			$options_widgets[$optionname]['general']['pagesnot']['in'][$page] = isset($pagevalue);
+		if (is_array($optionvalues['general']['pagesnot']['in'])) {
+			foreach ($optionvalues['general']['pagesnot']['in'] as $page => $pagevalue) {
+				$options_widgets[$optionname]['general']['pagesnot']['in'][$page] = isset($pagevalue);
+			}
 		}
-		foreach ((array)$optionvalues['general']['pagesnot']['out'] as $page => $pagevalue) {
-			$options_widgets[$optionname]['general']['pagesnot']['out'][$page] = isset($pagevalue);
+		if (is_array($optionvalues['general']['pagesnot']['out'])) {
+			foreach ($optionvalues['general']['pagesnot']['out'] as $page => $pagevalue) {
+				$options_widgets[$optionname]['general']['pagesnot']['out'][$page] = isset($pagevalue);
+			}
 		}
 		//Save option for in and out
 		$ordering=0;
 		for ($i=0; $i<=sizeof($optionvalues['in']);$i++) {
 			if(isset($optionvalues['in'][$i]['active'])) {
 				$options_widgets[$optionname]['in'][$ordering]['part']=$optionvalues['in'][$i]['part'];
-				foreach ((array)$optionvalues['in'][$i]['args'] as $args => $argsvalue) {
-					$options_widgets[$optionname]['in'][$ordering]['args'][$args] = $argsvalue;
-				}
+				$options_widgets[$optionname]['in'][$ordering]['args']=$optionvalues['in'][$i]['args'];
 				$ordering++;
 			}
 		}
@@ -44,19 +47,19 @@ if(!empty($_POST['Submit'])) {
 		for ($i=0; $i<=sizeof($optionvalues['out']);$i++) {
 			if(isset($optionvalues['out'][$i]['active'])) {
 				$options_widgets[$optionname]['out'][$ordering]['part']=$optionvalues['out'][$i]['part'];
-				foreach ((array)$optionvalues['out'][$i]['args'] as $args => $argsvalue) {
-					$options_widgets[$optionname]['out'][$ordering]['args'][$args] = $argsvalue;
-				}
+				$options_widgets[$optionname]['out'][$ordering]['args']=$optionvalues['out'][$i]['args'];
 				$ordering++;
 			}
 		}
 	  }
+	 }
 	}
 	
-	//For new Sidebar Widget	
-	if (!empty($_POST['widget-options-SidebarNew'])) {
+	//For new Sidebar Widget
+	$widgetnewname=trim($_POST['widget-options-SidebarNew']);
+	if (!empty($widgetnewname)) {
 	    $newnumber=wp_create_nonce($_POST['widget-options-SidebarNew']);
-		$options_widgets[$newnumber]['optionname']=htmlentities(stripslashes($_POST['widget-options-SidebarNew']));
+		$options_widgets[$newnumber]['optionname']=htmlentities(stripslashes($widgetnewname));
 		$options_widgets[$newnumber]['in'][0]['part']='title';
 		$options_widgets[$newnumber]['in'][1]['part']='linkseiteadmin';
 		$options_widgets[$newnumber]['in'][2]['part']='linkloginlogout';

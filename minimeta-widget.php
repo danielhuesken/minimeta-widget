@@ -102,6 +102,7 @@ Change log:
   Version 4.0.1    Bufix for WP autoupdate
 		       Option Page per function
 		       Style for login form input felds
+  Version 4.0.2   Some bug fixes and improvments
  */
 
 

@@ -11,7 +11,8 @@ class MiniMetaWidgetDisplay {
 	//Function to show widget
 	function display($optionsetname='',$args) {
 		global $post;
-		extract( $args, EXTR_SKIP );
+		if (is_array($args))
+			extract( $args, EXTR_SKIP );
 		
 		//load options
 		$optionset = get_option('minimeta_widget_options');
@@ -141,10 +142,12 @@ class MiniMetaWidgetDisplay {
             $options_widgets = get_option('minimeta_widget_options');
 			$check = empty($optionsetname) ? ' selected=\"selected\"' : '';
             echo "<option value=\"\"".$check.">".__('None','MiniMetaWidget')."</option>";
-			foreach ($options_widgets as $name => $values) {
-			   $check = $name==$optionsetname ? ' selected=\"selected\"' : '';
-               echo "<option value=\"".$name."\"".$check.">".$values['optionname']."</option>";
-            }        
+			if (is_array($options_widgets)) {
+				foreach ($options_widgets as $name => $values) {
+					$check = $name==$optionsetname ? ' selected=\"selected\"' : '';
+					echo "<option value=\"".$name."\"".$check.">".$values['optionname']."</option>";
+				}
+			}
          ?>  
          </select></label><br />
 		 <span><?php _e('To make a Widget Option go to MiniMeta Widget tab','MiniMetaWidget'); ?></span>
