@@ -16,7 +16,7 @@ $options_widgets = get_option('minimeta_widget_options');
 
 if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade"><p>'.$minimeta_options_text.'</p></div>'; } ?>
 
-<form method="post"> 
+<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
 <?php wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
 
 <div class="wrap metabox-holder"> 
@@ -224,7 +224,7 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 					<input type="hidden" name="lc" value="DE" /> 
 					<input type="hidden" name="bn" value="PP-DonationsBF" /> 
 					<?php _e('Amount:', 'MiniMetaWidget'); ?><input type="text" name="amount" value="2" style="width:50px;" />&euro;<br /> 
-					<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /> 
+					<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /> 
 					<br /> 
 					<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" style="clear:both;" /> 
 				</form> 
@@ -235,7 +235,7 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 	<div class="postbox if-js-closed">
 		<h3 class="hndle"><span><?php _e('Uninstall', 'MiniMetaWidget'); ?></span></h3>
 		<div class="inside">
-			<form method="post"> 
+			<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>> 
 			<?php wp_nonce_field('MiniMeta-delete','wpnoncemmui'); ?>
 			<p style="text-align: left;">
 				<?php _e('Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here.', 'MiniMetaWidget'); ?>
