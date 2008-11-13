@@ -396,7 +396,7 @@ msgstr "Dein Profile"
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:24
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:24
 msgid "Disply user Identity as title"
-msgstr "Zeige die Benutzer Identität im Title"
+msgstr "Zeige die Benutzer Identität im Titel"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/widget-parts.php:25
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/widget-parts.php:25
