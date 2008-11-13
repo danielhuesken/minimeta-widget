@@ -44,13 +44,13 @@ msgstr "MiniMeta Widget"
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:94
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:94
 msgid "Uninstall MiniMeta Widget"
-msgstr "MiniMeta Widget deinstalliren"
+msgstr "MiniMeta Widget deinstallieren"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:95
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:95
 #, php-format
 msgid "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And MiniMeta Widget Will Be Deactivated Automatically."
-msgstr "<a href=\"%s\">Hier klicken</a> um die Deinstallation abzuschliessen und das MiniMeta Widget zu deaktiviren."
+msgstr "<a href=\"%s\">Hier klicken</a> um die Deinstallation abzuschliessen und das MiniMeta Widget zu deaktivieren."
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/functions.php:110
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/functions.php:110
@@ -307,12 +307,12 @@ msgstr "Spende:"
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/options-form.php:238
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/options-form.php:238
 msgid "Uninstall"
-msgstr "Deinstalliren"
+msgstr "Deinstallieren"
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/options-form.php:243
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/options-form.php:243
 msgid "Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here."
-msgstr "Das deaktiviren des Plugin wird keine daten löschen die erstellt wurden. Um es komplett zu entfernen, kannst du es hier deinstalliren."
+msgstr "Das deaktivieren des Plugin wird keine daten löschen die erstellt wurden. Um es komplett zu entfernen, kannst du es hier deinstallieren."
 
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget/app/options-form.php:246
 #: C:\webserver\htdocs\Devwp\wp-content\plugins\minimeta-widget\app/options-form.php:246
@@ -352,7 +352,7 @@ msgid ""
 "\\n"
 " Choose [Cancel] To Stop, [OK] To Uninstall."
 msgstr ""
-"Sind sie sicher das sie das MiniMeta Widget von WordPress deinstalliren wollen.\\n"
+"Sind sie sicher das sie das MiniMeta Widget von WordPress deinstallieren wollen.\\n"
 "Diese Aktion kann nicht rückgängig gemacht werden.\\n"
 "\\n"
 " Wähle [Abbrechen] zum abbrechen, [OK] zum deinstalliren."
