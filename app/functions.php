@@ -149,7 +149,7 @@ class MiniMetaFunctions {
 	
 	//add edit setting to plugins page
 	function plugins_options_link($action_links) {
-		$edit_link='<a href="admin.php?page=minimeta-widget" title="' . __('Go to Settings Page') . '" class="edit">' . __('Settings') . '</a>';
+		$edit_link='<a href="admin.php?page=minimeta-widget" title="' . __('Go to Settings Page','MiniMetaWidget') . '" class="edit">' . __('Settings') . '</a>';
 		return array_merge( array($edit_link), $action_links);
 	}
 
