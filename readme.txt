@@ -4,7 +4,7 @@ Donate link: http://danielhuesken.de/
 Tags: widget, sidebar, meta, admin, links, login
 Requires at least: 2.5
 Tested up to: 2.7
-Stable tag: 4.0.1
+Stable tag: 4.0.2
 
 "Mini" Version of the WordPress Meta Widget with differnt logon types (Form,Link) and additional Admin Links and Blog Links. All Links can all enabeld or disabeld. 
 
