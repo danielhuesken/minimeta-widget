@@ -97,18 +97,12 @@ class MiniMetaWidgetParts {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
 		$styleloginout=!empty($styleloginout)?' style="'.$styleloginout.'"':'';
+		$redirect = $redirect ? $_SERVER['REQUEST_URI'] : '';
 		if(is_user_logged_in()) {
-			if($redirect) 
-				echo "<li".$stylegeneralli."><a href=\"".wp_nonce_url(site_url('wp-login.php?action=logout&amp;redirect_to='.$_SERVER['REQUEST_URI'], 'login'), 'log-out')."\"".$styleloginout.">".__('Log out')."</a></li>";
-			else
-	            echo "<li".$stylegeneralli."><a href=\"".wp_nonce_url(site_url('wp-login.php?action=logout', 'login'), 'log-out')."\"".$styleloginout.">".__('Log out')."</a></li>"; 
+			echo "<li".$stylegeneralli."><a href=\"".wp_logout_url($redirect)."\"".$styleloginout.">".__('Log out')."</a></li>";
 		} else {
-			if($redirect) 
-				echo "<li".$stylegeneralli."><a href=\"".wp_nonce_url(site_url('wp-login.php?action=login&amp;redirect_to='.$_SERVER['REQUEST_URI'], 'login'), 'login')."\"".$styleloginout.">".__('Log in')."</a></li>";
-			else
-				echo "<li".$stylegeneralli."><a href=\"".wp_nonce_url(site_url('wp-login.php', 'login'), 'login')."\"".$styleloginout.">".__('Log in')."</a></li>";		
+			echo "<li".$stylegeneralli."><a href=\"".wp_login_url($redirect)."\"".$styleloginout.">".__('Log in')."</a></li>";
 		}
-
 	}
 	
 	function linkloginout_options($args) {

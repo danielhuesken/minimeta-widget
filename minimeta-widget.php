@@ -103,6 +103,8 @@ Change log:
 		       Option Page per function
 		       Style for login form input felds
   Version 4.0.2   Some bug fixes and improvments
+  Version 4.0.3   Extra File for WP 2.6 compatibility
+		       USe some mor WP 2.7 functions
  */
 
 
@@ -114,27 +116,11 @@ $minimeta_plugin_load=true;
 if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPress Version 2.5 or heiger
 	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, MiniMeta Widget works only under WordPress 2.5 or higher',"MiniMetaWidget") . '</strong></p></div>\';'));
 	$minimeta_plugin_load=false;
-} elseif (version_compare($wp_version, '2.6', '<')) {   // Pre-2.6 compatibility
-	define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
-	define( 'WP_PLUGIN_URL', get_option( 'siteurl' ) . 'wp-content/plugins' );
-	if (!function_exists('site_url')) {
-		function site_url($path = '', $scheme = null) { 
-			return get_bloginfo('wpurl').'/'.$path;
-		}
-	}
-	if (!function_exists('admin_url')) {
-		function admin_url($path = '') {
-			return get_bloginfo('wpurl').'/wp-admin/'.$path;
-		}
-	}
-	if (!function_exists('plugins_url')) {
-		function plugins_url($path = '') { 
-			return get_option('siteurl') . '/wp-content/plugins/'.$path;
-		}
-	}
-} 
+} else {
+	// Load Pre-2.7 compatibility
+	if (version_compare($wp_version, '2.7', '<'))    
+		require_once('app/wp/wp_older.php');
 
-if ($minimeta_plugin_load) {
 	//Load fuction file
 	require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
 
