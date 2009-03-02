@@ -77,7 +77,7 @@ if (!empty($_POST['delbutton']) and !empty($mmconfigid) and $_REQUEST['subpage']
 
 // Update Options
 if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']=="") {
-	check_admin_referer('MiniMeta-options','wpnoncemm');
+	check_admin_referer('MiniMeta-options','wpnoncemmconf');
 	
 	//write every options tab to optiones
 	if (is_array($_POST['widget-options'][$mmconfigid])) {
