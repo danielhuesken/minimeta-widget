@@ -14,44 +14,63 @@ function _subpagecharakter($pages,$pageid) { //functon for subpages char
 $adminlinks=get_option('minimeta_adminlinks');
 $options_widgets = get_option('minimeta_widget_options');
 
-if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade"><p>'.$minimeta_options_text.'</p></div>'; } ?>
+if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade"><p>'.$minimeta_options_text.'</p></div>'; } 
 
-<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>"> 
-<?php wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
+?>
 
-<div class="wrap metabox-holder"> 
-	<h2><?php _e('MiniMeta Widget Options', 'MiniMetaWidget'); ?></h2>
-	
+
+<div class="wrap">
+	<div id="icon-themes" class="icon32"><br /></div>
+<h2><?php _e('MiniMeta Widget', 'MiniMetaWidget'); ?></h2>
+
+<ul class="subsubsub">
+<li><a href="<?PHP echo $_SERVER['REQUEST_URI']; ?>&amp;subpage="<?PHP if ($_REQUEST['subpage']=="") echo ' class="current"'; ?>><?php _e('Configs', 'MiniMetaWidget'); ?></a> |</li>
+<?php if(current_user_can('edit_plugins')) {?><li><a href="<?PHP echo $_SERVER['REQUEST_URI']; ?>&amp;subpage=Uninstall"<?PHP if ($_REQUEST['subpage']=="Uninstall") echo ' class="current"'; ?>><?php _e('Uninstall', 'MiniMetaWidget'); ?></a> |</li><?php } ?>
+<li><a href="<?PHP echo $_SERVER['REQUEST_URI']; ?>&amp;subpage=Usage"<?PHP if ($_REQUEST['subpage']=="Usage") echo ' class="current"'; ?>><?php _e('Usage', 'MiniMetaWidget'); ?></a></li> 
+</ul>
+<div class="clear"></div> 
+
+<?php if ($_REQUEST['subpage']=="") { ?>
+
+<form id="config-action" action="" method="post">	
 	<div class="tablenav">
 		<div class="alignleft actions">
-			<?php _e('New Widget Option:', 'MiniMetaWidget'); ?><input type="text" id="widget-options-SidebarNew" name="widget-options-SidebarNew" size="10" />
-			<span id="WidgetOptDelete"><?php _e('Delete Widget Option:', 'MiniMetaWidget'); ?><select id="widget-options-SidebarDelete" name="widget-options-SidebarDelete">
-			<option value=""><?php _e('none', 'MiniMetaWidget'); ?></option>
-			<?PHP 
-			if (is_array($options_widgets)) {
-				foreach ($options_widgets as $number => $values) {
-					echo "<option value=\"".$number."\">".$values['optionname']."</option>";
-				}
+			<?php _e('Config:', 'MiniMetaWidget'); ?> 
+			<select name="mmconfigid">
+			<?PHP
+			foreach ( $options_widgets as $optionid => $optionvalues) {
+				if (empty($mmconfigid)) $mmconfigid=$optionid;
+			    $checkmmconfigid=$mmconfigid==$optionid ? ' selected="selected"' : '';
+				echo "<option value=\"".$optionid."\"".$checkmmconfigid.">".$optionvalues['optionname']."</option>";
 			}
 			?>
-			</select></span>
-			<input type="submit" name="Submit" class="button-secondary" value="<?php _e('Save Changes'); ?>" />
+			</select>
+			<input type="submit" name="gobutton" class="button-primary action" title="<?php _e('Go to MiniMeta widget config', 'MiniMetaWidget'); ?>" value="<?php _e('Go!', 'MiniMetaWidget'); ?>"/>
+			<?php wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
 		</div>
-		<br class="clear" /> 
-	</div> 
-	
-	<?php
-	if (is_array($options_widgets)) {
-	foreach ( $options_widgets as $optionname => $optionvalues) {
-	?>
-	<div class="postbox<?PHP if ($_POST['minimeta-jsopen-'.$optionname]!=1) echo " if-js-closed";?>" id="widget-opt-<?php echo $optionname; ?>">
-	<input type="hidden" name="minimeta-jsopen-<?php echo $optionname; ?>" value="<?PHP echo $_POST['minimeta-jsopen-'.$optionname];?>" />
-	<?PHP
-		echo "<h3 class=\"hndle\">". __('Widget Option:', 'MiniMetaWidget')." ".$optionvalues['optionname']."</h3>";
-	?>
+		<div class="alignright actions">
+			<input type="submit" name="addbutton" class="button-secondary" title="<?php _e('adds a new MiniMeta widget config with default values', 'MiniMetaWidget'); ?>" value="<?php _e('Add New Config', 'MiniMetaWidget'); ?>"/>
+			<input type="submit" name="dupbutton" class="button-secondary"  title="<?php _e('clones the current MiniMeta widget config', 'MiniMetaWidget'); ?>" value="<?php _e('Duplicate This Config', 'MiniMetaWidget'); ?>"/>
+			<input title="<?php _e('This will delete the current MiniMeta widget config - no warning!', 'MiniMetaWidget'); ?>" type="submit" onclick="return confirm('<?php _e('This will delete the current MiniMeta widget config!', 'MiniMetaWidget'); ?>')" name="delbutton" class="button-secondary" value="<?php _e('Delete THIS Config', 'MiniMetaWidget'); ?>"/>
+		</div>	
+		<div class="clear"></div> 
+	</div>
+</form>
+<div class="clear"></div> 
+
+<?php if (!empty($mmconfigid)) { ?>
+
+<form id="poststuff" action="" method="post">	
+<?php wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
+<input type="hidden" name="mmconfigid" value="<?php echo $mmconfigid; ?>" />
+
+	<div class="stuffbox">  
+		<h3>
+		<?php _e('Config Name:', 'MiniMetaWidget'); ?> <input type="text" title="<?php _e('Config Name'); ?>" name="widget-options[<?php echo $mmconfigid; ?>][optionname]" value="<?php echo $options_widgets[$mmconfigid]['optionname']; ?>" size="30" />
+		<input type="submit" name="Submit" class="button-primary alignright" value="<?php _e('Save Changes'); ?>" />
+		</h3>
+
 	<div class="inside">
-		<input type="hidden" name="widget-options[<?php echo $optionname; ?>][optionname]" value="<?php echo $optionvalues['optionname']; ?>" />
-		
 		<?php $loginout='out'; ?>
 		<div class="widget-logout">
 			<h4 style="text-align:center;"><?php echo _e('Show when Loggt out:'); ?></h4>
@@ -59,20 +78,20 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 	<?PHP  	$ordering=0;
 			foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) {
 				$optionsnumber='';
-				for ($i=0;$i<=sizeof($optionvalues[$loginout]);$i++) {
-					if ($partname==$optionvalues[$loginout][$i]['part']) $optionsnumber=$i;
+				for ($i=0;$i<=sizeof($options_widgets[$mmconfigid][$loginout]);$i++) {
+					if ($partname==$options_widgets[$mmconfigid][$loginout][$i]['part']) $optionsnumber=$i;
 				}
 				if ($partvalues[4]) { ?>
 				<div class="widget-logout-item if-js-closed">
-					<h4 class="widget-logout-title"><span><input class="checkbox-active" type="checkbox" <?php echo checked($optionvalues[$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span><br class="clear" /></h4>
-					<input type="hidden"  name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
+					<h4 class="widget-logout-title"><span><input class="checkbox-active" type="checkbox" <?php echo checked($options_widgets[$mmconfigid][$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span><br class="clear" /></h4>
+					<input type="hidden"  name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
 					<?PHP if ($partvalues[2]) {?>
 					<div class="widget-logout-control">
 						<?php				
-						$options=$optionvalues[$loginout][$optionsnumber]['args'];
+						$options=$options_widgets[$mmconfigid][$loginout][$optionsnumber]['args'];
 						$options['ordering']=$ordering;
 						$options['loginout']=$loginout;
-						$options['optionname']=$optionname;
+						$options['optionname']=$mmconfigid;
 						call_user_func($partvalues[2], $options);
 						?>
 					</div>
@@ -91,20 +110,20 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 	<?PHP  	$ordering=0;
 			foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
 				$optionsnumber='';
-				for ($i=0;$i<=sizeof($optionvalues[$loginout]);$i++) {
-					if ($partname==$optionvalues[$loginout][$i]['part']) $optionsnumber=$i;
+				for ($i=0;$i<=sizeof($options_widgets[$mmconfigid][$loginout]);$i++) {
+					if ($partname==$options_widgets[$mmconfigid][$loginout][$i]['part']) $optionsnumber=$i;
 				}
 				if ($partvalues[3]) {?>
 				<div class="widget-login-item if-js-closed">
-					<h4 class="widget-login-title"><span><input class="checkbox-active" type="checkbox" <?php echo checked($optionvalues[$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span> <br class="clear" /></h4>
-					<input type="hidden" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
+					<h4 class="widget-login-title"><span><input class="checkbox-active" type="checkbox" <?php echo checked($options_widgets[$mmconfigid][$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span> <br class="clear" /></h4>
+					<input type="hidden" name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
 					<?PHP if ($partvalues[2]) { ?>
 					<div class="widget-login-control">
 						<?php				
-						$options=$optionvalues[$loginout][$optionsnumber]['args'];
+						$options=$options_widgets[$mmconfigid][$loginout][$optionsnumber]['args'];
 						$options['ordering']=$ordering;
 						$options['loginout']=$loginout;
-						$options['optionname']=$optionname;
+						$options['optionname']=$mmconfigid;
 						call_user_func($partvalues[2], $options);
 						?>
 					</div>
@@ -124,118 +143,75 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 					<h4 class="widget-general-title"><span><?php _e('Stylesheet','MiniMetaWidget'); ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
 						&lt;ul&gt;
-						<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($optionvalues['general']['style']['ul'])); ?>" name="widget-options[<?php echo $optionname; ?>][general][style][ul]" /><br />
+						<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['style']['ul'])); ?>" name="widget-options[<?php echo $mmconfigid; ?>][general][style][ul]" /><br />
 						&lt;li&gt;
-						<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($optionvalues['general']['style']['li'])); ?>" name="widget-options[<?php echo $optionname; ?>][general][style][li]" /><br />
+						<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['style']['li'])); ?>" name="widget-options[<?php echo $mmconfigid; ?>][general][style][li]" /><br />
 					</div>
 				</div>
 				<div class="widget-general-item if-js-closed">
 					<h4 class="widget-general-title"><span><?php _e('Seidbar Widget Settings (PHP Function)','MiniMetaWidget'); ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
 						<?php 
-						if (!isset($optionvalues['general']['php']['title'])) $optionvalues['general']['php']['title']=__('Meta'); //def. Options
-						if (!isset($optionvalues['general']['php']['before_title'])) $optionvalues['general']['php']['before_title']='<h2>';
-						if (!isset($optionvalues['general']['php']['after_title'])) $optionvalues['general']['php']['after_title']='</h2>';
-						if (!isset($optionvalues['general']['php']['before_widget'])) $optionvalues['general']['php']['before_widget']='<div class="MiniMetaWidgetSiedbar">';
-						if (!isset($optionvalues['general']['php']['after_widget'])) $optionvalues['general']['php']['after_widget']='</div>';
+						if (!isset($options_widgets[$mmconfigid]['general']['php']['title'])) $options_widgets[$mmconfigid]['general']['php']['title']=__('Meta'); //def. Options
+						if (!isset($options_widgets[$mmconfigid]['general']['php']['before_title'])) $options_widgets[$mmconfigid]['general']['php']['before_title']='<h2>';
+						if (!isset($options_widgets[$mmconfigid]['general']['php']['after_title'])) $options_widgets[$mmconfigid]['general']['php']['after_title']='</h2>';
+						if (!isset($options_widgets[$mmconfigid]['general']['php']['before_widget'])) $options_widgets[$mmconfigid]['general']['php']['before_widget']='<div class="MiniMetaWidgetSiedbar">';
+						if (!isset($options_widgets[$mmconfigid]['general']['php']['after_widget'])) $options_widgets[$mmconfigid]['general']['php']['after_widget']='</div>';
 						?>
 						<?php _e('Title:'); ?>
-						<input class="textinput" type="text" name="widget-options[<?php echo $optionname; ?>][general][php][title]" value="<?php echo htmlentities(stripslashes($optionvalues['general']['php']['title'])); ?>" /><br />
+						<input class="textinput" type="text" name="widget-options[<?php echo $mmconfigid; ?>][general][php][title]" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['php']['title'])); ?>" /><br />
 						<?php _e('Before Title:'); ?>
-						<input class="textinput" type="text" name="widget-options[<?php echo $optionname; ?>][general][php][before_title]" value="<?php echo htmlentities(stripslashes($optionvalues['general']['php']['before_title'])); ?>" /><br />
+						<input class="textinput" type="text" name="widget-options[<?php echo $mmconfigid; ?>][general][php][before_title]" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['php']['before_title'])); ?>" /><br />
 						<?php _e('After Title:'); ?>
-						<input class="textinput" type="text" name="widget-options[<?php echo $optionname; ?>][general][php][after_title]" value="<?php echo htmlentities(stripslashes($optionvalues['general']['php']['after_title'])); ?>" /><br />
+						<input class="textinput" type="text" name="widget-options[<?php echo $mmconfigid; ?>][general][php][after_title]" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['php']['after_title'])); ?>" /><br />
 						<?php _e('Before Widget:'); ?>
-						<input class="textinput" type="text" name="widget-options[<?php echo $optionname; ?>][general][php][before_widget]" value="<?php echo htmlentities(stripslashes($optionvalues['general']['php']['before_widget'])); ?>" /><br />
+						<input class="textinput" type="text" name="widget-options[<?php echo $mmconfigid; ?>][general][php][before_widget]" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['php']['before_widget'])); ?>" /><br />
 						<?php _e('After Widget:'); ?>
-						<input class="textinput" type="text" name="widget-options[<?php echo $optionname; ?>][general][php][after_widget]" value="<?php echo htmlentities(stripslashes($optionvalues['general']['php']['after_widget'])); ?>" /><br />
+						<input class="textinput" type="text" name="widget-options[<?php echo $mmconfigid; ?>][general][php][after_widget]" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['php']['after_widget'])); ?>" /><br />
 					</div>
 				</div>
 				<div class="widget-general-item if-js-closed">
 					<h4 class="widget-general-title"><span><?php _e('Display on Pages','MiniMetaWidget'); ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
-						<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['notselected'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][notselected]" />&nbsp;<?php _e('Display on <b>not</b> selected Pages','MiniMetaWidget');?><br />
+						<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['notselected'],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][notselected]" />&nbsp;<?php _e('Display on <b>not</b> selected Pages','MiniMetaWidget');?><br />
 						<b><?php _e('out','MiniMetaWidget'); ?>&nbsp;&nbsp;<?php _e('in','MiniMetaWidget'); ?>&nbsp;&nbsp;&nbsp;<?php _e('Pages','MiniMetaWidget'); ?></b><br />
-						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['home'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][out][home]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['home'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][in][home]" />&nbsp;&nbsp;<?php _e('Homepage','MiniMetaWidget');?><br />
-						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['singlepost'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][out][singlepost]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['singlepost'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][in][singlepost]" />&nbsp;&nbsp;<?php _e('Single Post','MiniMetaWidget');?><br />
-						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['search'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][out][search]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['search'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][in][search]" />&nbsp;&nbsp;<?php _e('Search Page','MiniMetaWidget');?><br />
-						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out']['errorpages'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][out][errorpages]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in']['errorpages'],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][in][errorpages]" />&nbsp;&nbsp;<?php _e('Error Page','MiniMetaWidget');?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['out']['home'],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][out][home]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['in']['home'],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][in][home]" />&nbsp;&nbsp;<?php _e('Homepage','MiniMetaWidget');?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['out']['singlepost'],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][out][singlepost]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['in']['singlepost'],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][in][singlepost]" />&nbsp;&nbsp;<?php _e('Single Post','MiniMetaWidget');?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['out']['search'],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][out][search]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['in']['search'],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][in][search]" />&nbsp;&nbsp;<?php _e('Search Page','MiniMetaWidget');?><br />
+						&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['out']['errorpages'],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][out][errorpages]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['in']['errorpages'],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][in][errorpages]" />&nbsp;&nbsp;<?php _e('Error Page','MiniMetaWidget');?><br />
 				<?php 	
 						$pages = get_pages('sort_column=menu_order&hierarchical=1'); 
 						//print_r($pages);
 						foreach ($pages as $page) { ?>
-							&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['out'][$page->ID],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][out][<?php echo $page->ID;?>]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($optionvalues['general']['pagesnot']['in'][$page->ID],true); ?> name="widget-options[<?php echo $optionname; ?>][general][pagesnot][in][<?php echo $page->ID;?>]" />&nbsp;&nbsp;<?php _subpagecharakter($pages,$page->ID); echo $page->post_title; ?><br />
+							&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['out'][$page->ID],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][out][<?php echo $page->ID;?>]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php echo checked($options_widgets[$mmconfigid]['general']['pagesnot']['in'][$page->ID],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][in][<?php echo $page->ID;?>]" />&nbsp;&nbsp;<?php _subpagecharakter($pages,$page->ID); echo $page->post_title; ?><br />
 				<?PHP	} ?>
 					</div>
 				</div>			
 			</div>
 		</div>
-		<p> 
-		<input type="button" class="button alignleft" value="<?php _e('Remove'); ?>" onclick="jQuery('#widget-opt-<?php echo $optionname;?>').remove();" />
-		<input type="submit" name="Submit" class="button button-highlighted alignright" value="<?php _e('Save Changes'); ?>" />
-		<br class="clear" />
-		</p>
-		</div></div>
-	<?php } 
-		}?>
-</div>
+	</div>
+	</div>
 </form> 
-	
-<div class="wrap metabox-holder"> 
-	<h2><?php _e('MiniMeta Widget', 'MiniMetaWidget'); ?></h2>
-	<div class="postbox if-js-closed">
-		<h3 class="hndle"><span><?php _e('Usage', 'MiniMetaWidget'); ?></span></h3>
-		<div class="inside">
-			<table style="width:100%;"><tr><td style="width:50%;padding-right:10px;">
-				<?php _e('1. Create a Widget Option above.', 'MiniMetaWidget'); ?><br />
-				<?php _e('2. Place a Widget from WordPress Wigets, K2 Seidbar Modules or in Theme via PHP and select a Widget Option.', 'MiniMetaWidget'); ?><br />
-				<?php _e('3. Redy.', 'MiniMetaWidget'); ?><br />
+<?php }?>
+<?php }?>
+
+<?php if ($_REQUEST['subpage']=="Usage") { ?>
+		<div id="mm-usage">
+				<?php _e('1. Create a Widget Config.', 'MiniMetaWidget'); ?><br />
+				<?php _e('2. Place a Widget from WordPress Wigets or in Theme via PHP and select a Widget Config.', 'MiniMetaWidget'); ?><br />
+				<?php _e('3. Ready.', 'MiniMetaWidget'); ?><br />
 				&nbsp;<br />
 				<strong><?php _e('Code too place a Widget via PHP:', 'MiniMetaWidget'); ?></strong><br />
-				<code> &lt;?PHP if (function_exists('MiniMetaWidgetSidebar')) MiniMetaWidgetSidebar(WidgetOptionName); ?&gt; </code><br />
+				<code> &lt;?PHP if (function_exists('MiniMetaWidgetSidebar')) MiniMetaWidgetSidebar(WidgetConfigName); ?&gt; </code><br />
 				&nbsp;<br />
-			</td><td class="tablehalf">
-				<strong>WidgetOptionName</strong> <?php _e('= Name of Widget Setting above', 'MiniMetaWidget'); ?><br />
-			</td></tr></table>
-		</div>
-	</div>
-	<div class="postbox if-js-closed">
-		<h3 class="hndle"><span><?php _e('About', 'MiniMetaWidget'); ?></span></h3>
-		<div class="inside">
-			<table style="width:100%;"><tr><td style="width:50%;">
-				<?PHP $plugin_data=get_plugin_data(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php'); ?>
-				<strong><?php _e('Name:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<?PHP echo $plugin_data['Title'] ?><br />
-				<strong><?php _e('Version:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<?PHP echo $plugin_data['Version'] ?><br />
-				<strong><?php _e('Author:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<?PHP echo $plugin_data['Author'] ?><br />
-				<strong><?php _e('Plugin on WordPress:', 'MiniMetaWidget'); ?></strong><br />&nbsp;&nbsp;&nbsp;<a href="http://wordpress.org/extend/plugins/minimeta-widget/" target="_blank">http://wordpress.org/extend/plugins/minimeta-widget/</a><br />
-				<strong><?php _e('Description:', 'MiniMetaWidget'); ?></strong><br /><?PHP echo $plugin_data['Description'] ?><br />
-			</td><td class="tablehalf">
-				<?php _e("If you find this plugin helpful, please consider donating a few Euros to help support this plugin's development. Thanks!", 'MiniMetaWidget'); ?><br />&nbsp;<br />
-				<form action="https://www.paypal.com/cgi-bin/webscr" method="post"> 
-					<input type="hidden" name="cmd" value="_donations" /> 
-					<input type="hidden" name="business" value="daniel@huesken-net.de" /> 
-					<input type="hidden" name="item_name" value="Daniel Hüsken Plugin Donation" /> 
-					<input type="hidden" name="item_number" value="MiniMeta Widget" /> 
-					<input type="hidden" name="page_style" value="Primary" /> 
-					<input type="hidden" name="no_shipping" value="1" /> 
-					<input type="hidden" name="currency_code" value="EUR" /> 
-					<input type="hidden" name="tax" value="0" /> 
-					<input type="hidden" name="cn" value="Message / Note" /> 
-					<input type="hidden" name="lc" value="DE" /> 
-					<input type="hidden" name="bn" value="PP-DonationsBF" /> 
-					<?php _e('Amount:', 'MiniMetaWidget'); ?><input type="text" name="amount" value="2" style="width:50px;" />&euro;<br /> 
-					<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" /> 
-					<br /> 
-					<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" style="clear:both;" /> 
-				</form> 
-			</td></tr></table>
-		</div>
-	</div>
-	<?php if(current_user_can('edit_plugins')) {?>
-	<div class="postbox if-js-closed">
-		<h3 class="hndle"><span><?php _e('Uninstall', 'MiniMetaWidget'); ?></span></h3>
-		<div class="inside">
-			<form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>> 
+
+				<strong>WidgetConfigName</strong> <?php _e('= Name of Widget Config from Configs', 'MiniMetaWidget'); ?><br />
+		</div> 
+		<div class="clear"></div> 
+<?php } ?>
+<?php if(current_user_can('edit_plugins') and $_REQUEST['subpage']=="Uninstall") {?>
+		<div id="mm-uninstall">
+			<form method="post" action=""> 
 			<?php wp_nonce_field('MiniMeta-delete','wpnoncemmui'); ?>
 			<p style="text-align: left;">
 				<?php _e('Deactivating MiniMeta Widget plugin does not remove any data that may have been created. To completely remove this plugin, you can uninstall it here.', 'MiniMetaWidget'); ?>
@@ -268,10 +244,10 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 			<p>&nbsp;</p>
 			<p style="text-align: center;">
 				<input type="checkbox" name="uninstall_MiniMeta_yes" value="yes" />&nbsp;<?php _e('Yes', 'MiniMetaWidget'); ?><br /><br />
-				<input type="submit" name="do" value="<?php _e('UNINSTALL MiniMeta Widget', 'MiniMetaWidget'); ?>" class="button" onclick="return confirm('<?php _e('You Are About To Uninstall MiniMeta Widget From WordPress.\nThis Action Is Not Reversible.\n\n Choose [Cancel] To Stop, [OK] To Uninstall.', 'MiniMetaWidget'); ?>')" />
+				<input type="submit" name="do" value="<?php _e('UNINSTALL MiniMeta Widget', 'MiniMetaWidget'); ?>" class="button-primary" onclick="return confirm('<?php _e('You Are About To Uninstall MiniMeta Widget From WordPress.\nThis Action Is Not Reversible.\n\n Choose [Cancel] To Stop, [OK] To Uninstall.', 'MiniMetaWidget'); ?>')" />
 			</p>		
-			</form>	
-		</div>
-	</div>
-	<?php } ?>
+			</form>
+		</div> 
+		<div class="clear"></div> 
+<?php } ?>
 </div>

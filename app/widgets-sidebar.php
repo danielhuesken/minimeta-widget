@@ -8,6 +8,9 @@
  
 
 function MiniMetaWidgetSidebar($name) {
-	MiniMetaWidgetDisplay::display(wp_create_nonce($name),array('type'=>'PHP'));
+	foreach (get_option('minimeta_widget_options') as $option => $optionvalue) {
+		if (strtolower($optionvalue['optionname'])==strtolower($name)) $mmconfigid=$option;
+	}
+	MiniMetaWidgetDisplay::display($mmconfigid,array('type'=>'PHP'));
 }
  

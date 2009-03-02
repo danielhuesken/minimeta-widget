@@ -13,7 +13,16 @@ class MiniMetaWidgetDisplay {
 		global $post;
 		if (is_array($args))
 			extract( $args, EXTR_SKIP );
-		
+
+		//Overwrite vars if Seidbar Widget
+		if ($type=="PHP") {
+			$title = $options['general']['php']['title'];
+			$before_title = $options['general']['php']['before_title'];
+			$after_title = $options['general']['php']['after_title'];				
+			$before_widget = $options['general']['php']['before_widget'];
+			$after_widget = $options['general']['php']['after_widget'];
+		}
+
 		//load options
 		$optionset = get_option('minimeta_widget_options');
 		if (!isset($optionset[$optionsetname])) {  //find out option exists  and load
@@ -43,22 +52,38 @@ class MiniMetaWidgetDisplay {
 			$options['general']['pagesnot']['notselected']=true;
 		} else {
 			$options=$optionset[$optionsetname];
-			$options['in'][0]['args']['title']=$title;
-			$options['in'][0]['args']['before_title']=$before_title;
-			$options['in'][0]['args']['after_title']=$after_title;
-			$options['out'][0]['args']['title']=$title;
-			$options['out'][0]['args']['before_title']=$before_title;
-			$options['out'][0]['args']['after_title']=$after_title;
+			for ($i=0;$i<=sizeof($options['in']);$i++) {
+				if ($options['in'][$i]['part']=='title') {
+					$options['in'][$i]['args']['title']=$title;
+					$options['in'][$i]['args']['before_title']=$before_title;
+					$options['in'][$i]['args']['after_title']=$after_title;				
+				}
+			}
+			for ($i=0;$i<=sizeof($options['out']);$i++) {
+				if ($options['out'][$i]['part']=='title') {
+					$options['out'][$i]['args']['title']=$title;
+					$options['out'][$i]['args']['before_title']=$before_title;
+					$options['out'][$i]['args']['after_title']=$after_title;				
+				}
+			}
 		}
 		
 		//Overwrite vars if Seidbar Widget
 		if ($type=="PHP") {
-			$options['in'][0]['args']['title'] = $options['general']['php']['title'];
-			$options['out'][0]['args']['title'] = $options['general']['php']['title'];
-			$options['in'][0]['args']['before_title'] = $options['general']['php']['before_title'];
-			$options['out'][0]['args']['before_title'] = $options['general']['php']['before_title'];
-			$options['in'][0]['args']['after_title'] = $options['general']['php']['after_title'];
-			$options['out'][0]['args']['after_title'] = $options['general']['php']['after_title'];
+			for ($i=0;$i<=sizeof($options['in']);$i++) {
+				if ($options['in'][$i]['part']=='title') {
+					$options['in'][$i]['args']['title']=$options['general']['php']['title'];
+					$options['in'][$i]['args']['before_title']=$options['general']['php']['before_title'];
+					$options['in'][$i]['args']['after_title']=$options['general']['php']['after_title'];				
+				}
+			}
+			for ($i=0;$i<=sizeof($options['out']);$i++) {
+				if ($options['out'][$i]['part']=='title') {
+					$options['out'][$i]['args']['title']=$options['general']['php']['title'];
+					$options['out'][$i]['args']['before_title']=$options['general']['php']['before_title'];
+					$options['out'][$i]['args']['after_title']=$options['general']['php']['after_title'];				
+				}
+			}
 			$before_widget = $options['general']['php']['before_widget'];
 			$after_widget = $options['general']['php']['after_widget'];
 		}
@@ -136,7 +161,7 @@ class MiniMetaWidgetDisplay {
 
 	function control($number,$optionsetname) {
 		?>
-		<label for="minimeta-optionset-<?php echo $number; ?>" title="<?php _e('Select a Widget Option','MiniMetaWidget');?>"><?php _e('Widget Option:','MiniMetaWidget');?> 
+		<label for="minimeta-optionset-<?php echo $number; ?>" title="<?php _e('Select a Widget Config','MiniMetaWidget');?>"><?php _e('Widget Config:','MiniMetaWidget');?> 
          <select class="widefat" name="widget-minimeta[<?php echo $number; ?>][optionset]" id="minimeta-optionset-<?php echo $number; ?>">
          <?PHP
             $options_widgets = get_option('minimeta_widget_options');
@@ -150,7 +175,7 @@ class MiniMetaWidgetDisplay {
 			}
          ?>  
          </select></label><br />
-		 <span><?php _e('To make a Widget Option go to MiniMeta Widget tab','MiniMetaWidget'); ?></span>
+		 <span><?php _e('To make a Widget Config go to MiniMeta Widget tab','MiniMetaWidget'); ?></span>
 		<?php
 	}
 }

@@ -28,6 +28,36 @@ class MiniMetaWidgetParts {
 			<?PHP
 		}
 	}
+
+	//Gravatar
+	function gravatar_display($args) {
+		global $user_id;
+		if(is_array($args)) 
+			extract($args, EXTR_SKIP );
+		$stylediv=!empty($stylediv)?' style="'.$stylediv.'"':'';
+		if(is_user_logged_in()) {
+			if ($size>512) $size=512;
+			echo "<div".$stylediv.">";
+			echo get_avatar($user_id, $size);
+			echo "</div>";
+		} 
+	}
+	
+	function gravatar_options($args) {
+		if(is_array($args)) 
+			extract($args, EXTR_SKIP );
+		if ($size>512) $size=512;
+		if (empty($size)) $size=70;
+		?>
+			<?php _e('Gravatar Size:','MiniMetaWidget');?> <input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($size)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][size]" /><br />
+			<hr />
+		<?php 
+			if (!isset($stylediv)) $stylediv='text-align:center;'; //def. Css
+		 _e('Stylesheet:','MiniMetaWidget');?><br /> 
+		&lt;div&gt;
+		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylediv)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylediv]" /><br />
+		<?PHP
+	}
 	
 	//Loginform
 	function loginform_display($args) {
@@ -284,6 +314,31 @@ class MiniMetaWidgetParts {
 		<?PHP
 	}
 	
+	
+	//WP Bokmarks Categorys
+	function bookmarkscat_display($args) {
+		if(is_array($args)) 
+			extract($args, EXTR_SKIP );
+		if (is_array($categorys))
+			wp_list_bookmarks('echo=1&title_li=&before=<li'.$stylegeneralli.'>&categorize=0&category='.implode(',',$categorys).'&show_images=0&orderby=name');
+	}		
+	
+	function bookmarkscat_options($args) {
+		if(is_array($args)) 
+			extract($args, EXTR_SKIP );
+		 _e('Select Links to Display:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-links<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-links<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
+        <select style="height:70px;font-size:11px;" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][categorys][]" id="minimeta-links<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?>" multiple="multiple">
+        <?PHP
+        $cats=get_terms( 'link_category', array( 'orderby' => 'count', 'order' => 'DESC', 'hide_empty' => false ) );
+		foreach ($cats as $catsdisplay) {
+            $checkcats = in_array($catsdisplay->term_id,(array)$categorys) ? ' selected="selected"' : '';
+            echo "<option value=\"".$catsdisplay->term_id."\"".$checkcats.">". wp_specialchars($catsdisplay->name)."</option>";
+        }        
+        ?>  
+        </select>
+		<?PHP
+	}
+	
 	//WP Bokmarks 
 	function bookmarks_display($args) {
 		if(is_array($args)) 
@@ -364,7 +419,9 @@ class MiniMetaWidgetParts {
 	
 	function parts() {
 		//$MiniMetaWidgetParts['name']=array('name','function to display','function to control','logtin','logtout','ul')
+		$MiniMetaWidgetParts['gravatar']=array(__('Gravatar'),array('MiniMetaWidgetParts','gravatar_display'),array('MiniMetaWidgetParts','gravatar_options'),true,false,false);
 		$MiniMetaWidgetParts['title']=array(__('Title'),array('MiniMetaWidgetParts','title_display'),array('MiniMetaWidgetParts','title_options'),true,true,false);
+		$MiniMetaWidgetParts['gravatar']=array(__('Gravatar'),array('MiniMetaWidgetParts','gravatar_display'),array('MiniMetaWidgetParts','gravatar_options'),true,false,true);
 		$MiniMetaWidgetParts['loginform']=array(__('Login Form','MiniMetaWidget'),array('MiniMetaWidgetParts','loginform_display'),array('MiniMetaWidgetParts','loginform_options'),false,true,false);
 		$MiniMetaWidgetParts['linkseiteadmin']=array(__('Link:','MiniMetaWidget').' '.__('Site Admin'),array('MiniMetaWidgetParts','seiteadmin_display'),array('MiniMetaWidgetParts','seiteadmin_options'),true,false,true);
 		$MiniMetaWidgetParts['linkregister']=array(__('Link:','MiniMetaWidget').' '.__('Register'),array('MiniMetaWidgetParts','linkregister_display'),array('MiniMetaWidgetParts','linkregister_options'),false,true,true);
@@ -372,6 +429,7 @@ class MiniMetaWidgetParts {
 		$MiniMetaWidgetParts['adminlinks']=array(__('Adminlinks as Links','MiniMetaWidget'),array('MiniMetaWidgetParts','adminlinks_display'),array('MiniMetaWidgetParts','adminlinks_options'),true,false,true);
 		$MiniMetaWidgetParts['adminselect']=array(__('Adminlinks as Selectbox','MiniMetaWidget'),array('MiniMetaWidgetParts','adminselect_display'),array('MiniMetaWidgetParts','adminselect_options'),true,false,true);
 		$MiniMetaWidgetParts['linklostpw']=array(__('Link:','MiniMetaWidget').' '.__('Lost your password?'),array('MiniMetaWidgetParts','linklostpw_display'),array('MiniMetaWidgetParts','linklostpw_options'),false,true,true);
+		$MiniMetaWidgetParts['bookmarkscat']=array(__('Blog Links by category','MiniMetaWidget'),array('MiniMetaWidgetParts','bookmarkscat_display'),array('MiniMetaWidgetParts','bookmarkscat_options'),true,true,true);
 		$MiniMetaWidgetParts['bookmarks']=array(__('Blog Links','MiniMetaWidget'),array('MiniMetaWidgetParts','bookmarks_display'),array('MiniMetaWidgetParts','bookmarks_options'),true,true,true);
 		$MiniMetaWidgetParts['linkrss']=array(__('Link:','MiniMetaWidget').' '.__('Entries <abbr title="Really Simple Syndication">RSS</abbr>'),array('MiniMetaWidgetParts','linkrss_display'),array('MiniMetaWidgetParts','linkrss_options'),true,true,true);
 		$MiniMetaWidgetParts['linkcommentrss']=array(__('Link:','MiniMetaWidget').' '.__('Comments <abbr title="Really Simple Syndication">RSS</abbr>'),array('MiniMetaWidgetParts','linkcommentrss_display'),array('MiniMetaWidgetParts','linkcommentrss_options'),true,true,true);

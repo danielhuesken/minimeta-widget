@@ -1,6 +1,3 @@
-.wrap .inside {
-	padding: 5px;
-}
 
 .widget-login-title, .widget-logout-title , .widget-general-title {
 	background-color: #2583ad;
@@ -104,13 +101,4 @@
 	width: 13px; /* for IE */
 	height: 13px; /* for IE */
 	padding: 0;
-}
-
-.tablehalf {
-	border-left-width:1px;
-	border-left-style:solid;
-	border-left-color:#ccc;
-	text-align:center;
-	vertical-align:middle;
-	width:50%;
 }

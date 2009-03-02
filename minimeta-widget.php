@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/portfolio/minimeta/
 Description: WordPress (Mini)Meta Widget with different logon types (form,link) and additional admin links. All links can enabeld/disabeld.
 Author: Daniel H&uuml;sken
-Version: 4.0.3
+Version: 4.1.0
 Author URI: http://danielhuesken.de
 Text Domain: MiniMetaWidget
 Domain Path: /lang/
@@ -103,8 +103,14 @@ Change log:
 		       Option Page per function
 		       Style for login form input felds
   Version 4.0.2   Some bug fixes and improvments
-  Version 4.0.3   Extra File for WP 2.6 compatibility
-		       USe some mor WP 2.7 functions
+  Version 4.1.0   Extra File for WP 2.6 compatibility
+		       Use some more WP 2.7 functions
+		       Load Scripts in footer (WP 2.8)
+		       Display gravatar
+		       Display Links by categorys
+		       Use of contectual help
+		       New Config Page more intutive
+		       Removed K2 SBM Support
  */
 
 
@@ -121,7 +127,7 @@ if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPres
 	if (version_compare($wp_version, '2.7', '<'))    
 		require_once('app/wp/wp_older.php');
 
-	//Load fuction file
+	//Load functions file
 	require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
 
 	//Plugin init	

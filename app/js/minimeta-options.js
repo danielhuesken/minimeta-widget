@@ -1,19 +1,6 @@
 jQuery(document).ready(function() {
 	// close postboxes that should be closed
 	jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-
-	//click open/close for postboxes
-	jQuery('.postbox h3').click( function() {
-		jQuery(this).parent().toggleClass('closed');
-		if (jQuery(this).parent().hasClass('closed')) {
-			jQuery(this).parent().children('input').attr('value','0');
-		} else {
-			jQuery(this).parent().children('input').attr('value','1');
-		}
-	});
-
-	//Remove delte boxes when js is activaded
-	jQuery('#WidgetOptDelete').remove();			
 	
 	//Swits style and add link for part boxes
 	//addd/remove linke when part box is active or not

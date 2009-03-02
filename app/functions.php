@@ -74,11 +74,52 @@ class MiniMetaFunctions {
 		add_action('load-'.$hook, array('MiniMetaFunctions', 'options_load'));
 		if (current_user_can(10))
 			add_action('load-'.$hook,array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinks
+		add_filter('contextual_help', array('MiniMetaFunctions', 'show_help'), 10, 2);
 	}	
+	
+	// Help too display
+	function show_help() {
+	    $plugin_data=get_plugin_data(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php');
+		
+		$help .= '<h5>' . __('Plugin Info', 'MiniMetaWidget') . '</h5>';
+		$help .= '<div class="metabox-prefs">';
+		$help .= __('Name:', 'MiniMetaWidget').' '.$plugin_data['Title'].' | ';
+		$help .= __('Version:', 'MiniMetaWidget').' '.$plugin_data['Version'].' | ';
+		$help .= __('Author:', 'MiniMetaWidget').' '.$plugin_data['Author'];
+		$help .= "</div>\n";
+		
+		$help .= '<h5>' . __('More Help & Info', 'MiniMetaWidget') . '</h5>';
+		$help .= '<div class="metabox-prefs">';
+		$help .= '<a href="http://wordpress.org/tags/minimeta-widget" target="_blank">'.__('Support Forums', 'MiniMetaWidget').'</a>';
+		$help .= ' | <a href="http://wordpress.org/extend/plugins/minimeta-widget" target="_blank">' . __('Plugin Home on WordPress.org', 'MiniMetaWidget') . '</a>';
+		$help .= "</div>\n";	
+
+		$help .= '<h5>' . __('Donate', 'MiniMetaWidget') . '</h5>';
+		$help .= '<div class="metabox-prefs">';
+		$help .='<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
+		$help .='<input type="hidden" name="cmd" value="_donations" />';
+		$help .='<input type="hidden" name="business" value="daniel@huesken-net.de" />';
+		$help .='<input type="hidden" name="item_name" value="Daniel Hüsken Plugin Donation" />';
+		$help .='<input type="hidden" name="item_number" value="MiniMeta Widget" />';
+		$help .='<input type="hidden" name="page_style" value="Primary" />';
+		$help .='<input type="hidden" name="no_shipping" value="1" />';
+		$help .='<input type="hidden" name="currency_code" value="EUR" />';
+		$help .='<input type="hidden" name="tax" value="0" />';
+		$help .='<input type="hidden" name="cn" value="Message / Note" />';
+		$help .='<input type="hidden" name="lc" value="DE" />';
+		$help .='<input type="hidden" name="bn" value="PP-DonationsBF" />';
+		$help .='<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-butcc-donate.gif" name="submit" />';
+		$help .='<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" style="clear:both;" />';
+		$help .='</form>';
+		$help .= "</div>\n";	
+		
+		return $help;
+	}
+	
 	
 	//Options Page
 	function options_form() {
-		global $minimeta_options_text;
+		global $minimeta_options_text,$mmconfigid;
 		//If uninstall checked
 		if(trim($_POST['uninstall_MiniMeta_yes']) == 'yes' and current_user_can('edit_plugins')) {
 			check_admin_referer('MiniMeta-delete','wpnoncemmui');
@@ -101,12 +142,10 @@ class MiniMetaFunctions {
 	
 	//Options Page
 	function options_load() {
-		global $minimeta_options_text,$wp_version;
+		global $minimeta_options_text,$mmconfigid,$wp_version;
 		//Css for Admin Section
-		if (version_compare($wp_version, '2.7-almost-beta-9417', '<'))
-			wp_enqueue_style('MiniMeta26',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin26.css'),'','4.0.0','screen');
-		wp_enqueue_style('MiniMeta',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'),'','4.0.0','screen');
-		wp_enqueue_script('MiniMetaOptions',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/minimeta-options.js'),'jQuery','4.0.0');
+		wp_enqueue_style('MiniMeta',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'),'','4.1.0','screen');
+		wp_enqueue_script('MiniMetaOptions',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/minimeta-options.js'),'jQuery','4.1.0',true);
 		wp_localize_script('MiniMetaOptions','MiniMetaL10n',array('edit'=>__('Edit')));
 		//For save Options
 		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/options-save.php');
@@ -177,11 +216,8 @@ class MiniMetaFunctions {
 		if (current_user_can(10)) 
 			add_action('load-plugins.php',array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinkson plugins page
 			
-		//Support for Sidbar tyeps
-		if (class_exists('K2SBM'))  { //K2 SBM only
-			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-k2sbm.php');
-			MiniMetaWidgetK2SBM::register();
-		} elseif (function_exists('register_sidebar_widget')) { //Widgest only
+		//Support for Wordpress Widgets
+		if (function_exists('register_sidebar_widget')) { //Widgest only
 			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-wp.php');
 			add_action('widgets_init', array('MiniMetaWidgetWP', 'register'));
 		}
