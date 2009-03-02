@@ -74,12 +74,12 @@ class MiniMetaFunctions {
 		add_action('load-'.$hook, array('MiniMetaFunctions', 'options_load'));
 		if (current_user_can(10))
 			add_action('load-'.$hook,array('MiniMetaFunctions', 'generate_adminlinks'),1); //Generate Adminlinks
-		add_filter('contextual_help', array('MiniMetaFunctions', 'show_help'), 10, 2);
+		add_contextual_help($hook,MiniMetaFunctions::show_help());
 	}	
 	
 	// Help too display
 	function show_help() {
-	    $plugin_data=get_plugin_data(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php');
+		$plugin_data=get_plugin_data(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php');
 		
 		$help .= '<h5>' . __('Plugin Info', 'MiniMetaWidget') . '</h5>';
 		$help .= '<div class="metabox-prefs">';
@@ -112,7 +112,7 @@ class MiniMetaFunctions {
 		$help .='<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" style="clear:both;" />';
 		$help .='</form>';
 		$help .= "</div>\n";	
-		
+
 		return $help;
 	}
 	
