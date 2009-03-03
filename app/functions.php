@@ -80,21 +80,18 @@ class MiniMetaFunctions {
 	// Help too display
 	function show_help() {
 		$plugin_data=get_plugin_data(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php');
-		
-		$help .= '<h5>' . __('Plugin Info', 'MiniMetaWidget') . '</h5>';
+	
 		$help .= '<div class="metabox-prefs">';
-		$help .= __('Name:', 'MiniMetaWidget').' '.$plugin_data['Title'].' | ';
+		$help .= '<a href="http://wordpress.org/tags/minimeta-widget" target="_blank">'.__('Support Forums', 'MiniMetaWidget').'</a>';
+		$help .= ' | <a href="http://danielhuesken.de/portfolio/minimeta/" target="_blank">' . __('Plugin Homepage', 'MiniMetaWidget') . '</a>';
+		$help .= ' | <a href="http://wordpress.org/extend/plugins/minimeta-widget" target="_blank">' . __('Plugin Home on WordPress.org', 'MiniMetaWidget') . '</a>';
+		$help .= "</div>\n";	
+
+		$help .= '<div class="metabox-prefs">';
 		$help .= __('Version:', 'MiniMetaWidget').' '.$plugin_data['Version'].' | ';
 		$help .= __('Author:', 'MiniMetaWidget').' '.$plugin_data['Author'];
 		$help .= "</div>\n";
 		
-		$help .= '<h5>' . __('More Help & Info', 'MiniMetaWidget') . '</h5>';
-		$help .= '<div class="metabox-prefs">';
-		$help .= '<a href="http://wordpress.org/tags/minimeta-widget" target="_blank">'.__('Support Forums', 'MiniMetaWidget').'</a>';
-		$help .= ' | <a href="http://wordpress.org/extend/plugins/minimeta-widget" target="_blank">' . __('Plugin Home on WordPress.org', 'MiniMetaWidget') . '</a>';
-		$help .= "</div>\n";	
-
-		$help .= '<h5>' . __('Donate', 'MiniMetaWidget') . '</h5>';
 		$help .= '<div class="metabox-prefs">';
 		$help .='<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
 		$help .='<input type="hidden" name="cmd" value="_donations" />';

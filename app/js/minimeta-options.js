@@ -1,7 +1,6 @@
 jQuery(document).ready(function() {
 	// close postboxes that should be closed
 	jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-	
 	//Swits style and add link for part boxes
 	//addd/remove linke when part box is active or not
 	jQuery('.checkbox-active').click(function () { //click works btter than change in IE

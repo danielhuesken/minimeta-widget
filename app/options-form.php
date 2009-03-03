@@ -34,7 +34,12 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 
 <form id="config-action" action="" method="post">	
 	<div class="tablenav">
-		<div class="alignleft actions">
+		<div class="alignright">
+			<input type="submit" name="addbutton" class="button-secondary" title="<?php _e('adds a new MiniMeta widget config with default values', 'MiniMetaWidget'); ?>" value="<?php _e('Add New Config', 'MiniMetaWidget'); ?>"/>
+			<input type="submit" name="dupbutton" class="button-secondary"  title="<?php _e('clones the current MiniMeta widget config', 'MiniMetaWidget'); ?>" value="<?php _e('Duplicate This Config', 'MiniMetaWidget'); ?>"/>
+			<input title="<?php _e('This will delete the current MiniMeta widget config - no warning!', 'MiniMetaWidget'); ?>" type="submit" onclick="return confirm('<?php _e('This will delete the current MiniMeta widget config!', 'MiniMetaWidget'); ?>')" name="delbutton" class="button-secondary" value="<?php _e('Delete THIS Config', 'MiniMetaWidget'); ?>"/>
+		</div>	
+		<div class="alignleft">
 			<?php _e('Config:', 'MiniMetaWidget'); ?> 
 			<select name="mmconfigid">
 			<?PHP
@@ -48,15 +53,10 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 			<input type="submit" name="gobutton" class="button-primary action" title="<?php _e('Go to MiniMeta widget config', 'MiniMetaWidget'); ?>" value="<?php _e('Go!', 'MiniMetaWidget'); ?>"/>
 			<?php wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
 		</div>
-		<div class="alignright actions">
-			<input type="submit" name="addbutton" class="button-secondary" title="<?php _e('adds a new MiniMeta widget config with default values', 'MiniMetaWidget'); ?>" value="<?php _e('Add New Config', 'MiniMetaWidget'); ?>"/>
-			<input type="submit" name="dupbutton" class="button-secondary"  title="<?php _e('clones the current MiniMeta widget config', 'MiniMetaWidget'); ?>" value="<?php _e('Duplicate This Config', 'MiniMetaWidget'); ?>"/>
-			<input title="<?php _e('This will delete the current MiniMeta widget config - no warning!', 'MiniMetaWidget'); ?>" type="submit" onclick="return confirm('<?php _e('This will delete the current MiniMeta widget config!', 'MiniMetaWidget'); ?>')" name="delbutton" class="button-secondary" value="<?php _e('Delete THIS Config', 'MiniMetaWidget'); ?>"/>
-		</div>	
 		<div class="clear"></div> 
 	</div>
 </form>
-<div class="clear"></div> 
+<br class="clear" /> 
 
 <?php if (!empty($mmconfigid)) { ?>
 
@@ -68,8 +68,8 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 	<thead>
 	<tr>
 	<th scope="col">
-		<span class="alignleft"><?php _e('Config Name:', 'MiniMetaWidget'); ?> <input type="text" title="<?php _e('Config Name'); ?>" name="widget-options[<?php echo $mmconfigid; ?>][optionname]" value="<?php echo $options_widgets[$mmconfigid]['optionname']; ?>" size="30" /></span>
 		<span class="alignright"><input type="submit" name="Submit" class="button-primary" value="<?php _e('Save Changes'); ?>" /></span>
+		<span class="alignleft"><?php _e('Config Name:', 'MiniMetaWidget'); ?> <input type="text" title="<?php _e('Config Name'); ?>" name="widget-options[<?php echo $mmconfigid; ?>][optionname]" value="<?php echo $options_widgets[$mmconfigid]['optionname']; ?>" size="30" /></span>
 		<br class="clear" />
 	</th>
 	</tr>

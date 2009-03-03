@@ -1,5 +1,5 @@
 <?PHP
-//Compatibility fpr WP 2.6
+//Compatibility for WP 2.6 and 2.5
 
 	if (!defined('WP_PLUGIN_DIR'))
 		define( 'WP_PLUGIN_DIR', ABSPATH . 'wp-content/plugins' );
@@ -39,4 +39,12 @@
 			return site_url("wp-login.php$redirect", 'login');
 		}
 	}
+	
+	if (!function_exists('add_contextual_help')) {	
+		function add_contextual_help($screen = '', $help) {
+			
+		}
+	}
+	
+	
 ?>
