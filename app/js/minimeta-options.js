@@ -6,8 +6,7 @@ jQuery(document).ready(function() {
 	jQuery('.checkbox-active').click(function () { //click works btter than change in IE
 		if ( jQuery(this).attr('checked') ) {
 			jQuery(this).parent('span').parent('h4').parent('div:has(div > input),').children('h4').children('span').after(' <span style="float: right;" class="widget-edit-item">'+MiniMetaL10n.edit+'</span>');
-			//jQuery(this).parent().parent().parent().removeClass('closed');
-			jQuery('.widget-edit-item').click( function() {
+			jQuery(this).parent('span').next('span').click( function() {
 				jQuery(this).parent().parent().toggleClass('closed');
 			});
 		} else {

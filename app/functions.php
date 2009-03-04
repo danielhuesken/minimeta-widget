@@ -178,7 +178,7 @@ class MiniMetaFunctions {
 	}
 	
 	//update from older version
-	function update($optionswpwold) {
+	function update() {
 		delete_option('widget_minimeta');
 		delete_option('widget_minimeta_adminlinks');
 	}

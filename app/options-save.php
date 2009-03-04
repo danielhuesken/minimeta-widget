@@ -14,7 +14,7 @@ if (!empty($_POST['addbutton']) and $_REQUEST['subpage']=="") {
 		$newnumber=wp_create_nonce(mt_rand(10, 30));
 	}
 	// def. Opdions
-	$options_widgets[$newnumber]['optionname']=htmlentities(stripslashes(__('New Config', 'MiniMetaWidget')));
+	$options_widgets[$newnumber]['optionname']=htmlentities(stripslashes(__('New', 'MiniMetaWidget')));
 	$options_widgets[$newnumber]['in'][0]['part']='title';
 	$options_widgets[$newnumber]['in'][1]['part']='linkseiteadmin';
 	$options_widgets[$newnumber]['in'][2]['part']='linkloginlogout';
@@ -31,13 +31,13 @@ if (!empty($_POST['addbutton']) and $_REQUEST['subpage']=="") {
 	$options_widgets[$newnumber]['out'][6]['part']='actionwpmeta';
 	$options_widgets[$newnumber]['general']['pagesnot']['notselected']=true;
 
-	$mmconfigid=$newnumber;
- 
 	if (update_option('minimeta_widget_options', $options_widgets)) {
-		$minimeta_options_text = '<font color="green">'.__('MiniMeta Widget Config Created', 'MiniMetaWidget').'</font>';
+		$minimeta_options_text = '<font color="green">'.__('New Config Created', 'MiniMetaWidget').'</font>';
 	} else {
-		$minimeta_options_text = '<font color="red">'.__('No MiniMeta Widget Config Created', 'MiniMetaWidget').'</font>';
+		$minimeta_options_text = '<font color="red">'.__('New Config NOT Created', 'MiniMetaWidget').'</font>';
 	}
+	
+	$mmconfigid=$newnumber;
 }
 
 // Copy  Config
@@ -51,27 +51,44 @@ if (!empty($_POST['dupbutton']) and !empty($mmconfigid) and $_REQUEST['subpage']
 	}
 	//make config copy
 	$options_widgets[$newnumber]=$options_widgets[$mmconfigid];
-	$options_widgets[$newnumber]['optionname']=htmlentities(stripslashes(__('Copy of', 'MiniMetaWidget').' '.$options_widgets[$newnumber]['optionname']));
-	
-	$mmconfigid=$newnumber;
+	$options_widgets[$newnumber]['optionname']=htmlentities(stripslashes(__('Copy of', 'MiniMetaWidget').' '.$options_widgets[$mmconfigid]['optionname']));
 	
 	if (update_option('minimeta_widget_options', $options_widgets)) {
-		$minimeta_options_text = '<font color="green">'.__('Copy of MiniMeta Widget Config Created', 'MiniMetaWidget').'</font>';
+		$minimeta_options_text = '<font color="green">'.sprintf(__('Copy of "%s" Config Created', 'MiniMetaWidget'),$options_widgets[$mmconfigid]['optionname']).'</font>';
 	} else {
-		$minimeta_options_text = '<font color="red">'.__('No Copy of MiniMeta Widget Config Created', 'MiniMetaWidget').'</font>';
+		$minimeta_options_text = '<font color="red">'.sprintf(__('Copy of "%s" Config NOT Created', 'MiniMetaWidget'),$options_widgets[$mmconfigid]['optionname']).'</font>';
 	}
+	
+	$mmconfigid=$newnumber;
 }
 
 //Delete Config
 if (!empty($_POST['delbutton']) and !empty($mmconfigid) and $_REQUEST['subpage']=="") {
 	check_admin_referer('MiniMeta-options','wpnoncemm');
 	
+	$name=$options_widgets[$mmconfigid]['optionname']; 
 	unset($options_widgets[$mmconfigid]);
 	
-	if (update_option('minimeta_widget_options', $options_widgets)) {
-		$minimeta_options_text = '<font color="green">'.__('MiniMeta Widget Config Deleted', 'MiniMetaWidget').'</font>';
+	$i=0; //test if config exists
+	foreach ($options_widgets as $optionid) {
+		$i++;
+	}
+	
+	if ($i==0) { //only Update if a config exists
+		if (delete_option('minimeta_widget_options')) {
+			add_option('minimeta_widget_options');
+			$minimeta_options_text = '<font color="green">'.sprintf(__('Config "%s" Deleted', 'MiniMetaWidget'),$name).'</font>';
+			$mmconfigid="";
+		} else {
+			$minimeta_options_text = '<font color="red">'.sprintf(__('Config "%s" NOT Deleted', 'MiniMetaWidget'),$name).'</font>';
+		}
 	} else {
-		$minimeta_options_text = '<font color="red">'.__('MiniMeta Widget Config Deleted', 'MiniMetaWidget').'</font>';
+		if (update_option('minimeta_widget_options', $options_widgets)) {
+			$minimeta_options_text = '<font color="green">'.sprintf(__('Config "%s" Deleted', 'MiniMetaWidget'),$name).'</font>';
+			$mmconfigid="";
+		} else {
+			$minimeta_options_text = '<font color="red">'.sprintf(__('Config "%s" NOT Deleted', 'MiniMetaWidget'),$name).'</font>';
+		}
 	}
 }
 
@@ -122,9 +139,9 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 	}
 	
 	if (update_option('minimeta_widget_options', $options_widgets)) {
-		$minimeta_options_text = '<font color="green">'.__('MiniMeta Widget Config Updated', 'MiniMetaWidget').'</font>';
+		$minimeta_options_text = '<font color="green">'.sprintf(__('Config "%s" Updated', 'MiniMetaWidget'),$options_widgets[$mmconfigid]['optionname']).'</font>';
 	} else {
-		$minimeta_options_text = '<font color="red">'.__('MiniMeta Widget Config Updated', 'MiniMetaWidget').'</font>';
+		$minimeta_options_text = '<font color="red">'.sprintf(__('Config "%s" NOT Updated', 'MiniMetaWidget'),$options_widgets[$mmconfigid]['optionname']).'</font>';
 	}
 }
 ?>

@@ -105,12 +105,13 @@ Change log:
   Version 4.0.2   Some bug fixes and improvments
   Version 4.1.0   Extra File for WP 2.6 compatibility
 		       Use some more WP 2.7 functions
-		       Load Scripts in footer (WP 2.8)
+		       Load Scripts in footer WP 2.8
 		       Display gravatar
 		       Display Links by categorys
-		       Use of contectual help
-		       New Config Page more intutive
+		       Use of contextual help
+		       Reworked Config Page for more intutive
 		       Removed K2 SBM Support
+	                 Some bug fixes
  */
 
 

@@ -1,12 +1,12 @@
 === MiniMeta Widget ===
 Contributors: danielhuesken
 Donate link: http://danielhuesken.de/
-Tags: widget, sidebar, meta, admin, links, login
+Tags: widget, sidebar, meta, admin, links, login, gravatar
 Requires at least: 2.5
 Tested up to: 2.7
 Stable tag: 4.0.2
 
-"Mini" Version of the WordPress Meta Widget with differnt logon types (Form,Link) and additional Admin Links and Blog Links. All Links can all enabeld or disabeld. 
+"Mini" Version of the WordPress Meta Widget with differnt logon types (Form,Link) and additional Admin Links, Blog Links. All thinks can enabeld or disabeld. 
 
 == Description ==
 
@@ -18,7 +18,6 @@ Stable tag: 4.0.2
 * Additional Admin Links (from Plugins too)
 * Display Blog Links
 * build in style sheet support
-* Full K2 SBM support
 
 Only 2.5+
 Please Use Version 3.0.1 for WordPress lower than 2.5
@@ -33,7 +32,7 @@ Please Use Version 3.0.1 for WordPress lower than 2.5
 
 = Plugin Hooks are testet =
 
-Version later 2.7.0 needed:<br />
+MiniMeta Version later 2.7.0 needed:<br />
 [Semisecure Login](http://wordpress.org/extend/plugins/semisecure-login/)<br />
 [Raz-Captcha](http://wordpress.org/extend/plugins/raz-captcha/)<br />
 [Chap Secure Login](http://wordpress.org/extend/plugins/chap-secure-login/)<br />
@@ -46,5 +45,5 @@ In the Plugin file are dependings for files where the plugin work. This dependin
 == Screenshots ==
 
 1. MiniMeta Widget with Login form
-2. Some links of MiniMeta Widget when loggtin
+2. Some links of MiniMeta Widget when loggt in
 3. MiniMeta Widget Options Page

@@ -24,7 +24,7 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 <h2><?php _e('MiniMeta Widget', 'MiniMetaWidget'); ?></h2>
 
 <ul class="subsubsub">
-<li><a href="<?PHP echo $_SERVER['REQUEST_URI']; ?>&amp;subpage="<?PHP if ($_REQUEST['subpage']=="") echo ' class="current"'; ?>><?php _e('Configs', 'MiniMetaWidget'); ?></a> |</li>
+<li><a href="<?PHP echo $_SERVER['REQUEST_URI']; ?>&amp;subpage="<?PHP if ($_REQUEST['subpage']=="") echo ' class="current"'; ?>><?php _e('Widget Config', 'MiniMetaWidget'); ?></a> |</li>
 <?php if(current_user_can('edit_plugins')) {?><li><a href="<?PHP echo $_SERVER['REQUEST_URI']; ?>&amp;subpage=Uninstall"<?PHP if ($_REQUEST['subpage']=="Uninstall") echo ' class="current"'; ?>><?php _e('Uninstall', 'MiniMetaWidget'); ?></a> |</li><?php } ?>
 <li><a href="<?PHP echo $_SERVER['REQUEST_URI']; ?>&amp;subpage=Usage"<?PHP if ($_REQUEST['subpage']=="Usage") echo ' class="current"'; ?>><?php _e('Usage', 'MiniMetaWidget'); ?></a></li> 
 </ul>
@@ -36,47 +36,45 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 	<div class="tablenav">
 		<div class="alignright">
 			<input type="submit" name="addbutton" class="button-secondary" title="<?php _e('adds a new MiniMeta widget config with default values', 'MiniMetaWidget'); ?>" value="<?php _e('Add New Config', 'MiniMetaWidget'); ?>"/>
-			<input type="submit" name="dupbutton" class="button-secondary"  title="<?php _e('clones the current MiniMeta widget config', 'MiniMetaWidget'); ?>" value="<?php _e('Duplicate This Config', 'MiniMetaWidget'); ?>"/>
-			<input title="<?php _e('This will delete the current MiniMeta widget config - no warning!', 'MiniMetaWidget'); ?>" type="submit" onclick="return confirm('<?php _e('This will delete the current MiniMeta widget config!', 'MiniMetaWidget'); ?>')" name="delbutton" class="button-secondary" value="<?php _e('Delete THIS Config', 'MiniMetaWidget'); ?>"/>
+			<?PHP if (is_array($options_widgets)) { ?>
+				<input type="submit" name="dupbutton" class="button-secondary"  title="<?php _e('clones the current MiniMeta widget config', 'MiniMetaWidget'); ?>" value="<?php _e('Duplicate This Config', 'MiniMetaWidget'); ?>"/>
+				<input title="<?php _e('This will delete the current MiniMeta widget config - no warning!', 'MiniMetaWidget'); ?>" type="submit" onclick="return confirm('<?php _e('This will delete the current MiniMeta widget config!', 'MiniMetaWidget'); ?>')" name="delbutton" class="button-secondary" value="<?php _e('Delete This Config', 'MiniMetaWidget'); ?>"/>
+			<?PHP } ?>
 		</div>	
 		<div class="alignleft">
-			<?php _e('Config:', 'MiniMetaWidget'); ?> 
-			<select name="mmconfigid">
+		<?PHP if (is_array($options_widgets)) { ?>
+			<select name="mmconfigid" title="<?php _e('Select the current MiniMeta widget config!', 'MiniMetaWidget'); ?>">
 			<?PHP
 			foreach ( $options_widgets as $optionid => $optionvalues) {
-				if (empty($mmconfigid)) $mmconfigid=$optionid;
 			    $checkmmconfigid=$mmconfigid==$optionid ? ' selected="selected"' : '';
 				echo "<option value=\"".$optionid."\"".$checkmmconfigid.">".$optionvalues['optionname']."</option>";
 			}
 			?>
 			</select>
 			<input type="submit" name="gobutton" class="button-primary action" title="<?php _e('Go to MiniMeta widget config', 'MiniMetaWidget'); ?>" value="<?php _e('Go!', 'MiniMetaWidget'); ?>"/>
+			<?PHP } else { ?>
+				<span class="setting-description" style="color:red;"><?php _e('Make a New config first -->', 'MiniMetaWidget'); ?></span>
+			<?PHP } ?>
 			<?php wp_nonce_field('MiniMeta-options','wpnoncemm'); ?>
 		</div>
 		<div class="clear"></div> 
 	</div>
 </form>
-<br class="clear" /> 
+<br class="clear" />
 
 <?php if (!empty($mmconfigid)) { ?>
 
-<form action="" method="post">	
+<form id="poststuff" action="" method="post">
 <?php wp_nonce_field('MiniMeta-options','wpnoncemmconf'); ?>
 <input type="hidden" name="mmconfigid" value="<?php echo $mmconfigid; ?>" />
-
-	<table class="widefat" cellspacing="0">
-	<thead>
-	<tr>
-	<th scope="col">
-		<span class="alignright"><input type="submit" name="Submit" class="button-primary" value="<?php _e('Save Changes'); ?>" /></span>
+	<div id="configdiv" class="stuffbox">
+	<h3><label for="configmm"><?php _e('MiniMeta Widget Config', 'MiniMetaWidget'); ?></label></h3>
+	<div class="inside">
+	
+		<input type="submit" name="Submit" class="button-primary alignright" value="<?php _e('Save Changes'); ?>" />
 		<span class="alignleft"><?php _e('Config Name:', 'MiniMetaWidget'); ?> <input type="text" title="<?php _e('Config Name'); ?>" name="widget-options[<?php echo $mmconfigid; ?>][optionname]" value="<?php echo $options_widgets[$mmconfigid]['optionname']; ?>" size="30" /></span>
 		<br class="clear" />
-	</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	<tr><td>
+	
 		<?php $loginout='out'; ?>
 		<div class="widget-logout">
 			<h4 style="text-align:center;"><?php echo _e('Show when Loggt out:'); ?></h4>
@@ -195,23 +193,29 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 				</div>			
 			</div>
 		</div>
-	</td></tr>
-	</tbody></table>
+	</div>
+	</div>
 </form> 
+<?php } else { // show if no config selected ?>
+	<?php if (!is_array($options_widgets)){ 
+			echo "<br />&nbsp;<br />"; 
+			$_REQUEST['subpage']="Usage";
+		} else { ?>
+			<span class="setting-description"><?php _e('Please Select a MiniMeta Widget Config to begin!', 'MiniMetaWidget'); ?></span>
+	<?php }?>
 <?php }?>
 <?php }?>
 
 <?php if ($_REQUEST['subpage']=="Usage") { ?>
 		<div id="mm-usage">
 				<?php _e('1. Create a Widget Config.', 'MiniMetaWidget'); ?><br />
-				<?php _e('2. Place a Widget from WordPress Wigets or in Theme via PHP and select a Widget Config.', 'MiniMetaWidget'); ?><br />
-				<?php _e('3. Ready.', 'MiniMetaWidget'); ?><br />
+				<?php _e('2. Configure your Widget Config as you wont.', 'MiniMetaWidget'); ?><br />
+				<?php _e('3. Place a Widget from WordPress Widgets or in Theme via PHP and select a Widget Config.', 'MiniMetaWidget'); ?><br />
+				<?php _e('4. Ready.', 'MiniMetaWidget'); ?><br />
 				&nbsp;<br />
 				<strong><?php _e('Code too place a Widget via PHP:', 'MiniMetaWidget'); ?></strong><br />
-				<code> &lt;?PHP if (function_exists('MiniMetaWidgetSidebar')) MiniMetaWidgetSidebar(WidgetConfigName); ?&gt; </code><br />
+				<code> &lt;?PHP if (function_exists('MiniMetaWidgetSidebar')) MiniMetaWidgetSidebar(<?php _e('Name of Widget Config', 'MiniMetaWidget'); ?>); ?&gt; </code><br />
 				&nbsp;<br />
-
-				<strong>WidgetConfigName</strong> <?php _e('= Name of Widget Config from Configs', 'MiniMetaWidget'); ?><br />
 		</div> 
 		<div class="clear"></div> 
 <?php } ?>
