@@ -31,14 +31,14 @@ class MiniMetaWidgetParts {
 
 	//Gravatar
 	function gravatar_display($args) {
-		global $user_id;
+		global $user_ID;
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
 		$stylediv=!empty($stylediv)?' style="'.$stylediv.'"':'';
 		if(is_user_logged_in()) {
 			if ($size>512) $size=512;
 			echo "<div".$stylediv.">";
-			echo get_avatar($user_id, $size);
+			echo get_avatar($user_ID, $size);
 			echo "</div>";
 		} 
 	}
