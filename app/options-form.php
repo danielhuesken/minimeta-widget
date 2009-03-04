@@ -32,22 +32,21 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 
 <?php if ($_REQUEST['subpage']=="") { ?>
 
-<form id="config-action" action="" method="post">	
+<form id="poststuff" action="" method="post">	
 	<div class="tablenav">
 		<div class="alignright">
 			<input type="submit" name="addbutton" class="button-secondary" title="<?php _e('adds a new MiniMeta widget config with default values', 'MiniMetaWidget'); ?>" value="<?php _e('Add New Config', 'MiniMetaWidget'); ?>"/>
-			<?PHP if (is_array($options_widgets)) { ?>
+			<?PHP if (is_array($options_widgets) and !empty($mmconfigid)) { ?>
 				<input type="submit" name="dupbutton" class="button-secondary"  title="<?php _e('clones the current MiniMeta widget config', 'MiniMetaWidget'); ?>" value="<?php _e('Duplicate This Config', 'MiniMetaWidget'); ?>"/>
 				<input title="<?php _e('This will delete the current MiniMeta widget config - no warning!', 'MiniMetaWidget'); ?>" type="submit" onclick="return confirm('<?php _e('This will delete the current MiniMeta widget config!', 'MiniMetaWidget'); ?>')" name="delbutton" class="button-secondary" value="<?php _e('Delete This Config', 'MiniMetaWidget'); ?>"/>
 			<?PHP } ?>
 		</div>	
 		<div class="alignleft">
 		<?PHP if (is_array($options_widgets)) { ?>
-			<select name="mmconfigid" title="<?php _e('Select the current MiniMeta widget config!', 'MiniMetaWidget'); ?>">
+			<select name="selectmmconfigid" title="<?php _e('Select the current MiniMeta widget config!', 'MiniMetaWidget'); ?>">
 			<?PHP
 			foreach ( $options_widgets as $optionid => $optionvalues) {
-			    $checkmmconfigid=$mmconfigid==$optionid ? ' selected="selected"' : '';
-				echo "<option value=\"".$optionid."\"".$checkmmconfigid.">".$optionvalues['optionname']."</option>";
+				?> <option value="<?php echo $optionid; ?>"<?php selected($mmconfigid,$optionid)?>><?php echo $optionvalues['optionname'];?></option> <?PHP
 			}
 			?>
 			</select>
@@ -59,13 +58,9 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 		</div>
 		<div class="clear"></div> 
 	</div>
-</form>
 <br class="clear" />
 
 <?php if (!empty($mmconfigid)) { ?>
-
-<form id="poststuff" action="" method="post">
-<?php wp_nonce_field('MiniMeta-options','wpnoncemmconf'); ?>
 <input type="hidden" name="mmconfigid" value="<?php echo $mmconfigid; ?>" />
 	<div id="configdiv" class="stuffbox">
 	<h3><label for="configmm"><?php _e('MiniMeta Widget Config', 'MiniMetaWidget'); ?></label></h3>

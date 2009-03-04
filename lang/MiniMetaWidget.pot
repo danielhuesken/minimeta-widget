@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/minimeta-widget\n"
-"POT-Creation-Date: 2009-03-04 08:24+0000\n"
+"POT-Creation-Date: 2009-03-04 13:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,49 +42,49 @@ msgstr ""
 msgid "Plugin Home on WordPress.org"
 msgstr ""
 
-#: app/functions.php:91
+#: app/functions.php:90
 msgid "Version:"
 msgstr ""
 
-#: app/functions.php:92
+#: app/functions.php:91
 msgid "Author:"
 msgstr ""
 
-#: app/functions.php:132
+#: app/functions.php:128
 msgid "Uninstall MiniMeta Widget"
 msgstr ""
 
-#: app/functions.php:133
+#: app/functions.php:129
 #, php-format
 msgid ""
 "<a href=\"%s\">Click Here</a> To Finish The Uninstallation And MiniMeta "
 "Widget Will Be Deactivated Automatically."
 msgstr ""
 
-#: app/functions.php:146
+#: app/functions.php:142
 msgid "Edit"
 msgstr ""
 
-#: app/functions.php:160
+#: app/functions.php:156
 #, php-format
 msgid "Setting Key '%s' has been deleted."
 msgstr ""
 
-#: app/functions.php:164
+#: app/functions.php:160
 #, php-format
 msgid "Error deleting Setting Key '%s'."
 msgstr ""
 
-#: app/functions.php:188
+#: app/functions.php:184
 msgid "Go to Settings Page"
 msgstr ""
 
-#: app/functions.php:188
+#: app/functions.php:184
 msgid "Settings"
 msgstr ""
 
 #: app/options-form.php:27
-msgid "Configs"
+msgid "Widget Config"
 msgstr ""
 
 #: app/options-form.php:28
@@ -103,220 +103,250 @@ msgstr ""
 msgid "Add New Config"
 msgstr ""
 
-#: app/options-form.php:39
+#: app/options-form.php:40
 msgid "clones the current MiniMeta widget config"
 msgstr ""
 
-#: app/options-form.php:39
+#: app/options-form.php:40
 msgid "Duplicate This Config"
 msgstr ""
 
-#: app/options-form.php:40
+#: app/options-form.php:41
 msgid "This will delete the current MiniMeta widget config - no warning!"
 msgstr ""
 
-#: app/options-form.php:40
+#: app/options-form.php:41
 msgid "This will delete the current MiniMeta widget config!"
 msgstr ""
 
-#: app/options-form.php:40
-msgid "Delete THIS Config"
+#: app/options-form.php:41
+msgid "Delete This Config"
 msgstr ""
 
-#: app/options-form.php:43
-msgid "Config:"
+#: app/options-form.php:46
+msgid "Select the current MiniMeta widget config!"
 msgstr ""
 
-#: app/options-form.php:53
+#: app/options-form.php:54
 msgid "Go to MiniMeta widget config"
 msgstr ""
 
-#: app/options-form.php:53
+#: app/options-form.php:54
 msgid "Go!"
 msgstr ""
 
+#: app/options-form.php:56
+msgid "Make a New config first -->"
+msgstr ""
+
 #: app/options-form.php:71
+msgid "MiniMeta Widget Config"
+msgstr ""
+
+#: app/options-form.php:74
 msgid "Save Changes"
 msgstr ""
 
-#: app/options-form.php:72
+#: app/options-form.php:75
 msgid "Config Name:"
 msgstr ""
 
-#: app/options-form.php:72
+#: app/options-form.php:75
 msgid "Config Name"
 msgstr ""
 
-#: app/options-form.php:82
+#: app/options-form.php:80
 msgid "Show when Loggt out:"
 msgstr ""
 
-#: app/options-form.php:114
+#: app/options-form.php:112
 msgid "Show when Loggt in:"
 msgstr ""
 
-#: app/options-form.php:146
+#: app/options-form.php:144
 msgid "Generel Settings:"
 msgstr ""
 
-#: app/options-form.php:149
+#: app/options-form.php:147
 msgid "Stylesheet"
 msgstr ""
 
-#: app/options-form.php:158
+#: app/options-form.php:156
 msgid "Seidbar Widget Settings (PHP Function)"
 msgstr ""
 
-#: app/options-form.php:161 app/widget-display.php:30 app/widgets-wp.php:95
+#: app/options-form.php:159 app/widget-display.php:30 app/widgets-wp.php:95
 msgid "Meta"
 msgstr ""
 
-#: app/options-form.php:167 app/widgets-wp.php:109
+#: app/options-form.php:165 app/widgets-wp.php:109
 msgid "Title:"
 msgstr ""
 
-#: app/options-form.php:169
+#: app/options-form.php:167
 msgid "Before Title:"
 msgstr ""
 
-#: app/options-form.php:171
+#: app/options-form.php:169
 msgid "After Title:"
 msgstr ""
 
-#: app/options-form.php:173
+#: app/options-form.php:171
 msgid "Before Widget:"
 msgstr ""
 
-#: app/options-form.php:175
+#: app/options-form.php:173
 msgid "After Widget:"
 msgstr ""
 
-#: app/options-form.php:180
+#: app/options-form.php:178
 msgid "Display on Pages"
 msgstr ""
 
-#: app/options-form.php:182
+#: app/options-form.php:180
 msgid "Display on <b>not</b> selected Pages"
 msgstr ""
 
-#: app/options-form.php:183
+#: app/options-form.php:181
 msgid "out"
 msgstr ""
 
-#: app/options-form.php:183
+#: app/options-form.php:181
 msgid "in"
 msgstr ""
 
-#: app/options-form.php:183
+#: app/options-form.php:181
 msgid "Pages"
 msgstr ""
 
-#: app/options-form.php:184
+#: app/options-form.php:182
 msgid "Homepage"
 msgstr ""
 
-#: app/options-form.php:185
+#: app/options-form.php:183
 msgid "Single Post"
 msgstr ""
 
-#: app/options-form.php:186
+#: app/options-form.php:184
 msgid "Search Page"
 msgstr ""
 
-#: app/options-form.php:187
+#: app/options-form.php:185
 msgid "Error Page"
 msgstr ""
 
-#: app/options-form.php:206
+#: app/options-form.php:204
+msgid "Please Select a MiniMeta Widget Config to begin!"
+msgstr ""
+
+#: app/options-form.php:211
 msgid "1. Create a Widget Config."
 msgstr ""
 
-#: app/options-form.php:207
+#: app/options-form.php:212
+msgid "2. Configure your Widget Config as you wont."
+msgstr ""
+
+#: app/options-form.php:213
 msgid ""
-"2. Place a Widget from WordPress Wigets or in Theme via PHP and select a "
+"3. Place a Widget from WordPress Widgets or in Theme via PHP and select a "
 "Widget Config."
 msgstr ""
 
-#: app/options-form.php:208
-msgid "3. Ready."
+#: app/options-form.php:214
+msgid "4. Ready."
 msgstr ""
 
-#: app/options-form.php:210
+#: app/options-form.php:216
 msgid "Code too place a Widget via PHP:"
 msgstr ""
 
-#: app/options-form.php:214
-msgid "= Name of Widget Config from Configs"
+#: app/options-form.php:217
+msgid "Name of Widget Config"
 msgstr ""
 
-#: app/options-form.php:223
+#: app/options-form.php:227
 msgid ""
 "Deactivating MiniMeta Widget plugin does not remove any data that may have "
 "been created. To completely remove this plugin, you can uninstall it here."
 msgstr ""
 
-#: app/options-form.php:226
+#: app/options-form.php:230
 msgid "WARNING:"
 msgstr ""
 
-#: app/options-form.php:227
+#: app/options-form.php:231
 msgid ""
 "Once uninstalled, this cannot be undone. You should use a Database Backup "
 "plugin of WordPress to back up all the data first."
 msgstr ""
 
-#: app/options-form.php:230
+#: app/options-form.php:234
 msgid "The following WordPress Options will be DELETED:"
 msgstr ""
 
-#: app/options-form.php:235
+#: app/options-form.php:239
 msgid "WordPress Options"
 msgstr ""
 
-#: app/options-form.php:252
+#: app/options-form.php:256
 msgid "Yes"
 msgstr ""
 
-#: app/options-form.php:253
+#: app/options-form.php:257
 msgid "UNINSTALL MiniMeta Widget"
 msgstr ""
 
-#: app/options-form.php:253
+#: app/options-form.php:257
 msgid ""
 "You Are About To Uninstall MiniMeta Widget From WordPress.\\nThis Action Is "
 "Not Reversible.\\n\\n Choose [Cancel] To Stop, [OK] To Uninstall."
 msgstr ""
 
 #: app/options-save.php:17
-msgid "New Config"
+msgid "New"
+msgstr ""
+
+#: app/options-save.php:35
+msgid "New Config Created"
 msgstr ""
 
 #: app/options-save.php:37
-msgid "MiniMeta Widget Config Created"
-msgstr ""
-
-#: app/options-save.php:39
-msgid "No MiniMeta Widget Config Created"
+msgid "New Config NOT Created"
 msgstr ""
 
 #: app/options-save.php:54
 msgid "Copy of"
 msgstr ""
 
+#: app/options-save.php:57
+#, php-format
+msgid "Copy of \"%s\" Config Created"
+msgstr ""
+
 #: app/options-save.php:59
-msgid "Copy of MiniMeta Widget Config Created"
+#, php-format
+msgid "Copy of \"%s\" Config NOT Created"
 msgstr ""
 
-#: app/options-save.php:61
-msgid "No Copy of MiniMeta Widget Config Created"
+#: app/options-save.php:80 app/options-save.php:87
+#, php-format
+msgid "Config \"%s\" Deleted"
 msgstr ""
 
-#: app/options-save.php:72 app/options-save.php:74
-msgid "MiniMeta Widget Config Deleted"
+#: app/options-save.php:83 app/options-save.php:90
+#, php-format
+msgid "Config \"%s\" NOT Deleted"
 msgstr ""
 
-#: app/options-save.php:125 app/options-save.php:127
-msgid "MiniMeta Widget Config Updated"
+#: app/options-save.php:142
+#, php-format
+msgid "Config \"%s\" Updated"
+msgstr ""
+
+#: app/options-save.php:144
+#, php-format
+msgid "Config \"%s\" NOT Updated"
 msgstr ""
 
 #: app/widget-display.php:164
@@ -327,13 +357,14 @@ msgstr ""
 msgid "Widget Config:"
 msgstr ""
 
-#: app/widget-display.php:169 app/widget-parts.php:184
-#: app/widget-parts.php:253 app/widget-parts.php:329 app/widget-parts.php:353
-msgid "None"
+#: app/widget-display.php:170 app/widget-display.php:176
+msgid "default"
 msgstr ""
 
-#: app/widget-display.php:178
-msgid "To make a Widget Config go to MiniMeta Widget tab"
+#: app/widget-display.php:179
+msgid ""
+"To make/change a Widget Config go to <a href=\"admin.php?page=minimeta-widget"
+"\">MiniMeta Widget</a>"
 msgstr ""
 
 #: app/widget-parts.php:12
@@ -406,6 +437,11 @@ msgstr ""
 #: app/widget-parts.php:184 app/widget-parts.php:253 app/widget-parts.php:329
 #: app/widget-parts.php:353
 msgid "All"
+msgstr ""
+
+#: app/widget-parts.php:184 app/widget-parts.php:253 app/widget-parts.php:329
+#: app/widget-parts.php:353
+msgid "None"
 msgstr ""
 
 #: app/widget-parts.php:207
@@ -498,8 +534,6 @@ msgstr ""
 msgid "Displaying Meta links, Login Form and Admin Links"
 msgstr ""
 
-#: minimeta-widget.php:123
+#: minimeta-widget.php:124
 msgid "Sorry, MiniMeta Widget works only under WordPress 2.5 or higher"
 msgstr ""
-
-

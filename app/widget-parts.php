@@ -189,8 +189,7 @@ class MiniMetaWidgetParts {
              echo "<optgroup label=\"".$menu['menu']."\">";
              foreach ($menu as $submenu) {
               if (is_array($submenu)) {
-               $checkadminlinks=in_array($submenu[2],(array)$adminlinks) ? ' selected="selected"' : '';
-               echo "<option value=\"".$submenu[2]."\"".$checkadminlinks.">".$submenu[0]."</option>";
+               ?> <option value="<?PHP echo $submenu[2];?>"<?PHP selected(in_array($submenu[2],(array)$adminlinks),true);?>><?PHP echo $submenu[0];?></option> <?PHP
               }
              }
              echo "</optgroup>";
@@ -258,8 +257,7 @@ class MiniMetaWidgetParts {
              echo "<optgroup label=\"".$menu['menu']."\">";
              foreach ($menu as $submenu) {
               if (is_array($submenu)) {
-               $checkadminlinks=in_array($submenu[2],(array)$adminlinks) ? ' selected="selected"' : '';
-               echo "<option value=\"".$submenu[2]."\"".$checkadminlinks.">".$submenu[0]."</option>";
+                ?> <option value="<?PHP echo $submenu[2];?>"<?PHP selected(in_array($submenu[2],(array)$adminlinks),true);?>><?PHP echo $submenu[0];?></option> <?PHP
               }
              }
              echo "</optgroup>";
@@ -331,8 +329,7 @@ class MiniMetaWidgetParts {
         <?PHP
         $cats=get_terms( 'link_category', array( 'orderby' => 'count', 'order' => 'DESC', 'hide_empty' => false ) );
 		foreach ($cats as $catsdisplay) {
-            $checkcats = in_array($catsdisplay->term_id,(array)$categorys) ? ' selected="selected"' : '';
-            echo "<option value=\"".$catsdisplay->term_id."\"".$checkcats.">". wp_specialchars($catsdisplay->name)."</option>";
+            ?> <option value="<?PHP echo $catsdisplay->term_id;?>"<?PHP selected(in_array($catsdisplay->term_id,(array)$categorys),true);?>><?PHP echo wp_specialchars($catsdisplay->name);?></option> <?PHP
         }        
         ?>  
         </select>
@@ -355,8 +352,7 @@ class MiniMetaWidgetParts {
         <?PHP
         $bookmarks=get_bookmarks(array('hide_invisible' => 0,'orderby' =>'name'));
 		foreach ($bookmarks as $linksdisplay) {
-            $checklinksout = in_array($linksdisplay->link_id,(array)$links) ? ' selected="selected"' : '';
-            echo "<option value=\"".$linksdisplay->link_id."\"".$checklinksout.">". wp_specialchars($linksdisplay->link_name)." - ".wp_specialchars($linksdisplay->link_url)."</option>";
+            ?> <option value="<?PHP echo $linksdisplay->link_id; ?>"<?PHP selected(in_array($linksdisplay->link_id,(array)$links),true);?>><?PHP echo wp_specialchars($linksdisplay->link_name).' - '.wp_specialchars($linksdisplay->link_url);?></option><?PHP
         }        
         ?>  
         </select>

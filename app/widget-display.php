@@ -157,26 +157,4 @@ class MiniMetaWidgetDisplay {
   
 		echo $after_widget;		
 	}
-
-
-	function control($number,$optionsetname) {
-		?>
-		<label for="minimeta-optionset-<?php echo $number; ?>" title="<?php _e('Select a Widget Config','MiniMetaWidget');?>"><?php _e('Widget Config:','MiniMetaWidget');?> 
-         <?PHP 
-		 $options_widgets = get_option('minimeta_widget_options');
-		 if (is_array($options_widgets)) {
-		 ?>
-		 <select class="widefat" name="widget-minimeta[<?php echo $number; ?>][optionset]" id="minimeta-optionset-<?php echo $number; ?>">
-		 <option value="<?PHP echo $name; ?>"<?PHP checked("",$optionsetname);?>><?PHP _e('default','MiniMetaWidget') ?></option>
-			<?PHP 	foreach ($options_widgets as $name => $values) { ?>
-				<option value="<?PHP echo $name; ?>"<?PHP checked($name,$optionsetname);?>><?PHP echo $values['optionname']; ?></option>
-			<?PHP 	}?>
-         </select></label>
-		 <?PHP } else { ?>
-			<span style="color:red;font-face:italic;"><?PHP _e('default','MiniMetaWidget'); ?></span>
-		 <?PHP } ?>
-		 <br />
-		 <span class="setting-description"><?php _e('To make/change a Widget Config go to <a href="admin.php?page=minimeta-widget">MiniMeta Widget</a>','MiniMetaWidget'); ?></span>
-		<?php
-	}
 }

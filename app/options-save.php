@@ -4,6 +4,11 @@
 $mmconfigid=$_REQUEST['mmconfigid'];
 $options_widgets = get_option('minimeta_widget_options');
 
+if (!empty($_POST['gobutton'])) {
+	check_admin_referer('MiniMeta-options','wpnoncemm');
+	$mmconfigid=$_POST['selectmmconfigid'];
+}
+
 // Add new Config
 if (!empty($_POST['addbutton']) and $_REQUEST['subpage']=="") {
 	check_admin_referer('MiniMeta-options','wpnoncemm');
@@ -94,7 +99,7 @@ if (!empty($_POST['delbutton']) and !empty($mmconfigid) and $_REQUEST['subpage']
 
 // Update Options
 if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']=="") {
-	check_admin_referer('MiniMeta-options','wpnoncemmconf');
+	check_admin_referer('MiniMeta-options','wpnoncemm');
 	
 	//write every options tab to optiones
 	if (is_array($_POST['widget-options'][$mmconfigid])) {

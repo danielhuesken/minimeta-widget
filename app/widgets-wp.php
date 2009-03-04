@@ -93,7 +93,7 @@ function control($widget_args = 1) {
 	// We echo out a template for a form which can be converted to a specific form later via JS
 	if ( -1 == $number ) {
 		$title = __('Meta');
-		$optionset='none';
+		$optionset='';
 		$number='%i%';
 	} else {
 		$title = attribute_escape($options[$number]['title']);
@@ -107,7 +107,22 @@ function control($widget_args = 1) {
 	//displaying options
 	?>
 	<p><label for="minimeta-title-<?php echo $number; ?>"><?php _e('Title:'); ?><input class="widefat" id="minimeta-title-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][title]" type="text" value="<?php echo $title; ?>" /></label><p>
-	<?php MiniMetaWidgetDisplay::control($number,$optionset); ?>
+		<label for="minimeta-optionset-<?php echo $number; ?>" title="<?php _e('Select a Widget Config','MiniMetaWidget');?>"><?php _e('Widget Config:','MiniMetaWidget');?> 
+         <?PHP 
+		 $options_widgets = get_option('minimeta_widget_options');
+		 if (is_array($options_widgets)) {
+		 ?>
+		 <select class="widefat" name="widget-minimeta[<?php echo $number; ?>][optionset]" id="minimeta-optionset-<?php echo $number; ?>"><?PHP
+		 echo '<option value="">'.__('default','MiniMetaWidget').'</option>';
+			foreach ($options_widgets as $name => $values) {
+				?> <option value="<?PHP echo $name;?>"<?PHP selected($optionset,$name);?>><?PHP echo $values['optionname'];?></option>'; <?PHP
+			}?>
+         </select></label>
+		 <?PHP } else { ?>
+			<span style="color:red;font-face:italic;"><?PHP _e('default','MiniMetaWidget'); ?></span>
+		 <?PHP } ?>
+		 <br />
+		 <span class="setting-description"><?php _e('To make/change a Widget Config go to <a href="admin.php?page=minimeta-widget">MiniMeta Widget</a>','MiniMetaWidget'); ?></span>
 	<input type="hidden" id="minimeta-submit-<?php echo $number; ?>" name="widget-minimeta[<?php echo $number; ?>][submit]" value="1" /><?php 
 }
 
