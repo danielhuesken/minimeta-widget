@@ -126,7 +126,7 @@ if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPres
 } else {
 	// Load Pre-2.7 compatibility
 	if (version_compare($wp_version, '2.7', '<'))    
-		require_once('app/wp/wp_older.php');
+		require_once('app/compatibility.php');
 
 	//Load functions file
 	require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');

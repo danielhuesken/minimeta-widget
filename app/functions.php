@@ -86,12 +86,10 @@ class MiniMetaFunctions {
 		$help .= ' | <a href="http://danielhuesken.de/portfolio/minimeta/" target="_blank">' . __('Plugin Homepage', 'MiniMetaWidget') . '</a>';
 		$help .= ' | <a href="http://wordpress.org/extend/plugins/minimeta-widget" target="_blank">' . __('Plugin Home on WordPress.org', 'MiniMetaWidget') . '</a>';
 		$help .= "</div>\n";	
-
 		$help .= '<div class="metabox-prefs">';
 		$help .= __('Version:', 'MiniMetaWidget').' '.$plugin_data['Version'].' | ';
 		$help .= __('Author:', 'MiniMetaWidget').' '.$plugin_data['Author'];
 		$help .= "</div>\n";
-		
 		$help .= '<div class="metabox-prefs">';
 		$help .='<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
 		$help .='<input type="hidden" name="cmd" value="_donations" />';
@@ -109,10 +107,8 @@ class MiniMetaFunctions {
 		$help .='<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" style="clear:both;" />';
 		$help .='</form>';
 		$help .= "</div>\n";	
-
 		return $help;
 	}
-	
 	
 	//Options Page
 	function options_form() {
@@ -184,11 +180,11 @@ class MiniMetaFunctions {
 	}
 	
 	//add edit setting to plugins page
-	function plugins_options_link($action_links) {
-		$edit_link='<a href="admin.php?page=minimeta-widget" title="' . __('Go to Settings Page','MiniMetaWidget') . '" class="edit">' . __('Settings') . '</a>';
-		return array_merge( array($edit_link), $action_links);
+	function plugins_options_link($links) {
+		$settings_link='<a href="admin.php?page=minimeta-widget" title="' . __('Go to Settings Page','MiniMetaWidget') . '" class="edit">' . __('Settings') . '</a>';
+		array_unshift( $links, $settings_link ); 
+		return $links;
 	}
-
 
 	// add all action and so on only if plugin loaded.
 	function init() {
