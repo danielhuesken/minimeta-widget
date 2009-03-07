@@ -108,6 +108,8 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 		//Save general options
 		$options_widgets[$mmconfigid]['general']['style']['ul'] = $_POST['widget-options'][$mmconfigid]['general']['style']['ul'];
 		$options_widgets[$mmconfigid]['general']['style']['li'] = $_POST['widget-options'][$mmconfigid]['general']['style']['li'];
+		$options_widgets[$mmconfigid]['general']['class']['ul'] = $_POST['widget-options'][$mmconfigid]['general']['class']['ul'];
+		$options_widgets[$mmconfigid]['general']['class']['li'] = $_POST['widget-options'][$mmconfigid]['general']['class']['li'];
 		$options_widgets[$mmconfigid]['general']['php']['title'] = $_POST['widget-options'][$mmconfigid]['general']['php']['title'];
 		$options_widgets[$mmconfigid]['general']['php']['before_title'] = $_POST['widget-options'][$mmconfigid]['general']['php']['before_title'];
 		$options_widgets[$mmconfigid]['general']['php']['after_title'] = $_POST['widget-options'][$mmconfigid]['general']['php']['after_title'];
@@ -143,10 +145,14 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 		}
 	}
 	
+	
+	
 	if (update_option('minimeta_widget_options', $options_widgets)) {
 		$minimeta_options_text = '<font color="green">'.sprintf(__('Config "%s" Updated', 'MiniMetaWidget'),$options_widgets[$mmconfigid]['optionname']).'</font>';
+
 	} else {
 		$minimeta_options_text = '<font color="red">'.sprintf(__('Config "%s" NOT Updated', 'MiniMetaWidget'),$options_widgets[$mmconfigid]['optionname']).'</font>';
 	}
+	$minimeta_options_text=$_POST['ordering'];
 }
 ?>

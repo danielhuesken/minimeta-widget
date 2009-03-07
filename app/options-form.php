@@ -32,7 +32,7 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 
 <?php if ($_REQUEST['subpage']=="") { ?>
 
-<form id="poststuff" action="" method="post">	
+<form id="poststuff" action="" method="post">
 	<div class="tablenav">
 		<div class="alignright">
 			<input type="submit" name="addbutton" class="button-secondary" title="<?php _e('adds a new MiniMeta widget config with default values', 'MiniMetaWidget'); ?>" value="<?php _e('Add New Config', 'MiniMetaWidget'); ?>"/>
@@ -62,33 +62,33 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 
 <?php if (!empty($mmconfigid)) { ?>
 <input type="hidden" name="mmconfigid" value="<?php echo $mmconfigid; ?>" />
+<input type="hidden" name="ordering" id="order" value="" />	
 	<div id="configdiv" class="stuffbox">
 	<h3><label for="configmm"><?php _e('MiniMeta Widget Config', 'MiniMetaWidget'); ?></label></h3>
 	<div class="inside">
-	
-		<input type="submit" name="Submit" class="button-primary alignright" value="<?php _e('Save Changes'); ?>" />
+		<input type="submit" name="Submit" class="button-primary alignright" id="Submit" value="<?php _e('Save Changes'); ?>" />
 		<span class="alignleft"><?php _e('Config Name:', 'MiniMetaWidget'); ?> <input type="text" title="<?php _e('Config Name'); ?>" name="widget-options[<?php echo $mmconfigid; ?>][optionname]" value="<?php echo $options_widgets[$mmconfigid]['optionname']; ?>" size="30" /></span>
 		<br class="clear" />
 	
 		<?php $loginout='out'; ?>
 		<div class="widget-logout">
 			<h4 style="text-align:center;"><?php echo _e('Show when Loggt out:'); ?></h4>
-			<div class="widget-logout-list">
-	<?PHP  	$ordering=0;
+			<div class="widget-logout-list" id="widget-logout-list">
+	<?PHP  	$orderingid=0;
 			foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) {
 				$optionsnumber='';
 				for ($i=0;$i<=sizeof($options_widgets[$mmconfigid][$loginout]);$i++) {
 					if ($partname==$options_widgets[$mmconfigid][$loginout][$i]['part']) $optionsnumber=$i;
 				}
 				if ($partvalues[4]) { ?>
-				<div class="widget-logout-item if-js-closed">
-					<h4 class="widget-logout-title"><span><input class="checkbox-active" type="checkbox" <?php checked($options_widgets[$mmconfigid][$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span><br class="clear" /></h4>
-					<input type="hidden"  name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
+				<div class="widget-logout-item if-js-closed" id="out_<?php echo $orderingid; ?>">
+					<h4 class="widget-logout-title"><span><input class="checkbox-active" type="checkbox" <?php checked($options_widgets[$mmconfigid][$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $orderingid; ?>][active]" /> <?php echo $partvalues[0]; ?></span><br class="clear" /></h4>
+					<input type="hidden"  name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $orderingid; ?>][part]" value="<?php echo $partname; ?>" />
 					<?PHP if ($partvalues[2]) {?>
 					<div class="widget-logout-control">
 						<?php				
 						$options=$options_widgets[$mmconfigid][$loginout][$optionsnumber]['args'];
-						$options['ordering']=$ordering;
+						$options['ordering']=$orderingid;
 						$options['loginout']=$loginout;
 						$options['optionname']=$mmconfigid;
 						call_user_func($partvalues[2], $options);
@@ -96,7 +96,7 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 					</div>
 					<?PHP } ?>
 				</div>
-		<?PHP  	$ordering++;
+		<?PHP  	$orderingid++;
 				}
 			} ?>
 			</div>
@@ -105,22 +105,22 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 		<?php $loginout='in'; ?>
 		<div class="widget-login">
 			<h4 style="text-align:center;"><?php echo _e('Show when Loggt in:'); ?></h4>
-			<div class="widget-login-list">
-	<?PHP  	$ordering=0;
+			<div class="widget-login-list" id="widget-login-list">
+	<?PHP  	$orderingid=0;
 			foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
 				$optionsnumber='';
 				for ($i=0;$i<=sizeof($options_widgets[$mmconfigid][$loginout]);$i++) {
 					if ($partname==$options_widgets[$mmconfigid][$loginout][$i]['part']) $optionsnumber=$i;
 				}
 				if ($partvalues[3]) {?>
-				<div class="widget-login-item if-js-closed">
-					<h4 class="widget-login-title"><span><input class="checkbox-active" type="checkbox" <?php checked($options_widgets[$mmconfigid][$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][active]" /> <?php echo $partvalues[0]; ?></span> <br class="clear" /></h4>
-					<input type="hidden" name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][part]" value="<?php echo $partname; ?>" />
+				<div class="widget-login-item if-js-closed" id="in_<?php echo $orderingid; ?>">
+					<h4 class="widget-login-title"><span><input class="checkbox-active" type="checkbox" <?php checked($options_widgets[$mmconfigid][$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $orderingid; ?>][active]" /> <?php echo $partvalues[0]; ?></span> <br class="clear" /></h4>
+					<input type="hidden" name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $orderingid; ?>][part]" value="<?php echo $partname; ?>" />
 					<?PHP if ($partvalues[2]) { ?>
 					<div class="widget-login-control">
 						<?php				
 						$options=$options_widgets[$mmconfigid][$loginout][$optionsnumber]['args'];
-						$options['ordering']=$ordering;
+						$options['ordering']=$orderingid;
 						$options['loginout']=$loginout;
 						$options['optionname']=$mmconfigid;
 						call_user_func($partvalues[2], $options);
@@ -128,7 +128,7 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 					</div>
 					<?PHP } ?>
 				</div>
-		<?PHP  	$ordering++;
+		<?PHP  	$orderingid++;
 				}
 			} ?>
 			</div>
@@ -141,10 +141,14 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 				<div class="widget-general-item if-js-closed">
 					<h4 class="widget-general-title"><span><?php _e('Stylesheet','MiniMetaWidget'); ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
-						&lt;ul&gt;
-						<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['style']['ul'])); ?>" name="widget-options[<?php echo $mmconfigid; ?>][general][style][ul]" /><br />
-						&lt;li&gt;
-						<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['style']['li'])); ?>" name="widget-options[<?php echo $mmconfigid; ?>][general][style][li]" /><br />
+						&lt;ul
+						style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['style']['ul'])); ?>" name="widget-options[<?php echo $mmconfigid; ?>][general][style][ul]" />&quot;
+						class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['class']['ul'])); ?>" name="widget-options[<?php echo $mmconfigid; ?>][general][class][ul]" />&quot;
+						&gt;<br />
+						&lt;li
+						style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['style']['li'])); ?>" name="widget-options[<?php echo $mmconfigid; ?>][general][style][li]" />&quot;
+						class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($options_widgets[$mmconfigid]['general']['class']['li'])); ?>" name="widget-options[<?php echo $mmconfigid; ?>][general][class][li]" />&quot;
+						&gt;<br />
 					</div>
 				</div>
 				<div class="widget-general-item if-js-closed">

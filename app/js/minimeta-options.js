@@ -23,5 +23,20 @@ jQuery(document).ready(function() {
 	jQuery('.widget-general-title').children('span').after(' <span style="float: right;" class="widget-general-edit-item">'+MiniMetaL10n.edit+'</span>');
 	jQuery('.widget-general-edit-item').click( function() {
 		jQuery(this).parent().parent().toggleClass('closed');
-	});	
+	});
+	
+	
+	jQuery("#widget-logout-list, #widget-login-list").change(function() { 
+		var orderout = jQuery('#widget-logout-list').sortable('serialize');
+		var orderin = jQuery('#widget-login-list').sortable('serialize');
+		jQuery("#order").val(orderout+'&'+orderin);
+	});
+	var orderout = jQuery('#widget-logout-list').sortable('serialize');
+	var orderin = jQuery('#widget-login-list').sortable('serialize');
+	jQuery("#order").val(orderout+'&'+orderin);
+	
+});
+jQuery(function() {
+	jQuery("#widget-login-list").sortable();
+	jQuery("#widget-logout-list").sortable();
 });

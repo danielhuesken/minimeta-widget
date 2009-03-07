@@ -10,7 +10,7 @@
 class MiniMetaWidgetDisplay {
 	//Function to show widget
 	function display($optionsetname='',$args) {
-		global $post;
+		global $post,$ulopen,$stylegeneralul,$classgeneralul;
 		if (is_array($args))
 			extract( $args, EXTR_SKIP );
 
@@ -26,7 +26,9 @@ class MiniMetaWidgetDisplay {
 		//load options
 		$optionset = get_option('minimeta_widget_options');
 		if (!isset($optionset[$optionsetname])) {  //find out option exists  and load
-			//def options			
+			//def options
+			$options['order']['in']='0,1,2,3,4,5,6';
+			$options['order']['out']='0,1,2,3,4,5,6';
 			$options['general']['php']['title']=__('Meta');
 			$options['general']['php']['before_title']='<h2>';
 			$options['general']['php']['after_title']='</h2>';
@@ -112,49 +114,47 @@ class MiniMetaWidgetDisplay {
 		}
 		
 		$parts=MiniMetaWidgetParts::parts();
-		$stylegeneralul=!empty($options['general']['php']['style']['ul'])?' style="'.$options['general']['php']['style']['ul'].'"':'';
+		$stylegeneralul=$options['general']['php']['style']['ul'];
+		$classgeneralul=$options['general']['php']['class']['ul'];
 		
 		//Shown part of Widget
 		echo $before_widget;
 		
+		$ulopen=false;
         if(is_user_logged_in()) { //When loggt in
-			$ulopen=false;
-			for ($i=0;$i<=sizeof($options['in']);$i++) { 
-				if ($parts[$options['in'][$i]['part']][3]) {
-					if ($parts[$options['in'][$i]['part']][5] and !$ulopen) {
-						echo '<ul'.$stylegeneralul.'>';
-						$ulopen=true;
-					}	
-					if (!$parts[$options['in'][$i]['part']][5] and $ulopen) {
-						echo '</ul>';
-						$ulopen=false;
-					}
-					$options['in'][$partname]['args']['stylegeneralli']==!empty($options['general']['php']['style']['li'])?' style="'.$options['general']['php']['style']['li'].'"':'';
-					call_user_func($parts[$options['in'][$i]['part']][1], $options['in'][$i]['args'] );
+			if (empty($options['order']['in'])) { //for Version bevor 4.2.0
+				for ($i=0;$i<=sizeof($options['in']);$i++) {
+					$options['order']['in'].=$i.',';
 				}
+				$options['order']['in']=substr($options['order']['in'],0,-1);
 			}
-			if ($ulopen)
-				echo '</ul>';			
+			$order=explode(",",$options['order']['in']);
+			for ($i=0;$i<=sizeof($order);$i++) {
+				if ($parts[$options['in'][$order[$i]]['part']][3]) {
+					$options['in'][$order[$i]]['args']['stylegeneralli']=$options['general']['php']['style']['li'];
+					$options['in'][$order[$i]]['args']['classgeneralli']=$options['general']['php']['class']['li'];
+					call_user_func($parts[$options['in'][$order[$i]]['part']][1], $options['in'][$order[$i]]['args'] );
+				}
+			}		
 		} else { //When loggt out
-			$ulopen=false;
-			for ($i=0;$i<=sizeof($options['out']);$i++) { 
-				if ($parts[$options['out'][$i]['part']][4]) {
-					if ($parts[$options['out'][$i]['part']][5] and !$ulopen) {
-						echo '<ul'.$stylegeneralul.'>';
-						$ulopen=true;
-					}	
-					if (!$parts[$options['out'][$i]['part']][5] and $ulopen) {
-						echo '</ul>';
-						$ulopen=false;
-					}
-					$options['out'][$partname]['args']['stylegeneralli']==!empty($options['general']['php']['style']['li'])?' style="'.$options['general']['php']['style']['li'].'"':'';
-					call_user_func($parts[$options['out'][$i]['part']][1], $options['out'][$i]['args'] );
+			if (empty($options['order']['out'])) { //for Version bevor 4.2.0
+				for ($i=0;$i<=sizeof($options['out']);$i++) {
+					$options['order']['out'].=$i.',';
+				}
+				$options['order']['out']=substr($options['order']['out'],0,-1);
+			}
+			$order=explode(",",$options['order']['out']);
+			for ($i=0;$i<=sizeof($order);$i++) { 
+				if ($parts[$options['out'][$order[$i]]['part']][4]) {
+					$options['out'][$order[$i]]['args']['stylegeneralli']=$options['general']['php']['style']['li'];
+					$options['out'][$order[$i]]['args']['classgeneralli']=$options['general']['php']['class']['li'];
+					call_user_func($parts[$options['out'][$order[$i]]['part']][1], $options['out'][$order[$i]]['args'] );
 				}
 			}
-			if ($ulopen)
-				echo '</ul>';
 		}
-  
+		if ($ulopen)
+			echo '</ul>';
+			
 		echo $after_widget;		
 	}
 }

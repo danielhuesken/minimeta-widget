@@ -79,8 +79,10 @@
 }
 
 .widget-logout-control .textinput, .widget-login-control .textinput, .widget-general-control .textinput {
-	font-size:9px;
-	width: 90%;
+	font-size: 9px;
+	width: 110px;
+	height: 20px;
+	
 }
 
 .widget-logout-control select, .widget-login-control select , .widget-general-control select{

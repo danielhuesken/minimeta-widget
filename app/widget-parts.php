@@ -1,11 +1,30 @@
 <?PHP
 
 class MiniMetaWidgetParts {
+    //help Functions
+	function styleclass($style="",$class="") {
+		$style=!empty($style)?' style="'.$style.'"':'';
+		$class=!empty($class)?' class="'.$class.'"':'';
+		return $style.$class;
+	}
+    function ulopenclose($useul=true) {
+		global $ulopen,$stylegeneralul,$classgeneralul;
+		if ($useul and !$ulopen) {
+			echo '<ul'.MiniMetaWidgetParts::styleclass($stylegeneralul,$classgeneralul).'>';
+			$ulopen=true;
+		}	
+		if (!$useul and $ulopen) {
+			echo '</ul>';
+			$ulopen=false;
+		}	
+	}
+
 	//Title
 	function title_display($args) {
 		global $user_identity;
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
+		MiniMetaWidgetParts::ulopenclose(false);
 		if(is_user_logged_in()) {
 			if ($displayidentity and !empty($user_identity)) $title=$user_identity;
             if ($profilelink and current_user_can('read')) {
@@ -34,13 +53,11 @@ class MiniMetaWidgetParts {
 		global $user_ID;
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		$stylediv=!empty($stylediv)?' style="'.$stylediv.'"':'';
-		if(is_user_logged_in()) {
-			if ($size>512) $size=512;
-			echo "<div".$stylediv.">";
-			echo get_avatar($user_ID, $size);
-			echo "</div>";
-		} 
+		MiniMetaWidgetParts::ulopenclose(false);
+		if ($size>512) $size=512;
+		echo "<div".MiniMetaWidgetParts::styleclass($stylediv,$classdiv).">";
+		echo get_avatar($user_ID, $size);
+		echo "</div>";
 	}
 	
 	function gravatar_options($args) {
@@ -52,10 +69,12 @@ class MiniMetaWidgetParts {
 			<?php _e('Gravatar Size:','MiniMetaWidget');?> <input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($size)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][size]" /><br />
 			<hr />
 		<?php 
-			if (!isset($stylediv)) $stylediv='text-align:center;'; //def. Css
+		if (!isset($stylediv)) $stylediv='text-align:center;'; //def. Css
 		 _e('Stylesheet:','MiniMetaWidget');?><br /> 
-		&lt;div&gt;
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylediv)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylediv]" /><br />
+		&lt;div
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylediv)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylediv]" />&quot; 
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classdiv)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classdiv]" />&quot;
+		&gt;<br />
 		<?PHP
 	}
 	
@@ -63,21 +82,19 @@ class MiniMetaWidgetParts {
 	function loginform_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		$stylelogin=!empty($stylelogin)?' style="'.$stylelogin.'"':'';
-		$stylepassword=!empty($stylepassword)?' style="'.$stylepassword.'"':'';
-		$stylerememberme=!empty($stylerememberme)?' style="'.$stylerememberme.'"':'';
+		MiniMetaWidgetParts::ulopenclose(false);
 		?>
 				<form name="loginform" id="loginform" action="<?php echo site_url('wp-login.php', 'login_post') ?>" method="post">
                     <p>
                         <label><?php _e('Username') ?><br />
-                        <input type="text" name="log" id="user_login" class="input" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10"<?php echo $stylelogin; ?> /></label>
+                        <input type="text" name="log" id="user_login" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10"<?php echo MiniMetaWidgetParts::styleclass($stylelogin,$classlogin); ?> /></label>
                     </p>
                     <p>
                         <label><?php _e('Password') ?><br />
-                        <input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20"<?php echo $stylepassword; ?> /></label>
+                        <input type="password" name="pwd" id="user_pass" value="" size="20" tabindex="20"<?php echo MiniMetaWidgetParts::styleclass($stylepassword,$classpassword); ?> /></label>
                     </p>
                     <?php do_action('login_form'); ?>
-                    <?php if($rememberme) {?><p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90"<?php echo $stylerememberme; ?> /> <?php _e('Remember Me'); ?></label></p><?php } ?>
+                    <?php if($rememberme) {?><p class="forgetmenot"><label><input name="rememberme" type="checkbox" id="rememberme" value="forever" tabindex="90"<?php echo MiniMetaWidgetParts::styleclass($stylerememberme,$classrememberme); ?> /> <?php _e('Remember Me'); ?></label></p><?php } ?>
                     <p class="submit">
                         <input type="submit" name="wp-submit" id="wp-submit" value="<?php _e('Log in'); ?>" tabindex="100" />
                         <?php if($redirect) {?><input type="hidden" name="redirect_to" value="<?php echo attribute_escape($_SERVER['REQUEST_URI']); ?>" /><?php } ?>
@@ -95,14 +112,22 @@ class MiniMetaWidgetParts {
 			<input class="checkbox" type="checkbox" <?php checked($redirect,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function','MiniMetaWidget');?><br />
 			<input class="checkbox" type="checkbox" <?php checked($testcookie,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][testcookie]" />&nbsp;<?php _e('Enable WordPress Cookie Test for login Form','MiniMetaWidget');?><br />
 			<hr />
-		<?php 
+		<?php
+		if (!isset($classlogin)) $classlogin='input'; //def. Css
+		if (!isset($classpassword)) $classpassword='input'; 
 		 _e('Stylesheet:','MiniMetaWidget');?><br /> 
-		&lt;input type="text" (<?php _e('Username') ?>)
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelogin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelogin]" /><br />
-		&lt;input type="password" (<?php _e('Password') ?>)
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylepassword)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylepassword]" /><br />
-		&lt;input type="checkbox" (<?php _e('Remember Me') ?>)
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylerememberme)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylerememberme]" /><br />
+		&lt;input type=&quot;text&quot; id=&quot;user_login&quot;
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelogin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelogin]" />&quot; 
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classlogin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classlogin]" />&quot;
+		&gt;<br />
+		&lt;input type=&quot;password&quot; id=&quot;user_pass&quot;
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylepassword)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylepassword]" />&quot; 
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classpassword)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classpassword]" />&quot;
+		&gt;<br />
+		&lt;input type=&quot;checkbox&quot; id=&quot;rememberme&quot;
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylerememberme)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylerememberme]" />&quot; 
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classrememberme)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classrememberme]" />&quot;
+		&gt;<br />
 		<?PHP
 	}
 	
@@ -110,15 +135,18 @@ class MiniMetaWidgetParts {
 	function seiteadmin_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		$styleseiteadmin=!empty($styleseiteadmin)?' style="'.$styleseiteadmin.'"':'';
-		echo "<li".$stylegeneralli."><a href=\"".admin_url()."\"".$styleseiteadmin.">".__('Site Admin')."</a></li>";
+		MiniMetaWidgetParts::ulopenclose(true);
+		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".admin_url()."\"".MiniMetaWidgetParts::styleclass($styleseiteadmin,$classseiteadmin).">".__('Site Admin')."</a></li>";
 	}
 
 	function seiteadmin_options($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleseiteadmin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleseiteadmin]" /><br />
+		_e('Stylesheet:','MiniMetaWidget');?><br />
+		&lt;a href=&quot;...&quot; 
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleseiteadmin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleseiteadmin]" />&quot; 
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classseiteadmin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classseiteadmin]" />&quot;
+		&gt;<br />
 		<?PHP
 	}
 	
@@ -126,12 +154,12 @@ class MiniMetaWidgetParts {
 	function linkloginout_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		$styleloginout=!empty($styleloginout)?' style="'.$styleloginout.'"':'';
+		MiniMetaWidgetParts::ulopenclose(true);
 		$redirect = $redirect ? $_SERVER['REQUEST_URI'] : '';
 		if(is_user_logged_in()) {
-			echo "<li".$stylegeneralli."><a href=\"".wp_logout_url($redirect)."\"".$styleloginout.">".__('Log out')."</a></li>";
+			echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".wp_logout_url($redirect)."\"".MiniMetaWidgetParts::styleclass($styleloginout,$classloginout).">".__('Log out')."</a></li>";
 		} else {
-			echo "<li".$stylegeneralli."><a href=\"".wp_login_url($redirect)."\"".$styleloginout.">".__('Log in')."</a></li>";
+			echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".wp_login_url($redirect)."\"".MiniMetaWidgetParts::styleclass($styleloginout,$classloginout).">".__('Log in')."</a></li>";
 		}
 	}
 	
@@ -141,9 +169,13 @@ class MiniMetaWidgetParts {
 		?>
 		<input class="checkbox" type="checkbox" <?php checked($redirect,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function','MiniMetaWidget');?><br />
 		<hr />
-		<?php if (!isset($styleloginout)) $styleloginout='color:red;'; //def. Css
-		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleloginout)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleloginout]" /><br />
+		<?php 
+		if (!isset($styleloginout)) $styleloginout='color:red;'; //def. Css
+		 _e('Stylesheet:','MiniMetaWidget');?><br />
+		&lt;a href=&quot;...&quot; 
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleloginout)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleloginout]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classloginout)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classloginout]" />&quot;
+		&gt;<br />
 		<?PHP
 	}
 
@@ -151,23 +183,18 @@ class MiniMetaWidgetParts {
 	function adminlinks_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		//prefiy style if it issent empty
-		$styleadminlinkslitopic=!empty($styleadminlinkslitopic)?' style="'.$styleadminlinkslitopic.'"':'';
-		$styleadminlinksul=!empty($styleadminlinksul)?' style="'.$styleadminlinksul.'"':'';
-		$styleadminlinksli=!empty($styleadminlinksli)?' style="'.$styleadminlinksli.'"':'';
-		$styleadminlinkshref=!empty($styleadminlinkshref)?' style="'.$styleadminlinkshref.'"':'';
-		
+		MiniMetaWidgetParts::ulopenclose(true);
         if (sizeof($adminlinks)>0 or $notselected) { //show only if a Admin Link is selectesd
 			$minimeta_adminlinks=get_option('minimeta_adminlinks'); 
 			foreach ($minimeta_adminlinks as $menu) {
 				$output="";
 				foreach ($menu as $submenu) {
 					if(current_user_can($submenu[1]) and is_array($submenu) and ((!$notselected and in_array(wp_specialchars($submenu[2]),$adminlinks)) or ($notselected and !in_array(wp_specialchars($submenu[2]),$adminlinks)))) {
-						$output.= "<li".$styleadminlinksli."><a href=\"".admin_url("/".$submenu[2])."\" title=\"".$submenu[0]."\"".$styleadminlinkshref.">".$submenu[0]."</a></li>";
+						$output.= "<li".MiniMetaWidgetParts::styleclass($styleadminlinksli,$classadminlinksli)."><a href=\"".admin_url("/".$submenu[2])."\" title=\"".$submenu[0]."\"".MiniMetaWidgetParts::styleclass($styleadminlinkshref,$classadminlinkshref).">".$submenu[0]."</a></li>";
 					}
 				}
 				if (!empty($output) and !$notopics) {
-					echo "<li".$styleadminlinkslitopic.">".$menu['menu']."<ul".$styleadminlinksul.">".$output."</ul></li>";
+					echo "<li".MiniMetaWidgetParts::styleclass($styleadminlinkslitopic,$classadminlinkslitopic).">".$menu['menu']."<ul".MiniMetaWidgetParts::styleclass($styleadminlinksul,$classadminlinksul).">".$output."</ul></li>";
 				} else {
 					echo $output;
 				}    
@@ -203,14 +230,22 @@ class MiniMetaWidgetParts {
 		if (!isset($styleadminlinksselect)) $styleadminlinksselect='font-size:10px;';
 		
 		_e('Stylesheet:','MiniMetaWidget'); echo '<br />';
-		_e('topic','MiniMetaWidget');?>&nbsp;&lt;li&gt;
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinkslitopic)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinkslitopic]" /><br />
-		&lt;ul&gt;
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinksul)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinksul]" /><br />
-		&lt;li&gt;
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinksli)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinksli]" /><br />
-		&lt;a href...
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinkshref)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinkshref]" /><br />
+		_e('topic','MiniMetaWidget');?>&nbsp;&lt;li
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinkslitopic)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinkslitopic]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classadminlinkslitopic)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classadminlinkslitopic]" />&quot;
+		&gt;<br />
+		&lt;ul
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinksul)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinksul]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classadminlinksul)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classadminlinksul]" />&quot;
+		&gt;<br />
+		&lt;li
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinksli)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinksli]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classadminlinksli)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classadminlinksli]" />&quot;
+		&gt;<br />
+		&lt;a href=&quot;...&quot; 
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinkshref)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinkshref]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classadminlinkshref)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classadminlinkshref]" />&quot;
+		&gt;<br />
 		<?PHP
 	}	
 	
@@ -218,23 +253,19 @@ class MiniMetaWidgetParts {
 	function adminselect_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		//prefiy style if it issent empty
-		$styleadminlinksselect=!empty($styleadminlinksselect)?' style="'.$styleadminlinksselect.'"':'';
-		$styleadminlinksoptgroup=!empty($styleadminlinksoptgroup)?' style="'.$styleadminlinksoptgroup.'"':'';
-		$styleadminlinksoption=!empty($styleadminlinksoption)?' style="'.$styleadminlinksoption.'"':'';
-		
+		MiniMetaWidgetParts::ulopenclose(true);
         if (sizeof($adminlinks)>0 or $notselected) { //show only if a Admin Link is selectesd
-            echo "<li".$stylegeneralli."><select onchange=\"document.location.href=this.options[this.selectedIndex].value;\"".$styleadminlinksselect."><option selected=\"selected\"".$styleadminlinksoption.">".__('Please select:','MiniMetaWidget')."</option>";
+            echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><select onchange=\"document.location.href=this.options[this.selectedIndex].value;\"".MiniMetaWidgetParts::styleclass($styleadminlinksselect,$classadminlinksselect)."><option selected=\"selected\"".MiniMetaWidgetParts::styleclass($styleadminlinksoption,$classadminlinksoption).">".__('Please select:','MiniMetaWidget')."</option>";
 			$minimeta_adminlinks=get_option('minimeta_adminlinks'); 
             foreach ($minimeta_adminlinks as $menu) {
             $output="";
                 foreach ($menu as $submenu) {
 					if(current_user_can($submenu[1]) and is_array($submenu) and ((!$notselected and in_array(wp_specialchars($submenu[2]),$adminlinks)) or ($notselected and !in_array(wp_specialchars($submenu[2]),$adminlinks)))) {
-						$output.= "<option value=\"".admin_url("/".$submenu[2])."\"".$styleadminlinksoption.">".$submenu[0]."</option>";
+						$output.= "<option value=\"".admin_url("/".$submenu[2])."\"".MiniMetaWidgetParts::styleclass($styleadminlinksoption,$classadminlinksoption).">".$submenu[0]."</option>";
                     }
                 }
                 if (!empty($output) and !$notopics) {
-                    echo "<optgroup label=\"".$menu['menu']."\"".$styleadminlinksoptgroup.">".$output."</optgroup>";
+                    echo "<optgroup label=\"".$menu['menu']."\"".MiniMetaWidgetParts::styleclass($styleadminlinksoptgroup,$classadminlinksoptgroup).">".$output."</optgroup>";
                 } else {
 				     echo $output;
 				}    
@@ -270,12 +301,18 @@ class MiniMetaWidgetParts {
 		
 		_e('Stylesheet:','MiniMetaWidget'); 
 		?><br />
-		&lt;select&gt;
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinksselect)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinksselect]" /><br />
-		&lt;optiongroup&gt;
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinksoptgroup)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinksoptgroup]" /><br />
-		&lt;option&gt;
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinksoption)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinksoption]" /><br />
+		&lt;select
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinksselect)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinksselect]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classadminlinksselect)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classadminlinksselect]" />&quot;
+		&gt;<br />
+		&lt;optiongroup
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinksoptgroup)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinksoptgroup]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classadminlinksoptgroup)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classadminlinksoptgroup]" />&quot;
+		&gt;<br />
+		&lt;option
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleadminlinksoption)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleadminlinksoption]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classadminlinksoption)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classadminlinksoption]" />&quot;
+		&gt;<br />
 		<?PHP
 	}	
 	
@@ -283,15 +320,18 @@ class MiniMetaWidgetParts {
 	function linklostpw_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		$stylelinklostpw=!empty($stylelinklostpw)?' style="'.$stylelinklostpw.'"':'';
-		echo "<li".$stylegeneralli."><a href=\"".site_url('wp-login.php?action=lostpassword', 'login')."\" title=\"".__('Password Lost and Found')."\"".$styleslinklostpw.">".__('Lost your password?')."</a></li>";
+		MiniMetaWidgetParts::ulopenclose(true);
+		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".site_url('wp-login.php?action=lostpassword', 'login')."\" title=\"".__('Password Lost and Found')."\"".MiniMetaWidgetParts::styleclass($stylelinklostpw,$classlinklostpw).">".__('Lost your password?')."</a></li>";
 	}	
 	
 	function linklostpw_options($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinklostpw)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinklostpw]" /><br />
+		_e('Stylesheet:','MiniMetaWidget');?><br />
+		&lt;a href=&quot;...&quot; 
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinklostpw)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinklostpw]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classlinklostpw)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classlinklostpw]" />&quot;
+		&gt;<br />
 		<?PHP
 	}
 	
@@ -299,16 +339,20 @@ class MiniMetaWidgetParts {
 	function linkregister_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		$stylelinkregister=!empty($stylelinkregister)?' style="'.$stylelinkregister.'"':'';
-		if(get_option('users_can_register')) 
-			echo "<li".$stylegeneralli."><a href=\"".site_url('wp-login.php?action=register', 'login')."\"".$stylelinkregister.">" . __('Register') . "</a></li>";
+		if(get_option('users_can_register')) {
+			MiniMetaWidgetParts::ulopenclose(true);
+			echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".site_url('wp-login.php?action=register', 'login')."\"".MiniMetaWidgetParts::styleclass($stylelinkregister,$classlinkregister).">" . __('Register') . "</a></li>";
+		}
 	}		
 
 	function linkregister_options($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkregister)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkregister]" /><br />
+		_e('Stylesheet:','MiniMetaWidget');?><br />
+		&lt;a href=&quot;...&quot; 
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkregister)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkregister]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classlinkregister)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classlinkregister]" />&quot;
+		&gt;<br />
 		<?PHP
 	}
 	
@@ -317,8 +361,10 @@ class MiniMetaWidgetParts {
 	function bookmarkscat_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		if (is_array($categorys))
-			wp_list_bookmarks('echo=1&title_li=&before=<li'.$stylegeneralli.'>&categorize=0&category='.implode(',',$categorys).'&show_images=0&orderby=name');
+		if (is_array($categorys)) {
+			MiniMetaWidgetParts::ulopenclose(true);
+			wp_list_bookmarks('echo=1&title_li=&before=<li'.MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli).'>&categorize=0&category='.implode(',',$categorys).'&show_images=0&orderby=name');
+		}
 	}		
 	
 	function bookmarkscat_options($args) {
@@ -340,8 +386,10 @@ class MiniMetaWidgetParts {
 	function bookmarks_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		if (is_array($links))
-			wp_list_bookmarks('echo=1&title_li=&before=<li'.$stylegeneralli.'>&categorize=0&show_images=0&show_private=1&hide_invisible=0&orderby=name&include='.implode(',',$links));
+		if (is_array($links)) {
+			MiniMetaWidgetParts::ulopenclose(true);
+			wp_list_bookmarks('echo=1&title_li=&before=<li'.MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli).'>&categorize=0&show_images=0&show_private=1&hide_invisible=0&orderby=name&include='.implode(',',$links));
+		}
 	}		
 	
 	function bookmarks_options($args) {
@@ -363,15 +411,18 @@ class MiniMetaWidgetParts {
 	function linkrss_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		$stylelinkrss=!empty($stylelinkrss)?' style="'.$stylelinkrss.'"':'';
-		echo "<li".$stylegeneralli."><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\"".$stylelinkrss.">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		MiniMetaWidgetParts::ulopenclose(true);
+		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\"".MiniMetaWidgetParts::styleclass($stylelinkrss,$classlinkrss).">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
 	}			
 	
 	function linkrss_options($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkrss)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkrss]" /><br />
+		_e('Stylesheet:','MiniMetaWidget');?><br />
+		&lt;a href=&quot;...&quot; 
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkrss)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkrss]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classlinkrss)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classlinkrss]" />&quot;
+		&gt;<br />
 		<?PHP
 	}
 		
@@ -379,15 +430,18 @@ class MiniMetaWidgetParts {
 	function linkcommentrss_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		$stylelinkcommentrss=!empty($stylelinkcommentrss)?' style="'.$stylelinkcommentrss.'"':'';
-		echo "<li".$stylegeneralli."><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\"".$stylelinkcommentrss.">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		MiniMetaWidgetParts::ulopenclose(true);
+		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\"".MiniMetaWidgetParts::styleclass($stylelinkcommentrss,$classlinkcommentrss).">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
 	}	
 	
 	function linkcommentrss_options($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkcommentrss)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkcommentrss]" /><br />
+		_e('Stylesheet:','MiniMetaWidget');?><br />
+		&lt;a href=&quot;...&quot; 
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkcommentrss)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkcommentrss]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classlinkcommentrss)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classlinkcommentrss]" />&quot;
+		&gt;<br />
 		<?PHP
 	}
 		
@@ -396,41 +450,47 @@ class MiniMetaWidgetParts {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
 		$stylelinkwordpress=!empty($stylelinkwordpress)?' style="'.$stylelinkwordpress.'"':'';
-		echo "<li".$stylegeneralli."><a href=\"http://wordpress.org/\" title=\"".attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.'))."\"".$stylelinkwordpress.">WordPress.org</a></li>";
+		MiniMetaWidgetParts::ulopenclose(true);
+		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"http://wordpress.org/\" title=\"".attribute_escape(__('Powered by WordPress, state-of-the-art semantic personal publishing platform.'))."\"".MiniMetaWidgetParts::styleclass($stylelinkwordpress,$classlinkwordpress).">WordPress.org</a></li>";
 	}
 	
 	function linkwordpress_options($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		 _e('Stylesheet:','MiniMetaWidget');?> &lt;a href...
-		<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkwordpress)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkwordpress]" /><br />
+		_e('Stylesheet:','MiniMetaWidget');?><br />
+		&lt;a href=&quot;...&quot; 
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkwordpress)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkwordpress]" />&quot;
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classlinkwordpress)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classlinkwordpress]" />&quot;
+		&gt;<br />
 		<?PHP
 	}
 	
 	//action wp_meta
 	function actionwpmeta_display() {
-		if(has_action('wp_meta')) 
+		if(has_action('wp_meta')) {
+			MiniMetaWidgetParts::ulopenclose(true);
 			do_action('wp_meta');
+		}
 	}	
 	
 	function parts() {
-		//$MiniMetaWidgetParts['name']=array('name','function to display','function to control','logtin','logtout','ul')
-		$MiniMetaWidgetParts['gravatar']=array(__('Gravatar'),array('MiniMetaWidgetParts','gravatar_display'),array('MiniMetaWidgetParts','gravatar_options'),true,false,false);
-		$MiniMetaWidgetParts['title']=array(__('Title'),array('MiniMetaWidgetParts','title_display'),array('MiniMetaWidgetParts','title_options'),true,true,false);
-		$MiniMetaWidgetParts['gravatar']=array(__('Gravatar'),array('MiniMetaWidgetParts','gravatar_display'),array('MiniMetaWidgetParts','gravatar_options'),true,false,true);
-		$MiniMetaWidgetParts['loginform']=array(__('Login Form','MiniMetaWidget'),array('MiniMetaWidgetParts','loginform_display'),array('MiniMetaWidgetParts','loginform_options'),false,true,false);
-		$MiniMetaWidgetParts['linkseiteadmin']=array(__('Link:','MiniMetaWidget').' '.__('Site Admin'),array('MiniMetaWidgetParts','seiteadmin_display'),array('MiniMetaWidgetParts','seiteadmin_options'),true,false,true);
-		$MiniMetaWidgetParts['linkregister']=array(__('Link:','MiniMetaWidget').' '.__('Register'),array('MiniMetaWidgetParts','linkregister_display'),array('MiniMetaWidgetParts','linkregister_options'),false,true,true);
-		$MiniMetaWidgetParts['linkloginlogout']=array(__('Link: Login/Logout','MiniMetaWidget'),array('MiniMetaWidgetParts','linkloginout_display'),array('MiniMetaWidgetParts','linkloginout_options'),true,true,true);
-		$MiniMetaWidgetParts['adminlinks']=array(__('Adminlinks as Links','MiniMetaWidget'),array('MiniMetaWidgetParts','adminlinks_display'),array('MiniMetaWidgetParts','adminlinks_options'),true,false,true);
-		$MiniMetaWidgetParts['adminselect']=array(__('Adminlinks as Selectbox','MiniMetaWidget'),array('MiniMetaWidgetParts','adminselect_display'),array('MiniMetaWidgetParts','adminselect_options'),true,false,true);
-		$MiniMetaWidgetParts['linklostpw']=array(__('Link:','MiniMetaWidget').' '.__('Lost your password?'),array('MiniMetaWidgetParts','linklostpw_display'),array('MiniMetaWidgetParts','linklostpw_options'),false,true,true);
-		$MiniMetaWidgetParts['bookmarkscat']=array(__('Blog Links by category','MiniMetaWidget'),array('MiniMetaWidgetParts','bookmarkscat_display'),array('MiniMetaWidgetParts','bookmarkscat_options'),true,true,true);
-		$MiniMetaWidgetParts['bookmarks']=array(__('Blog Links','MiniMetaWidget'),array('MiniMetaWidgetParts','bookmarks_display'),array('MiniMetaWidgetParts','bookmarks_options'),true,true,true);
-		$MiniMetaWidgetParts['linkrss']=array(__('Link:','MiniMetaWidget').' '.__('Entries <abbr title="Really Simple Syndication">RSS</abbr>'),array('MiniMetaWidgetParts','linkrss_display'),array('MiniMetaWidgetParts','linkrss_options'),true,true,true);
-		$MiniMetaWidgetParts['linkcommentrss']=array(__('Link:','MiniMetaWidget').' '.__('Comments <abbr title="Really Simple Syndication">RSS</abbr>'),array('MiniMetaWidgetParts','linkcommentrss_display'),array('MiniMetaWidgetParts','linkcommentrss_options'),true,true,true);
-		$MiniMetaWidgetParts['linkwordpress']=array(__('Link:','MiniMetaWidget').' WordPress.org',array('MiniMetaWidgetParts','linkwordpress_display'),array('MiniMetaWidgetParts','linkwordpress_options'),true,true,true);
-		$MiniMetaWidgetParts['actionwpmeta']=array(__('Do Action:','MiniMetaWidget').' wp_meta',array('MiniMetaWidgetParts','actionwpmeta_display'),'',true,true,true);
+		//$MiniMetaWidgetParts['name']=array('name','function to display','function to control','logtin','logtout')
+		$MiniMetaWidgetParts['gravatar']=array(__('Gravatar'),array('MiniMetaWidgetParts','gravatar_display'),array('MiniMetaWidgetParts','gravatar_options'),true,false);
+		$MiniMetaWidgetParts['title']=array(__('Title'),array('MiniMetaWidgetParts','title_display'),array('MiniMetaWidgetParts','title_options'),true,true);
+		$MiniMetaWidgetParts['gravatar']=array(__('Gravatar'),array('MiniMetaWidgetParts','gravatar_display'),array('MiniMetaWidgetParts','gravatar_options'),true,false);
+		$MiniMetaWidgetParts['loginform']=array(__('Login Form','MiniMetaWidget'),array('MiniMetaWidgetParts','loginform_display'),array('MiniMetaWidgetParts','loginform_options'),false,true);
+		$MiniMetaWidgetParts['linkseiteadmin']=array(__('Link:','MiniMetaWidget').' '.__('Site Admin'),array('MiniMetaWidgetParts','seiteadmin_display'),array('MiniMetaWidgetParts','seiteadmin_options'),true,false);
+		$MiniMetaWidgetParts['linkregister']=array(__('Link:','MiniMetaWidget').' '.__('Register'),array('MiniMetaWidgetParts','linkregister_display'),array('MiniMetaWidgetParts','linkregister_options'),false,true);
+		$MiniMetaWidgetParts['linkloginlogout']=array(__('Link: Login/Logout','MiniMetaWidget'),array('MiniMetaWidgetParts','linkloginout_display'),array('MiniMetaWidgetParts','linkloginout_options'),true,true);
+		$MiniMetaWidgetParts['adminlinks']=array(__('Adminlinks as Links','MiniMetaWidget'),array('MiniMetaWidgetParts','adminlinks_display'),array('MiniMetaWidgetParts','adminlinks_options'),true,false);
+		$MiniMetaWidgetParts['adminselect']=array(__('Adminlinks as Selectbox','MiniMetaWidget'),array('MiniMetaWidgetParts','adminselect_display'),array('MiniMetaWidgetParts','adminselect_options'),true,false);
+		$MiniMetaWidgetParts['linklostpw']=array(__('Link:','MiniMetaWidget').' '.__('Lost your password?'),array('MiniMetaWidgetParts','linklostpw_display'),array('MiniMetaWidgetParts','linklostpw_options'),false,true);
+		$MiniMetaWidgetParts['bookmarkscat']=array(__('Blog Links by category','MiniMetaWidget'),array('MiniMetaWidgetParts','bookmarkscat_display'),array('MiniMetaWidgetParts','bookmarkscat_options'),true,true);
+		$MiniMetaWidgetParts['bookmarks']=array(__('Blog Links','MiniMetaWidget'),array('MiniMetaWidgetParts','bookmarks_display'),array('MiniMetaWidgetParts','bookmarks_options'),true,true);
+		$MiniMetaWidgetParts['linkrss']=array(__('Link:','MiniMetaWidget').' '.__('Entries <abbr title="Really Simple Syndication">RSS</abbr>'),array('MiniMetaWidgetParts','linkrss_display'),array('MiniMetaWidgetParts','linkrss_options'),true,true);
+		$MiniMetaWidgetParts['linkcommentrss']=array(__('Link:','MiniMetaWidget').' '.__('Comments <abbr title="Really Simple Syndication">RSS</abbr>'),array('MiniMetaWidgetParts','linkcommentrss_display'),array('MiniMetaWidgetParts','linkcommentrss_options'),true,true);
+		$MiniMetaWidgetParts['linkwordpress']=array(__('Link:','MiniMetaWidget').' WordPress.org',array('MiniMetaWidgetParts','linkwordpress_display'),array('MiniMetaWidgetParts','linkwordpress_options'),true,true);
+		$MiniMetaWidgetParts['actionwpmeta']=array(__('Do Action:','MiniMetaWidget').' wp_meta',array('MiniMetaWidgetParts','actionwpmeta_display'),'',true,true);
 		return apply_filters('MiniMetaWidget_parts',$MiniMetaWidgetParts);
 	}
 	

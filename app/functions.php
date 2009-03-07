@@ -79,16 +79,14 @@ class MiniMetaFunctions {
 	
 	// Help too display
 	function show_help() {
-		$plugin_data=get_plugin_data(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php');
-	
 		$help .= '<div class="metabox-prefs">';
 		$help .= '<a href="http://wordpress.org/tags/minimeta-widget" target="_blank">'.__('Support Forums', 'MiniMetaWidget').'</a>';
 		$help .= ' | <a href="http://danielhuesken.de/portfolio/minimeta/" target="_blank">' . __('Plugin Homepage', 'MiniMetaWidget') . '</a>';
 		$help .= ' | <a href="http://wordpress.org/extend/plugins/minimeta-widget" target="_blank">' . __('Plugin Home on WordPress.org', 'MiniMetaWidget') . '</a>';
 		$help .= "</div>\n";	
 		$help .= '<div class="metabox-prefs">';
-		$help .= __('Version:', 'MiniMetaWidget').' '.$plugin_data['Version'].' | ';
-		$help .= __('Author:', 'MiniMetaWidget').' '.$plugin_data['Author'];
+		$help .= __('Version:', 'MiniMetaWidget').' '.WP_MINMETA_VERSION.' | ';
+		$help .= __('Author:', 'MiniMetaWidget').' <a href="http://danielhuesken.de" target="_blank">Daniel H&uuml;sken</a>';
 		$help .= "</div>\n";
 		$help .= '<div class="metabox-prefs">';
 		$help .='<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
@@ -137,8 +135,8 @@ class MiniMetaFunctions {
 	function options_load() {
 		global $minimeta_options_text,$mmconfigid,$wp_version;
 		//Css for Admin Section
-		wp_enqueue_style('MiniMeta',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'),'','4.1.0','screen');
-		wp_enqueue_script('MiniMetaOptions',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/minimeta-options.js'),'jQuery','4.1.0',true);
+		wp_enqueue_style('MiniMeta',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'),'',WP_MINMETA_VERSION,'screen');
+		wp_enqueue_script('MiniMetaOptions',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/minimeta-options.js'),array('jquery','jquery-ui-core','jquery-ui-sortable'),WP_MINMETA_VERSION,true);
 		wp_localize_script('MiniMetaOptions','MiniMetaL10n',array('edit'=>__('Edit')));
 		//For save Options
 		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/options-save.php');
