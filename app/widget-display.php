@@ -27,8 +27,6 @@ class MiniMetaWidgetDisplay {
 		$optionset = get_option('minimeta_widget_options');
 		if (!isset($optionset[$optionsetname])) {  //find out option exists  and load
 			//def options
-			$options['order']['in']='0,1,2,3,4,5,6';
-			$options['order']['out']='0,1,2,3,4,5,6';
 			$options['general']['php']['title']=__('Meta');
 			$options['general']['php']['before_title']='<h2>';
 			$options['general']['php']['after_title']='</h2>';
@@ -121,37 +119,23 @@ class MiniMetaWidgetDisplay {
 		echo $before_widget;
 		
 		$ulopen=false;
-        if(is_user_logged_in()) { //When loggt in
-			if (empty($options['order']['in'])) { //for Version bevor 4.2.0
-				for ($i=0;$i<=sizeof($options['in']);$i++) {
-					$options['order']['in'].=$i.',';
-				}
-				$options['order']['in']=substr($options['order']['in'],0,-1);
-			}
-			$order=explode(",",$options['order']['in']);
-			for ($i=0;$i<=sizeof($order);$i++) {
-				if ($parts[$options['in'][$order[$i]]['part']][3]) {
-					$options['in'][$order[$i]]['args']['stylegeneralli']=$options['general']['php']['style']['li'];
-					$options['in'][$order[$i]]['args']['classgeneralli']=$options['general']['php']['class']['li'];
-					call_user_func($parts[$options['in'][$order[$i]]['part']][1], $options['in'][$order[$i]]['args'] );
-				}
-			}		
-		} else { //When loggt out
-			if (empty($options['order']['out'])) { //for Version bevor 4.2.0
-				for ($i=0;$i<=sizeof($options['out']);$i++) {
-					$options['order']['out'].=$i.',';
-				}
-				$options['order']['out']=substr($options['order']['out'],0,-1);
-			}
-			$order=explode(",",$options['order']['out']);
-			for ($i=0;$i<=sizeof($order);$i++) { 
-				if ($parts[$options['out'][$order[$i]]['part']][4]) {
-					$options['out'][$order[$i]]['args']['stylegeneralli']=$options['general']['php']['style']['li'];
-					$options['out'][$order[$i]]['args']['classgeneralli']=$options['general']['php']['class']['li'];
-					call_user_func($parts[$options['out'][$order[$i]]['part']][1], $options['out'][$order[$i]]['args'] );
-				}
-			}
+		
+        if(is_user_logged_in()) { //if loggt in or out
+			$inorout="in";
+			$fuctionplace=3;
+		} else {
+			$inorout="out";
+			$fuctionplace=4;
 		}
+		
+		for ($i=0;$i<=sizeof($options[$inorout]);$i++) {
+			if ($parts[$options[$inorout][$i]['part']][$fuctionplace]) {
+				$options[$inorout][$i]['args']['stylegeneralli']=$options['general']['php']['style']['li'];
+				$options[$inorout][$i]['args']['classgeneralli']=$options['general']['php']['class']['li'];
+				call_user_func($parts[$options[$inorout][$i]['part']][1], $options[$inorout][$i]['args'] );
+			}				
+		}		
+		
 		if ($ulopen)
 			echo '</ul>';
 			

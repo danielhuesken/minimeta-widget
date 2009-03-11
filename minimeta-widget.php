@@ -112,7 +112,9 @@ Change log:
 		       Reworked Config Page for more intutive
 		       Removed K2 SBM Support
 	                 Some bug fixes
-  Version 4.2.0   
+  Version 4.2.0   <UL> improvments
+		      Links ar sortable
+		      class support for styles
  */
 
 

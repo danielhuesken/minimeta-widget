@@ -185,6 +185,7 @@ class MiniMetaWidgetParts {
 			extract($args, EXTR_SKIP );
 		MiniMetaWidgetParts::ulopenclose(true);
         if (sizeof($adminlinks)>0 or $notselected) { //show only if a Admin Link is selectesd
+			if (!is_array($adminlinks)) $adminlinks[]="";
 			$minimeta_adminlinks=get_option('minimeta_adminlinks'); 
 			foreach ($minimeta_adminlinks as $menu) {
 				$output="";
@@ -255,6 +256,7 @@ class MiniMetaWidgetParts {
 			extract($args, EXTR_SKIP );
 		MiniMetaWidgetParts::ulopenclose(true);
         if (sizeof($adminlinks)>0 or $notselected) { //show only if a Admin Link is selectesd
+			if (!is_array($adminlinks)) $adminlinks[]="";
             echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><select onchange=\"document.location.href=this.options[this.selectedIndex].value;\"".MiniMetaWidgetParts::styleclass($styleadminlinksselect,$classadminlinksselect)."><option selected=\"selected\"".MiniMetaWidgetParts::styleclass($styleadminlinksoption,$classadminlinksoption).">".__('Please select:','MiniMetaWidget')."</option>";
 			$minimeta_adminlinks=get_option('minimeta_adminlinks'); 
             foreach ($minimeta_adminlinks as $menu) {

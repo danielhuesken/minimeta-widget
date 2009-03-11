@@ -62,7 +62,8 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 
 <?php if (!empty($mmconfigid)) { ?>
 <input type="hidden" name="mmconfigid" value="<?php echo $mmconfigid; ?>" />
-<input type="hidden" name="ordering" id="order" value="" />	
+<input type="hidden" name="widget-options[<?php echo $mmconfigid; ?>][order][in]" id="orderingin" value="" />
+<input type="hidden" name="widget-options[<?php echo $mmconfigid; ?>][order][out]" id="orderingout" value="" />	
 	<div id="configdiv" class="stuffbox">
 	<h3><label for="configmm"><?php _e('MiniMeta Widget Config', 'MiniMetaWidget'); ?></label></h3>
 	<div class="inside">
@@ -70,71 +71,64 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 		<span class="alignleft"><?php _e('Config Name:', 'MiniMetaWidget'); ?> <input type="text" title="<?php _e('Config Name'); ?>" name="widget-options[<?php echo $mmconfigid; ?>][optionname]" value="<?php echo $options_widgets[$mmconfigid]['optionname']; ?>" size="30" /></span>
 		<br class="clear" />
 	
-		<?php $loginout='out'; ?>
-		<div class="widget-logout">
-			<h4 style="text-align:center;"><?php echo _e('Show when Loggt out:'); ?></h4>
-			<div class="widget-logout-list" id="widget-logout-list">
-	<?PHP  	$orderingid=0;
-			foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) {
+	
+	
+		<?php 
+		$parts=MiniMetaWidgetParts::parts();
+		for ($z=0;$z<=1;$z++) {
+			//ste param for in and out
+			if ($z==0) {
+				$loginout='in';
+				$fuctionplace=3;
+				$title=__('Show when Loggt in:');
+			}
+			if ($z==1) {
+				$loginout='out';
+				$fuctionplace=4;
+				$title=__('Show when Loggt out:');
+			}
+			//make sorting list
+			unset($orderparts);
+			for ($i=0;$i<=sizeof($options_widgets[$mmconfigid][$loginout]);$i++) {
+				$orderparts[]=$options_widgets[$mmconfigid][$loginout][$i]['part'];
+			}
+			foreach ($parts as $partname => $partvalues) {
+				if (!in_array($partname,$orderparts)) $orderparts[]=$partname;
+			}
+			
+			?>
+			<div class="widget-log<?php echo $loginout; ?>">
+			<h4 style="text-align:center;"><?php echo $title; ?></h4>
+			<div class="widget-log<?php echo $loginout; ?>-list" id="widget-log<?php echo $loginout; ?>-list">
+			<?PHP  	
+			for ($orderingid=0;$orderingid<=sizeof($orderparts);$orderingid++) {
 				$optionsnumber='';
 				for ($i=0;$i<=sizeof($options_widgets[$mmconfigid][$loginout]);$i++) {
-					if ($partname==$options_widgets[$mmconfigid][$loginout][$i]['part']) $optionsnumber=$i;
+					if ($orderparts[$orderingid]==$options_widgets[$mmconfigid][$loginout][$i]['part']) $optionsnumber=$i;
 				}
-				if ($partvalues[4]) { ?>
-				<div class="widget-logout-item if-js-closed" id="out_<?php echo $orderingid; ?>">
-					<h4 class="widget-logout-title"><span><input class="checkbox-active" type="checkbox" <?php checked($options_widgets[$mmconfigid][$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $orderingid; ?>][active]" /> <?php echo $partvalues[0]; ?></span><br class="clear" /></h4>
-					<input type="hidden"  name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $orderingid; ?>][part]" value="<?php echo $partname; ?>" />
-					<?PHP if ($partvalues[2]) {?>
-					<div class="widget-logout-control">
+				if ($parts[$orderparts[$orderingid]][$fuctionplace]) { ?>
+				<div class="widget-log<?php echo $loginout; ?>-item if-js-closed" id="<?php echo $loginout; ?>_<?php echo $orderingid; ?>">
+					<h4 class="widget-log<?php echo $loginout; ?>-title"><span><input class="checkbox-active" type="checkbox" <?php checked($options_widgets[$mmconfigid][$loginout][$optionsnumber]['part'],$orderparts[$orderingid]); ?> name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $orderingid; ?>][active]" /> <?php echo $parts[$orderparts[$orderingid]][0]; ?></span><br class="clear" /></h4>
+					<input type="hidden"  name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $orderingid; ?>][part]" value="<?php echo $orderparts[$orderingid]; ?>" />
+					<?PHP if ($parts[$orderparts[$orderingid]][2]) {?>
+					<div class="widget-log<?php echo $loginout; ?>-control">
 						<?php				
 						$options=$options_widgets[$mmconfigid][$loginout][$optionsnumber]['args'];
 						$options['ordering']=$orderingid;
 						$options['loginout']=$loginout;
 						$options['optionname']=$mmconfigid;
-						call_user_func($partvalues[2], $options);
+						call_user_func($parts[$orderparts[$orderingid]][2], $options);
 						?>
 					</div>
 					<?PHP } ?>
 				</div>
-		<?PHP  	$orderingid++;
-				}
+			<?PHP	}
 			} ?>
 			</div>
-		</div>
-		
-		<?php $loginout='in'; ?>
-		<div class="widget-login">
-			<h4 style="text-align:center;"><?php echo _e('Show when Loggt in:'); ?></h4>
-			<div class="widget-login-list" id="widget-login-list">
-	<?PHP  	$orderingid=0;
-			foreach (MiniMetaWidgetParts::parts() as $partname => $partvalues) { 
-				$optionsnumber='';
-				for ($i=0;$i<=sizeof($options_widgets[$mmconfigid][$loginout]);$i++) {
-					if ($partname==$options_widgets[$mmconfigid][$loginout][$i]['part']) $optionsnumber=$i;
-				}
-				if ($partvalues[3]) {?>
-				<div class="widget-login-item if-js-closed" id="in_<?php echo $orderingid; ?>">
-					<h4 class="widget-login-title"><span><input class="checkbox-active" type="checkbox" <?php checked($options_widgets[$mmconfigid][$loginout][$optionsnumber]['part'],$partname); ?> name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $orderingid; ?>][active]" /> <?php echo $partvalues[0]; ?></span> <br class="clear" /></h4>
-					<input type="hidden" name="widget-options[<?php echo $mmconfigid; ?>][<?php echo $loginout; ?>][<?php echo $orderingid; ?>][part]" value="<?php echo $partname; ?>" />
-					<?PHP if ($partvalues[2]) { ?>
-					<div class="widget-login-control">
-						<?php				
-						$options=$options_widgets[$mmconfigid][$loginout][$optionsnumber]['args'];
-						$options['ordering']=$orderingid;
-						$options['loginout']=$loginout;
-						$options['optionname']=$mmconfigid;
-						call_user_func($partvalues[2], $options);
-						?>
-					</div>
-					<?PHP } ?>
-				</div>
-		<?PHP  	$orderingid++;
-				}
-			} ?>
 			</div>
-		</div>	
+		<?PHP } ?>
+	
 		<br class="clear" />	
-
 		<div class="widget-general">
 			<h4 style="text-align:center;"><?php echo _e('Generel Settings:'); ?></h4>
 			<div class="widget-general-list">

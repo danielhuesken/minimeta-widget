@@ -105,6 +105,9 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 	if (is_array($_POST['widget-options'][$mmconfigid])) {
 		unset($options_widgets[$mmconfigid]);
 	    $options_widgets[$mmconfigid]['optionname'] = htmlentities(stripslashes($_POST['widget-options'][$mmconfigid]['optionname']));
+		//Save Ordering
+		$options_widgets[$mmconfigid]['order']['in']=str_replace("&in[]=",",",substr($_POST['widget-options'][$mmconfigid]['order']['in'],5));
+		$options_widgets[$mmconfigid]['order']['out']=str_replace("&out[]=",",",substr($_POST['widget-options'][$mmconfigid]['order']['out'],6));
 		//Save general options
 		$options_widgets[$mmconfigid]['general']['style']['ul'] = $_POST['widget-options'][$mmconfigid]['general']['style']['ul'];
 		$options_widgets[$mmconfigid]['general']['style']['li'] = $_POST['widget-options'][$mmconfigid]['general']['style']['li'];
@@ -126,26 +129,26 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 				$options_widgets[$mmconfigid]['general']['pagesnot']['out'][$page] = isset($pagevalue);
 			}
 		}
-		//Save option for in and out
+		//Save option for in and out and sort
 		$ordering=0;
-		for ($i=0; $i<=sizeof($_POST['widget-options'][$mmconfigid]['in']);$i++) {
-			if(isset($_POST['widget-options'][$mmconfigid]['in'][$i]['active'])) {
-				$options_widgets[$mmconfigid]['in'][$ordering]['part']=$_POST['widget-options'][$mmconfigid]['in'][$i]['part'];
-				$options_widgets[$mmconfigid]['in'][$ordering]['args']=$_POST['widget-options'][$mmconfigid]['in'][$i]['args'];
+		$sort=split(",",str_replace("&in[]=",",",substr($_POST['widget-options'][$mmconfigid]['order']['in'],5)));
+		for ($i=0; $i<=sizeof($sort);$i++) {
+			if(isset($_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['active'])) {
+				$options_widgets[$mmconfigid]['in'][$ordering]['part']=$_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['part'];
+				$options_widgets[$mmconfigid]['in'][$ordering]['args']=$_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['args'];
 				$ordering++;
 			}
 		}
 		$ordering=0;
-		for ($i=0; $i<=sizeof($_POST['widget-options'][$mmconfigid]['out']);$i++) {
-			if(isset($_POST['widget-options'][$mmconfigid]['out'][$i]['active'])) {
-				$options_widgets[$mmconfigid]['out'][$ordering]['part']=$_POST['widget-options'][$mmconfigid]['out'][$i]['part'];
-				$options_widgets[$mmconfigid]['out'][$ordering]['args']=$_POST['widget-options'][$mmconfigid]['out'][$i]['args'];
+		$sort=split(",",str_replace("&out[]=",",",substr($_POST['widget-options'][$mmconfigid]['order']['out'],6)));
+		for ($i=0; $i<=sizeof($sort);$i++) {
+			if(isset($_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['active'])) {
+				$options_widgets[$mmconfigid]['out'][$ordering]['part']=$_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['part'];
+				$options_widgets[$mmconfigid]['out'][$ordering]['args']=$_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['args'];
 				$ordering++;
 			}
 		}
 	}
-	
-	
 	
 	if (update_option('minimeta_widget_options', $options_widgets)) {
 		$minimeta_options_text = '<font color="green">'.sprintf(__('Config "%s" Updated', 'MiniMetaWidget'),$options_widgets[$mmconfigid]['optionname']).'</font>';
@@ -153,6 +156,5 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 	} else {
 		$minimeta_options_text = '<font color="red">'.sprintf(__('Config "%s" NOT Updated', 'MiniMetaWidget'),$options_widgets[$mmconfigid]['optionname']).'</font>';
 	}
-	$minimeta_options_text=$_POST['ordering'];
 }
 ?>
