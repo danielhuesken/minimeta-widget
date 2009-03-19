@@ -84,7 +84,7 @@ class MiniMetaWidgetParts {
 			extract($args, EXTR_SKIP );
 		MiniMetaWidgetParts::ulopenclose(false);
 		?>
-				<form name="loginform" id="loginform" action="<?php echo site_url('wp-login.php', 'login_post') ?>" method="post">
+				<form name="loginform" id="loginform" action="<?php echo site_url('wp-login.php', 'login_post') ?>" method="post"<?php echo MiniMetaWidgetParts::styleclass($styleform,$classform); ?>>
                     <p>
                         <label><?php _e('Username') ?><br />
                         <input type="text" name="log" id="user_login" value="<?php echo attribute_escape(stripslashes($user_login)); ?>" size="20" tabindex="10"<?php echo MiniMetaWidgetParts::styleclass($stylelogin,$classlogin); ?> /></label>
@@ -116,6 +116,10 @@ class MiniMetaWidgetParts {
 		if (!isset($classlogin)) $classlogin='input'; //def. Css
 		if (!isset($classpassword)) $classpassword='input'; 
 		 _e('Stylesheet:','MiniMetaWidget');?><br /> 
+		&lt;form id=&quot;loginform&quot;
+		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleform)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleform]" />&quot; 
+		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classform)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classform]" />&quot;
+		&gt;<br />
 		&lt;input type=&quot;text&quot; id=&quot;user_login&quot;
 		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelogin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelogin]" />&quot; 
 		class=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($classlogin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][classlogin]" />&quot;
@@ -350,6 +354,12 @@ class MiniMetaWidgetParts {
 	function linkregister_options($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
+		if(!get_option('users_can_register')) { 
+			?>
+			<span style="color:red;"><?PHP _e('Register is not allowed in this Blog! Activate it to use this Link.','MiniMetaWidget');?></span>
+			<hr />
+			<?PHP
+		}
 		_e('Stylesheet:','MiniMetaWidget');?><br />
 		&lt;a href=&quot;...&quot; 
 		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkregister)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkregister]" />&quot;
