@@ -115,6 +115,7 @@ Change log:
   Version 4.2.0   <UL> improvments
 		      Links ar sortable
 		      class support for styles
+		      WP 2.8 WP_Widget class usage
  */
 
 

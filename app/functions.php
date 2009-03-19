@@ -165,7 +165,6 @@ class MiniMetaFunctions {
 	//Set start Options
 	function install() {
 		add_option('minimeta_widget_options');
-		add_option('minimeta_widget_wp');
 		add_option('minimeta_adminlinks');
 		MiniMetaFunctions::generate_adminlinks();
 		if (get_option('widget_minimeta')) MiniMetaFunctions::update(); //Update if option exists
@@ -186,7 +185,7 @@ class MiniMetaFunctions {
 
 	// add all action and so on only if plugin loaded.
 	function init() {
-		global $pagenow;
+		global $pagenow,$wp_version;
 		
 		//load Text Domain
 		if (!function_exists('wp_print_styles')) {
@@ -209,8 +208,14 @@ class MiniMetaFunctions {
 			
 		//Support for Wordpress Widgets
 		if (function_exists('register_sidebar_widget')) { //Widgest only
-			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-wp.php');
-			add_action('widgets_init', array('MiniMetaWidgetWP', 'register'));
+			if (!class_exists('WP_Widget')) { //test for WP_Widget class fron WP 2.8
+				require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-wp-2_5.php');
+				add_action('widgets_init', array('MiniMetaWidgetWP', 'register'));
+			} else {
+				require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-wp-2_8.php');	
+				add_action('widgets_init', array('WP_Widget_MiniMeta', 'register'));
+			}
+			
 		}
 		//load seidbar widgets per function
 		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-sidebar.php');
