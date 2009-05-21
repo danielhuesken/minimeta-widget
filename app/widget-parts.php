@@ -140,12 +140,18 @@ class MiniMetaWidgetParts {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
 		MiniMetaWidgetParts::ulopenclose(true);
-		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".admin_url()."\"".MiniMetaWidgetParts::styleclass($styleseiteadmin,$classseiteadmin).">".__('Site Admin')."</a></li>";
+		$linkname=__('Site Admin');
+		if ($namedashboard) $linkname=__('Dashboard');
+		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".admin_url()."\"".MiniMetaWidgetParts::styleclass($styleseiteadmin,$classseiteadmin).">".$linkname."</a></li>";
 	}
 
 	function seiteadmin_options($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
+		?>
+			<input class="checkbox" type="checkbox" <?php checked($namedashboard,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][namedashboard]" />&nbsp;<?php _e('Show Link Name as &quot;Dashboard&quot; <b>not</b> &quot;Site Admin&quot;','MiniMetaWidget');?><br />
+			<hr />
+		<?php
 		_e('Stylesheet:','MiniMetaWidget');?><br />
 		&lt;a href=&quot;...&quot; 
 		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($styleseiteadmin)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][styleseiteadmin]" />&quot; 

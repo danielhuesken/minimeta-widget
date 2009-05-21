@@ -116,6 +116,7 @@ Change log:
 		      Links ar sortable
 		      class support for styles
 		      WP 2.8 WP_Widget class usage
+		      Use Link Name Dashbord or Seite Admin for Link: Seite Admin
  */
 
 
