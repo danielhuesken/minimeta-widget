@@ -25,11 +25,11 @@ jQuery(document).ready(function() {
 		jQuery(this).parent().parent().toggleClass('closed');
 	});
 	
-	jQuery('#widget-logout-list,#widget-login-list').sortable({ handle: 'h4',axis: 'y',change: function() {
+	jQuery('#widget-logout-list,#widget-login-list').sortable({ handle: 'h4',axis: 'y'});
+	jQuery('#widget-logout-list,#widget-login-list').disableSelection();
+	jQuery('form').submit(function() {
 		jQuery('#orderingin').val(jQuery('#widget-login-list').sortable('serialize'));
 		jQuery('#orderingout').val(jQuery('#widget-logout-list').sortable('serialize'));
-	}});
-	jQuery('#orderingin').val(jQuery('#widget-login-list').sortable('serialize'));
-	jQuery('#orderingout').val(jQuery('#widget-logout-list').sortable('serialize'));
+	});
 
 });

@@ -62,16 +62,14 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 
 <?php if (!empty($mmconfigid)) { ?>
 <input type="hidden" name="mmconfigid" value="<?php echo $mmconfigid; ?>" />
-<input type="hidden" name="widget-options[<?php echo $mmconfigid; ?>][order][in]" id="orderingin" value="" />
-<input type="hidden" name="widget-options[<?php echo $mmconfigid; ?>][order][out]" id="orderingout" value="" />	
+<input type="hidden" name="widget-options[<?php echo $mmconfigid; ?>][order][in]" id="orderingin" value="in[]=0&in[]=1&in[]=2&in[]=3&in[]=4&in[]=5&in[]=6&in[]=7&in[]=8&in[]=9&in[]=10&in[]=11&in[]=12&in[]=13&in[]=14&in[]=15&in[]=16&in[]=17&in[]=18&in[]=19&in[]=20" />
+<input type="hidden" name="widget-options[<?php echo $mmconfigid; ?>][order][out]" id="orderingout" value="out[]=0&out[]=1&out[]=2&out[]=3&out[]=4&out[]=5&out[]=6&out[]=7&out[]=8&out[]=9&out[]=10&out[]=11&out[]=12&out[]=13&out[]=14&out[]=15&out[]=16&out[]=17&out[]=18&out[]=19&out[]=20" />	
 	<div id="configdiv" class="stuffbox">
 	<h3><label for="configmm"><?php _e('MiniMeta Widget Config', 'MiniMetaWidget'); ?></label></h3>
 	<div class="inside">
 		<input type="submit" name="Submit" class="button-primary alignright" id="Submit" value="<?php _e('Save Changes'); ?>" />
 		<span class="alignleft"><?php _e('Config Name:', 'MiniMetaWidget'); ?> <input type="text" title="<?php _e('Config Name'); ?>" name="widget-options[<?php echo $mmconfigid; ?>][optionname]" value="<?php echo $options_widgets[$mmconfigid]['optionname']; ?>" size="30" /></span>
 		<br class="clear" />
-	
-	
 	
 		<?php 
 		$parts=MiniMetaWidgetParts::parts();
@@ -89,13 +87,14 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 			}
 			//make sorting list
 			unset($orderparts);
-			for ($i=0;$i<=sizeof($options_widgets[$mmconfigid][$loginout]);$i++) {
+			for ($i=0;$i<sizeof($options_widgets[$mmconfigid][$loginout]);$i++) {
 				$orderparts[]=$options_widgets[$mmconfigid][$loginout][$i]['part'];
 			}
 			foreach ($parts as $partname => $partvalues) {
-				if (!in_array($partname,$orderparts)) $orderparts[]=$partname;
+				if ($partvalues[$fuctionplace]) 
+					if (!in_array($partname,$orderparts)) 
+						$orderparts[]=$partname;
 			}
-			
 			?>
 			<div class="widget-log<?php echo $loginout; ?>">
 			<h4 style="text-align:center;"><?php echo $title; ?></h4>

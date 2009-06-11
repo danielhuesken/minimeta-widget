@@ -82,7 +82,12 @@ class MiniMetaWidgetParts {
 	function loginform_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
-		MiniMetaWidgetParts::ulopenclose(false);
+		if($ulli) {
+			MiniMetaWidgetParts::ulopenclose(true);
+			echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli).">";
+		} else {
+			MiniMetaWidgetParts::ulopenclose(false);
+		}
 		?>
 				<form name="loginform" id="loginform" action="<?php echo site_url('wp-login.php', 'login_post') ?>" method="post"<?php echo MiniMetaWidgetParts::styleclass($styleform,$classform); ?>>
                     <p>
@@ -102,6 +107,8 @@ class MiniMetaWidgetParts {
                     </p>
 				</form>
 		<?php
+		if($ulli) 
+			echo "</li>";
 	}
 	
 	function loginform_options($args) {
@@ -111,6 +118,7 @@ class MiniMetaWidgetParts {
 			<input class="checkbox" type="checkbox" <?php checked($rememberme,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][rememberme]" />&nbsp;<?php _e('Remember Me');?><br />
 			<input class="checkbox" type="checkbox" <?php checked($redirect,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function','MiniMetaWidget');?><br />
 			<input class="checkbox" type="checkbox" <?php checked($testcookie,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][testcookie]" />&nbsp;<?php _e('Enable WordPress Cookie Test for login Form','MiniMetaWidget');?><br />
+			<input class="checkbox" type="checkbox" <?php checked($ulli,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][ulli]" />&nbsp;<?php _e('Form in &lt;ul&gt; &lt;il&gt; tag','MiniMetaWidget');?><br />
 			<hr />
 		<?php
 		if (!isset($classlogin)) $classlogin='input'; //def. Css

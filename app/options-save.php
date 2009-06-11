@@ -131,8 +131,8 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 		}
 		//Save option for in and out and sort
 		$ordering=0;
-		$sort=split(",",str_replace("&in[]=",",",substr($_POST['widget-options'][$mmconfigid]['order']['in'],5)));
-		for ($i=0; $i<=sizeof($sort);$i++) {
+		$sort=split(",",$options_widgets[$mmconfigid]['order']['in']);
+		for ($i=0; $i<sizeof($sort);$i++) {
 			if(isset($_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['active'])) {
 				$options_widgets[$mmconfigid]['in'][$ordering]['part']=$_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['part'];
 				$options_widgets[$mmconfigid]['in'][$ordering]['args']=$_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['args'];
@@ -140,8 +140,8 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 			}
 		}
 		$ordering=0;
-		$sort=split(",",str_replace("&out[]=",",",substr($_POST['widget-options'][$mmconfigid]['order']['out'],6)));
-		for ($i=0; $i<=sizeof($sort);$i++) {
+		$sort=split(",",$options_widgets[$mmconfigid]['order']['out']);
+		for ($i=0; $i<sizeof($sort);$i++) {
 			if(isset($_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['active'])) {
 				$options_widgets[$mmconfigid]['out'][$ordering]['part']=$_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['part'];
 				$options_widgets[$mmconfigid]['out'][$ordering]['args']=$_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['args'];
