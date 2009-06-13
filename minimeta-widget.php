@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/portfolio/minimeta/
 Description: WordPress (Mini)Meta Widget with different logon types (form,link) and additional admin links. All links can enabeld/disabeld.
 Author: Daniel H&uuml;sken
-Version: 4.2.0
+Version: 4.2.1
 Author URI: http://danielhuesken.de
 Text Domain: MiniMetaWidget
 Domain Path: /lang/
@@ -118,6 +118,7 @@ Change log:
 		      WP 2.8 WP_Widget class usage
 		      Use Link Name Dashbord or Seite Admin for Link: Seite Admin
 		      Form in ul li tags
+  Version 4.2.1   More translations
  */
 
 
