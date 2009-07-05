@@ -125,7 +125,7 @@ Change log:
 //Set plugin dirname
 define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
 //Ste Plugin Version
-define('WP_MINMETA_VERSION', '4.2.0');
+define('WP_MINMETA_VERSION', '4.2.1');
 
 $minimeta_plugin_load=true;
 //Version checks
