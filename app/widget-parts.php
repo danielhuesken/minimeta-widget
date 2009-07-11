@@ -42,8 +42,8 @@ class MiniMetaWidgetParts {
 			extract($args, EXTR_SKIP );
 		if ($loginout=='in') {
 			?>
-			<input class="checkbox" type="checkbox" <?php checked($displayidentity,true); ?> id="minimeta-displayidentity-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][displayidentity]" />&nbsp;<?php _e('Disply user Identity as title','MiniMetaWidget');?><br />
-			<input class="checkbox" type="checkbox" <?php checked($profilelink,true); ?> id="minimeta-profilelink-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][profilelink]" />&nbsp;<?php _e('Link to Your Profile in title','MiniMetaWidget');?><br />	
+			<input class="checkbox" value="1" type="checkbox" <?php checked($displayidentity,true); ?> id="minimeta-displayidentity-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][displayidentity]" />&nbsp;<?php _e('Disply user Identity as title','MiniMetaWidget');?><br />
+			<input class="checkbox" value="1" type="checkbox" <?php checked($profilelink,true); ?> id="minimeta-profilelink-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][profilelink]" />&nbsp;<?php _e('Link to Your Profile in title','MiniMetaWidget');?><br />	
 			<?PHP
 		}
 	}
@@ -115,10 +115,10 @@ class MiniMetaWidgetParts {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
 		?>
-			<input class="checkbox" type="checkbox" <?php checked($rememberme,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][rememberme]" />&nbsp;<?php _e('Remember Me');?><br />
-			<input class="checkbox" type="checkbox" <?php checked($redirect,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function','MiniMetaWidget');?><br />
-			<input class="checkbox" type="checkbox" <?php checked($testcookie,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][testcookie]" />&nbsp;<?php _e('Enable WordPress Cookie Test for login Form','MiniMetaWidget');?><br />
-			<input class="checkbox" type="checkbox" <?php checked($ulli,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][ulli]" />&nbsp;<?php _e('Form in &lt;ul&gt; &lt;il&gt; tag','MiniMetaWidget');?><br />
+			<input class="checkbox" value="1" type="checkbox" <?php checked($rememberme,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][rememberme]" />&nbsp;<?php _e('Remember Me');?><br />
+			<input class="checkbox" value="1" type="checkbox" <?php checked($redirect,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function','MiniMetaWidget');?><br />
+			<input class="checkbox" value="1" type="checkbox" <?php checked($testcookie,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][testcookie]" />&nbsp;<?php _e('Enable WordPress Cookie Test for login Form','MiniMetaWidget');?><br />
+			<input class="checkbox" value="1" type="checkbox" <?php checked($ulli,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][ulli]" />&nbsp;<?php _e('Form in &lt;ul&gt; &lt;il&gt; tag','MiniMetaWidget');?><br />
 			<hr />
 		<?php
 		if (!isset($classlogin)) $classlogin='input'; //def. Css
@@ -157,7 +157,7 @@ class MiniMetaWidgetParts {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
 		?>
-			<input class="checkbox" type="checkbox" <?php checked($namedashboard,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][namedashboard]" />&nbsp;<?php _e('Show Link Name as &quot;Dashboard&quot; <b>not</b> &quot;Site Admin&quot;','MiniMetaWidget');?><br />
+			<input class="checkbox" value="1" type="checkbox" <?php checked($namedashboard,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][namedashboard]" />&nbsp;<?php _e('Show Link Name as &quot;Dashboard&quot; <b>not</b> &quot;Site Admin&quot;','MiniMetaWidget');?><br />
 			<hr />
 		<?php
 		_e('Stylesheet:','MiniMetaWidget');?><br />
@@ -185,7 +185,7 @@ class MiniMetaWidgetParts {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
 		?>
-		<input class="checkbox" type="checkbox" <?php checked($redirect,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function','MiniMetaWidget');?><br />
+		<input class="checkbox" value="1" type="checkbox" <?php checked($redirect,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][redirect]" />&nbsp;<?php _e('Enable WordPress redirect function','MiniMetaWidget');?><br />
 		<hr />
 		<?php 
 		if (!isset($styleloginout)) $styleloginout='color:red;'; //def. Css
@@ -225,8 +225,8 @@ class MiniMetaWidgetParts {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
 		?>
-        <input class="checkbox" type="checkbox" <?php checked($notopics,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notopics]" />&nbsp;<?php _e('Do not show Admin Links Topics','MiniMetaWidget');?><br />
-		<input class="checkbox" type="checkbox" <?php checked($notselected,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notselected]" />&nbsp;<?php _e('Display <b>not</b> selected Admin Links','MiniMetaWidget');?><br />
+        <input class="checkbox" value="1" type="checkbox" <?php checked($notopics,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notopics]" />&nbsp;<?php _e('Do not show Admin Links Topics','MiniMetaWidget');?><br />
+		<input class="checkbox" value="1" type="checkbox" <?php checked($notselected,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notselected]" />&nbsp;<?php _e('Display <b>not</b> selected Admin Links','MiniMetaWidget');?><br />
 		 <?php _e('Select Admin Links:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > optgroup >option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > optgroup > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
          <select style="height:120px;font-size:11px;" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][adminlinks][]" id="minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?>" multiple="multiple">
          <?PHP
@@ -298,8 +298,8 @@ class MiniMetaWidgetParts {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
 		?>
-         <input class="checkbox" type="checkbox" <?php checked($notopics,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notopics]" />&nbsp;<?php _e('Do not show Admin Links Topics','MiniMetaWidget');?><br />
-		 <input class="checkbox" type="checkbox" <?php checked($notselected,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notselected]" />&nbsp;<?php _e('Display <b>not</b> selected Admin Links','MiniMetaWidget');?><br />
+         <input class="checkbox" value="1" type="checkbox" <?php checked($notopics,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notopics]" />&nbsp;<?php _e('Do not show Admin Links Topics','MiniMetaWidget');?><br />
+		 <input class="checkbox" value="1" type="checkbox" <?php checked($notselected,true); ?> name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][notselected]" />&nbsp;<?php _e('Display <b>not</b> selected Admin Links','MiniMetaWidget');?><br />
 		 <?php _e('Select Admin Links:','MiniMetaWidget');?> <input type="button" value="<?php _e('All'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > optgroup >option").attr("selected","selected")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /> <input type="button" value="<?php _e('None'); ?>" onclick='jQuery("#minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?> > optgroup > option").attr("selected","")' style="font-size:9px;"<?php echo $disabeld; ?> class="button" /><br />
          <select style="height:120px;font-size:11px;" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][adminlinks][]" id="minimeta-adminlinks-<?php echo $optionname; ?>-<?php echo $loginout; ?>-<?php echo $ordering; ?>" multiple="multiple">
          <?PHP

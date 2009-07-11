@@ -13,7 +13,7 @@ class MiniMetaWidgetDisplay {
 		global $post,$ulopen,$stylegeneralul,$classgeneralul;
 		if (is_array($args))
 			extract( $args, EXTR_SKIP );
-
+			
 		//Overwrite vars if Seidbar Widget
 		if ($type=="PHP") {
 			$title = $options['general']['php']['title'];
@@ -128,11 +128,11 @@ class MiniMetaWidgetDisplay {
 			$fuctionplace=4;
 		}
 		
-		for ($i=0;$i<=sizeof($options[$inorout]);$i++) {
-			if ($parts[$options[$inorout][$i]['part']][$fuctionplace]) {
-				$options[$inorout][$i]['args']['stylegeneralli']=$options['general']['php']['style']['li'];
-				$options[$inorout][$i]['args']['classgeneralli']=$options['general']['php']['class']['li'];
-				call_user_func($parts[$options[$inorout][$i]['part']][1], $options[$inorout][$i]['args'] );
+		foreach ($options[$inorout] as $partsettings) {
+			if ($parts[$partsettings['part']][$fuctionplace]) {
+				$partsettings['args']['stylegeneralli']=$options['general']['php']['style']['li'];
+				$partsettings['args']['classgeneralli']=$options['general']['php']['class']['li'];
+				call_user_func($parts[$partsettings['part']][1], $partsettings['args'] );
 			}				
 		}		
 		

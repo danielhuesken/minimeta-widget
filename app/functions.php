@@ -48,12 +48,18 @@ class MiniMetaFunctions {
 			} else {
 				$tempsubmenu[$item[2]][0] = array($item[0], $item[1], $item[2]); //create submenu
 			}
+			$menu_file = $item[2];
+			if ( false !== $pos = strpos($menu_file, '?') )
+				$menu_file = substr($menu_file, 0, $pos);
 			foreach ($tempsubmenu[$item[2]] as $keysub => $itemsub) { //Crate submenus and links
 				$adminlinks[$key][$keysub][0]=strip_tags($itemsub[0]);
 				$adminlinks[$key][$keysub][1]=$itemsub[1];
-				$menu_hook = get_plugin_page_hook($itemsub[2], $item[2]);       
-				if ( file_exists(WP_PLUGIN_DIR . "/{$itemsub[2]}") || ! empty($menu_hook) ) {
-					if ( 'admin.php' == $pagenow || !file_exists(WP_PLUGIN_DIR . "/$parent_file") )
+				$menu_hook = get_plugin_page_hook($itemsub[2], $item[2]);
+				$sub_file = $itemsub[2];
+				if ( false !== $pos = strpos($sub_file, '?') )
+					$sub_file = substr($sub_file, 0, $pos);				
+				if (('index.php' != $itemsub[2]) && file_exists(WP_PLUGIN_DIR . "/$sub_file") || ! empty($menu_hook) ) {
+					if ((file_exists(WP_PLUGIN_DIR . "/$menu_file") && !is_dir(WP_PLUGIN_DIR . "/{$item[2]}") ) || file_exists($menu_file))
 						$adminlinks[$key][$keysub][2]= "admin.php?page=".$itemsub[2];
 					else
 						$adminlinks[$key][$keysub][2]= $item[2]."?page=".$itemsub[2];

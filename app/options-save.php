@@ -118,7 +118,7 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 		$options_widgets[$mmconfigid]['general']['php']['after_title'] = $_POST['widget-options'][$mmconfigid]['general']['php']['after_title'];
 		$options_widgets[$mmconfigid]['general']['php']['before_widget'] = $_POST['widget-options'][$mmconfigid]['general']['php']['before_widget'];
 		$options_widgets[$mmconfigid]['general']['php']['after_widget'] = $_POST['widget-options'][$mmconfigid]['general']['php']['after_widget'];
-		$options_widgets[$mmconfigid]['general']['pagesnot']['notselected'] = $_POST['widget-options'][$mmconfigid]['general']['pagesnot']['notselected'];
+		$options_widgets[$mmconfigid]['general']['pagesnot']['notselected'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['notselected']);
 		if (is_array($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['in'])) {
 			foreach ($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['in'] as $page => $pagevalue) {
 				$options_widgets[$mmconfigid]['general']['pagesnot']['in'][$page] = isset($pagevalue);
@@ -135,7 +135,13 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 		for ($i=0; $i<sizeof($sort);$i++) {
 			if(isset($_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['active'])) {
 				$options_widgets[$mmconfigid]['in'][$ordering]['part']=$_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['part'];
-				$options_widgets[$mmconfigid]['in'][$ordering]['args']=$_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['args'];
+				if (is_array($_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['args'])) {
+					foreach($_POST['widget-options'][$mmconfigid]['in'][$sort[$i]]['args'] as $argkey => $argvalue) {
+						$options_widgets[$mmconfigid]['in'][$ordering]['args'][$argkey]=$argvalue;
+						if ($argvalue=='1')
+							$options_widgets[$mmconfigid]['in'][$ordering]['args'][$argkey]=true;
+					}
+				}
 				$ordering++;
 			}
 		}
@@ -144,7 +150,13 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 		for ($i=0; $i<sizeof($sort);$i++) {
 			if(isset($_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['active'])) {
 				$options_widgets[$mmconfigid]['out'][$ordering]['part']=$_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['part'];
-				$options_widgets[$mmconfigid]['out'][$ordering]['args']=$_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['args'];
+				if (is_array($_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['args'])) {
+					foreach($_POST['widget-options'][$mmconfigid]['out'][$sort[$i]]['args'] as $argkey => $argvalue) {
+						$options_widgets[$mmconfigid]['out'][$ordering]['args'][$argkey]=$argvalue;
+						if ($argvalue=='1')
+							$options_widgets[$mmconfigid]['out'][$ordering]['args'][$argkey]=true;
+					}
+				}
 				$ordering++;
 			}
 		}
