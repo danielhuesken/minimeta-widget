@@ -33,9 +33,9 @@ Please Use Version 3.0.1 for WordPress lower than 2.5
 = Plugin Hooks are testet =
 
 MiniMeta Version later 2.7.0 needed:&lt;br /&gt;
-[Semisecure Login](http://wordpress.org/extend/plugins/semisecure-login/)&lt;br /&gt;
-[Raz-Captcha](http://wordpress.org/extend/plugins/raz-captcha/)&lt;br /&gt;
-[Chap Secure Login](http://wordpress.org/extend/plugins/chap-secure-login/)&lt;br /&gt;
+[Semisecure Login](http://wordpress.org/extend/plugins/semisecure-login/)<br />
+[Raz-Captcha](http://wordpress.org/extend/plugins/raz-captcha/)<br />
+[Chap Secure Login](http://wordpress.org/extend/plugins/chap-secure-login/)<br />
 
 = Raz-Captcha Plugin hooks do not work =
 
