@@ -179,7 +179,7 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 						$pages = get_pages('sort_column=menu_order&hierarchical=1'); 
 						//print_r($pages);
 						foreach ($pages as $page) { ?>
-							&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php checked($options_widgets[$mmconfigid]['general']['pagesnot']['out'][$page->ID],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][out][<?php echo $page->ID;?>]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php checked($options_widgets[$mmconfigid]['general']['pagesnot']['in'][$page->ID],true); ?> name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][in][<?php echo $page->ID;?>]" />&nbsp;&nbsp;<?php _subpagecharakter($pages,$page->ID); echo $page->post_title; ?><br />
+							&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php checked(in_array($page->ID,(array)$options_widgets[$mmconfigid]['general']['pagesnot']['out']['pages']),true); ?> value="<?php echo $page->ID; ?>" name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][out][pages][]" />&nbsp;&nbsp;&nbsp;<input class="checkbox" type="checkbox" <?php checked(in_array($page->ID,(array)$options_widgets[$mmconfigid]['general']['pagesnot']['in']['pages']),true); ?> value="<?php echo $page->ID; ?>" name="widget-options[<?php echo $mmconfigid; ?>][general][pagesnot][in][pages][]" />&nbsp;&nbsp;<?php _subpagecharakter($pages,$page->ID); echo $page->post_title; ?><br />
 				<?PHP	} ?>
 					</div>
 				</div>			

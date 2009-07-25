@@ -119,16 +119,8 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 		$options_widgets[$mmconfigid]['general']['php']['before_widget'] = $_POST['widget-options'][$mmconfigid]['general']['php']['before_widget'];
 		$options_widgets[$mmconfigid]['general']['php']['after_widget'] = $_POST['widget-options'][$mmconfigid]['general']['php']['after_widget'];
 		$options_widgets[$mmconfigid]['general']['pagesnot']['notselected'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['notselected']);
-		if (is_array($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['in'])) {
-			foreach ($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['in'] as $page => $pagevalue) {
-				$options_widgets[$mmconfigid]['general']['pagesnot']['in'][$page] = isset($pagevalue);
-			}
-		}
-		if (is_array($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['out'])) {
-			foreach ($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['out'] as $page => $pagevalue) {
-				$options_widgets[$mmconfigid]['general']['pagesnot']['out'][$page] = isset($pagevalue);
-			}
-		}
+		$options_widgets[$mmconfigid]['general']['pagesnot']['in']['pages'] = $_POST['widget-options'][$mmconfigid]['general']['pagesnot']['in']['pages'];
+		$options_widgets[$mmconfigid]['general']['pagesnot']['out']['pages'] = $_POST['widget-options'][$mmconfigid]['general']['pagesnot']['out']['pages'];
 		//Save option for in and out and sort
 		$ordering=0;
 		$sort=split(",",$options_widgets[$mmconfigid]['order']['in']);
