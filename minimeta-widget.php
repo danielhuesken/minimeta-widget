@@ -34,26 +34,28 @@ define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
 //Ste Plugin Version
 define('WP_MINMETA_VERSION', '4.2.2');
 
-$minimeta_plugin_load=true;
+//load Text Domain
+if (!function_exists('wp_print_styles')) {
+	load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/lang');	
+} else {
+	load_plugin_textdomain('MiniMetaWidget', false, WP_MINMETA_PLUGIN_DIR.'/lang');	 //TextDomain for WP 2.6 and heiger
+}	
+// Load Pre-2.7 compatibility
+if (version_compare($wp_version, '2.7', '<'))    
+	require_once('app/compatibility.php');
+//Load functions file
+require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
+//install
+register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
+//uninstall for 2.7
+if ( function_exists('register_uninstall_hook') )
+	register_uninstall_hook(__FILE__, array('MiniMetaFunctions', 'uninstall'));
+
 //Version checks
 if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPress Version 2.5 or heiger
 	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, MiniMeta Widget works only under WordPress 2.5 or higher',"MiniMetaWidget") . '</strong></p></div>\';'));
-	$minimeta_plugin_load=false;
 } else {
-	// Load Pre-2.7 compatibility
-	if (version_compare($wp_version, '2.7', '<'))    
-		require_once('app/compatibility.php');
-
-	//Load functions file
-	require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
-
 	//Plugin init	
 	add_action('plugins_loaded', array('MiniMetaFunctions', 'init'));
-	
-	//install
-	register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
-	//uninstall for 2.7
-	if ( function_exists('register_uninstall_hook') )
-		register_uninstall_hook(__FILE__, array('MiniMetaFunctions', 'uninstall'));
 }
 ?>
