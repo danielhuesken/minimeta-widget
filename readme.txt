@@ -49,6 +49,9 @@ In the Plugin file are dependings for files where the plugin work. This dependin
 3. MiniMeta Widget Options Page
 
 == Changelog ==
+= 4.2.2 =
+* Bugfix for Plugin activate function
+* Bugfix for option not Displaying on Pages
 
 = 4.2.1 =
 * More translations

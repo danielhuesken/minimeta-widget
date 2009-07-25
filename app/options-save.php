@@ -119,6 +119,14 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']==""
 		$options_widgets[$mmconfigid]['general']['php']['before_widget'] = $_POST['widget-options'][$mmconfigid]['general']['php']['before_widget'];
 		$options_widgets[$mmconfigid]['general']['php']['after_widget'] = $_POST['widget-options'][$mmconfigid]['general']['php']['after_widget'];
 		$options_widgets[$mmconfigid]['general']['pagesnot']['notselected'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['notselected']);
+		$options_widgets[$mmconfigid]['general']['pagesnot']['out']['home'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['out']['home']);
+		$options_widgets[$mmconfigid]['general']['pagesnot']['out']['singlepost'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['out']['singlepost']);
+		$options_widgets[$mmconfigid]['general']['pagesnot']['out']['search'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['out']['search']);
+		$options_widgets[$mmconfigid]['general']['pagesnot']['out']['errorpages'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['out']['errorpages']);
+		$options_widgets[$mmconfigid]['general']['pagesnot']['in']['home'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['in']['home']);
+		$options_widgets[$mmconfigid]['general']['pagesnot']['in']['singlepost'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['in']['singlepost']);
+		$options_widgets[$mmconfigid]['general']['pagesnot']['in']['search'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['in']['search']);
+		$options_widgets[$mmconfigid]['general']['pagesnot']['in']['errorpages'] = isset($_POST['widget-options'][$mmconfigid]['general']['pagesnot']['in']['errorpages']);
 		$options_widgets[$mmconfigid]['general']['pagesnot']['in']['pages'] = $_POST['widget-options'][$mmconfigid]['general']['pagesnot']['in']['pages'];
 		$options_widgets[$mmconfigid]['general']['pagesnot']['out']['pages'] = $_POST['widget-options'][$mmconfigid]['general']['pagesnot']['out']['pages'];
 		//Save option for in and out and sort
