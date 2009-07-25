@@ -96,7 +96,7 @@ class MiniMetaWidgetDisplay {
 			if (is_single() and $options['general']['pagesnot']['in']['singlepost']) $diplay=true;
 			if (is_search() and $options['general']['pagesnot']['in']['search']) $diplay=true;
 			if (is_404() and $options['general']['pagesnot']['in']['errorpages']) $diplay=true;
-			if (is_page($options['general']['pagesnot']['in']['pages'])) $diplay=true;
+			if (is_page($options['general']['pagesnot']['in']['pages']) and !empty($options['general']['pagesnot']['in']['pages'])) $diplay=true;
 			if ($diplay==false and !$options['general']['pagesnot']['notselected']) return;
 			if ($diplay==true and $options['general']['pagesnot']['notselected']) return;
 		} else {
@@ -107,6 +107,7 @@ class MiniMetaWidgetDisplay {
 			if (is_search() and $options['general']['pagesnot']['out']['search']) $diplay=true;
 			if (is_404() and $options['general']['pagesnot']['out']['errorpages']) $diplay=true;
 			if (is_page($options['general']['pagesnot']['out']['pages'])) $diplay=true;
+			if (is_page() and empty($options['general']['pagesnot']['out']['pages']) and !empty($options['general']['pagesnot']['out']['pages'])) $diplay=true;
 			if ($diplay==false and !$options['general']['pagesnot']['notselected']) return;
 			if ($diplay==true and $options['general']['pagesnot']['notselected']) return;
 		}
