@@ -175,7 +175,7 @@ msgid "Stylesheet"
 msgstr ""
 
 #: app/options-form.php:148
-msgid "Seidbar Widget Settings (PHP Function)"
+msgid "Sidebar Widget Settings (PHP Function)"
 msgstr ""
 
 #: app/options-form.php:151 app/widget-display.php:30

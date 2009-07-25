@@ -145,7 +145,7 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 					</div>
 				</div>
 				<div class="widget-general-item if-js-closed">
-					<h4 class="widget-general-title"><span><?php _e('Seidbar Widget Settings (PHP Function)','MiniMetaWidget'); ?></span> <br class="clear" /></h4>
+					<h4 class="widget-general-title"><span><?php _e('Sidebar Widget Settings (PHP Function)','MiniMetaWidget'); ?></span> <br class="clear" /></h4>
 					<div class="widget-general-control">
 						<?php 
 						if (!isset($options_widgets[$mmconfigid]['general']['php']['title'])) $options_widgets[$mmconfigid]['general']['php']['title']=__('Meta'); //def. Options
