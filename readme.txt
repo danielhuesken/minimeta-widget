@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=danie
 Tags: widget, sidebar, meta, admin, links, login, gravatar
 Requires at least: 2.5
 Tested up to: 2.8.2
-Stable tag: 4.2.2
+Stable tag: 4.2.3
 
 "Mini" Version of the WordPress Meta Widget.
 
@@ -49,6 +49,9 @@ In the Plugin file are dependings for files where the plugin work. This dependin
 3. MiniMeta Widget Options Page
 
 == Changelog ==
+= 4.2.3 =
+* widget not displayed on when logt out
+
 = 4.2.2 =
 * Bugfix for Plugin activate function
 * Bugfix for option not Displaying on Pages
