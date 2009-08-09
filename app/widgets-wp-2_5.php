@@ -1,16 +1,10 @@
 <?PHP
-
-/**
- * MiniMeta Widgets
- *
- * @package MiniMetaWidgetWP
- */
- 
- 
-class MiniMetaWidgetWP {
+// don't load directly 
+if ( !defined('ABSPATH') ) 
+	die('-1');
 
 // This registers our widget and  widget control for WP
-function register() {
+function wp_minimeta_widget_register() {
 	if ( !$options = get_option('minimeta_widget_wp') )
 		$options = array();
 
@@ -27,18 +21,18 @@ function register() {
 		// $id should look like {$id_base}-{$o}
 		$id = $control_ops['id_base']."-".$o; // Never never never translate an id
 		$registered = true;
-		wp_register_sidebar_widget( $id, $name, array('MiniMetaWidgetWP', 'display'), $widget_ops, array( 'number' => $o ) );
-		wp_register_widget_control( $id, $name, array('MiniMetaWidgetWP', 'control'), $control_ops, array( 'number' => $o ) );
+		wp_register_sidebar_widget( $id, $name, 'wp_minimeta_widget_display', $widget_ops, array( 'number' => $o ) );
+		wp_register_widget_control( $id, $name, 'wp_minimeta_widget_control', $control_ops, array( 'number' => $o ) );
 	}
 
 	// If there are none, we register the widget's existance with a generic template
 	if ( !$registered ) {
-		wp_register_sidebar_widget( $control_ops['id_base'].'-1', $name, array('MiniMetaWidgetWP', 'display'), $widget_ops, array( 'number' => -1 ) );
-		wp_register_widget_control( $control_ops['id_base'].'-1', $name, array('MiniMetaWidgetWP', 'control'), $control_ops, array( 'number' => -1 ) );
+		wp_register_sidebar_widget( $control_ops['id_base'].'-1', $name, 'wp_minimeta_widget_display', $widget_ops, array( 'number' => -1 ) );
+		wp_register_widget_control( $control_ops['id_base'].'-1', $name, 'wp_minimeta_widget_control', $control_ops, array( 'number' => -1 ) );
 	}
 }
 
-function control($widget_args = 1) {
+function wp_minimeta_widget_control($widget_args = 1) {
 	global $wp_registered_widgets;
 	static $updated = false; // Whether or not we have already updated the data after a POST submit
 
@@ -127,7 +121,7 @@ function control($widget_args = 1) {
 }
 
 //Display Widget 
-function display( $args, $widget_args = 1 ) {
+function wp_minimeta_widget_display( $args, $widget_args = 1 ) {
 	
 	extract( $args, EXTR_SKIP );
 	if ( is_numeric($widget_args) )
@@ -142,10 +136,7 @@ function display( $args, $widget_args = 1 ) {
 	
 	//Set options to disply
 	$args['title']=$options[$number]['title'];
-	MiniMetaWidgetDisplay::display($options[$number]['optionset'],$args);
-}
-
-
+	minimeta_widget_display($options[$number]['optionset'],$args);
 }
 
 

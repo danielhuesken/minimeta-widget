@@ -5,6 +5,10 @@
  * rest of the plugin code clean.
  */
 
+ // don't load directly 
+if ( !defined('ABSPATH') ) 
+	die('-1');
+
 /* since 2.5 */
 if (!function_exists('is_front_page')):
 function is_front_page() {

@@ -6,10 +6,12 @@
  * @package MiniMetaWidgetDisplay
  */
  
+// don't load directly 
+if ( !defined('ABSPATH') ) 
+	die('-1');
  
-class MiniMetaWidgetDisplay {
 	//Function to show widget
-	function display($optionsetname='',$args) {
+	function minimeta_widget_display($optionsetname='',$args) {
 		global $ulopen,$stylegeneralul,$classgeneralul;
 		if (is_array($args))
 			extract( $args, EXTR_SKIP );
@@ -141,4 +143,3 @@ class MiniMetaWidgetDisplay {
 			
 		echo $after_widget;		
 	}
-}

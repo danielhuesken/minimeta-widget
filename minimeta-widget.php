@@ -4,7 +4,7 @@ Plugin Name: MiniMeta Widget
 Plugin URI: http://danielhuesken.de/portfolio/minimeta/
 Description: WordPress (Mini)Meta Widget with different logon types (form,link) and additional admin links. All links can enabeld/disabeld.
 Author: Daniel H&uuml;sken
-Version: 4.2.3
+Version: 4.2.4
 Author URI: http://danielhuesken.de
 Text Domain: MiniMetaWidget
 Domain Path: /lang/
@@ -28,11 +28,14 @@ Domain Path: /lang/
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
+// don't load directly 
+if ( !defined('ABSPATH') ) 
+	die('-1');
 
 //Set plugin dirname
 define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
 //Ste Plugin Version
-define('WP_MINMETA_VERSION', '4.2.3');
+define('WP_MINMETA_VERSION', '4.2.4');
 
 //load Text Domain
 if (!function_exists('wp_print_styles')) {
@@ -46,16 +49,16 @@ if (version_compare($wp_version, '2.7', '<'))
 //Load functions file
 require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/functions.php');
 //install
-register_activation_hook(__FILE__, array('MiniMetaFunctions', 'install'));
+register_activation_hook(__FILE__, 'minimeta_install');
 //uninstall for 2.7
 if ( function_exists('register_uninstall_hook') )
-	register_uninstall_hook(__FILE__, array('MiniMetaFunctions', 'uninstall'));
+	register_uninstall_hook(__FILE__, 'minimeta_uninstall');
 
 //Version checks
 if (version_compare($wp_version, '2.5', '<')) { // Let only Activate on WordPress Version 2.5 or heiger
 	add_action('admin_notices', create_function('', 'echo \'<div id="message" class="error fade"><p><strong>' . __('Sorry, MiniMeta Widget works only under WordPress 2.5 or higher',"MiniMetaWidget") . '</strong></p></div>\';'));
 } else {
 	//Plugin init	
-	add_action('plugins_loaded', array('MiniMetaFunctions', 'init'));
+	add_action('plugins_loaded', 'minimeta_init');
 }
 ?>

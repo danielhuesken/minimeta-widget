@@ -4,6 +4,11 @@
  *
  * @since 2.8.0
  */
+
+ // don't load directly 
+if ( !defined('ABSPATH') ) 
+	die('-1');
+ 
 class WP_Widget_MiniMeta extends WP_Widget {
 
 	function WP_Widget_MiniMeta() {
@@ -16,7 +21,7 @@ class WP_Widget_MiniMeta extends WP_Widget {
 		$args['title'] = empty($instance['title']) ? __('Meta') : apply_filters('widget_title', $instance['title']);
 		
 		//Set options to disply
-		MiniMetaWidgetDisplay::display($instance['config'],$args);
+		minimeta_widget_display($instance['config'],$args);
 	}
 
 	function update( $new_instance, $old_instance ) {

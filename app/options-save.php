@@ -1,4 +1,7 @@
 <?php
+// don't load directly 
+if ( !defined('ABSPATH') ) 
+	die('-1');
 
 // Form Processing
 $mmconfigid=$_REQUEST['mmconfigid'];

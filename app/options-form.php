@@ -1,4 +1,9 @@
 <?php
+// don't load directly 
+if ( !defined('ABSPATH') ) 
+	die('-1');
+
+
 function _subpagecharakter($pages,$pageid) { //functon for subpages char
 	foreach ($pages as $page) {
 		if ($page->post_parent!=0 and $page->ID==$pageid) {
@@ -78,12 +83,12 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 			if ($z==0) {
 				$loginout='in';
 				$fuctionplace=3;
-				$title=__('Show when Loggt in:','MiniMetaWidget');
+				$title=__('Show when Logged in:','MiniMetaWidget');
 			}
 			if ($z==1) {
 				$loginout='out';
 				$fuctionplace=4;
-				$title=__('Show when Loggt out:','MiniMetaWidget');
+				$title=__('Show when Logged out:','MiniMetaWidget');
 			}
 			//make sorting list
 			unset($orderparts);
@@ -129,7 +134,7 @@ if(!empty($minimeta_options_text)) { echo '<div id="message" class="updated fade
 	
 		<br class="clear" />	
 		<div class="widget-general">
-			<h4 style="text-align:center;"><?php echo _e('Generel Settings:','MiniMetaWidget'); ?></h4>
+			<h4 style="text-align:center;"><?php echo _e('General Settings:','MiniMetaWidget'); ?></h4>
 			<div class="widget-general-list">
 				<div class="widget-general-item if-js-closed">
 					<h4 class="widget-general-title"><span><?php _e('Stylesheet','MiniMetaWidget'); ?></span> <br class="clear" /></h4>

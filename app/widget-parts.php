@@ -1,4 +1,7 @@
 <?PHP
+// don't load directly 
+if ( !defined('ABSPATH') ) 
+	die('-1');
 
 class MiniMetaWidgetParts {
     //help Functions
@@ -42,7 +45,7 @@ class MiniMetaWidgetParts {
 			extract($args, EXTR_SKIP );
 		if ($loginout=='in') {
 			?>
-			<input class="checkbox" value="1" type="checkbox" <?php checked($displayidentity,true); ?> id="minimeta-displayidentity-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][displayidentity]" />&nbsp;<?php _e('Disply user Identity as title','MiniMetaWidget');?><br />
+			<input class="checkbox" value="1" type="checkbox" <?php checked($displayidentity,true); ?> id="minimeta-displayidentity-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][displayidentity]" />&nbsp;<?php _e('Display user Identity as title','MiniMetaWidget');?><br />
 			<input class="checkbox" value="1" type="checkbox" <?php checked($profilelink,true); ?> id="minimeta-profilelink-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][profilelink]" />&nbsp;<?php _e('Link to Your Profile in title','MiniMetaWidget');?><br />	
 			<?PHP
 		}
