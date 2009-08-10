@@ -167,14 +167,8 @@ if ( !defined('ABSPATH') )
 		add_option('minimeta_widget_options');
 		add_option('minimeta_adminlinks');
 		minimeta_generate_adminlinks();
-		if (get_option('widget_minimeta')) minimeta_update(); //Update if option exists
 	}
 	
-	//update from older version
-	function minimeta_update() {
-		delete_option('widget_minimeta');
-		delete_option('widget_minimeta_adminlinks');
-	}
 	
 	//add edit setting to plugins page
 	function minimeta_plugins_options_link($links) {

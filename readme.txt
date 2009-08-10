@@ -49,6 +49,9 @@ In the Plugin file are dependings for files where the plugin work. This dependin
 3. MiniMeta Widget Options Page
 
 == Changelog ==
+= 4.2.5 =
+* fixed widged removed after Plugin update
+
 = 4.2.4 =
 * removed useless classes
 * Prevent direct file loading
