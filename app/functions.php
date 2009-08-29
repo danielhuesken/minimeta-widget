@@ -11,21 +11,21 @@ if ( !defined('ABSPATH') )
 		minimeta_widget_display($mmconfigid,array('type'=>'PHP'));
 	}	
 
-	//WP-Head hooks high Priority
-	function minimeta_head_login() {  //copy action login_head to wp-head if login form enabeld for plugin hooks 
-		$test=false;
+	//copy action login_head to wp-head if login form enabeld for plugin hooks
+	function minimeta_head_login() {   
+		if (!has_action('login_head')) 
+			return;
 		$options = get_option('minimeta_widget_options');
 		//find out is a ligon form in any MiniMeta Widegt activatet
 		if (is_array($options)) {
 			foreach ( $options as $number => $value ) {
 				for ($i=1;$i<=sizeof($value['out']);$i++) {
 					if($value['out'][$i]['part']=='loginform') 
-						$test=true;
+						do_action('login_head');
 						break 2;
 				}
 			}
-		}
-		if ($test) do_action('login_head'); //do action from login had	       
+		}    
 	}
 
 	//function to generate admin links    
