@@ -29,11 +29,18 @@ class MiniMetaWidgetParts {
 			extract($args, EXTR_SKIP );
 		MiniMetaWidgetParts::ulopenclose(false);
 		if(is_user_logged_in()) {
-			if ($displayidentity and !empty($user_identity)) $title=$user_identity;
-            if ($profilelink and current_user_can('read')) {
-                echo $before_title ."<a href=\"".admin_url("/profile.php")."\" title=\"".__('Your Profile')."\">". $title ."</a>". $after_title; 
+			$titletext=$title;
+			if ($displayidentity and !empty($user_identity)) {
+				$titletext=$user_identity;
+				if (!empty($bevore))
+					$titletext= htmlentities(stripslashes($bevore)).' '.$titletext;
+				if (!empty($after))
+					$titletext.=' '. htmlentities(stripslashes($after));
+			}	
+			if ($profilelink and current_user_can('read')) {
+                echo $before_title ."<a href=\"".admin_url("/profile.php")."\" title=\"".__('Your Profile')."\">".$titletext."</a>". $after_title; 
             } else {
-				echo $before_title . $title . $after_title; 
+				echo $before_title . $titletext . $after_title; 
             }
 		} else {
 			echo $before_title . $title . $after_title;
@@ -46,6 +53,8 @@ class MiniMetaWidgetParts {
 		if ($loginout=='in') {
 			?>
 			<input class="checkbox" value="1" type="checkbox" <?php checked($displayidentity,true); ?> id="minimeta-displayidentity-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][displayidentity]" />&nbsp;<?php _e('Display user Identity as title','MiniMetaWidget');?><br />
+			<?php _e('Text bevore user Identity','MiniMetaWidget');?>&nbsp;<input class="textinput" value="<?php echo htmlentities(stripslashes($bevore)); ?>" type="text" id="minimeta-bevortitletext-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][bevore]" /><br />
+			<?php _e('Text after user Identity','MiniMetaWidget');?>&nbsp;<input class="textinput" value="<?php echo htmlentities(stripslashes($after)); ?>" type="text" id="minimeta-bevortitletext-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][after]" /><br />
 			<input class="checkbox" value="1" type="checkbox" <?php checked($profilelink,true); ?> id="minimeta-profilelink-<?php echo $optionname; ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][profilelink]" />&nbsp;<?php _e('Link to Your Profile in title','MiniMetaWidget');?><br />	
 			<?PHP
 		}

@@ -51,6 +51,7 @@ In the Plugin file are dependings for files where the plugin work. This dependin
 == Changelog ==
 = 4.2.5 =
 * fixed widged removed after Plugin update
+* add text bevore and after user identity in title
 
 = 4.2.4 =
 * removed useless classes
