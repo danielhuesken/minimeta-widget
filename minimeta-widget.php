@@ -36,7 +36,7 @@ if ( !defined('ABSPATH') )
 define('WP_MINMETA_PLUGIN_DIR', dirname(plugin_basename(__FILE__)));
 //Ste Plugin Version
 define('WP_MINMETA_VERSION', '4.2.5');
-
+global $wp_version;
 //load Text Domain
 if (!function_exists('wp_print_styles')) {
 	load_plugin_textdomain('MiniMetaWidget', PLUGINDIR.'/'.WP_MINMETA_PLUGIN_DIR.'/lang');	
