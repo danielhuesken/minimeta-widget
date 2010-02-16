@@ -70,7 +70,7 @@ if ( !defined('ABSPATH') )
 				if ( ( ('index.php' != $itemsub[2]) && file_exists(WP_PLUGIN_DIR . "/$sub_file") ) || ! empty($menu_hook) ) {
 					$parent_exists = (file_exists(WP_PLUGIN_DIR . "/$menu_file") && !is_dir(WP_PLUGIN_DIR . "/{$item[2]}") ) || file_exists($menu_file);
 					if ( $parent_exists )
-						$adminlinks[$key][$keysub][2]= "{$item[2]}?page={$sub_item[2]}";
+						$adminlinks[$key][$keysub][2]= $item[2]."?page=".$itemsub[2];
 					elseif ( 'admin.php' == $pagenow || !$parent_exists )
 						$adminlinks[$key][$keysub][2]= "admin.php?page=".$itemsub[2];
 					else
