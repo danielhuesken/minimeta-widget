@@ -3,7 +3,7 @@ Contributors: danielhuesken
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=daniel%40huesken-net%2ede&item_name=Daniel%20Huesken%20Plugin%20Donation&item_number=MiniMeta%20Widget&no_shipping=0&no_note=1&tax=0&currency_code=EUR&lc=DE&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: widget, sidebar, meta, admin, links, login, gravatar
 Requires at least: 2.5
-Tested up to: 2.9.1
+Tested up to: 2.9.3
 Stable tag: 4.2.4
 
 "Mini" Version of the WordPress Meta Widget.
@@ -53,6 +53,7 @@ In the Plugin file are dependings for files where the plugin work. This dependin
 * fixed widged removed after Plugin update
 * add text bevore and after user identity in title
 * fixed global for $wp_version
+* fixed bug in adminlinks generation of links
 
 = 4.2.4 =
 * removed useless classes
