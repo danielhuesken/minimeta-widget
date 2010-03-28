@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=danie
 Tags: widget, sidebar, meta, admin, links, login, gravatar
 Requires at least: 2.5
 Tested up to: 2.9.3
-Stable tag: 4.2.4
+Stable tag: 4.2.5
 
 "Mini" Version of the WordPress Meta Widget.
 
