@@ -2,8 +2,8 @@
 Contributors: danielhuesken
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=daniel%40huesken-net%2ede&item_name=Daniel%20Huesken%20Plugin%20Donation&item_number=MiniMeta%20Widget&no_shipping=0&no_note=1&tax=0&currency_code=EUR&lc=DE&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: widget, sidebar, meta, admin, links, login, gravatar
-Requires at least: 2.5
-Tested up to: 2.9.3
+Requires at least: 2.8
+Tested up to: 3.0.0
 Stable tag: 4.2.5
 
 "Mini" Version of the WordPress Meta Widget.
@@ -19,8 +19,7 @@ Stable tag: 4.2.5
 * Display Blog Links
 * build in style sheet support
 
-Only 2.5+
-Please Use Version 3.0.1 for WordPress lower than 2.5
+Only 2.8+
 
 == Installation ==
 
@@ -49,6 +48,11 @@ In the Plugin file are dependings for files where the plugin work. This dependin
 3. MiniMeta Widget Options Page
 
 == Changelog ==
+= 4.5.0 =
+* new config page design
+* removed backword compatibilty lower than WP 2.8
+* liitel fixes
+
 = 4.2.5 =
 * fixed widged removed after Plugin update
 * add text bevore and after user identity in title

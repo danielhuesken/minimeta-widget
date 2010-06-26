@@ -61,6 +61,8 @@ if ( !defined('ABSPATH') )
 			if ( false !== $pos = strpos($menu_file, '?') )
 				$menu_file = substr($menu_file, 0, $pos);
 			foreach ($tempsubmenu[$item[2]] as $keysub => $itemsub) { //Crate submenus and links
+				if ($itemsub[2]=="update-core.php") //Overwrite for Update menu without number since wp 3.0
+					$itemsub[0] = sprintf( __('Updates %s'), "" );
 				$adminlinks[$key][$keysub][0]=strip_tags($itemsub[0]);
 				$adminlinks[$key][$keysub][1]=$itemsub[1];
 				$menu_hook = get_plugin_page_hook($itemsub[2], $item[2]);
@@ -89,6 +91,8 @@ if ( !defined('ABSPATH') )
 		if (function_exists('add_theme_page')) {
 			$hook = add_theme_page(__('MiniMeta Widget','MiniMetaWidget'), __('MiniMeta Widget','MiniMetaWidget'), 'switch_themes', 'minimeta-widget','minimeta_options_form') ;
 		}
+		//register_column_headers($hook,array('cb'=>'<input type="checkbox" />','id'=>__('ID','backwpup'),'name'=>__('Konfig','backwpup')));
+		register_column_headers($hook,array('id'=>__('ID','backwpup'),'name'=>__('Konfig','backwpup')));
 		add_action('load-'.$hook, 'minimeta_options_load');
 		if (current_user_can(10))
 			add_action('load-'.$hook,'minimeta_generate_adminlinks',1); //Generate Adminlinks
@@ -113,33 +117,16 @@ if ( !defined('ABSPATH') )
 	
 	//Options Page
 	function minimeta_options_form() {
-		global $minimeta_options_text,$mmconfigid;
-		//If uninstall checked
-		if(trim($_POST['uninstall_MiniMeta_yes']) == 'yes' and current_user_can('edit_plugins')) {
-			check_admin_referer('MiniMeta-delete','wpnoncemmui');
-			// Uninstall MiniMeta Widget
-			echo '<div id="message" class="updated fade"><p>';
-			minimeta_uninstall(true); //Show uninstll with echos
-			echo '</p></div>'; 
-			//  Deactivating MiniMeta Widget
-			$deactivate_url = 'plugins.php?action=deactivate&amp;plugin='.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php';
-			if(function_exists('wp_nonce_url')) 
-				$deactivate_url = wp_nonce_url($deactivate_url, 'deactivate-plugin_'.WP_MINMETA_PLUGIN_DIR.'/minimeta-widget.php');
-			echo '<div class="wrap">';
-			echo '<h2>'.__('Uninstall MiniMeta Widget', 'MiniMetaWidget').'</h2>';
-			echo '<p><strong>'.sprintf(__('<a href="%s">Click Here</a> To Finish The Uninstallation And MiniMeta Widget Will Be Deactivated Automatically.', 'MiniMetaWidget'), $deactivate_url).'</strong></p>';
-			echo '</div>';
-		} else {
-			require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/options-form.php');
-		}
+		global $minimeta_options_text,$page_hook;
+		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/options-form.php');
 	}
 	
 	//Options Page
 	function minimeta_options_load() {
-		global $minimeta_options_text,$mmconfigid,$wp_version;
+		global $minimeta_options_text;
 		//Css for Admin Section
-		wp_enqueue_style('MiniMeta',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/css/minimeta-admin.css'),'',WP_MINMETA_VERSION,'screen');
-		wp_enqueue_script('MiniMetaOptions',plugins_url('/'.WP_MINMETA_PLUGIN_DIR.'/app/js/minimeta-options.js'),array('jquery','jquery-ui-core','jquery-ui-sortable'),WP_MINMETA_VERSION,true);
+		wp_enqueue_style('MiniMeta',plugins_url('css/minimeta-admin.css',__FILE__),'',WP_MINMETA_VERSION,'screen');
+		wp_enqueue_script('MiniMetaOptions',plugins_url('js/minimeta-options.js',__FILE__),array('jquery','jquery-ui-core','jquery-ui-sortable'),WP_MINMETA_VERSION,true);
 		wp_localize_script('MiniMetaOptions','MiniMetaL10n',array('edit'=>__('Edit')));
 		//For save Options
 		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/options-save.php');
@@ -147,21 +134,10 @@ if ( !defined('ABSPATH') )
 	
 	
     //delete Otions
-	function minimeta_uninstall($echo=false) {
+	function minimeta_uninstall() {
 		$option_settings=array('minimeta_widget_wp','minimeta_widget_options', 'minimeta_adminlinks');
 		foreach($option_settings as $setting) {
-			$delete_setting = delete_option($setting);
-			if ($echo) {
-				if($delete_setting) {
-					echo '<font color="green">';
-					printf(__('Setting Key \'%s\' has been deleted.', 'MiniMetaWidget'), "<strong><em>{$setting}</em></strong>");
-					echo '</font><br />';
-				} else {
-					echo '<font color="red">';
-					printf(__('Error deleting Setting Key \'%s\'.', 'MiniMetaWidget'), "<strong><em>{$setting}</em></strong>");
-					echo '</font><br />';
-				}
-			}
+			delete_option($setting);
 		}
 	}
 	
@@ -171,7 +147,6 @@ if ( !defined('ABSPATH') )
 		add_option('minimeta_adminlinks');
 		minimeta_generate_adminlinks();
 	}
-	
 	
 	//add edit setting to plugins page
 	function minimeta_plugins_options_link($links) {
@@ -208,16 +183,9 @@ if ( !defined('ABSPATH') )
 			add_action('load-plugins.php','minimeta_generate_adminlinks',1); //Generate Adminlinkson plugins page
 			
 		//Support for Wordpress Widgets
-		if (function_exists('register_sidebar_widget')) { //Widgest only
-			if (!class_exists('WP_Widget')) { //test for WP_Widget class fron WP 2.8
-				require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-wp-2_5.php');
-				add_action('widgets_init', 'wp_minimeta_widget_register');
-			} else {
-				require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-wp-2_8.php');	
-				add_action('widgets_init', array('WP_Widget_MiniMeta', 'register'));
-			}
-			
-		}
+		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widgets-wp.php');	
+		add_action('widgets_init', array('WP_Widget_MiniMeta', 'register'));
+
 		//Widget Displaying
 		require_once(WP_PLUGIN_DIR.'/'.WP_MINMETA_PLUGIN_DIR.'/app/widget-display.php');
 		//Widget Parts

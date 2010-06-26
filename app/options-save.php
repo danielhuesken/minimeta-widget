@@ -5,53 +5,12 @@ if ( !defined('ABSPATH') )
 
 // Form Processing
 $mmconfigid=$_REQUEST['mmconfigid'];
-$options_widgets = get_option('minimeta_widget_options');
-
-if (!empty($_POST['gobutton'])) {
-	check_admin_referer('MiniMeta-options','wpnoncemm');
-	$mmconfigid=$_POST['selectmmconfigid'];
-}
-
-// Add new Config
-if (!empty($_POST['addbutton']) and $_REQUEST['subpage']=="") {
-	check_admin_referer('MiniMeta-options','wpnoncemm');
-
-	//generate New number
-	$newnumber=wp_create_nonce(mt_rand(10, 30));
-	while (is_array($options_widgets[$newnumber])) {
-		$newnumber=wp_create_nonce(mt_rand(10, 30));
-	}
-	// def. Opdions
-	$options_widgets[$newnumber]['optionname']=htmlentities(stripslashes(__('New', 'MiniMetaWidget')));
-	$options_widgets[$newnumber]['in'][0]['part']='title';
-	$options_widgets[$newnumber]['in'][1]['part']='linkseiteadmin';
-	$options_widgets[$newnumber]['in'][2]['part']='linkloginlogout';
-	$options_widgets[$newnumber]['in'][3]['part']='linkrss';
-	$options_widgets[$newnumber]['in'][4]['part']='linkcommentrss';
-	$options_widgets[$newnumber]['in'][5]['part']='linkwordpress';
-	$options_widgets[$newnumber]['in'][6]['part']='actionwpmeta';
-	$options_widgets[$newnumber]['out'][0]['part']='title';
-	$options_widgets[$newnumber]['out'][1]['part']='linkregister';
-	$options_widgets[$newnumber]['out'][2]['part']='linkloginlogout';
-	$options_widgets[$newnumber]['out'][3]['part']='linkrss';
-	$options_widgets[$newnumber]['out'][4]['part']='linkcommentrss';
-	$options_widgets[$newnumber]['out'][5]['part']='linkwordpress';
-	$options_widgets[$newnumber]['out'][6]['part']='actionwpmeta';
-	$options_widgets[$newnumber]['general']['pagesnot']['notselected']=true;
-
-	if (update_option('minimeta_widget_options', $options_widgets)) {
-		$minimeta_options_text = '<font color="green">'.__('New Config Created', 'MiniMetaWidget').'</font>';
-	} else {
-		$minimeta_options_text = '<font color="red">'.__('New Config NOT Created', 'MiniMetaWidget').'</font>';
-	}
-	
-	$mmconfigid=$newnumber;
-}
 
 // Copy  Config
-if (!empty($_POST['dupbutton']) and !empty($mmconfigid) and $_REQUEST['subpage']=="") {
-	check_admin_referer('MiniMeta-options','wpnoncemm');
-
+if ($_GET['action']=='copy' and !empty($mmconfigid)) {
+	check_admin_referer('mmconfig_'.$mmconfigid);
+	$options_widgets = get_option('minimeta_widget_options');
+	
 	//generate New number
 	$newnumber=wp_create_nonce(mt_rand(10, 30));
 	while (is_array($options_widgets[$newnumber])) {
@@ -71,8 +30,9 @@ if (!empty($_POST['dupbutton']) and !empty($mmconfigid) and $_REQUEST['subpage']
 }
 
 //Delete Config
-if (!empty($_POST['delbutton']) and !empty($mmconfigid) and $_REQUEST['subpage']=="") {
-	check_admin_referer('MiniMeta-options','wpnoncemm');
+if ($_GET['action']=='delete' and !empty($mmconfigid)) {
+	check_admin_referer('delete-mmconfig_'.$mmconfigid);
+	$options_widgets = get_option('minimeta_widget_options');
 	
 	$name=$options_widgets[$mmconfigid]['optionname']; 
 	unset($options_widgets[$mmconfigid]);
@@ -101,8 +61,9 @@ if (!empty($_POST['delbutton']) and !empty($mmconfigid) and $_REQUEST['subpage']
 }
 
 // Update Options
-if(!empty($_POST['Submit']) and !empty($mmconfigid) and $_REQUEST['subpage']=="") {
-	check_admin_referer('MiniMeta-options','wpnoncemm');
+if(!empty($_POST['Submit']) and !empty($mmconfigid)) {
+	check_admin_referer('MiniMeta-options');
+	$options_widgets = get_option('minimeta_widget_options');
 	
 	//write every options tab to optiones
 	if (is_array($_POST['widget-options'][$mmconfigid])) {
