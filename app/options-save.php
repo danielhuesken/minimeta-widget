@@ -67,7 +67,8 @@ if(!empty($_POST['Submit']) and !empty($mmconfigid)) {
 	
 	//write every options tab to optiones
 	if (is_array($_POST['widget-options'][$mmconfigid])) {
-		unset($options_widgets[$mmconfigid]);
+		if (is_array($options_widgets[$mmconfigid])) //Clean old values
+			unset($options_widgets[$mmconfigid]);
 	    $options_widgets[$mmconfigid]['optionname'] = htmlentities(stripslashes($_POST['widget-options'][$mmconfigid]['optionname']));
 		//Save Ordering
 		$options_widgets[$mmconfigid]['order']['in']=str_replace("&in[]=",",",substr($_POST['widget-options'][$mmconfigid]['order']['in'],5));
