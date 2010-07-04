@@ -452,7 +452,7 @@ class MiniMetaWidgetParts {
 		if (empty($linktext))
 			$linktext=__('Entries <abbr title="Really Simple Syndication">RSS</abbr>');
 		MiniMetaWidgetParts::ulopenclose(true);
-		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\"".MiniMetaWidgetParts::styleclass($stylelinkrss,$classlinkrss).">".$linktext."</a></li>";
+		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\"".MiniMetaWidgetParts::styleclass($stylelinkrss,$classlinkrss).">".stripslashes($linktext)."</a></li>";
 	}			
 	
 	function linkrss_options($args) {
@@ -478,7 +478,7 @@ class MiniMetaWidgetParts {
 		if (empty($linktext))
 			$linktext=__('Comments <abbr title="Really Simple Syndication">RSS</abbr>');
 		MiniMetaWidgetParts::ulopenclose(true);
-		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\"".MiniMetaWidgetParts::styleclass($stylelinkcommentrss,$classlinkcommentrss).">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\"".MiniMetaWidgetParts::styleclass($stylelinkcommentrss,$classlinkcommentrss).">".stripslashes($linktext)."</a></li>";
 	}	
 	
 	function linkcommentrss_options($args) {
