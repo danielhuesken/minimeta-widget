@@ -449,13 +449,20 @@ class MiniMetaWidgetParts {
 	function linkrss_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
+		if (empty($linktext))
+			$linktext=__('Entries <abbr title="Really Simple Syndication">RSS</abbr>');
 		MiniMetaWidgetParts::ulopenclose(true);
-		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\"".MiniMetaWidgetParts::styleclass($stylelinkrss,$classlinkrss).">".__('Entries <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
+		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".get_bloginfo('rss2_url')."\" title=\"".attribute_escape(__('Syndicate this site using RSS 2.0'))."\"".MiniMetaWidgetParts::styleclass($stylelinkrss,$classlinkrss).">".$linktext."</a></li>";
 	}			
 	
 	function linkrss_options($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
+		if (empty($linktext))
+			$linktext=__('Entries <abbr title="Really Simple Syndication">RSS</abbr>');
+		_e('Link Text:','MiniMetaWidget'); ?> <input class="text" type="text" value="<?php echo htmlentities(stripslashes($linktext)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][linktext]" />	
+		<hr />
+		<?PHP
 		_e('Stylesheet:','MiniMetaWidget');?><br />
 		&lt;a href=&quot;...&quot; 
 		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkrss)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkrss]" />&quot;
@@ -468,6 +475,8 @@ class MiniMetaWidgetParts {
 	function linkcommentrss_display($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
+		if (empty($linktext))
+			$linktext=__('Comments <abbr title="Really Simple Syndication">RSS</abbr>');
 		MiniMetaWidgetParts::ulopenclose(true);
 		echo "<li".MiniMetaWidgetParts::styleclass($stylegeneralli,$classgeneralli)."><a href=\"".get_bloginfo('comments_rss2_url')."\" title=\"".attribute_escape(__('The latest comments to all posts in RSS'))."\"".MiniMetaWidgetParts::styleclass($stylelinkcommentrss,$classlinkcommentrss).">".__('Comments <abbr title="Really Simple Syndication">RSS</abbr>')."</a></li>";
 	}	
@@ -475,6 +484,11 @@ class MiniMetaWidgetParts {
 	function linkcommentrss_options($args) {
 		if(is_array($args)) 
 			extract($args, EXTR_SKIP );
+		if (empty($linktext))
+			$linktext=__('Comments <abbr title="Really Simple Syndication">RSS</abbr>');
+		_e('Link Text:','MiniMetaWidget'); ?> <input class="text" type="text" value="<?php echo htmlentities(stripslashes($linktext)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][linktext]" />	
+		<hr />
+		<?PHP
 		_e('Stylesheet:','MiniMetaWidget');?><br />
 		&lt;a href=&quot;...&quot; 
 		style=&quot;<input class="textinput" type="text" value="<?php echo htmlentities(stripslashes($stylelinkcommentrss)); ?>" name="widget-options[<?php echo $optionname; ?>][<?php echo $loginout; ?>][<?php echo $ordering; ?>][args][stylelinkcommentrss]" />&quot;
