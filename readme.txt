@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=danie
 Tags: widget, sidebar, meta, admin, links, login, gravatar
 Requires at least: 2.8
 Tested up to: 3.0.0
-Stable tag: 4.5.1
+Stable tag: 4.5.2
 
 "Mini" Version of the WordPress Meta Widget.
 
@@ -48,6 +48,9 @@ In the Plugin file are dependings for files where the plugin work. This dependin
 3. MiniMeta Widget Options Page
 
 == Changelog ==
+= 4.5.2 =
+* Added flattr Button in Help
+
 = 4.5.1 =
 * Fixed bug for clean install on config save
 
