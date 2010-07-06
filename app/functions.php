@@ -91,8 +91,8 @@ if ( !defined('ABSPATH') )
 		if (function_exists('add_theme_page')) {
 			$hook = add_theme_page(__('MiniMeta Widget','MiniMetaWidget'), __('MiniMeta Widget','MiniMetaWidget'), 'switch_themes', 'minimeta-widget','minimeta_options_form') ;
 		}
-		//register_column_headers($hook,array('cb'=>'<input type="checkbox" />','id'=>__('ID','backwpup'),'name'=>__('Konfig','backwpup')));
-		register_column_headers($hook,array('id'=>__('ID','backwpup'),'name'=>__('Konfig','backwpup')));
+		//register_column_headers($hook,array('cb'=>'<input type="checkbox" />','id'=>__('ID','MiniMetaWidget'),'name'=>__('Konfig','MiniMetaWidget')));
+		register_column_headers($hook,array('id'=>__('ID','MiniMetaWidget'),'name'=>__('Konfig','MiniMetaWidget')));
 		add_action('load-'.$hook, 'minimeta_options_load');
 		if (current_user_can(10))
 			add_action('load-'.$hook,'minimeta_generate_adminlinks',1); //Generate Adminlinks
@@ -109,14 +109,7 @@ if ( !defined('ABSPATH') )
 		$help .= ' | <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=daniel%40huesken-net%2ede&amp;item_name=Daniel%20Huesken%20Plugin%20Donation&amp;item_number=MiniMeta%20Widget&amp;no_shipping=0&amp;no_note=1&amp;tax=0&amp;currency_code=EUR&amp;lc=DE&amp;bn=PP%2dDonationsBF&amp;charset=UTF%2d8" target="_blank">' . __('Donate') . '</a>';
 		$help .= " | <script type=\"text/javascript\">
 			var flattr_btn = 'compact';
-			var flattr_uid = '21883';
-			var flattr_tle = 'MiniMeta Widget';
-			var flattr_dsc = 'MiniMeta Widget for Wordpress';
-			var flattr_cat = 'software';
-			var flattr_lng = 'en_GB';
-			var flattr_tag = 'meta, wordpress, widget, links';
 			var flattr_url = 'http://danielhuesken.de/portfolio/minimeta/';
-			var flattr_hide = 'false';
 			</script><script src=\"http://api.flattr.com/button/load.js\" type=\"text/javascript\"></script>";
 		$help .= "</div>\n";	
 		$help .= '<div class="metabox-prefs">';
