@@ -55,6 +55,8 @@ if ( !defined('ABSPATH') )
 		} else {
 			$options=$optionset[$optionsetname];
 			for ($i=0;$i<=sizeof($options['in']);$i++) {
+				if (!isset($options['in'][$i]))
+					continue;
 				if ($options['in'][$i]['part']=='title') {
 					$options['in'][$i]['args']['title']=$title;
 					$options['in'][$i]['args']['before_title']=$before_title;
@@ -62,6 +64,8 @@ if ( !defined('ABSPATH') )
 				}
 			}
 			for ($i=0;$i<=sizeof($options['out']);$i++) {
+				if (!isset($options['out'][$i]))
+					continue;
 				if ($options['out'][$i]['part']=='title') {
 					$options['out'][$i]['args']['title']=$title;
 					$options['out'][$i]['args']['before_title']=$before_title;

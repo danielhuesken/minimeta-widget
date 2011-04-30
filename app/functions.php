@@ -94,14 +94,14 @@ if ( !defined('ABSPATH') )
 		//register_column_headers($hook,array('cb'=>'<input type="checkbox" />','id'=>__('ID','MiniMetaWidget'),'name'=>__('Konfig','MiniMetaWidget')));
 		register_column_headers($hook,array('id'=>__('ID','MiniMetaWidget'),'name'=>__('Konfig','MiniMetaWidget')));
 		add_action('load-'.$hook, 'minimeta_options_load');
-		if (current_user_can(10))
+		if (current_user_can('install_plugins'))
 			add_action('load-'.$hook,'minimeta_generate_adminlinks',1); //Generate Adminlinks
 		add_contextual_help($hook,minimeta_show_help());
 	}	
 	
 	// Help too display
 	function minimeta_show_help() {
-		$help .= '<div class="metabox-prefs">';
+		$help = '<div class="metabox-prefs">';
 		$help .= '<a href="http://wordpress.org/tags/minimeta-widget/" target="_blank">'.__('Support').'</a>';
 		$help .= ' | <a href="http://wordpress.org/extend/plugins/minimeta-widget/faq/" target="_blank">' . __('FAQ') . '</a>';
 		$help .= ' | <a href="http://danielhuesken.de/portfolio/minimeta" target="_blank">' . __('Plugin Homepage', 'filebrowser') . '</a>';
@@ -183,7 +183,7 @@ if ( !defined('ABSPATH') )
 			add_filter('plugin_row_meta', 'minimeta_plugin_links',10,2);
 			
 		//Generate Adminlinks on plugin page
-		if (current_user_can(10)) 
+		if (current_user_can('install_plugins')) 
 			add_action('load-plugins.php','minimeta_generate_adminlinks',1); //Generate Adminlinkson plugins page
 			
 		//Support for Wordpress Widgets
