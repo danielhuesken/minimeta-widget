@@ -4,7 +4,7 @@ jQuery(document).ready(function() {
 	//Swits style and add link for part boxes
 	//addd/remove linke when part box is active or not
 	jQuery('.checkbox-active').click(function () { //click works btter than change in IE
-		if ( jQuery(this).attr('checked') ) {
+		if ( jQuery(this).prop('checked') ) {
 			jQuery(this).parent('span').parent('h4').parent('div:has(div > input),').children('h4').children('span').after(' <span style="float: right;" class="widget-edit-item">'+MiniMetaL10n.edit+'</span>');
 			jQuery(this).parent('span').next('span').click( function() {
 				jQuery(this).parent().parent().toggleClass('closed');
