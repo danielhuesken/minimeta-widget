@@ -2,8 +2,8 @@
 Contributors: danielhuesken
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=daniel%40huesken-net%2ede&item_name=Daniel%20Huesken%20Plugin%20Donation&item_number=MiniMeta%20Widget&no_shipping=0&no_note=1&tax=0&currency_code=EUR&lc=DE&bn=PP%2dDonationsBF&charset=UTF%2d8
 Tags: widget, sidebar, meta, admin, links, login, gravatar
-Requires at least: 2.8
-Tested up to: 3.1.2
+Requires at least: 3.2.0
+Tested up to: 3.2.0
 Stable tag: 4.5.3
 
 "Mini" Version of the WordPress Meta Widget.
@@ -19,7 +19,7 @@ Stable tag: 4.5.3
 * Display Blog Links
 * build in style sheet support
 
-Only 2.8+
+Only 3.2+
 
 == Installation ==
 
@@ -29,17 +29,6 @@ Only 2.8+
 
 == Frequently Asked Questions ==
 
-= Plugin Hooks are tested =
-
-MiniMeta Version later 2.7.0 needed:&lt;br /&gt;
-[Semisecure Login](http://wordpress.org/extend/plugins/semisecure-login/)<br />
-[Raz-Captcha](http://wordpress.org/extend/plugins/raz-captcha/)<br />
-[Chap Secure Login](http://wordpress.org/extend/plugins/chap-secure-login/)<br />
-
-= Raz-Captcha Plugin hooks do not work =
-
-In the Plugin file are dependings for files where the plugin work. This dependings must be commentet out.
-
 
 == Screenshots ==
 
@@ -48,7 +37,12 @@ In the Plugin file are dependings for files where the plugin work. This dependin
 3. MiniMeta Widget Options Page
 
 == Changelog ==
-= 4.6.0 =
+= 5.0.0 =
+* many thins recoded for PHP 5
+* bug fixes
+* changed text domian mak some things easyer
+* WordPress 3.2 is min. version
+* runn without notices in WP-DEBUG mode
 
 = 4.5.3 =
 * Now Link Name for RSS Feeds can changed
