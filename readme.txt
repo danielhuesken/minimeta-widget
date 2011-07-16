@@ -1,6 +1,6 @@
 === MiniMeta Widget ===
 Contributors: danielhuesken
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=daniel%40huesken-net%2ede&item_name=Daniel%20Huesken%20Plugin%20Donation&item_number=MiniMeta%20Widget&no_shipping=0&no_note=1&tax=0&currency_code=EUR&lc=DE&bn=PP%2dDonationsBF&charset=UTF%2d8
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MUKCRHF5U4G2N
 Tags: widget, sidebar, meta, admin, links, login, gravatar
 Requires at least: 3.2.0
 Tested up to: 3.2.0

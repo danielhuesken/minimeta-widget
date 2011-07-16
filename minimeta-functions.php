@@ -261,7 +261,7 @@ function minimeta_show_help() {
 	$help .= ' | <a href="http://wordpress.org/extend/plugins/minimeta-widget/faq/" target="_blank">' . __('FAQ') . '</a>';
 	$help .= ' | <a href="http://danielhuesken.de/portfolio/minimeta" target="_blank">' . __('Plugin Homepage', 'filebrowser') . '</a>';
 	$help .= ' | <a href="http://wordpress.org/extend/plugins/minimeta-widget" target="_blank">' . __('Plugin Home on WordPress.org', 'filebrowser') . '</a>';
-	$help .= ' | <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=daniel%40huesken-net%2ede&amp;item_name=Daniel%20Huesken%20Plugin%20Donation&amp;item_number=MiniMeta%20Widget&amp;no_shipping=0&amp;no_note=1&amp;tax=0&amp;currency_code=EUR&amp;lc=DE&amp;bn=PP%2dDonationsBF&amp;charset=UTF%2d8" target="_blank">' . __('Donate') . '</a>';
+	$help .= ' | <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MUKCRHF5U4G2N" target="_blank">' . __('Donate') . '</a>';
 	$help .= " | <script type=\"text/javascript\">
 		var flattr_btn = 'compact';
 		var flattr_url = 'http://danielhuesken.de/portfolio/minimeta/';
@@ -317,7 +317,7 @@ function minimeta_plugin_links($links, $file) {
 	if ($file == dirname(plugin_basename(__FILE__)).'/minimeta-widget.php') {
 		$links[] = '<a href="http://wordpress.org/extend/plugins/minimeta-widget/faq/" target="_blank">' . __('FAQ') . '</a>';
 		$links[] = '<a href="http://wordpress.org/tags/minimeta-widget/" target="_blank">' . __('Support') . '</a>';
-		$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=daniel%40huesken-net%2ede&amp;item_name=Daniel%20Huesken%20Plugin%20Donation&amp;item_number=MiniMeta%20Widget&amp;no_shipping=0&amp;no_note=1&amp;tax=0&amp;currency_code=EUR&amp;lc=DE&amp;bn=PP%2dDonationsBF&amp;charset=UTF%2d8" target="_blank">' . __('Donate') . '</a>';
+		$links[] = '<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MUKCRHF5U4G2N" target="_blank">' . __('Donate') . '</a>';
 	}
 	return $links;
 }
