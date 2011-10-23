@@ -46,7 +46,7 @@ class WP_Widget_MiniMeta extends WP_Widget {
 			<select class="widefat" name="<?PHP echo $this->get_field_name('config'); ?>" id="<?PHP echo $this->get_field_id('config'); ?>"><?PHP
 			echo '<option value="">'.__('default','minimeta-widget').'</option>';
 				foreach ($options_widgets as $name => $values) {
-					?> <option value="<?PHP echo $name;?>"<?PHP selected($config,$name);?>><?PHP echo $values['optionname'];?></option>'; <?PHP
+					?> <option value="<?PHP echo $name;?>"<?PHP selected($config,$name);?>><?PHP echo $values['optionname'];?></option> <?PHP
 				}?>
 			</select></label></p>
 			<?PHP } else { ?>
