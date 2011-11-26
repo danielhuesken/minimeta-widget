@@ -6,7 +6,7 @@ if ( !defined('ABSPATH') )
 class MiniMetaWidgetParts {
 	private $options=array();
 	private $parts=array();
-	private $norout="out";
+	private $inorout="out";
 	private $fuctionplace=4;
 	private $ulopen=false;
 	private $styleclassgeneralul='';
